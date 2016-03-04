@@ -143,15 +143,12 @@
 		7D12CAB91C8A30280021519B /* AskMeLater */ = {
 			isa = PBXGroup;
 			children = (
+				7D12CAC91C8A30280021519B /* Assets.xcassets */,
 				7D12CABD1C8A30280021519B /* AppDelegate.h */,
 				7D12CABE1C8A30280021519B /* AppDelegate.m */,
-				7D12CAC01C8A30280021519B /* ViewController.h */,
-				7D12CAC11C8A30280021519B /* ViewController.m */,
-				7D12CAC31C8A30280021519B /* Main.storyboard */,
-				7D12CAC91C8A30280021519B /* Assets.xcassets */,
-				7D12CACB1C8A30280021519B /* LaunchScreen.storyboard */,
-				7D12CACE1C8A30280021519B /* Info.plist */,
-				7D12CAC61C8A30280021519B /* AskMeLater.xcdatamodeld */,
+				7D12CAF11C8A47D60021519B /* Storyboards */,
+				7D12CAF01C8A47CD0021519B /* View Controllers */,
+				7D12CAF21C8A482B0021519B /* Data Managers */,
 				7D12CABA1C8A30280021519B /* Supporting Files */,
 			);
 			path = AskMeLater;
@@ -160,6 +157,7 @@
 		7D12CABA1C8A30280021519B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7D12CACE1C8A30280021519B /* Info.plist */,
 				7D12CABB1C8A30280021519B /* main.m */,
 			);
 			name = "Supporting Files";
@@ -181,6 +179,40 @@
 				7D12CAE41C8A30280021519B /* Info.plist */,
 			);
 			path = AskMeLaterUITests;
+			sourceTree = "<group>";
+		};
+		7D12CAF01C8A47CD0021519B /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				7D12CAC01C8A30280021519B /* ViewController.h */,
+				7D12CAC11C8A30280021519B /* ViewController.m */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		7D12CAF11C8A47D60021519B /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				7D12CACB1C8A30280021519B /* LaunchScreen.storyboard */,
+				7D12CAC31C8A30280021519B /* Main.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		7D12CAF21C8A482B0021519B /* Data Managers */ = {
+			isa = PBXGroup;
+			children = (
+				7D12CAF31C8A48310021519B /* Core Data */,
+			);
+			path = "Data Managers";
+			sourceTree = "<group>";
+		};
+		7D12CAF31C8A48310021519B /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				7D12CAC61C8A30280021519B /* AskMeLater.xcdatamodeld */,
+			);
+			path = "Core Data";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
