@@ -17,6 +17,11 @@
 #pragma mark - // DEFINITIONS (Private) //
 
 @interface AMLFirebaseController ()
+
+// GENERAL //
+
++ (instancetype)sharedController;
+
 @end
 
 @implementation AMLFirebaseController
@@ -33,6 +38,17 @@
 
 #pragma mark - // OVERWRITTEN METHODS //
 
-#pragma mark - // PRIVATE METHODS //
+#pragma mark - // PRIVATE METHODS (General) //
+
++ (instancetype)sharedController {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:nil message:nil];
+    
+    static AMLFirebaseController *_sharedController = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _sharedController = [[AMLFirebaseController alloc] init];
+    });
+    return _sharedController;
+}
 
 @end
