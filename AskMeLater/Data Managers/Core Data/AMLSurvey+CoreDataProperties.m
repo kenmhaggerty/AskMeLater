@@ -24,6 +24,7 @@
 #pragma mark - // SETTERS AND GETTERS //
 
 @dynamic name;
+@dynamic createdAt;
 @dynamic editedAt;
 @dynamic time;
 @dynamic repeat;

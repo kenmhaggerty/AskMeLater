@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface AMLSurvey (CoreDataProperties)
 
 @property (nullable, nonatomic, retain) NSString *name;
+@property (nullable, nonatomic, retain) NSDate *createdAt;
 @property (nullable, nonatomic, retain) NSDate *editedAt;
 @property (nullable, nonatomic, retain) NSDate *time;
 @property (nullable, nonatomic, retain) NSNumber *repeat;

@@ -19,6 +19,7 @@
         <relationship name="user" maxCount="1" deletionRule="Nullify" destinationEntity="AMLUser" inverseName="responses" inverseEntity="AMLUser" syncable="YES"/>
     </entity>
     <entity name="AMLSurvey" representedClassName="AMLSurvey" syncable="YES">
+        <attribute name="createdAt" attributeType="Date" syncable="YES"/>
         <attribute name="editedAt" attributeType="Date" syncable="YES"/>
         <attribute name="enabled" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
@@ -36,7 +37,7 @@
     </entity>
     <elements>
         <element name="AMLUser" positionX="-72" positionY="216" width="128" height="118"/>
-        <element name="AMLSurvey" positionX="144" positionY="216" width="128" height="148"/>
+        <element name="AMLSurvey" positionX="144" positionY="216" width="128" height="163"/>
         <element name="AMLQuestion" positionX="360" positionY="216" width="128" height="118"/>
         <element name="AMLChoice" positionX="360" positionY="432" width="128" height="88"/>
         <element name="AMLResponse" positionX="142" positionY="432" width="128" height="103"/>
