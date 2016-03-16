@@ -22,9 +22,11 @@
 		7D12CB041C8A49760021519B /* AKDebuggerRules.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB031C8A49760021519B /* AKDebuggerRules.m */; };
 		7D12CB081C8A4A7D0021519B /* NSObject+Basics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB071C8A4A7D0021519B /* NSObject+Basics.m */; };
 		7D12CB0C1C8A4B4F0021519B /* AMLPrivateInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB0B1C8A4B4F0021519B /* AMLPrivateInfo.m */; };
+		7D12CB101C8A4EBA0021519B /* AMLLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB0F1C8A4EBA0021519B /* AMLLoginManager.m */; };
 		7D12CB1A1C8A69610021519B /* AMLUser+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB171C8A69610021519B /* AMLUser+CoreDataProperties.m */; };
 		7D12CB1B1C8A69610021519B /* AMLUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB191C8A69610021519B /* AMLUser.m */; };
 		7D12CB1F1C8A69F20021519B /* AMLCoreDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB1E1C8A69F20021519B /* AMLCoreDataController.m */; };
+		7D7DE7F11C8B6D8100FFA637 /* AMLDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7DE7F01C8B6D8100FFA637 /* AMLDataManager.m */; };
 		7DDE78531C93234D00241A80 /* AMLFirebaseQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDE78521C93234D00241A80 /* AMLFirebaseQuery.m */; };
 		7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D511C936775000A02F0 /* NSArray+Extras.m */; };
 		9904BDEE47DA4B22D491B3D2 /* libPods-AskMeLaterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AA1F07776FB536EECA51A89 /* libPods-AskMeLaterTests.a */; };
@@ -84,6 +86,8 @@
 		7D12CB071C8A4A7D0021519B /* NSObject+Basics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+Basics.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/NSObject+Basics/NSObject+Basics.m"; sourceTree = "<group>"; };
 		7D12CB0A1C8A4B4F0021519B /* AMLPrivateInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLPrivateInfo.h; sourceTree = "<group>"; };
 		7D12CB0B1C8A4B4F0021519B /* AMLPrivateInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLPrivateInfo.m; sourceTree = "<group>"; };
+		7D12CB0E1C8A4EBA0021519B /* AMLLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLLoginManager.h; path = "Login Manager/AMLLoginManager.h"; sourceTree = "<group>"; };
+		7D12CB0F1C8A4EBA0021519B /* AMLLoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMLLoginManager.m; path = "Login Manager/AMLLoginManager.m"; sourceTree = "<group>"; };
 		7D12CB121C8A4F9E0021519B /* AMLUserProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLUserProtocols.h; path = Protocols/AMLUserProtocols.h; sourceTree = "<group>"; };
 		7D12CB131C8A51C40021519B /* AMLFirebaseController+Auth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AMLFirebaseController+Auth.h"; path = "Firebase/AMLFirebaseController+Auth.h"; sourceTree = "<group>"; };
 		7D12CB161C8A69610021519B /* AMLUser+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AMLUser+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -92,6 +96,9 @@
 		7D12CB191C8A69610021519B /* AMLUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLUser.m; sourceTree = "<group>"; };
 		7D12CB1D1C8A69F20021519B /* AMLCoreDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLCoreDataController.h; sourceTree = "<group>"; };
 		7D12CB1E1C8A69F20021519B /* AMLCoreDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLCoreDataController.m; sourceTree = "<group>"; };
+		7D19E2821C8E1CA700020305 /* AMLFirebaseProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLFirebaseProtocols.h; path = Firebase/AMLFirebaseProtocols.h; sourceTree = "<group>"; };
+		7D7DE7EF1C8B6D8100FFA637 /* AMLDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLDataManager.h; sourceTree = "<group>"; };
+		7D7DE7F01C8B6D8100FFA637 /* AMLDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLDataManager.m; sourceTree = "<group>"; };
 		7D7DE7F41C8E1A3600FFA637 /* AMLFirebaseNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLFirebaseNotifications.h; path = Firebase/AMLFirebaseNotifications.h; sourceTree = "<group>"; };
 		7DDE78511C93234D00241A80 /* AMLFirebaseQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLFirebaseQuery.h; sourceTree = "<group>"; };
 		7DDE78521C93234D00241A80 /* AMLFirebaseQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLFirebaseQuery.m; sourceTree = "<group>"; };
@@ -242,7 +249,10 @@
 		7D12CAF21C8A482B0021519B /* Data Managers */ = {
 			isa = PBXGroup;
 			children = (
+				7D7DE7EF1C8B6D8100FFA637 /* AMLDataManager.h */,
+				7D7DE7F01C8B6D8100FFA637 /* AMLDataManager.m */,
 				7D12CB111C8A4F860021519B /* Protocols */,
+				7D12CB0D1C8A4EA30021519B /* Login Manager */,
 				7D12CAF41C8A48910021519B /* Firebase */,
 				7D12CAF31C8A48310021519B /* Core Data */,
 			);
@@ -262,6 +272,7 @@
 		7D12CAF41C8A48910021519B /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
+				7D19E2821C8E1CA700020305 /* AMLFirebaseProtocols.h */,
 				7D7DE7F41C8E1A3600FFA637 /* AMLFirebaseNotifications.h */,
 				7D12CAF51C8A48D10021519B /* AMLFirebaseController.h */,
 				7D12CB131C8A51C40021519B /* AMLFirebaseController+Auth.h */,
@@ -325,6 +336,15 @@
 				7D12CB0B1C8A4B4F0021519B /* AMLPrivateInfo.m */,
 			);
 			name = AMLPrivateInfo;
+			sourceTree = "<group>";
+		};
+		7D12CB0D1C8A4EA30021519B /* Login Manager */ = {
+			isa = PBXGroup;
+			children = (
+				7D12CB0E1C8A4EBA0021519B /* AMLLoginManager.h */,
+				7D12CB0F1C8A4EBA0021519B /* AMLLoginManager.m */,
+			);
+			name = "Login Manager";
 			sourceTree = "<group>";
 		};
 		7D12CB111C8A4F860021519B /* Protocols */ = {
@@ -638,6 +658,7 @@
 			files = (
 				7D12CB041C8A49760021519B /* AKDebuggerRules.m in Sources */,
 				7D12CAFE1C8A49560021519B /* AKDebugger.m in Sources */,
+				7D12CB101C8A4EBA0021519B /* AMLLoginManager.m in Sources */,
 				7D12CB011C8A49660021519B /* AKGenerics.m in Sources */,
 				7D12CAC81C8A30280021519B /* AskMeLater.xcdatamodeld in Sources */,
 				7D12CB0C1C8A4B4F0021519B /* AMLPrivateInfo.m in Sources */,
@@ -646,6 +667,7 @@
 				7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */,
 				7D12CAF71C8A48D10021519B /* AMLFirebaseController.m in Sources */,
 				7D12CABF1C8A30280021519B /* AppDelegate.m in Sources */,
+				7D7DE7F11C8B6D8100FFA637 /* AMLDataManager.m in Sources */,
 				7D12CB081C8A4A7D0021519B /* NSObject+Basics.m in Sources */,
 				7D12CABC1C8A30280021519B /* main.m in Sources */,
 				7D12CB1A1C8A69610021519B /* AMLUser+CoreDataProperties.m in Sources */,
