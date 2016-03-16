@@ -36,7 +36,7 @@
 
 // INITIALIZERS //
 
-- (id)initWithName:(NSString *)name author:(id <AMLUser>)author;
+//- (id)initWithName:(NSString *)name author:(id <AMLUser>)author;
 
 // SETTERS //
 
@@ -52,5 +52,13 @@
 - (void)setTime:(NSDate *)time;
 - (void)setRepeat:(BOOL)repeat;
 - (void)setEnabled:(BOOL)enabled;
+
+@end
+
+#pragma mark - // PROTOCOL (AMLSurvey_Init) //
+
+@protocol AMLSurvey_Init <NSObject>
+
++ (id <AMLSurvey_Editable>)surveyWithName:(NSString *)name author:(id <AMLUser>)author;
 
 @end

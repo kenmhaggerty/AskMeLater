@@ -28,12 +28,20 @@
 
 // INITIALIZERS //
 
-- (id)initWithUsername:(NSString *)username email:(NSString *)email;
+//- (id)initWithUsername:(NSString *)username email:(NSString *)email;
 
 // SETTERS //
 
 - (void)setUsername:(NSString *)username;
 - (NSString *)email;
 - (void)setEmail:(NSString *)email;
+
+@end
+
+#pragma mark - // PROTOCOL (AMLUser_Init) //
+
+@protocol AMLUser_Init <NSObject>
+
++ (id <AMLUser_Editable>)userWithUsername:(NSString *)username email:(NSString *)email;
 
 @end

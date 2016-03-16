@@ -33,7 +33,7 @@
 
 // INITIALIZERS //
 
-- (id)initWithText:(NSString *)text choices:(NSArray <id <AMLChoice>> *)choices;
+//- (id)initWithText:(NSString *)text choices:(NSArray <id <AMLChoice>> *)choices;
 
 // SETTERS //
 
@@ -52,5 +52,13 @@
 @protocol AMLQuestion_PRIVATE <AMLQuestion_Editable>
 
 - (void)addResponse:(id <AMLResponse>)response;
+
+@end
+
+#pragma mark - // PROTOCOL (AMLQuestion_Init) //
+
+@protocol AMLQuestion_Init <NSObject>
+
++ (id <AMLQuestion_Editable>)questionWithText:(NSString *)text choices:(NSOrderedSet <id <AMLChoice>> *)choices;
 
 @end

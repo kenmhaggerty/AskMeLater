@@ -29,11 +29,19 @@
 
 // INITIALIZERS //
 
-- (id)initWithText:(NSString *)text;
+//- (id)initWithText:(NSString *)text;
 
 // SETTERS //
 
 - (void)setText:(NSString *)text;
 - (void)setTextInput:(BOOL)type;
+
+@end
+
+#pragma mark - // PROTOCOL (AMLChoice_Init) //
+
+@protocol AMLChoice_Init <NSObject>
+
++ (id <AMLChoice_Editable>)choiceWithText:(NSString *)text;
 
 @end

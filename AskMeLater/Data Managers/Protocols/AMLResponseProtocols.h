@@ -31,11 +31,19 @@
 
 // INITIALIZERS //
 
-- (id)initWithResponse:(NSString *)response user:(id <AMLUser>)user date:(NSDate *)date;
+//- (id)initWithText:(NSString *)text user:(id <AMLUser>)user date:(NSDate *)date;
 
 // SETTERS //
 
 - (void)setResponse:(NSString *)response;
 - (void)setDate:(NSDate *)date;
+
+@end
+
+#pragma mark - // PROTOCOL (AMLResponse_Init) //
+
+@protocol AMLResponse_Init <NSObject>
+
++ (id <AMLResponse_Editable>)responseWithText:(NSString *)text user:(id <AMLUser>)user date:(NSDate *)date;
 
 @end
