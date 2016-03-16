@@ -21,6 +21,7 @@
 		7D12CB011C8A49660021519B /* AKGenerics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB001C8A49660021519B /* AKGenerics.m */; };
 		7D12CB041C8A49760021519B /* AKDebuggerRules.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB031C8A49760021519B /* AKDebuggerRules.m */; };
 		7D12CB081C8A4A7D0021519B /* NSObject+Basics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB071C8A4A7D0021519B /* NSObject+Basics.m */; };
+		7D12CB0C1C8A4B4F0021519B /* AMLPrivateInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB0B1C8A4B4F0021519B /* AMLPrivateInfo.m */; };
 		7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D511C936775000A02F0 /* NSArray+Extras.m */; };
 		9904BDEE47DA4B22D491B3D2 /* libPods-AskMeLaterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AA1F07776FB536EECA51A89 /* libPods-AskMeLaterTests.a */; };
 		ACC090AC77DD885B12215BFB /* libPods-AskMeLaterUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 952BA08D286A5066ED7AF08A /* libPods-AskMeLaterUITests.a */; };
@@ -77,6 +78,8 @@
 		7D12CB031C8A49760021519B /* AKDebuggerRules.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AKDebuggerRules.m; sourceTree = "<group>"; };
 		7D12CB061C8A4A7D0021519B /* NSObject+Basics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+Basics.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/NSObject+Basics/NSObject+Basics.h"; sourceTree = "<group>"; };
 		7D12CB071C8A4A7D0021519B /* NSObject+Basics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+Basics.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/NSObject+Basics/NSObject+Basics.m"; sourceTree = "<group>"; };
+		7D12CB0A1C8A4B4F0021519B /* AMLPrivateInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLPrivateInfo.h; sourceTree = "<group>"; };
+		7D12CB0B1C8A4B4F0021519B /* AMLPrivateInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLPrivateInfo.m; sourceTree = "<group>"; };
 		7DE38D501C936775000A02F0 /* NSArray+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+Extras.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/NSArray+Extras/NSArray+Extras.h"; sourceTree = "<group>"; };
 		7DE38D511C936775000A02F0 /* NSArray+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Extras.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/NSArray+Extras/NSArray+Extras.m"; sourceTree = "<group>"; };
 		952BA08D286A5066ED7AF08A /* libPods-AskMeLaterUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AskMeLaterUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -163,6 +166,7 @@
 			children = (
 				7D12CAF81C8A49260021519B /* IMPORTS */,
 				7D12CAFB1C8A49380021519B /* AKDebuggerRules */,
+				7D12CB091C8A4B2E0021519B /* AMLPrivateInfo */,
 				7D12CAC91C8A30280021519B /* Assets.xcassets */,
 				7D12CABD1C8A30280021519B /* AppDelegate.h */,
 				7D12CABE1C8A30280021519B /* AppDelegate.m */,
@@ -290,6 +294,15 @@
 				7D12CB071C8A4A7D0021519B /* NSObject+Basics.m */,
 			);
 			name = "NSObject+Basics";
+			sourceTree = "<group>";
+		};
+		7D12CB091C8A4B2E0021519B /* AMLPrivateInfo */ = {
+			isa = PBXGroup;
+			children = (
+				7D12CB0A1C8A4B4F0021519B /* AMLPrivateInfo.h */,
+				7D12CB0B1C8A4B4F0021519B /* AMLPrivateInfo.m */,
+			);
+			name = AMLPrivateInfo;
 			sourceTree = "<group>";
 		};
 		7DE38D4F1C936756000A02F0 /* NSArray+Extras */ = {
@@ -566,6 +579,7 @@
 				7D12CAFE1C8A49560021519B /* AKDebugger.m in Sources */,
 				7D12CB011C8A49660021519B /* AKGenerics.m in Sources */,
 				7D12CAC81C8A30280021519B /* AskMeLater.xcdatamodeld in Sources */,
+				7D12CB0C1C8A4B4F0021519B /* AMLPrivateInfo.m in Sources */,
 				7D12CAC21C8A30280021519B /* ViewController.m in Sources */,
 				7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */,
 				7D12CAF71C8A48D10021519B /* AMLFirebaseController.m in Sources */,
