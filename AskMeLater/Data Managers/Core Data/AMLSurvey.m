@@ -28,6 +28,60 @@
 
 #pragma mark - // PUBLIC METHODS //
 
+- (void)addQuestion:(AMLQuestion *)question {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    [self addQuestionsObject:question];
+}
+
+- (void)insertQuestion:(AMLQuestion *)question atIndex:(NSUInteger)index {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    [self insertObject:question inQuestionsAtIndex:index];
+}
+
+- (void)moveQuestion:(AMLQuestion *)question toIndex:(NSUInteger)index {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    if (![self.questions containsObject:question]) {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is not in self.%@", stringFromVariable(question), NSStringFromSelector(@selector(questions))]];
+        return;
+    }
+    
+    if (index == [self.questions indexOfObject:question]) {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is alread at index %lu", stringFromVariable(question), index]];
+        return;
+    }
+    
+    [self removeQuestionsObject:question];
+    [self insertObject:question inQuestionsAtIndex:index];
+}
+
+- (void)moveQuestionAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    if (fromIndex == toIndex) {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ (%lu) and %@ (%lu) are equal", stringFromVariable(fromIndex), fromIndex, stringFromVariable(toIndex), toIndex]];
+        return;
+    }
+    
+    AMLQuestion *question = self.questions[fromIndex];
+    [self removeQuestionsObject:question];
+    [self insertObject:question inQuestionsAtIndex:toIndex];
+}
+
+- (void)removeQuestion:(AMLQuestion *)question {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    [self removeQuestionsObject:question];
+}
+
+- (void)removeQuestionAtIndex:(NSUInteger)index {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    [self removeObjectFromQuestionsAtIndex:index];
+}
+
 #pragma mark - // CATEGORY METHODS //
 
 #pragma mark - // DELEGATED METHODS //

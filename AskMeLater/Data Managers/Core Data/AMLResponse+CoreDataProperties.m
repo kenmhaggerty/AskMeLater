@@ -23,7 +23,7 @@
 
 #pragma mark - // SETTERS AND GETTERS //
 
-@dynamic response;
+@dynamic text;
 @dynamic date;
 @dynamic user;
 @dynamic question;

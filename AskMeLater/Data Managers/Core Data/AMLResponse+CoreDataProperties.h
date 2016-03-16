@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AMLResponse (CoreDataProperties)
 
-@property (nullable, nonatomic, retain) NSString *response;
+@property (nullable, nonatomic, retain) NSString *text;
 @property (nullable, nonatomic, retain) NSDate *date;
 @property (nullable, nonatomic, retain) AMLUser *user;
 @property (nullable, nonatomic, retain) AMLQuestion *question;

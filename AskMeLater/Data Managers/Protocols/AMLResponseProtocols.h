@@ -19,7 +19,7 @@
 
 @protocol AMLResponse <NSObject>
 
-- (NSString *)response;
+- (NSString *)text;
 - (id <AMLUser>)user;
 - (NSDate *)date;
 
@@ -35,7 +35,7 @@
 
 // SETTERS //
 
-- (void)setResponse:(NSString *)response;
+- (void)setText:(NSString *)text;
 - (void)setDate:(NSDate *)date;
 
 @end

@@ -14,7 +14,7 @@
     </entity>
     <entity name="AMLResponse" representedClassName="AMLResponse" syncable="YES">
         <attribute name="date" attributeType="Date" syncable="YES"/>
-        <attribute name="response" attributeType="String" syncable="YES"/>
+        <attribute name="text" attributeType="String" syncable="YES"/>
         <relationship name="question" maxCount="1" deletionRule="Nullify" destinationEntity="AMLQuestion" inverseName="responses" inverseEntity="AMLQuestion" syncable="YES"/>
         <relationship name="user" maxCount="1" deletionRule="Nullify" destinationEntity="AMLUser" inverseName="responses" inverseEntity="AMLUser" syncable="YES"/>
     </entity>
