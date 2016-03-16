@@ -45,7 +45,7 @@
 - (void)addQuestion:(id <AMLQuestion>)question;
 - (void)insertQuestion:(id <AMLQuestion>)question atIndex:(NSUInteger)index;
 - (void)moveQuestion:(id <AMLQuestion>)question toIndex:(NSUInteger)index;
-- (void)moveQuestionAtIndex:(NSUInteger)index toIndex:(NSUInteger)index;
+- (void)moveQuestionAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
 - (void)removeQuestion:(id <AMLQuestion>)question;
 - (void)removeQuestionAtIndex:(NSUInteger)index;
 - (void)setEditedAt:(NSDate *)editedAt;
