@@ -1,11 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15D21" minimumToolsVersion="Automatic">
+    <entity name="AMLChoice" representedClassName="AMLChoice" syncable="YES">
+        <attribute name="text" attributeType="String" syncable="YES"/>
+        <attribute name="textInput" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <relationship name="question" maxCount="1" deletionRule="Nullify" destinationEntity="AMLQuestion" inverseName="choices" inverseEntity="AMLQuestion" syncable="YES"/>
+    </entity>
+    <entity name="AMLQuestion" representedClassName="AMLQuestion" syncable="YES">
+        <attribute name="secure" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="text" attributeType="String" syncable="YES"/>
+        <relationship name="choices" optional="YES" toMany="YES" maxCount="2" deletionRule="Cascade" ordered="YES" destinationEntity="AMLChoice" inverseName="question" inverseEntity="AMLChoice" syncable="YES"/>
+        <relationship name="responses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AMLResponse" inverseName="question" inverseEntity="AMLResponse" syncable="YES"/>
+        <relationship name="survey" maxCount="1" deletionRule="Nullify" destinationEntity="AMLSurvey" inverseName="questions" inverseEntity="AMLSurvey" syncable="YES"/>
+    </entity>
+    <entity name="AMLResponse" representedClassName="AMLResponse" syncable="YES">
+        <attribute name="date" attributeType="Date" syncable="YES"/>
+        <attribute name="response" attributeType="String" syncable="YES"/>
+        <relationship name="question" maxCount="1" deletionRule="Nullify" destinationEntity="AMLQuestion" inverseName="responses" inverseEntity="AMLQuestion" syncable="YES"/>
+        <relationship name="user" maxCount="1" deletionRule="Nullify" destinationEntity="AMLUser" inverseName="responses" inverseEntity="AMLUser" syncable="YES"/>
+    </entity>
+    <entity name="AMLSurvey" representedClassName="AMLSurvey" syncable="YES">
+        <attribute name="editedAt" attributeType="Date" syncable="YES"/>
+        <attribute name="enabled" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="repeat" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="author" maxCount="1" deletionRule="Nullify" destinationEntity="AMLUser" inverseName="surveys" inverseEntity="AMLUser" syncable="YES"/>
+        <relationship name="questions" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="AMLQuestion" inverseName="survey" inverseEntity="AMLQuestion" syncable="YES"/>
+    </entity>
     <entity name="AMLUser" representedClassName="AMLUser" syncable="YES">
         <attribute name="createdAt" attributeType="Date" syncable="YES"/>
         <attribute name="email" attributeType="String" syncable="YES"/>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="responses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AMLResponse" inverseName="user" inverseEntity="AMLResponse" syncable="YES"/>
+        <relationship name="surveys" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AMLSurvey" inverseName="author" inverseEntity="AMLSurvey" syncable="YES"/>
     </entity>
     <elements>
-        <element name="AMLUser" positionX="-54" positionY="-9" width="128" height="90"/>
+        <element name="AMLUser" positionX="-72" positionY="216" width="128" height="118"/>
+        <element name="AMLSurvey" positionX="144" positionY="216" width="128" height="148"/>
+        <element name="AMLQuestion" positionX="360" positionY="216" width="128" height="118"/>
+        <element name="AMLChoice" positionX="360" positionY="432" width="128" height="88"/>
+        <element name="AMLResponse" positionX="142" positionY="432" width="128" height="103"/>
     </elements>
 </model>

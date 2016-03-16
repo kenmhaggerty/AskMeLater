@@ -29,6 +29,14 @@
 		7D7DE7F11C8B6D8100FFA637 /* AMLDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7DE7F01C8B6D8100FFA637 /* AMLDataManager.m */; };
 		7DDE78531C93234D00241A80 /* AMLFirebaseQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDE78521C93234D00241A80 /* AMLFirebaseQuery.m */; };
 		7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D511C936775000A02F0 /* NSArray+Extras.m */; };
+		7DE38D671C99D6EB000A02F0 /* AMLSurvey+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D581C99D6EB000A02F0 /* AMLSurvey+CoreDataProperties.m */; };
+		7DE38D681C99D6EB000A02F0 /* AMLSurvey.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D5A1C99D6EB000A02F0 /* AMLSurvey.m */; };
+		7DE38D691C99D6EB000A02F0 /* AMLResponse+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D5C1C99D6EB000A02F0 /* AMLResponse+CoreDataProperties.m */; };
+		7DE38D6A1C99D6EB000A02F0 /* AMLResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D5E1C99D6EB000A02F0 /* AMLResponse.m */; };
+		7DE38D6B1C99D6EB000A02F0 /* AMLQuestion+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D601C99D6EB000A02F0 /* AMLQuestion+CoreDataProperties.m */; };
+		7DE38D6C1C99D6EB000A02F0 /* AMLQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D621C99D6EB000A02F0 /* AMLQuestion.m */; };
+		7DE38D6D1C99D6EB000A02F0 /* AMLChoice+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D641C99D6EB000A02F0 /* AMLChoice+CoreDataProperties.m */; };
+		7DE38D6E1C99D6EB000A02F0 /* AMLChoice.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D661C99D6EB000A02F0 /* AMLChoice.m */; };
 		9904BDEE47DA4B22D491B3D2 /* libPods-AskMeLaterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AA1F07776FB536EECA51A89 /* libPods-AskMeLaterTests.a */; };
 		ACC090AC77DD885B12215BFB /* libPods-AskMeLaterUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 952BA08D286A5066ED7AF08A /* libPods-AskMeLaterUITests.a */; };
 		E4981B3F9BAABD750F5FAD00 /* libPods-AskMeLater.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C5C3B95D2D15A48E4A8E7F6 /* libPods-AskMeLater.a */; };
@@ -109,6 +117,22 @@
 		7DE38D541C99BA88000A02F0 /* AMLQuestionProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLQuestionProtocols.h; path = Protocols/AMLQuestionProtocols.h; sourceTree = "<group>"; };
 		7DE38D551C99BAB3000A02F0 /* AMLResponseProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLResponseProtocols.h; path = Protocols/AMLResponseProtocols.h; sourceTree = "<group>"; };
 		7DE38D561C99BC67000A02F0 /* AMLChoiceProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLChoiceProtocols.h; path = Protocols/AMLChoiceProtocols.h; sourceTree = "<group>"; };
+		7DE38D571C99D6EB000A02F0 /* AMLSurvey+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AMLSurvey+CoreDataProperties.h"; sourceTree = "<group>"; };
+		7DE38D581C99D6EB000A02F0 /* AMLSurvey+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AMLSurvey+CoreDataProperties.m"; sourceTree = "<group>"; };
+		7DE38D591C99D6EB000A02F0 /* AMLSurvey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLSurvey.h; sourceTree = "<group>"; };
+		7DE38D5A1C99D6EB000A02F0 /* AMLSurvey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLSurvey.m; sourceTree = "<group>"; };
+		7DE38D5B1C99D6EB000A02F0 /* AMLResponse+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AMLResponse+CoreDataProperties.h"; sourceTree = "<group>"; };
+		7DE38D5C1C99D6EB000A02F0 /* AMLResponse+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AMLResponse+CoreDataProperties.m"; sourceTree = "<group>"; };
+		7DE38D5D1C99D6EB000A02F0 /* AMLResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLResponse.h; sourceTree = "<group>"; };
+		7DE38D5E1C99D6EB000A02F0 /* AMLResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLResponse.m; sourceTree = "<group>"; };
+		7DE38D5F1C99D6EB000A02F0 /* AMLQuestion+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AMLQuestion+CoreDataProperties.h"; sourceTree = "<group>"; };
+		7DE38D601C99D6EB000A02F0 /* AMLQuestion+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AMLQuestion+CoreDataProperties.m"; sourceTree = "<group>"; };
+		7DE38D611C99D6EB000A02F0 /* AMLQuestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLQuestion.h; sourceTree = "<group>"; };
+		7DE38D621C99D6EB000A02F0 /* AMLQuestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLQuestion.m; sourceTree = "<group>"; };
+		7DE38D631C99D6EB000A02F0 /* AMLChoice+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AMLChoice+CoreDataProperties.h"; sourceTree = "<group>"; };
+		7DE38D641C99D6EB000A02F0 /* AMLChoice+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AMLChoice+CoreDataProperties.m"; sourceTree = "<group>"; };
+		7DE38D651C99D6EB000A02F0 /* AMLChoice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLChoice.h; sourceTree = "<group>"; };
+		7DE38D661C99D6EB000A02F0 /* AMLChoice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLChoice.m; sourceTree = "<group>"; };
 		952BA08D286A5066ED7AF08A /* libPods-AskMeLaterUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AskMeLaterUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6F9AB5E71CD8D015E1CBF60 /* Pods-AskMeLaterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AskMeLaterTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AskMeLaterTests/Pods-AskMeLaterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D868BA812ECA91F9E68F81DF /* Pods-AskMeLaterUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AskMeLaterUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AskMeLaterUITests/Pods-AskMeLaterUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -269,6 +293,10 @@
 				7D12CAC61C8A30280021519B /* AskMeLater.xcdatamodeld */,
 				7D12CB201C8A69FC0021519B /* AMLCoreDataController */,
 				7D12CB1C1C8A69660021519B /* AMLUser */,
+				7DE38D6F1C99D728000A02F0 /* AMLSurvey */,
+				7DE38D701C99D72E000A02F0 /* AMLResponse */,
+				7DE38D711C99D734000A02F0 /* AMLQuestion */,
+				7DE38D721C99D73C000A02F0 /* AMLChoice */,
 			);
 			path = "Core Data";
 			sourceTree = "<group>";
@@ -401,6 +429,50 @@
 				7DE38D511C936775000A02F0 /* NSArray+Extras.m */,
 			);
 			name = "NSArray+Extras";
+			sourceTree = "<group>";
+		};
+		7DE38D6F1C99D728000A02F0 /* AMLSurvey */ = {
+			isa = PBXGroup;
+			children = (
+				7DE38D591C99D6EB000A02F0 /* AMLSurvey.h */,
+				7DE38D5A1C99D6EB000A02F0 /* AMLSurvey.m */,
+				7DE38D571C99D6EB000A02F0 /* AMLSurvey+CoreDataProperties.h */,
+				7DE38D581C99D6EB000A02F0 /* AMLSurvey+CoreDataProperties.m */,
+			);
+			name = AMLSurvey;
+			sourceTree = "<group>";
+		};
+		7DE38D701C99D72E000A02F0 /* AMLResponse */ = {
+			isa = PBXGroup;
+			children = (
+				7DE38D5D1C99D6EB000A02F0 /* AMLResponse.h */,
+				7DE38D5E1C99D6EB000A02F0 /* AMLResponse.m */,
+				7DE38D5B1C99D6EB000A02F0 /* AMLResponse+CoreDataProperties.h */,
+				7DE38D5C1C99D6EB000A02F0 /* AMLResponse+CoreDataProperties.m */,
+			);
+			name = AMLResponse;
+			sourceTree = "<group>";
+		};
+		7DE38D711C99D734000A02F0 /* AMLQuestion */ = {
+			isa = PBXGroup;
+			children = (
+				7DE38D611C99D6EB000A02F0 /* AMLQuestion.h */,
+				7DE38D621C99D6EB000A02F0 /* AMLQuestion.m */,
+				7DE38D5F1C99D6EB000A02F0 /* AMLQuestion+CoreDataProperties.h */,
+				7DE38D601C99D6EB000A02F0 /* AMLQuestion+CoreDataProperties.m */,
+			);
+			name = AMLQuestion;
+			sourceTree = "<group>";
+		};
+		7DE38D721C99D73C000A02F0 /* AMLChoice */ = {
+			isa = PBXGroup;
+			children = (
+				7DE38D651C99D6EB000A02F0 /* AMLChoice.h */,
+				7DE38D661C99D6EB000A02F0 /* AMLChoice.m */,
+				7DE38D631C99D6EB000A02F0 /* AMLChoice+CoreDataProperties.h */,
+				7DE38D641C99D6EB000A02F0 /* AMLChoice+CoreDataProperties.m */,
+			);
+			name = AMLChoice;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -664,8 +736,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DE38D6E1C99D6EB000A02F0 /* AMLChoice.m in Sources */,
 				7D12CB041C8A49760021519B /* AKDebuggerRules.m in Sources */,
 				7D12CAFE1C8A49560021519B /* AKDebugger.m in Sources */,
+				7DE38D691C99D6EB000A02F0 /* AMLResponse+CoreDataProperties.m in Sources */,
 				7D12CB101C8A4EBA0021519B /* AMLLoginManager.m in Sources */,
 				7D12CB011C8A49660021519B /* AKGenerics.m in Sources */,
 				7D12CAC81C8A30280021519B /* AskMeLater.xcdatamodeld in Sources */,
@@ -673,13 +747,19 @@
 				7D12CAC21C8A30280021519B /* ViewController.m in Sources */,
 				7D12CB1B1C8A69610021519B /* AMLUser.m in Sources */,
 				7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */,
+				7DE38D681C99D6EB000A02F0 /* AMLSurvey.m in Sources */,
 				7D12CAF71C8A48D10021519B /* AMLFirebaseController.m in Sources */,
+				7DE38D6C1C99D6EB000A02F0 /* AMLQuestion.m in Sources */,
 				7D12CABF1C8A30280021519B /* AppDelegate.m in Sources */,
 				7D7DE7F11C8B6D8100FFA637 /* AMLDataManager.m in Sources */,
+				7DE38D6B1C99D6EB000A02F0 /* AMLQuestion+CoreDataProperties.m in Sources */,
+				7DE38D671C99D6EB000A02F0 /* AMLSurvey+CoreDataProperties.m in Sources */,
+				7DE38D6D1C99D6EB000A02F0 /* AMLChoice+CoreDataProperties.m in Sources */,
 				7D12CB081C8A4A7D0021519B /* NSObject+Basics.m in Sources */,
 				7D12CABC1C8A30280021519B /* main.m in Sources */,
 				7D12CB1A1C8A69610021519B /* AMLUser+CoreDataProperties.m in Sources */,
 				7DDE78531C93234D00241A80 /* AMLFirebaseQuery.m in Sources */,
+				7DE38D6A1C99D6EB000A02F0 /* AMLResponse.m in Sources */,
 				7D12CB1F1C8A69F20021519B /* AMLCoreDataController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

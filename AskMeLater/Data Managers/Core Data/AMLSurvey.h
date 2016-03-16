@@ -1,8 +1,8 @@
 //
-//  AMLUser.h
+//  AMLSurvey.h
 //  AskMeLater
 //
-//  Created by Ken M. Haggerty on 3/4/16.
+//  Created by Ken M. Haggerty on 3/16/16.
 //  Copyright © 2016 Flatiron School. All rights reserved.
 //
 
@@ -13,17 +13,17 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class AMLSurvey, AMLResponse;
+@class AMLUser, AMLQuestion;
 
 #pragma mark - // PROTOCOLS //
 
-#import "AMLUserProtocols.h"
+#import "AMLSurveyProtocols.h"
 
 #pragma mark - // DEFINITIONS (Public) //
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AMLUser : NSManagedObject <AMLUser_Editable>
+@interface AMLSurvey : NSManagedObject <AMLSurvey_Editable>
 
 // Insert code here to declare functionality of your managed object subclass
 
@@ -31,4 +31,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_ASSUME_NONNULL_END
 
-#import "AMLUser+CoreDataProperties.h"
+#import "AMLSurvey+CoreDataProperties.h"

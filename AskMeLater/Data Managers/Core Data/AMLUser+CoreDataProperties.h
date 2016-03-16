@@ -29,4 +29,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface AMLUser (CoreDataGeneratedAccessors)
+
+- (void)addSurveysObject:(AMLSurvey *)value;
+- (void)removeSurveysObject:(AMLSurvey *)value;
+- (void)addSurveys:(NSSet <AMLSurvey *> *)values;
+- (void)removeSurveys:(NSSet <AMLSurvey *> *)values;
+
+- (void)addResponsesObject:(AMLResponse *)value;
+- (void)removeResponsesObject:(AMLResponse *)value;
+- (void)addResponses:(NSSet <AMLResponse *> *)values;
+- (void)removeResponses:(NSSet <AMLResponse *> *)values;
+
+@end
+
 NS_ASSUME_NONNULL_END

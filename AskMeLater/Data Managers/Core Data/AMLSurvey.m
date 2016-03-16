@@ -1,8 +1,8 @@
 //
-//  AMLUser.m
+//  AMLSurvey.m
 //  AskMeLater
 //
-//  Created by Ken M. Haggerty on 3/4/16.
+//  Created by Ken M. Haggerty on 3/16/16.
 //  Copyright © 2016 Flatiron School. All rights reserved.
 //
 
@@ -10,18 +10,17 @@
 
 #pragma mark - // IMPORTS (Private) //
 
-#import "AMLUser.h"
 #import "AMLSurvey.h"
-#import "AMLResponse.h"
+#import "AMLUser.h"
 #import "AKDebugger.h"
 #import "AKGenerics.h"
 
 #pragma mark - // DEFINITIONS (Private) //
 
-@interface AMLUser ()
+@interface AMLSurvey ()
 @end
 
-@implementation AMLUser
+@implementation AMLSurvey
 
 #pragma mark - // SETTERS AND GETTERS //
 

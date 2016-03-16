@@ -23,7 +23,7 @@
 - (NSString *)text;
 - (NSArray <id <AMLChoice>> *)choices;
 - (BOOL)secure;
-- (NSSet <id <AMLResponse>> *)response;
+- (NSSet <id <AMLResponse>> *)responses;
 
 @end
 
