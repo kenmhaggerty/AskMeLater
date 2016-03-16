@@ -20,6 +20,7 @@
 		7D12CAFE1C8A49560021519B /* AKDebugger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CAFD1C8A49560021519B /* AKDebugger.m */; };
 		7D12CB011C8A49660021519B /* AKGenerics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB001C8A49660021519B /* AKGenerics.m */; };
 		7D12CB041C8A49760021519B /* AKDebuggerRules.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB031C8A49760021519B /* AKDebuggerRules.m */; };
+		7D12CB081C8A4A7D0021519B /* NSObject+Basics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB071C8A4A7D0021519B /* NSObject+Basics.m */; };
 		9904BDEE47DA4B22D491B3D2 /* libPods-AskMeLaterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AA1F07776FB536EECA51A89 /* libPods-AskMeLaterTests.a */; };
 		ACC090AC77DD885B12215BFB /* libPods-AskMeLaterUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 952BA08D286A5066ED7AF08A /* libPods-AskMeLaterUITests.a */; };
 		E4981B3F9BAABD750F5FAD00 /* libPods-AskMeLater.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C5C3B95D2D15A48E4A8E7F6 /* libPods-AskMeLater.a */; };
@@ -73,6 +74,8 @@
 		7D12CB001C8A49660021519B /* AKGenerics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AKGenerics.m; path = ../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/AKGenerics/AKGenerics.m; sourceTree = "<group>"; };
 		7D12CB021C8A49760021519B /* AKDebuggerRules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AKDebuggerRules.h; sourceTree = "<group>"; };
 		7D12CB031C8A49760021519B /* AKDebuggerRules.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AKDebuggerRules.m; sourceTree = "<group>"; };
+		7D12CB061C8A4A7D0021519B /* NSObject+Basics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+Basics.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/NSObject+Basics/NSObject+Basics.h"; sourceTree = "<group>"; };
+		7D12CB071C8A4A7D0021519B /* NSObject+Basics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+Basics.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/NSObject+Basics/NSObject+Basics.m"; sourceTree = "<group>"; };
 		952BA08D286A5066ED7AF08A /* libPods-AskMeLaterUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AskMeLaterUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6F9AB5E71CD8D015E1CBF60 /* Pods-AskMeLaterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AskMeLaterTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AskMeLaterTests/Pods-AskMeLaterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D868BA812ECA91F9E68F81DF /* Pods-AskMeLaterUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AskMeLaterUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AskMeLaterUITests/Pods-AskMeLaterUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -244,6 +247,7 @@
 			children = (
 				7D12CAF91C8A492B0021519B /* AKDebugger */,
 				7D12CAFA1C8A49310021519B /* AKGenerics */,
+				7D12CB051C8A4A340021519B /* NSObject+Basics */,
 			);
 			name = IMPORTS;
 			sourceTree = "<group>";
@@ -273,6 +277,15 @@
 				7D12CB031C8A49760021519B /* AKDebuggerRules.m */,
 			);
 			name = AKDebuggerRules;
+			sourceTree = "<group>";
+		};
+		7D12CB051C8A4A340021519B /* NSObject+Basics */ = {
+			isa = PBXGroup;
+			children = (
+				7D12CB061C8A4A7D0021519B /* NSObject+Basics.h */,
+				7D12CB071C8A4A7D0021519B /* NSObject+Basics.m */,
+			);
+			name = "NSObject+Basics";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -543,6 +556,7 @@
 				7D12CAC21C8A30280021519B /* ViewController.m in Sources */,
 				7D12CAF71C8A48D10021519B /* AMLFirebaseController.m in Sources */,
 				7D12CABF1C8A30280021519B /* AppDelegate.m in Sources */,
+				7D12CB081C8A4A7D0021519B /* NSObject+Basics.m in Sources */,
 				7D12CABC1C8A30280021519B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
