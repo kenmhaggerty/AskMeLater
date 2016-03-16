@@ -105,6 +105,10 @@
 		7DDE78541C9328FC00241A80 /* AMLFirebaseQuery+FQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AMLFirebaseQuery+FQuery.h"; sourceTree = "<group>"; };
 		7DE38D501C936775000A02F0 /* NSArray+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+Extras.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/NSArray+Extras/NSArray+Extras.h"; sourceTree = "<group>"; };
 		7DE38D511C936775000A02F0 /* NSArray+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Extras.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/NSArray+Extras/NSArray+Extras.m"; sourceTree = "<group>"; };
+		7DE38D531C99BA32000A02F0 /* AMLSurveyProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLSurveyProtocols.h; path = Protocols/AMLSurveyProtocols.h; sourceTree = "<group>"; };
+		7DE38D541C99BA88000A02F0 /* AMLQuestionProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLQuestionProtocols.h; path = Protocols/AMLQuestionProtocols.h; sourceTree = "<group>"; };
+		7DE38D551C99BAB3000A02F0 /* AMLResponseProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLResponseProtocols.h; path = Protocols/AMLResponseProtocols.h; sourceTree = "<group>"; };
+		7DE38D561C99BC67000A02F0 /* AMLChoiceProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLChoiceProtocols.h; path = Protocols/AMLChoiceProtocols.h; sourceTree = "<group>"; };
 		952BA08D286A5066ED7AF08A /* libPods-AskMeLaterUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AskMeLaterUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6F9AB5E71CD8D015E1CBF60 /* Pods-AskMeLaterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AskMeLaterTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AskMeLaterTests/Pods-AskMeLaterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D868BA812ECA91F9E68F81DF /* Pods-AskMeLaterUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AskMeLaterUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AskMeLaterUITests/Pods-AskMeLaterUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -351,6 +355,10 @@
 			isa = PBXGroup;
 			children = (
 				7D12CB121C8A4F9E0021519B /* AMLUserProtocols.h */,
+				7DE38D531C99BA32000A02F0 /* AMLSurveyProtocols.h */,
+				7DE38D541C99BA88000A02F0 /* AMLQuestionProtocols.h */,
+				7DE38D561C99BC67000A02F0 /* AMLChoiceProtocols.h */,
+				7DE38D551C99BAB3000A02F0 /* AMLResponseProtocols.h */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
