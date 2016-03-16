@@ -11,11 +11,51 @@
 #pragma mark - // IMPORTS (Public) //
 
 #import <Foundation/Foundation.h>
+#import "NSObject+Basics.h"
+
+#import "AMLFirebaseQuery.h"
 
 #pragma mark - // PROTOCOLS //
 
 #pragma mark - // DEFINITIONS (Public) //
 
+#import "AMLFirebaseNotifications.h"
+
 @interface AMLFirebaseController : NSObject
+
+// GENERAL //
+
++ (void)setup;
++ (BOOL)isConnected;
++ (void)connect;
++ (void)disconnect;
+
+// DATA //
+
++ (void)saveObject:(id)object toPath:(NSString *)path withCompletion:(void (^)(BOOL success, NSError *error))completionBlock;
++ (void)updateObjectAtPath:(NSString *)path withDictionary:(NSDictionary *)dictionary andCompletion:(void (^)(BOOL success, NSError *error))completionBlock;
++ (void)setOfflineValue:(id)offlineValue forObjectAtPath:(NSString *)path withPersistence:(BOOL)persist andCompletion:(void (^)(BOOL success, NSError *error))completionBlock;
++ (void)setOnlineValue:(id)onlineValue forObjectAtPath:(NSString *)path withPersistence:(BOOL)persist;
++ (void)persistOnlineValueForObjectAtPath:(NSString *)path;
++ (void)clearOfflineValueForObjectAtPath:(NSString *)path;
++ (void)clearOnlineValueForObjectAtPath:(NSString *)path;
++ (void)clearPersistedValueForObjectAtPath:(NSString *)path;
+
+// QUERIES //
+
++ (void)getObjectAtPath:(NSString *)path withCompletion:(void (^)(id object))completionBlock;
++ (void)getObjectsAtPath:(NSString *)path withQueries:(NSArray <AMLFirebaseQuery *> *)queries andCompletion:(void (^)(id result))completionBlock;
+
+// OBSERVERS //
+
++ (void)observeValueChangedAtPath:(NSString *)path withBlock:(void (^)(id value))block;
++ (void)observeChildAddedAtPath:(NSString *)path withBlock:(void (^)(id child))block;
++ (void)observeChildChangedAtPath:(NSString *)path withBlock:(void (^)(id child))block;
++ (void)observeChildRemovedFromPath:(NSString *)path withBlock:(void (^)(id child))block;
+
++ (void)removeValueChangedObserverAtPath:(NSString *)path;
++ (void)removeChildAddedObserverAtPath:(NSString *)path;
++ (void)removeChildChangedObserverAtPath:(NSString *)path;
++ (void)removeChildRemovedObserverAtPath:(NSString *)path;
 
 @end
