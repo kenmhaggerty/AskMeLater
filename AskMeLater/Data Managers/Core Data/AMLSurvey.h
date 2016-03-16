@@ -25,7 +25,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AMLSurvey : NSManagedObject <AMLSurvey_Editable>
 
-// Insert code here to declare functionality of your managed object subclass
+- (void)addQuestion:(AMLQuestion *)question;
+- (void)insertQuestion:(AMLQuestion *)question atIndex:(NSUInteger)index;
+- (void)moveQuestion:(AMLQuestion *)question toIndex:(NSUInteger)index;
+- (void)moveQuestionAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
+- (void)removeQuestion:(AMLQuestion *)question;
+- (void)removeQuestionAtIndex:(NSUInteger)index;
 
 @end
 

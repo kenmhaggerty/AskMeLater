@@ -29,6 +29,36 @@
 
 #pragma mark - // PUBLIC METHODS //
 
+- (void)replaceChoiceAtIndex:(NSUInteger)index withChoice:(AMLChoice *)choice {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    [self replaceObjectInChoicesAtIndex:index withObject:choice];
+}
+
+- (void)removeChoiceAtIndex:(NSUInteger)index {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    [self removeObjectFromChoicesAtIndex:index];
+}
+
+- (void)removeChoice:(AMLChoice *)choice {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    [self removeChoicesObject:choice];
+}
+
+- (void)addResponse:(AMLResponse *)response {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    [self addResponsesObject:response];
+}
+
+- (void)deleteResponse:(AMLResponse *)response {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    [self removeResponsesObject:response];
+}
+
 #pragma mark - // CATEGORY METHODS //
 
 #pragma mark - // DELEGATED METHODS //

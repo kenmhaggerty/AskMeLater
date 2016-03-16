@@ -25,7 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AMLQuestion : NSManagedObject <AMLQuestion_PRIVATE>
 
-// Insert code here to declare functionality of your managed object subclass
+- (void)replaceChoiceAtIndex:(NSUInteger)index withChoice:(AMLChoice *)choice;
+- (void)removeChoiceAtIndex:(NSUInteger)index;
+- (void)removeChoice:(AMLChoice *)choice;
+- (void)addResponse:(AMLResponse *)response;
+- (void)deleteResponse:(AMLResponse *)response;
 
 @end
 
