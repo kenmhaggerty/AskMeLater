@@ -29,6 +29,10 @@
 		7D7DE7F11C8B6D8100FFA637 /* AMLDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7DE7F01C8B6D8100FFA637 /* AMLDataManager.m */; };
 		7DDE78531C93234D00241A80 /* AMLFirebaseQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDE78521C93234D00241A80 /* AMLFirebaseQuery.m */; };
 		7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D511C936775000A02F0 /* NSArray+Extras.m */; };
+		7DE38D7C1C9A0C18000A02F0 /* AMLSurveysTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D7B1C9A0C18000A02F0 /* AMLSurveysTableViewController.m */; };
+		7DE38D7F1C9A0C21000A02F0 /* AMLSurveyTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D7E1C9A0C21000A02F0 /* AMLSurveyTableViewController.m */; };
+		7DE38D821C9A0C37000A02F0 /* AMLSurveyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D811C9A0C37000A02F0 /* AMLSurveyTableViewCell.m */; };
+		7DE38D851C9A0C45000A02F0 /* AMLResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D841C9A0C45000A02F0 /* AMLResultsViewController.m */; };
 		9904BDEE47DA4B22D491B3D2 /* libPods-AskMeLaterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AA1F07776FB536EECA51A89 /* libPods-AskMeLaterTests.a */; };
 		ACC090AC77DD885B12215BFB /* libPods-AskMeLaterUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 952BA08D286A5066ED7AF08A /* libPods-AskMeLaterUITests.a */; };
 		E4981B3F9BAABD750F5FAD00 /* libPods-AskMeLater.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C5C3B95D2D15A48E4A8E7F6 /* libPods-AskMeLater.a */; };
@@ -105,6 +109,14 @@
 		7DDE78541C9328FC00241A80 /* AMLFirebaseQuery+FQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AMLFirebaseQuery+FQuery.h"; sourceTree = "<group>"; };
 		7DE38D501C936775000A02F0 /* NSArray+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+Extras.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/NSArray+Extras/NSArray+Extras.h"; sourceTree = "<group>"; };
 		7DE38D511C936775000A02F0 /* NSArray+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Extras.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/NSArray+Extras/NSArray+Extras.m"; sourceTree = "<group>"; };
+		7DE38D7A1C9A0C18000A02F0 /* AMLSurveysTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLSurveysTableViewController.h; sourceTree = "<group>"; };
+		7DE38D7B1C9A0C18000A02F0 /* AMLSurveysTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLSurveysTableViewController.m; sourceTree = "<group>"; };
+		7DE38D7D1C9A0C21000A02F0 /* AMLSurveyTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLSurveyTableViewController.h; sourceTree = "<group>"; };
+		7DE38D7E1C9A0C21000A02F0 /* AMLSurveyTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLSurveyTableViewController.m; sourceTree = "<group>"; };
+		7DE38D801C9A0C37000A02F0 /* AMLSurveyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLSurveyTableViewCell.h; sourceTree = "<group>"; };
+		7DE38D811C9A0C37000A02F0 /* AMLSurveyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLSurveyTableViewCell.m; sourceTree = "<group>"; };
+		7DE38D831C9A0C45000A02F0 /* AMLResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLResultsViewController.h; sourceTree = "<group>"; };
+		7DE38D841C9A0C45000A02F0 /* AMLResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLResultsViewController.m; sourceTree = "<group>"; };
 		952BA08D286A5066ED7AF08A /* libPods-AskMeLaterUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AskMeLaterUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6F9AB5E71CD8D015E1CBF60 /* Pods-AskMeLaterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AskMeLaterTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AskMeLaterTests/Pods-AskMeLaterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D868BA812ECA91F9E68F81DF /* Pods-AskMeLaterUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AskMeLaterUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AskMeLaterUITests/Pods-AskMeLaterUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -233,6 +245,9 @@
 			children = (
 				7D12CAC01C8A30280021519B /* ViewController.h */,
 				7D12CAC11C8A30280021519B /* ViewController.m */,
+				7DE38D761C9A0BD5000A02F0 /* AMLSurveysTableViewController */,
+				7DE38D771C9A0BDF000A02F0 /* AMLSurveyTableViewController */,
+				7DE38D791C9A0BF7000A02F0 /* AMLResultsViewController */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -393,6 +408,43 @@
 				7DE38D511C936775000A02F0 /* NSArray+Extras.m */,
 			);
 			name = "NSArray+Extras";
+			sourceTree = "<group>";
+		};
+		7DE38D761C9A0BD5000A02F0 /* AMLSurveysTableViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7DE38D7A1C9A0C18000A02F0 /* AMLSurveysTableViewController.h */,
+				7DE38D7B1C9A0C18000A02F0 /* AMLSurveysTableViewController.m */,
+			);
+			name = AMLSurveysTableViewController;
+			sourceTree = "<group>";
+		};
+		7DE38D771C9A0BDF000A02F0 /* AMLSurveyTableViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7DE38D7D1C9A0C21000A02F0 /* AMLSurveyTableViewController.h */,
+				7DE38D7E1C9A0C21000A02F0 /* AMLSurveyTableViewController.m */,
+				7DE38D781C9A0BEA000A02F0 /* AMLSurveyTableViewCell */,
+			);
+			name = AMLSurveyTableViewController;
+			sourceTree = "<group>";
+		};
+		7DE38D781C9A0BEA000A02F0 /* AMLSurveyTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				7DE38D801C9A0C37000A02F0 /* AMLSurveyTableViewCell.h */,
+				7DE38D811C9A0C37000A02F0 /* AMLSurveyTableViewCell.m */,
+			);
+			name = AMLSurveyTableViewCell;
+			sourceTree = "<group>";
+		};
+		7DE38D791C9A0BF7000A02F0 /* AMLResultsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7DE38D831C9A0C45000A02F0 /* AMLResultsViewController.h */,
+				7DE38D841C9A0C45000A02F0 /* AMLResultsViewController.m */,
+			);
+			name = AMLResultsViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -666,9 +718,13 @@
 				7D12CB1B1C8A69610021519B /* AMLUser.m in Sources */,
 				7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */,
 				7D12CAF71C8A48D10021519B /* AMLFirebaseController.m in Sources */,
+				7DE38D821C9A0C37000A02F0 /* AMLSurveyTableViewCell.m in Sources */,
+				7DE38D7C1C9A0C18000A02F0 /* AMLSurveysTableViewController.m in Sources */,
 				7D12CABF1C8A30280021519B /* AppDelegate.m in Sources */,
 				7D7DE7F11C8B6D8100FFA637 /* AMLDataManager.m in Sources */,
 				7D12CB081C8A4A7D0021519B /* NSObject+Basics.m in Sources */,
+				7DE38D851C9A0C45000A02F0 /* AMLResultsViewController.m in Sources */,
+				7DE38D7F1C9A0C21000A02F0 /* AMLSurveyTableViewController.m in Sources */,
 				7D12CABC1C8A30280021519B /* main.m in Sources */,
 				7D12CB1A1C8A69610021519B /* AMLUser+CoreDataProperties.m in Sources */,
 				7DDE78531C93234D00241A80 /* AMLFirebaseQuery.m in Sources */,
