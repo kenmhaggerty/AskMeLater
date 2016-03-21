@@ -121,6 +121,12 @@ NSString * const AddCellReuseIdentifier = @"addCell";
 
 #pragma mark - // INITS AND LOADS //
 
+- (void)dealloc {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    [self teardown];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
     
@@ -145,7 +151,7 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     
     [super viewDidLoad];
     
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.rightBarButtonItem = self.editButton;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -255,6 +261,27 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     [super setup];
     
     _questions = [NSMutableArray array];
+    _editButton = [[UIBarButtonItem alloc] initWithTitle:@"Sort" style:UIBarButtonItemStylePlain target:self action:@selector(edit:)];
+    
+    [self.navigationItem addObserver:self forKeyPath:NSStringFromSelector(@selector(rightBarButtonItem)) options:NSKeyValueObservingOptionNew context:NULL];
+}
+
+- (void)teardown {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    [self.navigationItem removeObserver:self forKeyPath:NSStringFromSelector(@selector(rightBarButtonItem)) context:NULL];
+    
+    [super teardown];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
+    
+    if ([object isEqual:self.navigationItem]) {
+        if ([keyPath isEqualToString:NSStringFromSelector(@selector(rightBarButtonItem))]) {
+            self.tabBarController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+        }
+    }
 }
 
 - (void)setTitle:(NSString *)title {
@@ -286,6 +313,24 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     [self presentViewController:self.alertRenameSurvey animated:YES completion:nil];
 }
 
+- (IBAction)edit:(id)sender {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
+    
+    if (self.tableView.editing) {
+        [self.tableView setEditing:NO];
+    }
+    [self.tableView setEditing:YES animated:YES];
+    [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+    self.tabBarController.navigationItem.rightBarButtonItem = self.doneButton;
+}
+
+- (IBAction)doneEditing:(id)sender {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
+    
+    [self.tableView setEditing:NO animated:YES];
+    [self.tableView insertSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+    self.tabBarController.navigationItem.rightBarButtonItem = self.editButton;
+}
 
 - (IBAction)addQuestion:(id)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
