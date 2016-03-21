@@ -15,7 +15,10 @@
 
 #pragma mark - // PROTOCOLS //
 
+#import "AMLSurveyUIProtocol.h"
+
 #pragma mark - // DEFINITIONS (Public) //
 
-@interface AMLSurveyTableViewController : UITableViewController
+@interface AMLSurveyTableViewController : UITableViewController <AMLSurveyUI>
+@property (nonatomic, strong) AMLMockSurvey *survey;
 @end

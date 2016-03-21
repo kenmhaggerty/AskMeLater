@@ -26,6 +26,7 @@
 		7D12CB1A1C8A69610021519B /* AMLUser+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB171C8A69610021519B /* AMLUser+CoreDataProperties.m */; };
 		7D12CB1B1C8A69610021519B /* AMLUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB191C8A69610021519B /* AMLUser.m */; };
 		7D12CB1F1C8A69F20021519B /* AMLCoreDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB1E1C8A69F20021519B /* AMLCoreDataController.m */; };
+		7D5A655D1CA03FD400D7AE8D /* AMLMockSurvey.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5A655C1CA03FD400D7AE8D /* AMLMockSurvey.m */; };
 		7D7DE7F11C8B6D8100FFA637 /* AMLDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7DE7F01C8B6D8100FFA637 /* AMLDataManager.m */; };
 		7DDE78531C93234D00241A80 /* AMLFirebaseQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDE78521C93234D00241A80 /* AMLFirebaseQuery.m */; };
 		7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D511C936775000A02F0 /* NSArray+Extras.m */; };
@@ -103,6 +104,8 @@
 		7D12CB1D1C8A69F20021519B /* AMLCoreDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLCoreDataController.h; sourceTree = "<group>"; };
 		7D12CB1E1C8A69F20021519B /* AMLCoreDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLCoreDataController.m; sourceTree = "<group>"; };
 		7D19E2821C8E1CA700020305 /* AMLFirebaseProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLFirebaseProtocols.h; path = Firebase/AMLFirebaseProtocols.h; sourceTree = "<group>"; };
+		7D5A655B1CA03FD400D7AE8D /* AMLMockSurvey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLMockSurvey.h; path = "Mock Data/AMLMockSurvey.h"; sourceTree = "<group>"; };
+		7D5A655C1CA03FD400D7AE8D /* AMLMockSurvey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMLMockSurvey.m; path = "Mock Data/AMLMockSurvey.m"; sourceTree = "<group>"; };
 		7D7DE7EF1C8B6D8100FFA637 /* AMLDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLDataManager.h; sourceTree = "<group>"; };
 		7D7DE7F01C8B6D8100FFA637 /* AMLDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLDataManager.m; sourceTree = "<group>"; };
 		7D7DE7F41C8E1A3600FFA637 /* AMLFirebaseNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLFirebaseNotifications.h; path = Firebase/AMLFirebaseNotifications.h; sourceTree = "<group>"; };
@@ -119,6 +122,7 @@
 		7DE38D811C9A0C37000A02F0 /* AMLSurveyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLSurveyTableViewCell.m; sourceTree = "<group>"; };
 		7DE38D831C9A0C45000A02F0 /* AMLResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLResultsViewController.h; sourceTree = "<group>"; };
 		7DE38D841C9A0C45000A02F0 /* AMLResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLResultsViewController.m; sourceTree = "<group>"; };
+		7DE38D871C9B11ED000A02F0 /* AMLSurveyUIProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLSurveyUIProtocol.h; path = Protocols/AMLSurveyUIProtocol.h; sourceTree = "<group>"; };
 		7DE38D891C9C5EF4000A02F0 /* UITableView+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITableView+Extras.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UITableView+Extras/UITableView+Extras.h"; sourceTree = "<group>"; };
 		7DE38D8A1C9C5EF4000A02F0 /* UITableView+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITableView+Extras.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UITableView+Extras/UITableView+Extras.m"; sourceTree = "<group>"; };
 		7DE38D921C9D924C000A02F0 /* UIAlertController+Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIAlertController+Info.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIAlertController+Info/UIAlertController+Info.h"; sourceTree = "<group>"; };
@@ -251,6 +255,7 @@
 			children = (
 				7D12CAC01C8A30280021519B /* ViewController.h */,
 				7D12CAC11C8A30280021519B /* ViewController.m */,
+				7DE38D861C9B11CE000A02F0 /* Protocols */,
 				7DE38D761C9A0BD5000A02F0 /* AMLSurveysTableViewController */,
 				7DE38D771C9A0BDF000A02F0 /* AMLSurveyTableViewController */,
 				7DE38D791C9A0BF7000A02F0 /* AMLResultsViewController */,
@@ -275,6 +280,7 @@
 				7D12CB111C8A4F860021519B /* Protocols */,
 				7D12CB0D1C8A4EA30021519B /* Login Manager */,
 				7D12CAF41C8A48910021519B /* Firebase */,
+				7DE38D8C1C9D8A37000A02F0 /* Mock Data */,
 				7D12CAF31C8A48310021519B /* Core Data */,
 			);
 			path = "Data Managers";
@@ -398,6 +404,15 @@
 			name = AMLCoreDataController;
 			sourceTree = "<group>";
 		};
+		7D5A655A1CA03FBD00D7AE8D /* Mock Survey */ = {
+			isa = PBXGroup;
+			children = (
+				7D5A655B1CA03FD400D7AE8D /* AMLMockSurvey.h */,
+				7D5A655C1CA03FD400D7AE8D /* AMLMockSurvey.m */,
+			);
+			name = "Mock Survey";
+			sourceTree = "<group>";
+		};
 		7DDE78571C93290900241A80 /* AMLFirebaseQuery */ = {
 			isa = PBXGroup;
 			children = (
@@ -455,6 +470,14 @@
 			name = AMLResultsViewController;
 			sourceTree = "<group>";
 		};
+		7DE38D861C9B11CE000A02F0 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				7DE38D871C9B11ED000A02F0 /* AMLSurveyUIProtocol.h */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
 		7DE38D881C9C5ED5000A02F0 /* UITableView+Extras */ = {
 			isa = PBXGroup;
 			children = (
@@ -462,6 +485,14 @@
 				7DE38D8A1C9C5EF4000A02F0 /* UITableView+Extras.m */,
 			);
 			name = "UITableView+Extras";
+			sourceTree = "<group>";
+		};
+		7DE38D8C1C9D8A37000A02F0 /* Mock Data */ = {
+			isa = PBXGroup;
+			children = (
+				7D5A655A1CA03FBD00D7AE8D /* Mock Survey */,
+			);
+			name = "Mock Data";
 			sourceTree = "<group>";
 		};
 		7DE38D911C9D9239000A02F0 /* UIAlertController+Info */ = {
@@ -746,6 +777,7 @@
 				7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */,
 				7D12CAF71C8A48D10021519B /* AMLFirebaseController.m in Sources */,
 				7DE38D821C9A0C37000A02F0 /* AMLSurveyTableViewCell.m in Sources */,
+				7D5A655D1CA03FD400D7AE8D /* AMLMockSurvey.m in Sources */,
 				7DE38D7C1C9A0C18000A02F0 /* AMLSurveysTableViewController.m in Sources */,
 				7D12CABF1C8A30280021519B /* AppDelegate.m in Sources */,
 				7D7DE7F11C8B6D8100FFA637 /* AMLDataManager.m in Sources */,
