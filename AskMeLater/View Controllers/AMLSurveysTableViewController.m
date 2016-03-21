@@ -31,6 +31,10 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
 
 - (IBAction)newSurvey:(id)sender;
 
+// OTHER //
+
++ (NSString *)stringForDate:(NSDate *)date;
+
 @end
 
 @implementation AMLSurveysTableViewController
@@ -99,17 +103,11 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:REUSE_IDENTIFIER forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
+    UITableViewCell *cell = [AKGenerics cellWithReuseIdentifier:REUSE_IDENTIFIER class:[UITableViewCell class] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
+    AMLMockSurvey *survey = self.surveys[indexPath.row];
+    cell.textLabel.text = survey.name;
+    cell.detailTextLabel.text = [AMLSurveysTableViewController stringForDate:survey.createdAt];
     return cell;
-}
-
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
-    
-    // reorder
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -185,5 +183,14 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
 //    [self performSegueWithIdentifier:SEGUE_SURVEY sender:survey];
 }
 
+#pragma mark - // PRIVATE METHODS (Other) //
+
++ (NSString *)stringForDate:(NSDate *)date {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    NSString *dateString = [NSDateFormatter localizedStringFromDate:date dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterNoStyle];
+    NSString *timeString = [NSDateFormatter localizedStringFromDate:date dateStyle:NSDateFormatterNoStyle timeStyle:NSDateFormatterMediumStyle];
+    return [NSString stringWithFormat:@"%@ at %@", dateString, timeString];
+}
 
 @end
