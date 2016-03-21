@@ -78,8 +78,6 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
     
     [super viewDidLoad];
-    
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 #pragma mark - // PUBLIC METHODS //
