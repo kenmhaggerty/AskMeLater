@@ -13,6 +13,7 @@
 #import "AMLSurveyTableViewController.h"
 #import "AKDebugger.h"
 #import "AKGenerics.h"
+#import "UIAlertController+Info.h"
 
 #import "AMLDataManager.h"
 #import "AMLMockQuestion.h" // temp
@@ -27,6 +28,7 @@ NSString * const AddCellReuseIdentifier = @"addCell";
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *editButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *doneButton;
 @property (nonatomic, strong) NSMutableArray <AMLMockQuestion *> *questions;
+@property (nonatomic, strong) UIAlertController *alertEditChoice;
 
 // ACTIONS //
 
@@ -51,6 +53,33 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     _questions = questions;
     
     [self.tableView reloadData];
+}
+
+- (UIAlertController *)alertEditChoice {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    if (_alertEditChoice) {
+        return _alertEditChoice;
+    }
+    
+    _alertEditChoice = [UIAlertController alertControllerWithTitle:@"Edit Choice" message:@"Enter your desired choice below. Choices should be kept short in order to be displayed properly:" preferredStyle:UIAlertControllerStyleAlert];
+    [_alertEditChoice addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"choice";
+        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    }];
+    [_alertEditChoice addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+    [_alertEditChoice addAction:[UIAlertAction actionWithTitle:@"Update" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [CATransaction begin];
+        [CATransaction setCompletionBlock: ^{
+            NSString *text = _alertEditChoice.textFields[0].text;
+            AMLMockQuestion *question = (AMLMockQuestion *)_alertEditChoice.info[NOTIFICATION_OBJECT_KEY];
+            [question performSelector:[_alertEditChoice.info[NOTIFICATION_SECONDARY_KEY] pointerValue] withObject:(text.length ? text : nil)];
+        }];
+        [self.tableView setEditing:NO animated:YES];
+        [CATransaction commit];
+    }]];
+    
+    return _alertEditChoice;
 }
 
 #pragma mark - // INITS AND LOADS //
@@ -136,6 +165,29 @@ NSString * const AddCellReuseIdentifier = @"addCell";
 }
 
 #pragma mark - // DELEGATED METHODS (UITableViewDelegate) //
+
+- (NSArray <UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    if (indexPath.section) {
+        return nil;
+    }
+    
+    AMLMockQuestion *question = self.questions[indexPath.row];
+    UITableViewRowAction *leftAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:(question.leftChoice ?: @"(blank)") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        self.alertEditChoice.textFields[0].text = question.leftChoice;
+        self.alertEditChoice.info = @{NOTIFICATION_OBJECT_KEY : question, NOTIFICATION_SECONDARY_KEY : [NSValue valueWithPointer:@selector(setLeftChoice:)]};
+        [self presentViewController:self.alertEditChoice animated:YES completion:nil];
+    }];
+    leftAction.backgroundColor = [UIColor colorWithWhite:0.75f alpha:1.0f];
+    UITableViewRowAction *rightAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:(question.rightChoice ?: @"(blank)") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        self.alertEditChoice.textFields[0].text = question.rightChoice;
+        self.alertEditChoice.info = @{NOTIFICATION_OBJECT_KEY : question, NOTIFICATION_SECONDARY_KEY : [NSValue valueWithPointer:@selector(setRightChoice:)]};
+        [self presentViewController:self.alertEditChoice animated:YES completion:nil];
+    }];
+    rightAction.backgroundColor = self.view.tintColor;
+    return @[rightAction, leftAction];
+}
 
 #pragma mark - // OVERWRITTEN METHODS //
 
