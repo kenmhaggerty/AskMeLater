@@ -13,6 +13,7 @@
 #import "AMLSurveyTableViewController.h"
 #import "AKDebugger.h"
 #import "AKGenerics.h"
+#import "UITableView+Extras.h"
 #import "UIAlertController+Info.h"
 
 #import "AMLDataManager.h"
@@ -163,10 +164,11 @@ NSString * const AddCellReuseIdentifier = @"addCell";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[AMLSurveyTableViewCell reuseIdentifier] forIndexPath:indexPath];
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
     
-    // Configure the cell...
     
+    AMLSurveyTableViewCell *cell = (AMLSurveyTableViewCell *)[AKGenerics cellWithReuseIdentifier:[AMLSurveyTableViewCell reuseIdentifier] class:[AMLSurveyTableViewCell class] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
+    cell.delegate = self;
     return cell;
 }
 
@@ -190,6 +192,18 @@ NSString * const AddCellReuseIdentifier = @"addCell";
 
 #pragma mark - // DELEGATED METHODS (UITableViewDelegate) //
 
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    return UITableViewAutomaticDimension;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    return UITableViewAutomaticDimension;
+}
+
 - (NSArray <UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
     
@@ -211,6 +225,14 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     }];
     rightAction.backgroundColor = self.view.tintColor;
     return @[rightAction, leftAction];
+}
+
+#pragma mark - // DELEGATED METHODS (AMLSurveyTableViewCellDelegate) //
+
+- (void)cellDidChangeHeight:(UITableViewCell *)sender {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
+    
+    [self.tableView refresh];
 }
 
 #pragma mark - // OVERWRITTEN METHODS //

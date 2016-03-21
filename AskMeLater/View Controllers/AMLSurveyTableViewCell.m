@@ -16,7 +16,7 @@
 
 #pragma mark - // DEFINITIONS (Private) //
 
-@interface AMLSurveyTableViewCell ()
+@interface AMLSurveyTableViewCell () <UITextViewDelegate>
 
 // ACTIONS //
 
@@ -30,6 +30,31 @@
 
 #pragma mark - // INITS AND LOADS //
 
+- (void)dealloc {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    [self teardown];
+}
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        [self setup];
+    }
+    
+    return self;
+}
+
+- (void)awakeFromNib {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    [super awakeFromNib];
+    
+    [self setup];
+}
+
 #pragma mark - // PUBLIC METHODS //
 
 + (NSString *)reuseIdentifier {
@@ -40,10 +65,24 @@
 
 #pragma mark - // CATEGORY METHODS //
 
-#pragma mark - // DELEGATED METHODS //
+#pragma mark - // DELEGATED METHODS (UITextViewDelegate) //
+
+- (void)textViewDidChange:(UITextView *)textView {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
+    
+    [self setNeedsUpdateConstraints];
+    [self layoutIfNeeded];
+    if (self.delegate) {
+        [self.delegate cellDidChangeHeight:self];
+    }
+}
 
 #pragma mark - // OVERWRITTEN METHODS //
 
-#pragma mark - // PRIVATE METHODS //
+- (void)setup {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    self.textView.delegate = self;
+}
 
 @end
