@@ -200,6 +200,7 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     }
     
     AMLSurveyTableViewCell *cell = (AMLSurveyTableViewCell *)[AKGenerics cellWithReuseIdentifier:[AMLSurveyTableViewCell reuseIdentifier] class:[AMLSurveyTableViewCell class] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
+    cell.textView.text = self.questions[indexPath.row].text;
     cell.delegate = self;
     return cell;
 }
