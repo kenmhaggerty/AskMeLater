@@ -22,12 +22,15 @@
 
 #pragma mark - // DEFINITIONS (Private) //
 
+NSString * const UnnamedSurveyTitle = @"(unnamed survey)";
+
 NSString * const AddCellReuseIdentifier = @"addCell";
 
 @interface AMLSurveyTableViewController () <AMLSurveyTableViewCellDelegate>
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *editButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *doneButton;
 @property (nonatomic, strong) NSMutableArray <AMLMockQuestion *> *questions;
+@property (nonatomic, strong) UIAlertController *alertRenameSurvey;
 @property (nonatomic, strong) UIAlertController *alertEditChoice;
 
 // ACTIONS //
@@ -53,6 +56,27 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     _questions = questions;
     
     [self.tableView reloadData];
+}
+
+- (UIAlertController *)alertRenameSurvey {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    if (_alertRenameSurvey) {
+        return _alertRenameSurvey;
+    }
+    
+    _alertRenameSurvey = [UIAlertController alertControllerWithTitle:@"Rename Survey:" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [_alertRenameSurvey addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"survey title";
+        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    }];
+    [_alertRenameSurvey addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+    [_alertRenameSurvey addAction:[UIAlertAction actionWithTitle:@"Rename" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSString *title = _alertRenameSurvey.textFields[0].text;
+        self.survey.name = title.length ? title : nil;
+    }]];
+    
+    return _alertRenameSurvey;
 }
 
 - (UIAlertController *)alertEditChoice {
@@ -199,7 +223,15 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     _questions = [NSMutableArray array];
 }
 
-#pragma mark - // PRIVATE METHODS //
+#pragma mark - // PRIVATE METHODS (Actions) //
+
+- (void)titleWasTapped:(UITapGestureRecognizer *)gestureRecognizer {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
+    
+    self.alertRenameSurvey.textFields[0].text = self.survey.name;
+    [self presentViewController:self.alertRenameSurvey animated:YES completion:nil];
+}
+
 
 - (IBAction)addQuestion:(id)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
