@@ -270,6 +270,15 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     return @[rightAction, leftAction];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
+    
+    if (indexPath.section) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [self addQuestion:nil];
+    }
+}
+
 #pragma mark - // DELEGATED METHODS (AMLSurveyTableViewCellDelegate) //
 
 - (void)cellDidChangeHeight:(UITableViewCell *)sender {
