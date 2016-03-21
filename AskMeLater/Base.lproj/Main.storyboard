@@ -158,9 +158,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="bef-wX-pn5" kind="show" identifier="segueSurvey" id="kpn-Ld-xxO"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -177,6 +174,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addButton" destination="VNf-hg-0SN" id="VPN-ZB-fCl"/>
+                        <segue destination="bef-wX-pn5" kind="show" identifier="segueSurvey" id="gWT-9Z-3eJ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oVp-rb-ohy" userLabel="First Responder" sceneMemberID="firstResponder"/>
