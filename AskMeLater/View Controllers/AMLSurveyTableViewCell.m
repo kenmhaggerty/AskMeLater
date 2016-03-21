@@ -86,4 +86,14 @@
     self.textView.delegate = self;
 }
 
+#pragma mark - // PRIVATE METHODS (Actions) //
+
+- (IBAction)delete:(id)sender {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
+    
+    if (self.delegate) {
+        [self.delegate cellShouldBeDeleted:self];
+    }
+}
+
 @end
