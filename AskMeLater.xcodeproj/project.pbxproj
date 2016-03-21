@@ -35,6 +35,7 @@
 		7DE38D821C9A0C37000A02F0 /* AMLSurveyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D811C9A0C37000A02F0 /* AMLSurveyTableViewCell.m */; };
 		7DE38D851C9A0C45000A02F0 /* AMLResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D841C9A0C45000A02F0 /* AMLResultsViewController.m */; };
 		7DE38D8B1C9C5EF4000A02F0 /* UITableView+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D8A1C9C5EF4000A02F0 /* UITableView+Extras.m */; };
+		7DE38D901C9D8A70000A02F0 /* AMLMockQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D8F1C9D8A70000A02F0 /* AMLMockQuestion.m */; };
 		7DE38D941C9D924C000A02F0 /* UIAlertController+Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D931C9D924C000A02F0 /* UIAlertController+Info.m */; };
 		9904BDEE47DA4B22D491B3D2 /* libPods-AskMeLaterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AA1F07776FB536EECA51A89 /* libPods-AskMeLaterTests.a */; };
 		ACC090AC77DD885B12215BFB /* libPods-AskMeLaterUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 952BA08D286A5066ED7AF08A /* libPods-AskMeLaterUITests.a */; };
@@ -125,6 +126,8 @@
 		7DE38D871C9B11ED000A02F0 /* AMLSurveyUIProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLSurveyUIProtocol.h; path = Protocols/AMLSurveyUIProtocol.h; sourceTree = "<group>"; };
 		7DE38D891C9C5EF4000A02F0 /* UITableView+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITableView+Extras.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UITableView+Extras/UITableView+Extras.h"; sourceTree = "<group>"; };
 		7DE38D8A1C9C5EF4000A02F0 /* UITableView+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITableView+Extras.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UITableView+Extras/UITableView+Extras.m"; sourceTree = "<group>"; };
+		7DE38D8E1C9D8A70000A02F0 /* AMLMockQuestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLMockQuestion.h; path = "Mock Data/AMLMockQuestion.h"; sourceTree = "<group>"; };
+		7DE38D8F1C9D8A70000A02F0 /* AMLMockQuestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMLMockQuestion.m; path = "Mock Data/AMLMockQuestion.m"; sourceTree = "<group>"; };
 		7DE38D921C9D924C000A02F0 /* UIAlertController+Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIAlertController+Info.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIAlertController+Info/UIAlertController+Info.h"; sourceTree = "<group>"; };
 		7DE38D931C9D924C000A02F0 /* UIAlertController+Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIAlertController+Info.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIAlertController+Info/UIAlertController+Info.m"; sourceTree = "<group>"; };
 		952BA08D286A5066ED7AF08A /* libPods-AskMeLaterUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AskMeLaterUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -491,8 +494,18 @@
 			isa = PBXGroup;
 			children = (
 				7D5A655A1CA03FBD00D7AE8D /* Mock Survey */,
+				7DE38D8D1C9D8A4A000A02F0 /* Mock Question */,
 			);
 			name = "Mock Data";
+			sourceTree = "<group>";
+		};
+		7DE38D8D1C9D8A4A000A02F0 /* Mock Question */ = {
+			isa = PBXGroup;
+			children = (
+				7DE38D8E1C9D8A70000A02F0 /* AMLMockQuestion.h */,
+				7DE38D8F1C9D8A70000A02F0 /* AMLMockQuestion.m */,
+			);
+			name = "Mock Question";
 			sourceTree = "<group>";
 		};
 		7DE38D911C9D9239000A02F0 /* UIAlertController+Info */ = {
@@ -771,6 +784,7 @@
 				7D12CB011C8A49660021519B /* AKGenerics.m in Sources */,
 				7DE38D8B1C9C5EF4000A02F0 /* UITableView+Extras.m in Sources */,
 				7D12CAC81C8A30280021519B /* AskMeLater.xcdatamodeld in Sources */,
+				7DE38D901C9D8A70000A02F0 /* AMLMockQuestion.m in Sources */,
 				7D12CB0C1C8A4B4F0021519B /* AMLPrivateInfo.m in Sources */,
 				7D12CAC21C8A30280021519B /* ViewController.m in Sources */,
 				7D12CB1B1C8A69610021519B /* AMLUser.m in Sources */,

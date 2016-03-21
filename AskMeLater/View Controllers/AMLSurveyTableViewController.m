@@ -14,17 +14,20 @@
 #import "AKDebugger.h"
 #import "AKGenerics.h"
 
+#import "AMLDataManager.h"
+#import "AMLMockQuestion.h" // temp
+
 #import "AMLSurveyTableViewCell.h"
 
 #pragma mark - // DEFINITIONS (Private) //
 
-@interface AMLSurveyTableViewController ()
-@property (nonatomic) NSUInteger numberOfRows;
-- (IBAction)rightBarButtonAction:(id)sender;
 NSString * const AddCellReuseIdentifier = @"addCell";
 
+@interface AMLSurveyTableViewController () <AMLSurveyTableViewCellDelegate>
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *editButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *doneButton;
+@property (nonatomic, strong) NSMutableArray <AMLMockQuestion *> *questions;
+
 // ACTIONS //
 
 - (void)titleWasTapped:(UITapGestureRecognizer *)gestureRecognizer;
@@ -37,6 +40,18 @@ NSString * const AddCellReuseIdentifier = @"addCell";
 @implementation AMLSurveyTableViewController
 
 #pragma mark - // SETTERS AND GETTERS //
+
+- (void)setQuestions:(NSMutableArray <AMLMockQuestion *> *)questions {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:nil message:nil];
+    
+    if ([AKGenerics object:questions isEqualToObject:_questions]) {
+        return;
+    }
+    
+    _questions = questions;
+    
+    [self.tableView reloadData];
+}
 
 #pragma mark - // INITS AND LOADS //
 
@@ -129,15 +144,26 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     
     [super setup];
     
-    _numberOfRows = 3;
+    _questions = [NSMutableArray array];
 }
 
 #pragma mark - // PRIVATE METHODS //
 
-- (IBAction)rightBarButtonAction:(id)sender {
+- (IBAction)addQuestion:(id)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
-    [self setEditing:!self.editing animated:YES];
+//    id <AMLQuestion> question = [AMLDataManager questionForSurvey:self.survey];
+    AMLMockQuestion *question = [[AMLMockQuestion alloc] init];
+    [self.questions addObject:question];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.questions.count-1 inSection:0];
+    [CATransaction begin];
+    [self.tableView beginUpdates];
+    [CATransaction setCompletionBlock:^{
+        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    }];
+    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+    [self.tableView endUpdates];
+    [CATransaction commit];
 }
 
 @end
