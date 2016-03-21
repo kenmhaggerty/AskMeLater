@@ -47,6 +47,18 @@ NSString * const AddCellReuseIdentifier = @"addCell";
 
 #pragma mark - // SETTERS AND GETTERS //
 
+- (void)setSurvey:(AMLMockSurvey *)survey {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:nil message:nil];
+    
+    if ([AKGenerics object:survey isEqualToObject:_survey]) {
+        return;
+    }
+    
+    _survey = survey;
+    
+    self.title = survey.name;
+}
+
 - (void)setQuestions:(NSMutableArray <AMLMockQuestion *> *)questions {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:nil message:nil];
     
@@ -141,7 +153,7 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     
     [super viewWillAppear:animated];
     
-    self.tabBarController.navigationItem.title = self.navigationItem.title;
+    self.title = self.survey.name;
     self.tabBarController.navigationItem.rightBarButtonItems = self.navigationItem.rightBarButtonItems;
 }
 
@@ -243,6 +255,26 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     [super setup];
     
     _questions = [NSMutableArray array];
+}
+
+- (void)setTitle:(NSString *)title {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_UI] message:nil];
+    
+    [super setTitle:title ?: UnnamedSurveyTitle];
+    
+    self.tabBarItem.title = @"Survey";
+    
+    UILabel *label = [[UILabel alloc] init];
+    label.font = [UIFont boldSystemFontOfSize:17.0f];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.userInteractionEnabled = YES;
+    [label addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(titleWasTapped:)]];
+    
+    label.text = title ?: UnnamedSurveyTitle;
+    label.textColor = title ? [UIColor blackColor] : [UIColor lightGrayColor];
+    [label sizeToFit];
+    
+    self.tabBarController.navigationItem.titleView = label;
 }
 
 #pragma mark - // PRIVATE METHODS (Actions) //
