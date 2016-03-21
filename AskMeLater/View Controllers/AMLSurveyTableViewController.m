@@ -253,6 +253,17 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     [self.tableView refresh];
 }
 
+- (void)cellDidChangeText:(AMLSurveyTableViewCell *)sender {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+    if (!indexPath) {
+        return;
+    }
+    
+    self.questions[indexPath.row].text = sender.textView.text;
+}
+
 #pragma mark - // OVERWRITTEN METHODS //
 
 - (void)setup {

@@ -15,8 +15,11 @@
 
 #pragma mark - // PROTOCOLS //
 
+@class AMLSurveyTableViewCell;
+
 @protocol AMLSurveyTableViewCellDelegate <NSObject>
 - (void)cellDidChangeHeight:(UITableViewCell *)sender;
+- (void)cellDidChangeText:(AMLSurveyTableViewCell *)sender;
 @end
 
 #pragma mark - // DEFINITIONS (Public) //

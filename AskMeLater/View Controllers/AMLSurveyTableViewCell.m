@@ -73,6 +73,7 @@
     [self setNeedsUpdateConstraints];
     [self layoutIfNeeded];
     if (self.delegate) {
+        [self.delegate cellDidChangeText:self];
         [self.delegate cellDidChangeHeight:self];
     }
 }
