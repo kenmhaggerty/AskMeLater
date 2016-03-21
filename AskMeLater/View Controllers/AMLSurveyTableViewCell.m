@@ -17,6 +17,11 @@
 #pragma mark - // DEFINITIONS (Private) //
 
 @interface AMLSurveyTableViewCell ()
+
+// ACTIONS //
+
+- (IBAction)delete:(id)sender;
+
 @end
 
 @implementation AMLSurveyTableViewCell

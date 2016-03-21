@@ -18,5 +18,6 @@
 #pragma mark - // DEFINITIONS (Public) //
 
 @interface AMLSurveyTableViewCell : UITableViewCell
+@property (nonatomic, strong) IBOutlet UITextView *textView;
 + (NSString *)reuseIdentifier;
 @end

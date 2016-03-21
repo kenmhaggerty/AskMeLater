@@ -17,9 +17,16 @@
 #pragma mark - // DEFINITIONS (Private) //
 
 NSString * const REUSE_IDENTIFIER = @"surveyCell";
+NSString * const SEGUE_SURVEY = @"segueSurvey";
 
 @interface AMLSurveysTableViewController ()
 @property (nonatomic) NSUInteger numberOfRows;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *addButton;
+
+// ACTIONS //
+
+- (IBAction)newSurvey:(id)sender;
+
 @end
 
 @implementation AMLSurveysTableViewController

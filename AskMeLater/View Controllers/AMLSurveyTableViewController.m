@@ -21,6 +21,17 @@
 @interface AMLSurveyTableViewController ()
 @property (nonatomic) NSUInteger numberOfRows;
 - (IBAction)rightBarButtonAction:(id)sender;
+NSString * const AddCellReuseIdentifier = @"addCell";
+
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *editButton;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *doneButton;
+// ACTIONS //
+
+- (void)titleWasTapped:(UITapGestureRecognizer *)gestureRecognizer;
+- (IBAction)edit:(id)sender;
+- (IBAction)doneEditing:(id)sender;
+- (IBAction)addQuestion:(id)sender;
+
 @end
 
 @implementation AMLSurveyTableViewController
