@@ -17,16 +17,38 @@
 #pragma mark - // DEFINITIONS (Private) //
 
 @interface AMLSurveyTableViewCell () <UITextViewDelegate>
+@property (nonatomic, strong) IBOutlet NSLayoutConstraint *constraightMinimumHeight;
 
 // ACTIONS //
 
 - (IBAction)delete:(id)sender;
+
+// OTHER //
+
+- (void)didChangeHeight;
 
 @end
 
 @implementation AMLSurveyTableViewCell
 
 #pragma mark - // SETTERS AND GETTERS //
+
+- (void)setMinimumHeight:(CGFloat)minimumHeight {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_UI] message:nil];
+    
+    if (minimumHeight == self.constraightMinimumHeight.constant) {
+        return;
+    }
+    
+    self.constraightMinimumHeight.constant = minimumHeight;
+    [self didChangeHeight];
+}
+
+- (CGFloat)minimumHeight {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    return self.constraightMinimumHeight.constant;
+}
 
 #pragma mark - // INITS AND LOADS //
 
@@ -81,12 +103,10 @@
 - (void)textViewDidChange:(UITextView *)textView {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
-    [self setNeedsUpdateConstraints];
-    [self layoutIfNeeded];
     if (self.delegate) {
         [self.delegate cellDidChangeText:self];
-        [self.delegate cellDidChangeHeight:self];
     }
+    [self didChangeHeight];
 }
 
 #pragma mark - // OVERWRITTEN METHODS //
@@ -105,6 +125,18 @@
     
     if (self.delegate) {
         [self.delegate cellShouldBeDeleted:self];
+    }
+}
+
+#pragma mark - // PRIVATE METHODS (Other) //
+
+- (void)didChangeHeight {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
+    
+    [self setNeedsUpdateConstraints];
+    [self layoutIfNeeded];
+    if (self.delegate) {
+        [self.delegate cellDidChangeHeight:self];
     }
 }
 

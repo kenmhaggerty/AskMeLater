@@ -282,6 +282,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="constraightMinimumHeight" destination="j9x-Hg-l7P" id="Rnz-gk-a93"/>
                                     <outlet property="textView" destination="ODG-2L-h0G" id="sRE-t2-at1"/>
                                 </connections>
                             </tableViewCell>

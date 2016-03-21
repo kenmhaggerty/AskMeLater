@@ -28,5 +28,6 @@
 @interface AMLSurveyTableViewCell : UITableViewCell
 @property (nonatomic, strong) id <AMLSurveyTableViewCellDelegate> delegate;
 @property (nonatomic, strong) IBOutlet UITextView *textView;
+@property (nonatomic) CGFloat minimumHeight;
 + (NSString *)reuseIdentifier;
 @end
