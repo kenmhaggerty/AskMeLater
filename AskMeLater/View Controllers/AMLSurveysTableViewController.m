@@ -14,6 +14,7 @@
 #import "AKDebugger.h"
 #import "AKGenerics.h"
 
+#import "AMLLoginManager.h"
 #import "AMLDataManager.h"
 #import "AMLMockSurvey.h" // temp
 
@@ -27,9 +28,11 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
 @interface AMLSurveysTableViewController ()
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *addButton;
 @property (nonatomic, strong) NSMutableArray <AMLMockSurvey *> *surveys;
+@property (nonatomic, strong) UIAlertController *alertSettings;
 
 // ACTIONS //
 
+- (IBAction)settings:(id)sender;
 - (IBAction)newSurvey:(id)sender;
 
 // OTHER //
@@ -52,6 +55,34 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
     _surveys = surveys;
     
     [self.tableView reloadData];
+}
+
+- (UIAlertController *)alertSettings {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    if (_alertSettings) {
+        return _alertSettings;
+    }
+    
+    _alertSettings = [UIAlertController alertControllerWithTitle:@"Settings" message:@"kenmhaggerty@gmail.com" preferredStyle:UIAlertControllerStyleAlert];
+    [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Sign out" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+        [AMLLoginManager logout];
+    }]];
+    [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Update email" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        // change email UI
+    }]];
+    [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Change password" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        // change password UI
+    }]];
+    [_alertSettings addAction:[UIAlertAction actionWithTitle:@"About Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        // about us UI
+    }]];
+    [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Contact Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        // contact us UI
+    }]];
+    [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+    
+    return _alertSettings;
 }
 
 #pragma mark - // INITS AND LOADS //
@@ -163,6 +194,12 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
 }
 
 #pragma mark - // PRIVATE METHODS (Actions) //
+
+- (IBAction)settings:(id)sender {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
+    
+    [self presentViewController:self.alertSettings animated:YES completion:nil];
+}
 
 - (IBAction)newSurvey:(id)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];

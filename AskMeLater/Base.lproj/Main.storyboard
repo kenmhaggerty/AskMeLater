@@ -166,6 +166,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="My Surveys" id="cNh-qo-9Qg">
+                        <barButtonItem key="leftBarButtonItem" title="Settings" id="lHT-UT-lcn">
+                            <connections>
+                                <action selector="settings:" destination="Cyk-Tn-HoT" id="SfF-ei-XX2"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="VNf-hg-0SN">
                             <connections>
                                 <action selector="newSurvey:" destination="Cyk-Tn-HoT" id="jfG-wz-EfV"/>
