@@ -299,10 +299,12 @@
         [self.view layoutIfNeeded];
         [self.textFieldConfirmPassword setAlpha:(show ? 1.0f : 0.0f)];
     } completion:^(BOOL finished) {
-        [UIView setAnimationsEnabled:NO];
-        [self.textFieldPassword resignFirstResponder];
-        [self.textFieldPassword becomeFirstResponder];
-        [UIView setAnimationsEnabled:YES];
+        if (self.textFieldPassword.isFirstResponder) {
+            [UIView setAnimationsEnabled:NO];
+            [self.textFieldPassword resignFirstResponder];
+            [self.textFieldPassword becomeFirstResponder];
+            [UIView setAnimationsEnabled:YES];
+        }
         if (!show) {
             self.textFieldConfirmPassword.text = nil;
         }
