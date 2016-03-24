@@ -16,6 +16,8 @@
 
 #pragma mark - // DEFINITIONS //
 
+#define AMLSurveyNamePlaceholder @"unnamed survey"
+
 #define NOTIFICATION_AMLSURVEY_NAME_DID_CHANGE @"kNotificationAMLSurvey_NameDidChange"
 #define NOTIFICATION_AMLSURVEY_EDITEDAT_DID_CHANGE @"kNotificationAMLSurvey_EditedAtDidChange"
 #define NOTIFICATION_AMLSURVEY_WILL_BE_DELETED @"kNotificationAMLSurvey_WillBeDeleted"
@@ -26,11 +28,12 @@
 
 - (NSString *)name;
 - (NSOrderedSet <id <AMLQuestion>> *)questions;
-- (id <AMLUser>)author;
-- (NSDate *)editedAt;
+- (BOOL)enabled;
 - (NSDate *)time;
 - (BOOL)repeat;
-- (BOOL)enabled;
+- (NSDate *)editedAt;
+- (id <AMLUser>)author;
+- (NSDate *)createdAt;
 
 @end
 
@@ -52,10 +55,10 @@
 - (void)moveQuestionAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
 - (void)removeQuestion:(id <AMLQuestion>)question;
 - (void)removeQuestionAtIndex:(NSUInteger)index;
-- (void)setEditedAt:(NSDate *)editedAt;
+- (void)setEnabled:(BOOL)enabled;
 - (void)setTime:(NSDate *)time;
 - (void)setRepeat:(BOOL)repeat;
-- (void)setEnabled:(BOOL)enabled;
+- (void)setEditedAt:(NSDate *)editedAt;
 
 @end
 
