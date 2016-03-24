@@ -24,6 +24,7 @@
 
 NSString * const REUSE_IDENTIFIER = @"surveyCell";
 NSString * const SEGUE_SURVEY = @"segueSurvey";
+NSString * const SEGUE_LOGIN = @"segueLogin";
 
 @interface AMLSurveysTableViewController ()
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *addButton;
@@ -119,6 +120,14 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
     
     [super viewDidLoad];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    if (![AMLLoginManager isLoggedIn]) {
+        [self performSegueWithIdentifier:SEGUE_LOGIN sender:self];
+    }
 }
 
 #pragma mark - // PUBLIC METHODS //
