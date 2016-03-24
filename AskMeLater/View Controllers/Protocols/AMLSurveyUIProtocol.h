@@ -11,14 +11,12 @@
 #pragma mark - // IMPORTS //
 
 #import <Foundation/Foundation.h>
-//#import "AMLSurveyProtocols.h"
-#import "AMLMockSurvey.h" // temp
+#import "AMLSurveyProtocols.h"
 
 #pragma mark - // DEFINITIONS //
 
 #pragma mark - // PROTOCOL (AMLSurveyUI) //
 
 @protocol AMLSurveyUI <NSObject>
-//@property (nonatomic, strong) id <AMLSurvey> survey;
-@property (nonatomic, strong) AMLMockSurvey *survey;
+@property (nonatomic, strong) id <AMLSurvey> survey;
 @end
