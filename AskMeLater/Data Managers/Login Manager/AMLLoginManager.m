@@ -19,7 +19,7 @@
 
 #pragma mark - // DEFINITIONS (Private) //
 
-NSString * const NotificationLoginManagerCurrentUserDidChange = @"kNotificationLoginManager_CurrentUserDidChange";
+NSString * const CurrentUserDidChangeNotification = @"kNotificationCurrentUserDidChange";
 
 @interface AMLLoginManager ()
 @property (nonatomic, strong) id <AMLUser_Editable> currentUser;
