@@ -98,6 +98,7 @@ NSString * const CurrentUserDidChangeNotification = @"kNotificationCurrentUserDi
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_ACCOUNTS] message:nil];
     
     [AMLFirebaseController logout];
+    [AMLLoginManager setCurrentUser:nil];
 }
 
 #pragma mark - // CATEGORY METHODS //
