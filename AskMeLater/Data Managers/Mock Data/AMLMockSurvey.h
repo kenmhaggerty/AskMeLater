@@ -15,10 +15,13 @@
 
 #pragma mark - // PROTOCOLS //
 
+#import "AMLSurveyProtocols.h"
+
 #pragma mark - // DEFINITIONS (Public) //
 
-@interface AMLMockSurvey : NSObject
+@interface AMLMockSurvey : NSObject <AMLSurvey_Editable>
 @property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSDate *editedAt;
 @property (nonatomic, strong, readonly) NSDate *createdAt;
 
 // INITIALIZERS //

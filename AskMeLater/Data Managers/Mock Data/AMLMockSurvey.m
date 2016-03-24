@@ -24,6 +24,38 @@
 
 #pragma mark - // SETTERS AND GETTERS //
 
+- (void)setName:(NSString *)name {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_DATA] message:nil];
+    
+    if ([AKGenerics object:name isEqualToObject:_name]) {
+        return;
+    }
+    
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    if (name) {
+        userInfo[NOTIFICATION_OBJECT_KEY] = name;
+    }
+    
+    _name = name;
+    
+    [AKGenerics postNotificationName:NOTIFICATION_AMLSURVEY_NAME_DID_CHANGE object:self userInfo:userInfo];
+}
+
+- (void)setEditedAt:(NSDate *)editedAt {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_DATA] message:nil];
+    
+    if ([AKGenerics object:editedAt isEqualToObject:_editedAt]) {
+        return;
+    }
+    
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = editedAt;
+    
+    _editedAt = editedAt;
+    
+    [AKGenerics postNotificationName:NOTIFICATION_AMLSURVEY_EDITEDAT_DID_CHANGE object:self userInfo:userInfo];
+}
+
 #pragma mark - // INITS AND LOADS //
 
 - (void)dealloc {
@@ -46,6 +78,7 @@
         [self setup];
         _name = name;
         _createdAt = [NSDate date];
+        _editedAt = [NSDate date];
     }
     return self;
 }

@@ -24,7 +24,53 @@
 
 #pragma mark - // SETTERS AND GETTERS //
 
+- (void)setName:(NSString *)name {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSString *primitiveName = [self primitiveValueForKey:NSStringFromSelector(@selector(name))];
+    
+    if ([AKGenerics object:name isEqualToObject:primitiveName]) {
+        return;
+    }
+    
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    if (name) {
+        userInfo[NOTIFICATION_OBJECT_KEY] = name;
+    }
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(name))];
+    [self setPrimitiveValue:name forKey:NSStringFromSelector(@selector(name))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(name))];
+    
+    [AKGenerics postNotificationName:NOTIFICATION_AMLSURVEY_NAME_DID_CHANGE object:self userInfo:userInfo];
+}
+
+- (void)setEditedAt:(NSDate *)editedAt {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSString *primitiveEditedAt = [self primitiveValueForKey:NSStringFromSelector(@selector(editedAt))];
+    
+    if ([AKGenerics object:editedAt isEqualToObject:primitiveEditedAt]) {
+        return;
+    }
+    
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = editedAt;
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(editedAt))];
+    [self setPrimitiveValue:editedAt forKey:NSStringFromSelector(@selector(editedAt))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(editedAt))];
+    
+    [AKGenerics postNotificationName:NOTIFICATION_AMLSURVEY_EDITEDAT_DID_CHANGE object:self userInfo:userInfo];
+}
+
 #pragma mark - // INITS AND LOADS //
+
+- (void)prepareForDeletion {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    [AKGenerics postNotificationName:NOTIFICATION_AMLSURVEY_WILL_BE_DELETED object:self userInfo:nil];
+}
 
 #pragma mark - // PUBLIC METHODS //
 

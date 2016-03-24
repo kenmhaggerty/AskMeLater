@@ -16,6 +16,10 @@
 
 #pragma mark - // DEFINITIONS //
 
+#define NOTIFICATION_AMLSURVEY_NAME_DID_CHANGE @"kNotificationAMLSurvey_NameDidChange"
+#define NOTIFICATION_AMLSURVEY_EDITEDAT_DID_CHANGE @"kNotificationAMLSurvey_EditedAtDidChange"
+#define NOTIFICATION_AMLSURVEY_WILL_BE_DELETED @"kNotificationAMLSurvey_WillBeDeleted"
+
 #pragma mark - // PROTOCOL (AMLSurvey) //
 
 @protocol AMLSurvey <NSObject>
