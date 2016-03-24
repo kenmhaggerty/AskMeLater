@@ -35,6 +35,15 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
 - (IBAction)settings:(id)sender;
 - (IBAction)newSurvey:(id)sender;
 
+// OBSERVERS //
+
+- (void)addObserversToLoginManager;
+- (void)removeObserversFromLoginManager;
+
+// RESPONDERS //
+
+- (void)currentUserDidChange:(NSNotification *)notification;
+
 // OTHER //
 
 + (NSString *)stringForDate:(NSDate *)date;
@@ -166,6 +175,16 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
     [super setup];
     
     _surveys = [NSMutableArray array];
+    
+    [self addObserversToLoginManager];
+}
+
+- (void)teardown {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    [self removeObserversFromLoginManager];
+    
+    [super teardown];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -217,6 +236,30 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
     [self.tableView endUpdates];
     [CATransaction commit];
 //    [self performSegueWithIdentifier:SEGUE_SURVEY sender:survey];
+}
+
+#pragma mark - // PRIVATE METHODS (Observers) //
+
+- (void)addObserversToLoginManager {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChange:) name:CurrentUserDidChangeNotification object:nil];
+}
+
+- (void)removeObserversFromLoginManager {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:CurrentUserDidChangeNotification object:nil];
+}
+
+#pragma mark - // PRIVATE METHODS (Responders) //
+
+- (void)currentUserDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_ACCOUNTS] message:nil];
+    
+    if (![notification.userInfo objectForKey:NOTIFICATION_OBJECT_KEY]) {
+        [self performSegueWithIdentifier:SEGUE_LOGIN sender:self];
+    }
 }
 
 #pragma mark - // PRIVATE METHODS (Other) //
