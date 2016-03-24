@@ -103,6 +103,8 @@ NSString * const AddCellReuseIdentifier = @"addCell";
         NSString *title = _alertRenameSurvey.textFields[0].text;
         id <AMLSurvey_Editable> survey = (id <AMLSurvey_Editable>)self.survey;
         survey.name = title.length ? title : nil;
+        survey.editedAt = [NSDate date];
+        [AMLDataManager save];
     }]];
     
     return _alertRenameSurvey;
