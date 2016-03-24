@@ -312,9 +312,8 @@
 		7D12CAF21C8A482B0021519B /* Data Managers */ = {
 			isa = PBXGroup;
 			children = (
-				7D7DE7EF1C8B6D8100FFA637 /* AMLDataManager.h */,
-				7D7DE7F01C8B6D8100FFA637 /* AMLDataManager.m */,
 				7D12CB111C8A4F860021519B /* Protocols */,
+				7DBB1F161CA44A2600C7C403 /* Data Manager */,
 				7D12CB0D1C8A4EA30021519B /* Login Manager */,
 				7D12CAF41C8A48910021519B /* Firebase */,
 				7DE38D8C1C9D8A37000A02F0 /* Mock Data */,
@@ -515,6 +514,15 @@
 				7DE38D841C9A0C45000A02F0 /* AMLResultsViewController.m */,
 			);
 			name = AMLResultsViewController;
+			sourceTree = "<group>";
+		};
+		7DBB1F161CA44A2600C7C403 /* Data Manager */ = {
+			isa = PBXGroup;
+			children = (
+				7D7DE7EF1C8B6D8100FFA637 /* AMLDataManager.h */,
+				7D7DE7F01C8B6D8100FFA637 /* AMLDataManager.m */,
+			);
+			name = "Data Manager";
 			sourceTree = "<group>";
 		};
 		7DDE78571C93290900241A80 /* AMLFirebaseQuery */ = {
