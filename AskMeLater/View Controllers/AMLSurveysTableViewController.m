@@ -192,6 +192,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     
     id survey = self.surveys[indexPath.row];
     [self performSegueWithIdentifier:SEGUE_SURVEY sender:survey];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - // OVERWRITTEN METHODS //
