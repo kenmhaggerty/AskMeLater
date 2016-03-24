@@ -27,6 +27,8 @@
 		7D12CB1B1C8A69610021519B /* AMLUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB191C8A69610021519B /* AMLUser.m */; };
 		7D12CB1F1C8A69F20021519B /* AMLCoreDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB1E1C8A69F20021519B /* AMLCoreDataController.m */; };
 		7D5A655D1CA03FD400D7AE8D /* AMLMockSurvey.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5A655C1CA03FD400D7AE8D /* AMLMockSurvey.m */; };
+		7D5A65611CA0719900D7AE8D /* AMLLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5A65601CA0719900D7AE8D /* AMLLoginViewController.m */; };
+		7D5A65651CA0799800D7AE8D /* UIViewController+Keyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5A65641CA0799800D7AE8D /* UIViewController+Keyboard.m */; };
 		7D7DE7F11C8B6D8100FFA637 /* AMLDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7DE7F01C8B6D8100FFA637 /* AMLDataManager.m */; };
 		7DDE78531C93234D00241A80 /* AMLFirebaseQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDE78521C93234D00241A80 /* AMLFirebaseQuery.m */; };
 		7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D511C936775000A02F0 /* NSArray+Extras.m */; };
@@ -107,6 +109,10 @@
 		7D19E2821C8E1CA700020305 /* AMLFirebaseProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLFirebaseProtocols.h; path = Firebase/AMLFirebaseProtocols.h; sourceTree = "<group>"; };
 		7D5A655B1CA03FD400D7AE8D /* AMLMockSurvey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLMockSurvey.h; path = "Mock Data/AMLMockSurvey.h"; sourceTree = "<group>"; };
 		7D5A655C1CA03FD400D7AE8D /* AMLMockSurvey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMLMockSurvey.m; path = "Mock Data/AMLMockSurvey.m"; sourceTree = "<group>"; };
+		7D5A655F1CA0719900D7AE8D /* AMLLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLLoginViewController.h; sourceTree = "<group>"; };
+		7D5A65601CA0719900D7AE8D /* AMLLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLLoginViewController.m; sourceTree = "<group>"; };
+		7D5A65631CA0799800D7AE8D /* UIViewController+Keyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Keyboard.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Keyboard/UIViewController+Keyboard.h"; sourceTree = "<group>"; };
+		7D5A65641CA0799800D7AE8D /* UIViewController+Keyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Keyboard.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Keyboard/UIViewController+Keyboard.m"; sourceTree = "<group>"; };
 		7D7DE7EF1C8B6D8100FFA637 /* AMLDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLDataManager.h; sourceTree = "<group>"; };
 		7D7DE7F01C8B6D8100FFA637 /* AMLDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLDataManager.m; sourceTree = "<group>"; };
 		7D7DE7F41C8E1A3600FFA637 /* AMLFirebaseNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLFirebaseNotifications.h; path = Firebase/AMLFirebaseNotifications.h; sourceTree = "<group>"; };
@@ -259,6 +265,7 @@
 				7D12CAC01C8A30280021519B /* ViewController.h */,
 				7D12CAC11C8A30280021519B /* ViewController.m */,
 				7DE38D861C9B11CE000A02F0 /* Protocols */,
+				7D5A655E1CA0718500D7AE8D /* AMLLoginViewController */,
 				7DE38D761C9A0BD5000A02F0 /* AMLSurveysTableViewController */,
 				7DE38D771C9A0BDF000A02F0 /* AMLSurveyTableViewController */,
 				7DE38D791C9A0BF7000A02F0 /* AMLResultsViewController */,
@@ -321,6 +328,7 @@
 				7DE38D4F1C936756000A02F0 /* NSArray+Extras */,
 				7DE38D911C9D9239000A02F0 /* UIAlertController+Info */,
 				7DE38D881C9C5ED5000A02F0 /* UITableView+Extras */,
+				7D5A65621CA0797C00D7AE8D /* UIViewController+Keyboard */,
 			);
 			name = IMPORTS;
 			sourceTree = "<group>";
@@ -414,6 +422,24 @@
 				7D5A655C1CA03FD400D7AE8D /* AMLMockSurvey.m */,
 			);
 			name = "Mock Survey";
+			sourceTree = "<group>";
+		};
+		7D5A655E1CA0718500D7AE8D /* AMLLoginViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7D5A655F1CA0719900D7AE8D /* AMLLoginViewController.h */,
+				7D5A65601CA0719900D7AE8D /* AMLLoginViewController.m */,
+			);
+			name = AMLLoginViewController;
+			sourceTree = "<group>";
+		};
+		7D5A65621CA0797C00D7AE8D /* UIViewController+Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				7D5A65631CA0799800D7AE8D /* UIViewController+Keyboard.h */,
+				7D5A65641CA0799800D7AE8D /* UIViewController+Keyboard.m */,
+			);
+			name = "UIViewController+Keyboard";
 			sourceTree = "<group>";
 		};
 		7DDE78571C93290900241A80 /* AMLFirebaseQuery */ = {
@@ -789,6 +815,7 @@
 				7D12CAC21C8A30280021519B /* ViewController.m in Sources */,
 				7D12CB1B1C8A69610021519B /* AMLUser.m in Sources */,
 				7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */,
+				7D5A65611CA0719900D7AE8D /* AMLLoginViewController.m in Sources */,
 				7D12CAF71C8A48D10021519B /* AMLFirebaseController.m in Sources */,
 				7DE38D821C9A0C37000A02F0 /* AMLSurveyTableViewCell.m in Sources */,
 				7D5A655D1CA03FD400D7AE8D /* AMLMockSurvey.m in Sources */,
@@ -800,6 +827,7 @@
 				7DE38D7F1C9A0C21000A02F0 /* AMLSurveyTableViewController.m in Sources */,
 				7D12CABC1C8A30280021519B /* main.m in Sources */,
 				7DE38D941C9D924C000A02F0 /* UIAlertController+Info.m in Sources */,
+				7D5A65651CA0799800D7AE8D /* UIViewController+Keyboard.m in Sources */,
 				7D12CB1A1C8A69610021519B /* AMLUser+CoreDataProperties.m in Sources */,
 				7DDE78531C93234D00241A80 /* AMLFirebaseQuery.m in Sources */,
 				7D12CB1F1C8A69F20021519B /* AMLCoreDataController.m in Sources */,
