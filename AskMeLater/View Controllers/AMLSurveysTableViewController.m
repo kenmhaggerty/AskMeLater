@@ -180,8 +180,9 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self.surveys removeObjectAtIndex:indexPath.row];
-        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        id <AMLSurvey_Editable> survey = (id <AMLSurvey_Editable>)self.surveys[indexPath.row];
+        [AMLDataManager deleteSurvey:survey];
+        [AMLDataManager save];
     }
 }
 
