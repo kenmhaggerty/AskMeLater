@@ -12,13 +12,13 @@
 
 #import <Foundation/Foundation.h>
 
-#pragma mark - // PROTOCOLS //
+#import "AMLUser.h"
+#import "AMLSurvey.h"
+#import "AMLQuestion.h"
+#import "AMLChoice.h"
+#import "AMLResponse.h"
 
-#import "AMLUserProtocols.h"
-#import "AMLSurveyProtocols.h"
-#import "AMLQuestionProtocols.h"
-#import "AMLChoiceProtocols.h"
-#import "AMLResponseProtocols.h"
+#pragma mark - // PROTOCOLS //
 
 #pragma mark - // DEFINITIONS (Public) //
 
@@ -30,14 +30,19 @@
 
 // INITIALIZERS //
 
-+ (id <AMLUser_PRIVATE>)userWithUserId:(NSString *)userId email:(NSString *)email;
-+ (id <AMLSurvey_Editable>)surveyWithName:(NSString *)name author:(id <AMLUser>)author;
-+ (id <AMLQuestion_Editable>)questionWithText:(NSString *)text choices:(NSOrderedSet <id <AMLChoice>> *)choices;
-+ (id <AMLChoice_Editable>)choiceWithText:(NSString *)text;
-+ (id <AMLResponse_Editable>)responseWithText:(NSString *)text user:(id <AMLUser>)user date:(NSDate *)date;
++ (AMLUser *)userWithUserId:(NSString *)userId email:(NSString *)email;
++ (AMLSurvey *)surveyWithName:(NSString *)name author:(AMLUser *)author;
++ (AMLQuestion *)questionWithText:(NSString *)text choices:(NSOrderedSet <AMLChoice *> *)choices;
++ (AMLChoice *)choiceWithText:(NSString *)text;
++ (AMLResponse *)responseWithText:(NSString *)text user:(AMLUser *)user date:(NSDate *)date;
 
 // GETTERS //
 
-+ (id <AMLUser_PRIVATE>)userWithUserId:(NSString *)userId;
++ (AMLUser *)userWithUserId:(NSString *)userId;
++ (NSSet <AMLSurvey *> *)surveysWithAuthor:(AMLUser *)author;
+
+// DELETORS //
+
++ (void)deleteObject:(NSManagedObject *)object;
 
 @end

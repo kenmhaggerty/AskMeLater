@@ -16,13 +16,27 @@
 
 #import "AMLFirebaseProtocols.h"
 #import "AMLUserProtocols.h"
+#import "AMLSurveyProtocols.h"
 
 #pragma mark - // DEFINITIONS (Public) //
 
 #import "AMLFirebaseNotifications.h"
 
 @interface AMLDataManager : NSObject <Firebase>
+
+// GENERAL //
+
 + (void)setup;
 + (void)save;
+
+// SURVEYS //
+
++ (id <AMLSurvey_Editable>)survey;
++ (NSSet *)surveysAuthoredByUser:(id <AMLUser>)user;
++ (void)deleteSurvey:(id <AMLSurvey_Editable>)survey;
+
+// DEBUGGING //
+
 + (void)test;
+
 @end

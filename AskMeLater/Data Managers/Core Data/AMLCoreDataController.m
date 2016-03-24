@@ -15,12 +15,6 @@
 #import "AKGenerics.h"
 #import <CoreData/CoreData.h>
 
-#import "AMLUser.h"
-#import "AMLSurvey.h"
-#import "AMLQuestion.h"
-#import "AMLChoice.h"
-#import "AMLResponse.h"
-
 #pragma mark - // DEFINITIONS (Private) //
 
 @interface AMLCoreDataController ()
@@ -120,7 +114,7 @@
 
 #pragma mark - // PUBLIC METHODS (Initializers) //
 
-+ (id <AMLUser_PRIVATE>)userWithUserId:(NSString *)userId email:(NSString *)email {
++ (AMLUser *)userWithUserId:(NSString *)userId email:(NSString *)email {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
     __block AMLUser *user;
@@ -140,7 +134,7 @@
     return user;
 }
 
-+ (id <AMLSurvey_Editable>)surveyWithName:(NSString *)name author:(id <AMLUser>)author {
++ (AMLSurvey *)surveyWithName:(NSString *)name author:(AMLUser *)author {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
     NSManagedObjectContext *managedObjectContext = [AMLCoreDataController managedObjectContext];
@@ -148,14 +142,14 @@
     [managedObjectContext performBlockAndWait:^{
         survey = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([AMLSurvey class]) inManagedObjectContext:managedObjectContext];
         survey.name = name;
-        survey.author = (AMLUser *)author;
+        survey.author = author;
         survey.createdAt = [NSDate date];
         survey.editedAt = survey.createdAt;
     }];
     return survey;
 }
 
-+ (id <AMLQuestion_Editable>)questionWithText:(NSString *)text choices:(NSOrderedSet <id <AMLChoice>> *)choices {
++ (AMLQuestion *)questionWithText:(NSString *)text choices:(NSOrderedSet <AMLChoice *> *)choices {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
     NSManagedObjectContext *managedObjectContext = [AMLCoreDataController managedObjectContext];
@@ -163,12 +157,12 @@
     [managedObjectContext performBlockAndWait:^{
         question = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([AMLQuestion class]) inManagedObjectContext:managedObjectContext];
         question.text = text;
-        question.choices = (NSOrderedSet <AMLChoice *> *)choices;
+        question.choices = choices;
     }];
     return question;
 }
 
-+ (id <AMLChoice_Editable>)choiceWithText:(NSString *)text {
++ (AMLChoice *)choiceWithText:(NSString *)text {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
     NSManagedObjectContext *managedObjectContext = [AMLCoreDataController managedObjectContext];
@@ -180,7 +174,7 @@
     return choice;
 }
 
-+ (id <AMLResponse_Editable>)responseWithText:(NSString *)text user:(id<AMLUser>)user date:(NSDate *)date {
++ (AMLResponse *)responseWithText:(NSString *)text user:(AMLUser *)user date:(NSDate *)date {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
     NSManagedObjectContext *managedObjectContext = [AMLCoreDataController managedObjectContext];
@@ -188,7 +182,7 @@
     [managedObjectContext performBlockAndWait:^{
         response = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([AMLResponse class]) inManagedObjectContext:managedObjectContext];
         response.text = text;
-        response.user = (AMLUser *)user;
+        response.user = user;
         response.date = date;
     }];
     return response;
@@ -196,7 +190,7 @@
 
 #pragma mark - // PUBLIC METHODS (Getters) //
 
-+ (id <AMLUser_PRIVATE>)userWithUserId:(NSString *)userId {
++ (AMLUser *)userWithUserId:(NSString *)userId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
     
     NSManagedObjectContext *managedObjectContext = [AMLCoreDataController managedObjectContext];
@@ -224,6 +218,42 @@
         [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"Found %lu %@ object(s) with %@ %@; returning first object", (unsigned long)foundUsers.count, NSStringFromClass([AMLUser class]), stringFromVariable(userId), userId]];
     }
     return [foundUsers firstObject];
+}
+
++ (NSSet <AMLSurvey *> *)surveysWithAuthor:(AMLUser *)author {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = [AMLCoreDataController managedObjectContext];
+    __block NSArray *foundSurveys;
+    __block NSError *error;
+    [managedObjectContext performBlockAndWait:^{
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:[NSEntityDescription entityForName:NSStringFromClass([AMLSurvey class]) inManagedObjectContext:managedObjectContext]];
+        [request setPredicate:[NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(author)), author]];
+        foundSurveys = [managedObjectContext executeFetchRequest:request error:&error];
+    }];
+    if (error)
+    {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
+    }
+    if (!foundSurveys)
+    {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is nil", stringFromVariable(foundUsers)]];
+        return nil;
+    }
+    
+    return [NSSet setWithArray:foundSurveys];
+}
+
+#pragma mark - // PUBLIC METHODS (Deletors) //
+
++ (void)deleteObject:(NSManagedObject *)object {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeDeletor tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = [AMLCoreDataController managedObjectContext];
+    [managedObjectContext performBlockAndWait:^{
+        [managedObjectContext deleteObject:object];
+    }];
 }
 
 #pragma mark - // CATEGORY METHODS //
