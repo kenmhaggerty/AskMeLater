@@ -23,9 +23,10 @@
 
 NSString * const NotificationFirebaseIsConnectedDidChange = @"kNotificationAMLFirebaseController_IsConnectedDidChange;";
 
-NSString * const FirebaseAPIAuthKeyUID = @"uid";
-NSString * const FirebaseAPIAuthKeyToken = @"token";
-NSString * const FirebaseAPIAuthKeyProfileImageURL = @"profileImageURL";
+NSString * const FirebaseAuthKeyEmail = @"email";
+NSString * const FirebaseAuthKeyUID = @"uid";
+NSString * const FirebaseAuthKeyToken = @"token";
+NSString * const FirebaseAuthKeyProfileImageURL = @"profileImageURL";
 
 NSString * const FirebaseKeyOnlineValue = @"value";
 NSString * const FirebaseKeyPersistValue = @"persist";
@@ -55,6 +56,7 @@ NSString * const FirebaseObserverChildRemoved = @"ChildRemoved";
 + (void)removeObserverAtPath:(NSString *)path forEvent:(FEventType)event;
 + (NSString *)stringForEvent:(FEventType)event;
 + (void)performCompletionBlock:(void (^)(id result))completionBlock withSnapshot:(FDataSnapshot *)snapshot;
++ (NSDictionary *)dictionaryForAuthData:(FAuthData *)authData;
 
 @end
 
@@ -334,11 +336,11 @@ NSString * const FirebaseObserverChildRemoved = @"ChildRemoved";
 
 #pragma mark - // CATEGORY METHODS (Auth) //
 
-+ (BOOL)isAuthenticated {
++ (NSDictionary *)authData {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_ACCOUNTS] message:nil];
     
     FAuthData *authData = [AMLFirebaseController sharedController].firebase.authData;
-    return (authData ? YES : NO);
+    return [AMLFirebaseController dictionaryForAuthData:authData];
 }
 
 + (void)signUpWithEmail:(NSString *)email password:(NSString *)password success:(void (^)(NSDictionary *result))successBlock failure:(void (^)(NSError *error))failureBlock {
@@ -355,7 +357,7 @@ NSString * const FirebaseObserverChildRemoved = @"ChildRemoved";
             return;
         }
         
-        successBlock(result);
+        successBlock([AMLFirebaseController authData]);
     }];
 }
 
@@ -373,8 +375,7 @@ NSString * const FirebaseObserverChildRemoved = @"ChildRemoved";
             return;
         }
         
-        NSDictionary *userInfo = @{FirebaseAPIAuthKeyUID : authData.uid, FirebaseAPIAuthKeyToken : authData.token, FirebaseAPIAuthKeyProfileImageURL : authData.providerData[@"profileImageURL"]};
-        successBlock(userInfo);
+        successBlock([AMLFirebaseController dictionaryForAuthData:authData]);
     }];
 }
 
@@ -541,6 +542,16 @@ NSString * const FirebaseObserverChildRemoved = @"ChildRemoved";
     }
     
     completionBlock(snapshot.value);
+}
+
++ (NSDictionary *)dictionaryForAuthData:(FAuthData *)authData {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_ACCOUNTS] message:nil];
+    
+    if (!authData) {
+        return nil;
+    }
+    
+    return @{FirebaseAuthKeyEmail : [authData.providerData objectForKey:FirebaseAuthKeyEmail], FirebaseAuthKeyUID : authData.uid, FirebaseAuthKeyProfileImageURL : [authData.providerData objectForKey:FirebaseAuthKeyProfileImageURL], FirebaseAuthKeyToken : authData.token};
 }
 
 @end

@@ -59,7 +59,12 @@ NSString * const CurrentUserDidChangeNotification = @"kNotificationCurrentUserDi
 + (BOOL)isLoggedIn {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeValidator tags:@[AKD_ACCOUNTS] message:nil];
     
-    return [AMLFirebaseController isAuthenticated];
+    NSDictionary *authData = [AMLFirebaseController authData];
+    if (!authData) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 + (id <AMLUser_Editable>)currentUser {

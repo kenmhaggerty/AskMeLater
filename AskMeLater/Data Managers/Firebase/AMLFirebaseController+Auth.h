@@ -16,12 +16,13 @@
 
 #pragma mark - // DEFINITIONS //
 
-extern NSString * const FirebaseAPIAuthKeyUID;
-extern NSString * const FirebaseAPIAuthKeyToken;
-extern NSString * const FirebaseAPIAuthKeyProfileImageURL;
+extern NSString * const FirebaseAuthKeyEmail;
+extern NSString * const FirebaseAuthKeyUID;
+extern NSString * const FirebaseAuthKeyToken;
+extern NSString * const FirebaseAuthKeyProfileImageURL;
 
 @interface AMLFirebaseController (Auth)
-+ (BOOL)isAuthenticated;
++ (NSDictionary *)authData;
 + (void)signUpWithEmail:(NSString *)email password:(NSString *)password success:(void (^)(NSDictionary *))successBlock failure:(void (^)(NSError *))failureBlock;
 + (void)loginUserWithEmail:(NSString *)email password:(NSString *)password success:(void (^)(NSDictionary *))successBlock failure:(void (^)(NSError *))failureBlock;
 + (void)logout;
