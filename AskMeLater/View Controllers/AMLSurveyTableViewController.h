@@ -20,5 +20,5 @@
 #pragma mark - // DEFINITIONS (Public) //
 
 @interface AMLSurveyTableViewController : UITableViewController <AMLSurveyUI>
-@property (nonatomic, strong) AMLMockSurvey *survey;
+@property (nonatomic, strong) id <AMLSurvey> survey;
 @end

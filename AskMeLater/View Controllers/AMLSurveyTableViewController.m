@@ -47,7 +47,7 @@ NSString * const AddCellReuseIdentifier = @"addCell";
 
 #pragma mark - // SETTERS AND GETTERS //
 
-- (void)setSurvey:(AMLMockSurvey *)survey {
+- (void)setSurvey:(id <AMLSurvey>)survey {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:nil message:nil];
     
     if ([AKGenerics object:survey isEqualToObject:_survey]) {
@@ -86,7 +86,8 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     [_alertRenameSurvey addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
     [_alertRenameSurvey addAction:[UIAlertAction actionWithTitle:@"Rename" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSString *title = _alertRenameSurvey.textFields[0].text;
-        self.survey.name = title.length ? title : nil;
+        id <AMLSurvey_Editable> survey = (id <AMLSurvey_Editable>)self.survey;
+        survey.name = title.length ? title : nil;
     }]];
     
     return _alertRenameSurvey;
