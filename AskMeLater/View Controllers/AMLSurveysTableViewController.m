@@ -16,7 +16,7 @@
 
 #import "AMLLoginManager.h"
 #import "AMLDataManager.h"
-#import "AMLMockSurvey.h" // temp
+#import "AMLSurveyProtocols.h"
 
 #import "AMLSurveyUIProtocol.h"
 
@@ -28,7 +28,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
 
 @interface AMLSurveysTableViewController ()
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *addButton;
-@property (nonatomic, strong) NSMutableArray <AMLMockSurvey *> *surveys;
+@property (nonatomic, strong) NSMutableOrderedSet <id <AMLSurvey>> *surveys;
 @property (nonatomic, strong) UIAlertController *alertSettings;
 
 // ACTIONS //
@@ -55,7 +55,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
 
 #pragma mark - // SETTERS AND GETTERS //
 
-- (void)setSurveys:(NSMutableArray <AMLMockSurvey *> *)surveys {
+- (void)setSurveys:(NSMutableOrderedSet <id <AMLSurvey>> *)surveys {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:nil message:nil];
     
     if ([AKGenerics object:surveys isEqualToObject:_surveys]) {
@@ -152,9 +152,9 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
     
     UITableViewCell *cell = [AKGenerics cellWithReuseIdentifier:REUSE_IDENTIFIER class:[UITableViewCell class] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
-    AMLMockSurvey *survey = self.surveys[indexPath.row];
-    cell.textLabel.text = survey.name;
-    cell.detailTextLabel.text = [AMLSurveysTableViewController stringForDate:survey.createdAt];
+    id <AMLSurvey> survey = self.surveys[indexPath.row];
+    cell.textLabel.text = survey.name ?: AMLSurveyNamePlaceholder;
+    cell.detailTextLabel.text = [AMLSurveysTableViewController stringForDate:survey.editedAt];
     return cell;
 }
 
@@ -183,7 +183,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     
     [super setup];
     
-    _surveys = [NSMutableArray array];
+    _surveys = [NSMutableOrderedSet orderedSet];
     
     [self addObserversToLoginManager];
 }
@@ -215,8 +215,8 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     
     if ([destinationViewController conformsToProtocol:@protocol(AMLSurveyUI)]) {
         UIViewController <AMLSurveyUI> *surveyViewController = (UIViewController <AMLSurveyUI> *)destinationViewController;
-        if ([sender isKindOfClass:[AMLMockSurvey class]]) {
-            surveyViewController.survey = (AMLMockSurvey *)sender;
+        if ([sender conformsToProtocol:@protocol(AMLSurvey)]) {
+            surveyViewController.survey = (id <AMLSurvey>)sender;
         }
     }
 }
@@ -234,8 +234,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
 - (IBAction)newSurvey:(id)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
-//    id <AMLSurvey> survey = [AMLDataManager survey];
-    AMLMockSurvey *survey = [[AMLMockSurvey alloc] init];
+    id <AMLSurvey> survey = [AMLDataManager survey];
     [self.surveys insertObject:survey atIndex:0];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [CATransaction begin];
