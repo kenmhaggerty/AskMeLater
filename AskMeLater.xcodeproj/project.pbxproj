@@ -302,6 +302,10 @@
 				7D12CAC61C8A30280021519B /* AskMeLater.xcdatamodeld */,
 				7D12CB201C8A69FC0021519B /* AMLCoreDataController */,
 				7D12CB1C1C8A69660021519B /* AMLUser */,
+				7DE38D6F1C99D728000A02F0 /* AMLSurvey */,
+				7DE38D701C99D72E000A02F0 /* AMLResponse */,
+				7DE38D711C99D734000A02F0 /* AMLQuestion */,
+				7DE38D721C99D73C000A02F0 /* AMLChoice */,
 			);
 			path = "Core Data";
 			sourceTree = "<group>";
@@ -391,6 +395,10 @@
 			isa = PBXGroup;
 			children = (
 				7D12CB121C8A4F9E0021519B /* AMLUserProtocols.h */,
+				7DE38D531C99BA32000A02F0 /* AMLSurveyProtocols.h */,
+				7DE38D541C99BA88000A02F0 /* AMLQuestionProtocols.h */,
+				7DE38D561C99BC67000A02F0 /* AMLChoiceProtocols.h */,
+				7DE38D551C99BAB3000A02F0 /* AMLResponseProtocols.h */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -805,8 +813,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DE38D6E1C99D6EB000A02F0 /* AMLChoice.m in Sources */,
 				7D12CB041C8A49760021519B /* AKDebuggerRules.m in Sources */,
 				7D12CAFE1C8A49560021519B /* AKDebugger.m in Sources */,
+				7DE38D691C99D6EB000A02F0 /* AMLResponse+CoreDataProperties.m in Sources */,
 				7D12CB101C8A4EBA0021519B /* AMLLoginManager.m in Sources */,
 				7D12CB011C8A49660021519B /* AKGenerics.m in Sources */,
 				7DE38D8B1C9C5EF4000A02F0 /* UITableView+Extras.m in Sources */,
@@ -823,6 +833,9 @@
 				7DE38D7C1C9A0C18000A02F0 /* AMLSurveysTableViewController.m in Sources */,
 				7D12CABF1C8A30280021519B /* AppDelegate.m in Sources */,
 				7D7DE7F11C8B6D8100FFA637 /* AMLDataManager.m in Sources */,
+				7DE38D6B1C99D6EB000A02F0 /* AMLQuestion+CoreDataProperties.m in Sources */,
+				7DE38D671C99D6EB000A02F0 /* AMLSurvey+CoreDataProperties.m in Sources */,
+				7DE38D6D1C99D6EB000A02F0 /* AMLChoice+CoreDataProperties.m in Sources */,
 				7D12CB081C8A4A7D0021519B /* NSObject+Basics.m in Sources */,
 				7DE38D851C9A0C45000A02F0 /* AMLResultsViewController.m in Sources */,
 				7DE38D7F1C9A0C21000A02F0 /* AMLSurveyTableViewController.m in Sources */,
@@ -831,6 +844,7 @@
 				7D5A65651CA0799800D7AE8D /* UIViewController+Keyboard.m in Sources */,
 				7D12CB1A1C8A69610021519B /* AMLUser+CoreDataProperties.m in Sources */,
 				7DDE78531C93234D00241A80 /* AMLFirebaseQuery.m in Sources */,
+				7DE38D6A1C99D6EB000A02F0 /* AMLResponse.m in Sources */,
 				7D12CB1F1C8A69F20021519B /* AMLCoreDataController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

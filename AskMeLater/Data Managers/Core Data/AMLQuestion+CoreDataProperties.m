@@ -1,29 +1,33 @@
 //
-//  AMLUser.m
+//  AMLQuestion+CoreDataProperties.m
 //  AskMeLater
 //
-//  Created by Ken M. Haggerty on 3/4/16.
+//  Created by Ken M. Haggerty on 3/16/16.
 //  Copyright © 2016 Flatiron School. All rights reserved.
+//
+//  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
+//  to delete and recreate this implementation file for your updated model.
 //
 
 #pragma mark - // NOTES (Private) //
 
 #pragma mark - // IMPORTS (Private) //
 
-#import "AMLUser.h"
-#import "AMLSurvey.h"
-#import "AMLResponse.h"
+#import "AMLQuestion+CoreDataProperties.h"
 #import "AKDebugger.h"
 #import "AKGenerics.h"
 
 #pragma mark - // DEFINITIONS (Private) //
 
-@interface AMLUser ()
-@end
-
-@implementation AMLUser
+@implementation AMLQuestion (CoreDataProperties)
 
 #pragma mark - // SETTERS AND GETTERS //
+
+@dynamic text;
+@dynamic secure;
+@dynamic responses;
+@dynamic choices;
+@dynamic survey;
 
 #pragma mark - // INITS AND LOADS //
 

@@ -16,6 +16,10 @@
 #import <CoreData/CoreData.h>
 
 #import "AMLUser.h"
+#import "AMLSurvey.h"
+#import "AMLQuestion.h"
+#import "AMLChoice.h"
+#import "AMLResponse.h"
 
 #pragma mark - // DEFINITIONS (Private) //
 
@@ -28,12 +32,11 @@
 
 + (instancetype)sharedController;
 + (NSManagedObjectContext *)managedObjectContext;
++ (NSURL *)applicationDocumentsDirectory;
 
-// CORE DATA //
+// GETTERS //
 
-- (NSURL *)applicationDocumentsDirectory;
 + (id <AMLUser>)getUserWithEmail:(NSString *)email;
-+ (id <AMLUser_Editable>)createUserWithEmail:(NSString *)email;
 
 @end
 
@@ -82,7 +85,7 @@
     }
     
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"AskMeLater.sqlite"];
+    NSURL *storeURL = [[AMLCoreDataController applicationDocumentsDirectory] URLByAppendingPathComponent:@"AskMeLater.sqlite"];
     NSError *error;
     NSString *failureReason = @"There was an error creating or loading the application's saved data.";
     if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
@@ -102,18 +105,7 @@
 
 #pragma mark - // INITS AND LOADS //
 
-#pragma mark - // PUBLIC METHODS //
-
-+ (id <AMLUser>)userWithEmail:(NSString *)email {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
-    
-    id <AMLUser> user = [AMLCoreDataController getUserWithEmail:email];
-    if (user) {
-        return user;
-    }
-    
-    return [AMLCoreDataController createUserWithEmail:email];
-}
+#pragma mark - // PUBLIC METHODS (General) //
 
 + (void)save {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
@@ -128,6 +120,86 @@
             abort();
         }
     }
+}
+
+#pragma mark - // PUBLIC METHODS (Initializers) //
+
++ (id <AMLUser>)userWithEmail:(NSString *)email {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    id <AMLUser> user = [AMLCoreDataController getUserWithEmail:email];
+    if (user) {
+        return user;
+    }
+    
+    return [AMLCoreDataController userWithUsername:nil email:email];
+}
+
++ (id <AMLUser_Editable>)userWithUsername:(NSString *)username email:(NSString *)email {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = [AMLCoreDataController managedObjectContext];
+    __block AMLUser *user;
+    [managedObjectContext performBlockAndWait:^{
+        user = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([AMLUser class]) inManagedObjectContext:managedObjectContext];
+        user.email = email;
+        user.createdAt = [NSDate date];
+    }];
+    return user;
+}
+
++ (id <AMLSurvey_Editable>)surveyWithName:(NSString *)name author:(id <AMLUser>)author {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = [AMLCoreDataController managedObjectContext];
+    __block AMLSurvey *survey;
+    [managedObjectContext performBlockAndWait:^{
+        survey = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([AMLSurvey class]) inManagedObjectContext:managedObjectContext];
+        survey.name = name;
+        survey.author = (AMLUser *)author;
+        survey.createdAt = [NSDate date];
+        survey.editedAt = survey.createdAt;
+    }];
+    return survey;
+}
+
++ (id <AMLQuestion_Editable>)questionWithText:(NSString *)text choices:(NSOrderedSet <id <AMLChoice>> *)choices {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = [AMLCoreDataController managedObjectContext];
+    __block AMLQuestion *question;
+    [managedObjectContext performBlockAndWait:^{
+        question = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([AMLQuestion class]) inManagedObjectContext:managedObjectContext];
+        question.text = text;
+        question.choices = (NSOrderedSet <AMLChoice *> *)choices;
+    }];
+    return question;
+}
+
++ (id <AMLChoice_Editable>)choiceWithText:(NSString *)text {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = [AMLCoreDataController managedObjectContext];
+    __block AMLChoice *choice;
+    [managedObjectContext performBlockAndWait:^{
+        choice = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([AMLChoice class]) inManagedObjectContext:managedObjectContext];
+        choice.text = text;
+    }];
+    return choice;
+}
+
++ (id <AMLResponse_Editable>)responseWithText:(NSString *)text user:(id<AMLUser>)user date:(NSDate *)date {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = [AMLCoreDataController managedObjectContext];
+    __block AMLResponse *response;
+    [managedObjectContext performBlockAndWait:^{
+        response = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([AMLResponse class]) inManagedObjectContext:managedObjectContext];
+        response.text = text;
+        response.user = (AMLUser *)user;
+        response.date = date;
+    }];
+    return response;
 }
 
 #pragma mark - // CATEGORY METHODS //
@@ -155,15 +227,15 @@
     return [AMLCoreDataController sharedController].managedObjectContext;
 }
 
-#pragma mark - // PRIVATE METHODS (Core Data) //
-
-- (NSURL *)applicationDocumentsDirectory {
++ (NSURL *)applicationDocumentsDirectory {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
     
     // The directory the application uses to store the Core Data store file. This code uses a directory named "com.flatiron-school.learn.ios.AskMeLater" in the application's documents directory.
     
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
+
+#pragma mark - // PRIVATE METHODS (Getters) //
 
 + (id <AMLUser_Editable>)getUserWithEmail:(NSString *)email {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
@@ -193,19 +265,6 @@
         [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"Found %lu %@ object(s) with %@ %@; returning first object", (unsigned long)foundUsers.count, NSStringFromClass([AMLUser class]), stringFromVariable(email), email]];
     }
     return [foundUsers firstObject];
-}
-
-+ (id <AMLUser_Editable>)createUserWithEmail:(NSString *)email {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
-    
-    NSManagedObjectContext *managedObjectContext = [AMLCoreDataController managedObjectContext];
-    __block AMLUser *user;
-    [managedObjectContext performBlockAndWait:^{
-        user = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([AMLUser class]) inManagedObjectContext:managedObjectContext];
-        user.email = email;
-        user.createdAt = [NSDate date];
-    }];
-    return user;
 }
 
 @end
