@@ -34,18 +34,17 @@
 - (id)init {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:nil];
     
-    return [self initWithText:@"What would you like to do with this article?" leftChoice:@"Save for Later" rightChoice:@"Share"];
+    return [self initWithText:@"What would you like to do with this article?" choices:@[@"Save for Later", @"Share"]];
 }
 
-- (id)initWithText:(NSString *)text leftChoice:(NSString *)leftChoice rightChoice:(NSString *)rightChoice {
+- (id)initWithText:(NSString *)text choices:(NSArray <NSString *> *)choices {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:nil];
     
     self = [super init];
     if (self) {
         [self setup];
         _text = text;
-        _leftChoice = leftChoice;
-        _rightChoice = rightChoice;
+        _choices = [NSMutableArray arrayWithArray:[choices subarrayWithRange:NSMakeRange(0, MIN(choices.count, 2))]];
     }
     return self;
 }

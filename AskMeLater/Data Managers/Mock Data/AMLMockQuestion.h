@@ -19,12 +19,11 @@
 
 @interface AMLMockQuestion : NSObject
 @property (nonatomic, strong) NSString *text;
-@property (nonatomic, strong) NSString *leftChoice;
-@property (nonatomic, strong) NSString *rightChoice;
+@property (nonatomic, strong) NSMutableArray <NSString *> *choices;
 
 // INITIALIZERS //
 
 - (id)init;
-- (id)initWithText:(NSString *)text leftChoice:(NSString *)leftChoice rightChoice:(NSString *)rightChoice;
+- (id)initWithText:(NSString *)text choices:(NSArray <NSString *> *)choices;
 
 @end

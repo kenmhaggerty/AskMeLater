@@ -110,7 +110,8 @@ NSString * const AddCellReuseIdentifier = @"addCell";
         [CATransaction setCompletionBlock: ^{
             NSString *text = _alertEditChoice.textFields[0].text;
             AMLMockQuestion *question = (AMLMockQuestion *)_alertEditChoice.info[NOTIFICATION_OBJECT_KEY];
-            [question performSelector:[_alertEditChoice.info[NOTIFICATION_SECONDARY_KEY] pointerValue] withObject:(text.length ? text : nil)];
+            NSUInteger index = ((NSNumber *)_alertEditChoice.info[NOTIFICATION_SECONDARY_KEY]).integerValue;
+            question.choices[index] = (text.length ? text : nil);
         }];
         [self.tableView setEditing:NO animated:YES];
         [CATransaction commit];
@@ -265,19 +266,24 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     }
     
     AMLMockQuestion *question = self.questions[indexPath.row];
-    UITableViewRowAction *leftAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:(question.leftChoice ?: @"(blank)") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        self.alertEditChoice.textFields[0].text = question.leftChoice;
-        self.alertEditChoice.info = @{NOTIFICATION_OBJECT_KEY : question, NOTIFICATION_SECONDARY_KEY : [NSValue valueWithPointer:@selector(setLeftChoice:)]};
+    
+    NSString *primaryString = question.choices[0];
+    UITableViewRowAction *primaryAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:(primaryString ?: @"(blank)") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        self.alertEditChoice.textFields[0].text = primaryString;
+        self.alertEditChoice.info = @{NOTIFICATION_OBJECT_KEY : question, NOTIFICATION_SECONDARY_KEY : [NSNumber numberWithInteger:0]};
         [self presentViewController:self.alertEditChoice animated:YES completion:nil];
     }];
-    leftAction.backgroundColor = [UIColor colorWithWhite:0.75f alpha:1.0f];
-    UITableViewRowAction *rightAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:(question.rightChoice ?: @"(blank)") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        self.alertEditChoice.textFields[0].text = question.rightChoice;
-        self.alertEditChoice.info = @{NOTIFICATION_OBJECT_KEY : question, NOTIFICATION_SECONDARY_KEY : [NSValue valueWithPointer:@selector(setRightChoice:)]};
+    primaryAction.backgroundColor = self.view.tintColor;
+    
+    NSString *secondaryString = question.choices[1];
+    UITableViewRowAction *secondaryAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:(secondaryString ?: @"(blank)") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        self.alertEditChoice.textFields[0].text = secondaryString;
+        self.alertEditChoice.info = @{NOTIFICATION_OBJECT_KEY : question, NOTIFICATION_SECONDARY_KEY : [NSNumber numberWithInteger:1]};
         [self presentViewController:self.alertEditChoice animated:YES completion:nil];
     }];
-    rightAction.backgroundColor = self.view.tintColor;
-    return @[rightAction, leftAction];
+    secondaryAction.backgroundColor = [UIColor colorWithWhite:0.75f alpha:1.0f];
+    
+    return @[primaryAction, secondaryAction];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
