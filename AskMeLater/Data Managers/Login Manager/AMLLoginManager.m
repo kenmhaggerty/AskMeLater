@@ -73,9 +73,7 @@ NSString * const CurrentUserDidChangeNotification = @"kNotificationCurrentUserDi
     
     [AMLFirebaseController signUpWithEmail:email password:password success:^(NSDictionary *result) {
         
-        id <AMLUser_Editable> currentUser = (id <AMLUser_Editable>)[AMLCoreDataController userWithEmail:email];
-        [AMLLoginManager setCurrentUser:currentUser];
-        successBlock(currentUser);
+        [AMLLoginManager loginWithEmail:email password:password success:successBlock failure:failureBlock];
         
     } failure:^(NSError *error) {
         failureBlock(error);
