@@ -329,9 +329,9 @@
 				7D12CB201C8A69FC0021519B /* AMLCoreDataController */,
 				7D12CB1C1C8A69660021519B /* AMLUser */,
 				7DE38D6F1C99D728000A02F0 /* AMLSurvey */,
-				7DE38D701C99D72E000A02F0 /* AMLResponse */,
 				7DE38D711C99D734000A02F0 /* AMLQuestion */,
 				7DE38D721C99D73C000A02F0 /* AMLChoice */,
+				7DE38D701C99D72E000A02F0 /* AMLResponse */,
 			);
 			path = "Core Data";
 			sourceTree = "<group>";
