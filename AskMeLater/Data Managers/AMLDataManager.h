@@ -15,6 +15,7 @@
 #pragma mark - // PROTOCOLS //
 
 #import "AMLFirebaseProtocols.h"
+#import "AMLUserProtocols.h"
 
 #pragma mark - // DEFINITIONS (Public) //
 
