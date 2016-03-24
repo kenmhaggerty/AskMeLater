@@ -23,8 +23,6 @@
 
 #pragma mark - // DEFINITIONS (Private) //
 
-NSString * const UnnamedSurveyTitle = @"(unnamed survey)";
-
 NSString * const AddCellReuseIdentifier = @"addCell";
 
 @interface AMLSurveyTableViewController () <AMLSurveyTableViewCellDelegate>
@@ -378,7 +376,7 @@ NSString * const AddCellReuseIdentifier = @"addCell";
 - (void)setTitle:(NSString *)title {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_UI] message:nil];
     
-    [super setTitle:title ?: UnnamedSurveyTitle];
+    [super setTitle:title];
     
     self.tabBarItem.title = @"Survey";
     
@@ -388,7 +386,7 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     label.userInteractionEnabled = YES;
     [label addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(titleWasTapped:)]];
     
-    label.text = title ?: UnnamedSurveyTitle;
+    label.text = title ?: AMLSurveyNamePlaceholder;
     label.textColor = title ? [UIColor blackColor] : [UIColor lightGrayColor];
     [label sizeToFit];
     
