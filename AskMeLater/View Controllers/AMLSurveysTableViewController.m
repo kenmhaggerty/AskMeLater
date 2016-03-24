@@ -40,10 +40,13 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
 
 - (void)addObserversToLoginManager;
 - (void)removeObserversFromLoginManager;
+- (void)addObserversToSurvey:(id <AMLSurvey>)survey;
+- (void)removeObserversFromSurvey:(id <AMLSurvey>)survey;
 
 // RESPONDERS //
 
 - (void)currentUserDidChange:(NSNotification *)notification;
+- (void)surveyNameDidChange:(NSNotification *)notification;
 
 // OTHER //
 
@@ -62,8 +65,17 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
         return;
     }
     
+    for (id <AMLSurvey> survey in _surveys) {
+        [self removeObserversFromSurvey:survey];
+    }
+    
     _surveys = surveys;
     
+    for (id <AMLSurvey> survey in surveys) {
+        [self addObserversToSurvey:survey];
+    }
+    
+#warning TO DO – Loading indicator if surveys is nil
     [self.tableView reloadData];
 }
 
@@ -97,6 +109,12 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
 
 #pragma mark - // INITS AND LOADS //
 
+- (void)dealloc {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    [self teardown];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
     
@@ -104,7 +122,6 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     if (self) {
         [self setup];
     }
-    
     return self;
 }
 
@@ -235,6 +252,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
     id <AMLSurvey> survey = [AMLDataManager survey];
+    [self addObserversToSurvey:survey];
     [self.surveys insertObject:survey atIndex:0];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [CATransaction begin];
@@ -262,6 +280,22 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     [[NSNotificationCenter defaultCenter] removeObserver:self name:CurrentUserDidChangeNotification object:nil];
 }
 
+- (void)addObserversToSurvey:(id <AMLSurvey>)survey {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyDidChange:) name:NOTIFICATION_AMLSURVEY_NAME_DID_CHANGE object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyDidChange:) name:NOTIFICATION_AMLSURVEY_EDITEDAT_DID_CHANGE object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyWillBeDeleted:) name:NOTIFICATION_AMLSURVEY_WILL_BE_DELETED object:survey];
+}
+
+- (void)removeObserversFromSurvey:(id <AMLSurvey>)survey {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_AMLSURVEY_NAME_DID_CHANGE object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_AMLSURVEY_EDITEDAT_DID_CHANGE object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_AMLSURVEY_WILL_BE_DELETED object:survey];
+}
+
 #pragma mark - // PRIVATE METHODS (Responders) //
 
 - (void)currentUserDidChange:(NSNotification *)notification {
@@ -270,6 +304,21 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     if (!notification.userInfo[NOTIFICATION_OBJECT_KEY]) {
         [self performSegueWithIdentifier:SEGUE_LOGIN sender:self];
     }
+}
+
+- (void)surveyDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.surveys indexOfObject:notification.object] inSection:0];
+    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)surveyWillBeDeleted:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.surveys indexOfObject:notification.object] inSection:0];
+    [self.surveys removeObject:notification.object];
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - // PRIVATE METHODS (Other) //
