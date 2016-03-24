@@ -41,6 +41,15 @@ NSString * const AddCellReuseIdentifier = @"addCell";
 - (IBAction)doneEditing:(id)sender;
 - (IBAction)addQuestion:(id)sender;
 
+// OBSERVERS //
+
+- (void)addObserversToSurvey:(id <AMLSurvey>)survey;
+- (void)removeObserversFromSurvey:(id <AMLSurvey>)survey;
+
+// RESPONDERS //
+
+- (void)surveyNameDidChange:(NSNotification *)notification;
+
 @end
 
 @implementation AMLSurveyTableViewController
@@ -54,7 +63,15 @@ NSString * const AddCellReuseIdentifier = @"addCell";
         return;
     }
     
+    if (_survey) {
+        [self removeObserversFromSurvey:_survey];
+    }
+    
     _survey = survey;
+    
+    if (survey) {
+        [self addObserversToSurvey:survey];
+    }
     
     self.title = survey.name;
 }
@@ -421,6 +438,28 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
     [self.tableView endUpdates];
     [CATransaction commit];
+}
+
+#pragma mark - // PRIVATE METHODS (Observers) //
+
+- (void)addObserversToSurvey:(id <AMLSurvey>)survey {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyNameDidChange:) name:NOTIFICATION_AMLSURVEY_NAME_DID_CHANGE object:survey];
+}
+
+- (void)removeObserversFromSurvey:(id <AMLSurvey>)survey {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_AMLSURVEY_NAME_DID_CHANGE object:survey];
+}
+
+#pragma mark - // PRIVATE METHODS (Responders) //
+
+- (void)surveyNameDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
+    
+    self.title = self.survey.name;
 }
 
 @end
