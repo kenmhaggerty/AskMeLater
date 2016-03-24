@@ -303,7 +303,19 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
 - (void)currentUserDidChange:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_ACCOUNTS] message:nil];
     
-    if (!notification.userInfo[NOTIFICATION_OBJECT_KEY]) {
+    id <AMLUser> currentUser = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    if (currentUser) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSMutableOrderedSet *surveys = [NSMutableOrderedSet orderedSetWithSet:[AMLDataManager surveysAuthoredByUser:currentUser]];
+            NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(editedAt)) ascending:NO];
+            [surveys sortUsingDescriptors:@[sortDescriptor]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.surveys = surveys;
+            });
+        });
+    }
+    else {
+        self.surveys = nil;
         [self performSegueWithIdentifier:SEGUE_LOGIN sender:self];
     }
 }
