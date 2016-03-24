@@ -35,6 +35,23 @@ NSString * const CurrentUserDidChangeNotification = @"kNotificationCurrentUserDi
 
 #pragma mark - // SETTERS AND GETTERS //
 
+- (void)setCurrentUser:(id <AMLUser_Editable>)currentUser {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_ACCOUNTS] message:nil];
+    
+    if ([AKGenerics object:currentUser isEqualToObject:_currentUser]) {
+        return;
+    }
+    
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    if (currentUser) {
+        [userInfo setObject:currentUser forKey:NOTIFICATION_OBJECT_KEY];
+    }
+    
+    _currentUser = currentUser;
+    
+    [AKGenerics postNotificationName:CurrentUserDidChangeNotification object:nil userInfo:userInfo];
+}
+
 #pragma mark - // INITS AND LOADS //
 
 #pragma mark - // PUBLIC METHODS //
