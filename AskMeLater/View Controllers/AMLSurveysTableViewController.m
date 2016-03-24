@@ -171,6 +171,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     UITableViewCell *cell = [AKGenerics cellWithReuseIdentifier:REUSE_IDENTIFIER class:[UITableViewCell class] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
     id <AMLSurvey> survey = self.surveys[indexPath.row];
     cell.textLabel.text = survey.name ?: AMLSurveyNamePlaceholder;
+    cell.textLabel.textColor = (survey.name ? [UIColor blackColor] : [UIColor lightGrayColor]);
     cell.detailTextLabel.text = [AMLSurveysTableViewController stringForDate:survey.editedAt];
     return cell;
 }
