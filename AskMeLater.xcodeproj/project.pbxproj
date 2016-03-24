@@ -618,6 +618,7 @@
 				TargetAttributes = {
 					7D12CAB61C8A30280021519B = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = 2D5JKD3JJW;
 					};
 					7D12CAD21C8A30280021519B = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -970,10 +971,13 @@
 			baseConfigurationReference = 3D490ED1FC4977E9D9D80EA9 /* Pods-AskMeLater.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = AskMeLater/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.flatiron-school.learn.ios.AskMeLater";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -982,10 +986,13 @@
 			baseConfigurationReference = 263DC32B942DCCBFA258DB96 /* Pods-AskMeLater.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = AskMeLater/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.flatiron-school.learn.ios.AskMeLater";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
