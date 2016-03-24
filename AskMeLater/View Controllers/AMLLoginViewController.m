@@ -284,14 +284,15 @@
 - (void)showPasswordConfirmation:(BOOL)show animated:(BOOL)animated {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
-    self.constraintConfirmPassword.active = show;
+    self.textFieldPassword.returnKeyType = show ? UIReturnKeyNext : UIReturnKeyGo;
+    self.textFieldConfirmPassword.userInteractionEnabled = show;
     [self.switchButton setTitle:(show ? @"Already have an account?" : @"Create account") forState:UIControlStateNormal];
     [self.switchButton setTitle:(show ? @"Already have an account?" : @"Create account") forState:UIControlStateHighlighted];
     [self.switchButton setTitle:(show ? @"Already have an account?" : @"Create account") forState:UIControlStateSelected];
     [self.submitButton setTitle:(show ? @"Create account" : @"Sign in") forState:UIControlStateNormal];
     [self.submitButton setTitle:(show ? @"Create account" : @"Sign in") forState:UIControlStateHighlighted];
     [self.submitButton setTitle:(show ? @"Create account" : @"Sign in") forState:UIControlStateSelected];
-    self.textFieldPassword.returnKeyType = show ? UIReturnKeyNext : UIReturnKeyGo;
+    self.constraintConfirmPassword.active = show;
     
     [self.view setNeedsUpdateConstraints];
     [UIView animateWithDuration:(animated ? 0.18f : 0.0f) animations:^{
