@@ -39,6 +39,12 @@ NSString * const CurrentUserDidChangeNotification = @"kNotificationCurrentUserDi
 
 #pragma mark - // PUBLIC METHODS //
 
++ (BOOL)isLoggedIn {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeValidator tags:@[AKD_ACCOUNTS] message:nil];
+    
+    return [AMLFirebaseController isAuthenticated];
+}
+
 + (id <AMLUser_Editable>)currentUser {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_ACCOUNTS] message:nil];
     

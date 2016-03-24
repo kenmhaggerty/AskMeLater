@@ -21,6 +21,7 @@
 extern NSString * const CurrentUserDidChangeNotification;
 
 @interface AMLLoginManager : NSObject
++ (BOOL)isLoggedIn;
 + (id <AMLUser_Editable>)currentUser;
 + (void)signUpWithEmail:(NSString *)email password:(NSString *)password success:(void (^)(id <AMLUser_Editable>))successBlock failure:(void (^)(NSError *))failureBlock;
 + (void)loginWithEmail:(NSString *)email password:(NSString *)password success:(void (^)(id <AMLUser_Editable>))successBlock failure:(void (^)(NSError *))failureBlock;

@@ -334,6 +334,13 @@ NSString * const FirebaseObserverChildRemoved = @"ChildRemoved";
 
 #pragma mark - // CATEGORY METHODS (Auth) //
 
++ (BOOL)isAuthenticated {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_ACCOUNTS] message:nil];
+    
+    FAuthData *authData = [AMLFirebaseController sharedController].firebase.authData;
+    return (authData ? YES : NO);
+}
+
 + (void)signUpWithEmail:(NSString *)email password:(NSString *)password success:(void (^)(NSDictionary *result))successBlock failure:(void (^)(NSError *error))failureBlock {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_ACCOUNTS] message:nil];
     
