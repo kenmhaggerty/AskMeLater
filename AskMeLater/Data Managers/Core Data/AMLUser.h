@@ -23,9 +23,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AMLUser : NSManagedObject <AMLUser_Editable>
+@interface AMLUser : NSManagedObject <AMLUser_PRIVATE>
 
-// Insert code here to declare functionality of your managed object subclass
+- (void)setAvatar:(UIImage *)avatar;
+- (UIImage *)avatar;
 
 @end
 

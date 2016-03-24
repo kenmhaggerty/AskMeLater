@@ -23,8 +23,10 @@
 
 #pragma mark - // SETTERS AND GETTERS //
 
+@dynamic avatarData;
 @dynamic createdAt;
 @dynamic email;
+@dynamic userId;
 @dynamic username;
 
 #pragma mark - // INITS AND LOADS //

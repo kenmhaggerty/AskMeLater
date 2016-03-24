@@ -23,8 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AMLUser (CoreDataProperties)
 
+@property (nullable, nonatomic, retain) NSData *avatarData;
 @property (nullable, nonatomic, retain) NSDate *createdAt;
 @property (nullable, nonatomic, retain) NSString *email;
+@property (nullable, nonatomic, retain) NSString *userId;
 @property (nullable, nonatomic, retain) NSString *username;
 
 @end

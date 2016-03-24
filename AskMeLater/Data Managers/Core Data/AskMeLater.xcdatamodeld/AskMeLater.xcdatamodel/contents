@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15D21" minimumToolsVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="15E65" minimumToolsVersion="Automatic">
     <entity name="AMLChoice" representedClassName="AMLChoice" syncable="YES">
         <attribute name="text" attributeType="String" syncable="YES"/>
         <attribute name="textInput" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
@@ -29,17 +29,19 @@
         <relationship name="questions" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="AMLQuestion" inverseName="survey" inverseEntity="AMLQuestion" syncable="YES"/>
     </entity>
     <entity name="AMLUser" representedClassName="AMLUser" syncable="YES">
+        <attribute name="avatarData" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="createdAt" attributeType="Date" syncable="YES"/>
         <attribute name="email" attributeType="String" syncable="YES"/>
+        <attribute name="userId" attributeType="String" syncable="YES"/>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="responses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AMLResponse" inverseName="user" inverseEntity="AMLResponse" syncable="YES"/>
         <relationship name="surveys" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AMLSurvey" inverseName="author" inverseEntity="AMLSurvey" syncable="YES"/>
     </entity>
     <elements>
-        <element name="AMLUser" positionX="-72" positionY="216" width="128" height="118"/>
-        <element name="AMLSurvey" positionX="144" positionY="216" width="128" height="163"/>
-        <element name="AMLQuestion" positionX="360" positionY="216" width="128" height="118"/>
         <element name="AMLChoice" positionX="360" positionY="432" width="128" height="88"/>
+        <element name="AMLQuestion" positionX="360" positionY="216" width="128" height="118"/>
         <element name="AMLResponse" positionX="142" positionY="432" width="128" height="103"/>
+        <element name="AMLSurvey" positionX="144" positionY="216" width="128" height="163"/>
+        <element name="AMLUser" positionX="-72" positionY="216" width="128" height="148"/>
     </elements>
 </model>

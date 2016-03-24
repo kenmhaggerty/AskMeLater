@@ -34,10 +34,6 @@
 + (NSManagedObjectContext *)managedObjectContext;
 + (NSURL *)applicationDocumentsDirectory;
 
-// GETTERS //
-
-+ (id <AMLUser>)getUserWithEmail:(NSString *)email;
-
 @end
 
 @implementation AMLCoreDataController
@@ -124,25 +120,21 @@
 
 #pragma mark - // PUBLIC METHODS (Initializers) //
 
-+ (id <AMLUser>)userWithEmail:(NSString *)email {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
++ (id <AMLUser_PRIVATE>)userWithUserId:(NSString *)userId email:(NSString *)email {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
-    id <AMLUser> user = [AMLCoreDataController getUserWithEmail:email];
+    __block AMLUser *user;
+    user = [AMLCoreDataController userWithUserId:userId];
     if (user) {
+        user.email = email;
         return user;
     }
     
-    return [AMLCoreDataController userWithUsername:nil email:email];
-}
-
-+ (id <AMLUser_Editable>)userWithUsername:(NSString *)username email:(NSString *)email {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
-    
     NSManagedObjectContext *managedObjectContext = [AMLCoreDataController managedObjectContext];
-    __block AMLUser *user;
     [managedObjectContext performBlockAndWait:^{
         user = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([AMLUser class]) inManagedObjectContext:managedObjectContext];
         user.email = email;
+        user.userId = userId;
         user.createdAt = [NSDate date];
     }];
     return user;
@@ -202,6 +194,38 @@
     return response;
 }
 
+#pragma mark - // PUBLIC METHODS (Getters) //
+
++ (id <AMLUser_PRIVATE>)userWithUserId:(NSString *)userId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = [AMLCoreDataController managedObjectContext];
+    __block NSArray *foundUsers;
+    __block NSError *error;
+    [managedObjectContext performBlockAndWait:^{
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:[NSEntityDescription entityForName:NSStringFromClass([AMLUser class]) inManagedObjectContext:managedObjectContext]];
+        [request setPredicate:[NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(userId)), userId]];
+        [request setSortDescriptors:[NSArray arrayWithObjects: [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(createdAt)) ascending:YES], nil]];
+        foundUsers = [managedObjectContext executeFetchRequest:request error:&error];
+    }];
+    if (error)
+    {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
+    }
+    if (!foundUsers)
+    {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is nil", stringFromVariable(foundUsers)]];
+        return nil;
+    }
+    
+    if (foundUsers.count > 1)
+    {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"Found %lu %@ object(s) with %@ %@; returning first object", (unsigned long)foundUsers.count, NSStringFromClass([AMLUser class]), stringFromVariable(userId), userId]];
+    }
+    return [foundUsers firstObject];
+}
+
 #pragma mark - // CATEGORY METHODS //
 
 #pragma mark - // DELEGATED METHODS //
@@ -233,38 +257,6 @@
     // The directory the application uses to store the Core Data store file. This code uses a directory named "com.flatiron-school.learn.ios.AskMeLater" in the application's documents directory.
     
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-}
-
-#pragma mark - // PRIVATE METHODS (Getters) //
-
-+ (id <AMLUser_Editable>)getUserWithEmail:(NSString *)email {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
-    
-    NSManagedObjectContext *managedObjectContext = [AMLCoreDataController managedObjectContext];
-    __block NSArray *foundUsers;
-    __block NSError *error;
-    [managedObjectContext performBlockAndWait:^{
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        [request setEntity:[NSEntityDescription entityForName:NSStringFromClass([AMLUser class]) inManagedObjectContext:managedObjectContext]];
-        [request setPredicate:[NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(email)), email]];
-        [request setSortDescriptors:[NSArray arrayWithObjects: [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(createdAt)) ascending:YES], nil]];
-        foundUsers = [managedObjectContext executeFetchRequest:request error:&error];
-    }];
-    if (error)
-    {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
-    }
-    if (!foundUsers)
-    {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is nil", stringFromVariable(foundUsers)]];
-        return nil;
-    }
-    
-    if (foundUsers.count > 1)
-    {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"Found %lu %@ object(s) with %@ %@; returning first object", (unsigned long)foundUsers.count, NSStringFromClass([AMLUser class]), stringFromVariable(email), email]];
-    }
-    return [foundUsers firstObject];
 }
 
 @end

@@ -30,8 +30,7 @@
 
 // INITIALIZERS //
 
-+ (id <AMLUser>)userWithEmail:(NSString *)email;
-+ (id <AMLUser_Editable>)userWithUsername:(NSString *)username email:(NSString *)email;
++ (id <AMLUser_PRIVATE>)userWithUserId:(NSString *)userId email:(NSString *)email;
 + (id <AMLSurvey_Editable>)surveyWithName:(NSString *)name author:(id <AMLUser>)author;
 + (id <AMLQuestion_Editable>)questionWithText:(NSString *)text choices:(NSOrderedSet <id <AMLChoice>> *)choices;
 + (id <AMLChoice_Editable>)choiceWithText:(NSString *)text;
@@ -39,6 +38,6 @@
 
 // GETTERS //
 
-
++ (id <AMLUser_PRIVATE>)userWithUserId:(NSString *)userId;
 
 @end

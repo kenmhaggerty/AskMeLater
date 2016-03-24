@@ -10,7 +10,7 @@
 
 #pragma mark - // IMPORTS //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 #pragma mark - // DEFINITIONS //
 
@@ -19,6 +19,7 @@
 @protocol AMLUser <NSObject>
 
 - (NSString *)username;
+- (UIImage *)avatar;
 
 @end
 
@@ -28,13 +29,31 @@
 
 // INITIALIZERS //
 
-//- (id)initWithUsername:(NSString *)username email:(NSString *)email;
+//- (id)initWithUserId:(NSString *)userId email:(NSString *)email;
+
+// GETTERS //
+
+- (NSString *)email;
 
 // SETTERS //
 
 - (void)setUsername:(NSString *)username;
-- (NSString *)email;
 - (void)setEmail:(NSString *)email;
+- (void)setAvatar:(UIImage *)avatar;
+
+@end
+
+#pragma mark - // PROTOCOL (AMLUser_PRIVATE) //
+
+@protocol AMLUser_PRIVATE <AMLUser_Editable>
+
+// GETTERS //
+
+- (NSString *)userId;
+
+// SETTERS //
+
+- (void)setUserId:(NSString *)userId;
 
 @end
 
@@ -42,6 +61,8 @@
 
 @protocol AMLUser_Init <NSObject>
 
-+ (id <AMLUser_Editable>)userWithUsername:(NSString *)username email:(NSString *)email;
+// INITIALIZERS //
+
++ (id <AMLUser_Editable>)userWithUserId:(NSString *)userId email:(NSString *)email;
 
 @end

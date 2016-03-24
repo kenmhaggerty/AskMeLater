@@ -25,6 +25,18 @@
 
 #pragma mark - // SETTERS AND GETTERS //
 
+- (void)setAvatar:(UIImage *)avatar {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_DATA] message:nil];
+    
+    self.avatarData = UIImagePNGRepresentation(avatar);
+}
+
+- (UIImage *)avatar {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
+    
+    return [UIImage imageWithData:self.avatarData];
+}
+
 #pragma mark - // INITS AND LOADS //
 
 #pragma mark - // PUBLIC METHODS //
