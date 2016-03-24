@@ -210,7 +210,7 @@
 - (void)firebaseConnectionDidChange:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    BOOL isConnected = ((NSNumber *)[notification.userInfo objectForKey:NOTIFICATION_OBJECT_KEY]).boolValue;
+    BOOL isConnected = ((NSNumber *)notification.userInfo[NOTIFICATION_OBJECT_KEY]).boolValue;
     [self isConnected:isConnected];
 }
 

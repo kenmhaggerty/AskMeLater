@@ -170,11 +170,11 @@ NSString * const FirebaseObserverChildRemoved = @"ChildRemoved";
     NSDictionary *subdictionary;
     while (mutableCopy.allKeys.count) {
         key = [mutableCopy.allKeys firstObject];
-        object = [mutableCopy objectForKey:key];
+        object = mutableCopy[key];
         if ([object isKindOfClass:[NSDictionary class]]) {
             subdictionary = (NSDictionary *)object;
             for (NSString *subkey in subdictionary.allKeys) {
-                subobject = [subdictionary objectForKey:subkey];
+                subobject = subdictionary[subkey];
                 [mutableCopy setObject:subobject forKey:[NSString stringWithFormat:@"%@/%@", key, subkey]];
             }
         }
@@ -509,7 +509,7 @@ NSString * const FirebaseObserverChildRemoved = @"ChildRemoved";
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
     
     NSString *key = [NSString stringWithFormat:@"%@_%@", path, [AMLFirebaseController stringForEvent:event]];
-    FirebaseHandle handle = ((NSNumber *)[[AMLFirebaseController sharedController].observers objectForKey:key]).integerValue;
+    FirebaseHandle handle = ((NSNumber *)[AMLFirebaseController sharedController].observers[key]).integerValue;
     [[AMLFirebaseController sharedController].firebase removeObserverWithHandle:handle];
     [[AMLFirebaseController sharedController].observers removeObjectForKey:key];
 }
@@ -551,7 +551,7 @@ NSString * const FirebaseObserverChildRemoved = @"ChildRemoved";
         return nil;
     }
     
-    return @{FirebaseAuthKeyEmail : [authData.providerData objectForKey:FirebaseAuthKeyEmail], FirebaseAuthKeyUID : authData.uid, FirebaseAuthKeyProfileImageURL : [authData.providerData objectForKey:FirebaseAuthKeyProfileImageURL], FirebaseAuthKeyToken : authData.token};
+    return @{FirebaseAuthKeyEmail : authData.providerData[FirebaseAuthKeyEmail], FirebaseAuthKeyUID : authData.uid, FirebaseAuthKeyProfileImageURL : authData.providerData[FirebaseAuthKeyProfileImageURL], FirebaseAuthKeyToken : authData.token};
 }
 
 @end

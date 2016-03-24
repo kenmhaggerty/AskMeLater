@@ -268,7 +268,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
 - (void)currentUserDidChange:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_ACCOUNTS] message:nil];
     
-    if (![notification.userInfo objectForKey:NOTIFICATION_OBJECT_KEY]) {
+    if (!notification.userInfo[NOTIFICATION_OBJECT_KEY]) {
         [self performSegueWithIdentifier:SEGUE_LOGIN sender:self];
     }
 }

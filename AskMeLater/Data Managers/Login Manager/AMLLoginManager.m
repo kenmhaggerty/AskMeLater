@@ -134,7 +134,7 @@ NSString * const CurrentUserDidChangeNotification = @"kNotificationCurrentUserDi
         return nil;
     }
     
-    NSString *userId = [authData objectForKey:FirebaseAuthKeyUID];
+    NSString *userId = authData[FirebaseAuthKeyUID];
     
     id <AMLUser_PRIVATE> currentUser = [AMLLoginManager sharedManager].currentUser;
     if (currentUser && [currentUser.userId isEqualToString:userId]) {
@@ -143,7 +143,7 @@ NSString * const CurrentUserDidChangeNotification = @"kNotificationCurrentUserDi
     
     currentUser = [AMLCoreDataController userWithUserId:userId];
     if (!currentUser) {
-        NSString *email = [authData objectForKey:FirebaseAuthKeyEmail];
+        NSString *email = authData[FirebaseAuthKeyEmail];
         currentUser = [AMLCoreDataController userWithUserId:userId email:email];
     }
     [AMLLoginManager updateUser:currentUser withDictionary:authData];
@@ -155,9 +155,9 @@ NSString * const CurrentUserDidChangeNotification = @"kNotificationCurrentUserDi
 + (void)updateUser:(id <AMLUser_Editable>)user withDictionary:(NSDictionary *)dictionary {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
     
-    NSString *email = [dictionary objectForKey:FirebaseAuthKeyEmail];
+    NSString *email = dictionary[FirebaseAuthKeyEmail];
 //    NSString *username;
-    NSString *profileImageURL = [dictionary objectForKey:FirebaseAuthKeyProfileImageURL];
+    NSString *profileImageURL = dictionary[FirebaseAuthKeyProfileImageURL];
     
     user.email = email;
 //    user.username = username;
