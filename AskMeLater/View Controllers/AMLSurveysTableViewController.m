@@ -74,7 +74,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
         return _alertSettings;
     }
     
-    _alertSettings = [UIAlertController alertControllerWithTitle:@"Settings" message:@"kenmhaggerty@gmail.com" preferredStyle:UIAlertControllerStyleAlert];
+    _alertSettings = [UIAlertController alertControllerWithTitle:@"Settings" message:nil preferredStyle:UIAlertControllerStyleAlert];
     [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Sign out" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
         [AMLLoginManager logout];
     }]];
@@ -226,6 +226,8 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
 - (IBAction)settings:(id)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
+    id <AMLUser_Editable> currentUser = [AMLLoginManager currentUser];
+    self.alertSettings.message = currentUser.email;
     [self presentViewController:self.alertSettings animated:YES completion:nil];
 }
 
