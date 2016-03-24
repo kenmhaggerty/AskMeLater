@@ -32,7 +32,7 @@
 
 #pragma mark - // PROTOCOL (AMLSurvey_Editable) //
 
-@protocol AMLSurvey_Editable <NSObject>
+@protocol AMLSurvey_Editable <AMLSurvey>
 
 // INITIALIZERS //
 
