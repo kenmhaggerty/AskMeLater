@@ -425,7 +425,7 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="qCz-C1-oFF">
-                            <rect key="frame" x="0.0" y="214" width="600" height="0.0"/>
+                            <rect key="frame" x="0.0" y="514" width="600" height="0.0"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <animations/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -517,6 +517,109 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <animations/>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AMLSurveyTimingCell" rowHeight="300" id="3cP-g0-PGa" customClass="AMLSurveyTimingCell">
+                                <rect key="frame" x="0.0" y="214" width="600" height="300"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3cP-g0-PGa" id="3ID-Gd-tns">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="299"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <datePicker contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="cqP-co-JRq">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="216"/>
+                                            <animations/>
+                                            <date key="date" timeIntervalSinceReferenceDate="480874342.81187499">
+                                                <!--2016-03-28 16:12:22 +0000-->
+                                            </date>
+                                            <connections>
+                                                <action selector="datePickerDidChange:" destination="3cP-g0-PGa" eventType="valueChanged" id="trU-HA-gRZ"/>
+                                            </connections>
+                                        </datePicker>
+                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C6M-zQ-yV0">
+                                            <rect key="frame" x="0.0" y="216" width="600" height="83"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ukx-cF-bdB">
+                                                    <rect key="frame" x="8" y="47" width="535" height="28"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Repeat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GSV-Zc-iXr">
+                                                    <rect key="frame" x="8" y="8" width="535" height="31"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hDV-54-bi8">
+                                                    <rect key="frame" x="543" y="47" width="51" height="31"/>
+                                                    <animations/>
+                                                    <connections>
+                                                        <action selector="switchDidSwitch:" destination="3cP-g0-PGa" eventType="valueChanged" id="msp-0h-AAJ"/>
+                                                    </connections>
+                                                </switch>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="f7Y-PQ-Fte">
+                                                    <rect key="frame" x="543" y="8" width="51" height="28"/>
+                                                    <animations/>
+                                                    <connections>
+                                                        <action selector="switchDidSwitch:" destination="3cP-g0-PGa" eventType="valueChanged" id="jGL-WF-Zf5"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <animations/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstItem="hDV-54-bi8" firstAttribute="top" secondItem="f7Y-PQ-Fte" secondAttribute="bottom" priority="750" constant="8" id="2JB-x4-VlD"/>
+                                                <constraint firstItem="hDV-54-bi8" firstAttribute="centerY" secondItem="Ukx-cF-bdB" secondAttribute="centerY" id="3tY-Hz-Wen"/>
+                                                <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="GSV-Zc-iXr" secondAttribute="bottom" id="5Zl-RB-mLK"/>
+                                                <constraint firstItem="GSV-Zc-iXr" firstAttribute="leading" secondItem="C6M-zQ-yV0" secondAttribute="leadingMargin" id="6Hq-TR-NRn"/>
+                                                <constraint firstItem="Ukx-cF-bdB" firstAttribute="top" relation="greaterThanOrEqual" secondItem="C6M-zQ-yV0" secondAttribute="topMargin" id="7mh-kk-2b5"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="f7Y-PQ-Fte" secondAttribute="trailing" id="9iy-cc-3Xj"/>
+                                                <constraint firstItem="hDV-54-bi8" firstAttribute="top" relation="greaterThanOrEqual" secondItem="C6M-zQ-yV0" secondAttribute="topMargin" id="Fia-U1-ZdI"/>
+                                                <constraint firstItem="GSV-Zc-iXr" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="f7Y-PQ-Fte" secondAttribute="leading" id="GFw-8s-Hrh"/>
+                                                <constraint firstItem="hDV-54-bi8" firstAttribute="top" relation="greaterThanOrEqual" secondItem="f7Y-PQ-Fte" secondAttribute="bottom" constant="8" id="Geg-9D-C9o"/>
+                                                <constraint firstItem="Ukx-cF-bdB" firstAttribute="top" relation="greaterThanOrEqual" secondItem="GSV-Zc-iXr" secondAttribute="bottom" id="Jzj-U1-tk9"/>
+                                                <constraint firstItem="f7Y-PQ-Fte" firstAttribute="top" relation="greaterThanOrEqual" secondItem="C6M-zQ-yV0" secondAttribute="topMargin" id="MHl-zB-1mT"/>
+                                                <constraint firstItem="f7Y-PQ-Fte" firstAttribute="top" secondItem="C6M-zQ-yV0" secondAttribute="topMargin" priority="750" id="Nxu-6i-Q1Q"/>
+                                                <constraint firstItem="Ukx-cF-bdB" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hDV-54-bi8" secondAttribute="leading" id="Rhg-Mi-fBl"/>
+                                                <constraint firstItem="GSV-Zc-iXr" firstAttribute="top" relation="greaterThanOrEqual" secondItem="C6M-zQ-yV0" secondAttribute="topMargin" id="TGg-Cg-7kE"/>
+                                                <constraint firstItem="f7Y-PQ-Fte" firstAttribute="centerY" secondItem="GSV-Zc-iXr" secondAttribute="centerY" id="aPv-CO-T5P"/>
+                                                <constraint firstItem="Ukx-cF-bdB" firstAttribute="leading" secondItem="C6M-zQ-yV0" secondAttribute="leadingMargin" id="bjV-wg-fxA"/>
+                                                <constraint firstItem="Ukx-cF-bdB" firstAttribute="top" secondItem="GSV-Zc-iXr" secondAttribute="bottom" priority="750" constant="8" id="cGi-Q4-rF7"/>
+                                                <constraint firstItem="GSV-Zc-iXr" firstAttribute="top" secondItem="C6M-zQ-yV0" secondAttribute="topMargin" priority="750" id="fgD-bx-Pdb"/>
+                                                <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="f7Y-PQ-Fte" secondAttribute="bottom" id="hdW-YI-3ZP"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="hDV-54-bi8" secondAttribute="trailing" id="jff-VN-Yd9"/>
+                                                <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="Ukx-cF-bdB" secondAttribute="bottom" id="lvg-mc-fow"/>
+                                                <constraint firstItem="f7Y-PQ-Fte" firstAttribute="centerY" secondItem="C6M-zQ-yV0" secondAttribute="centerY" priority="250" id="ous-5Y-hnN"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Ukx-cF-bdB" secondAttribute="bottom" priority="750" id="qXY-NU-UpH"/>
+                                                <constraint firstItem="hDV-54-bi8" firstAttribute="centerY" secondItem="C6M-zQ-yV0" secondAttribute="centerY" priority="250" id="rpj-Dn-k9t"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="hDV-54-bi8" secondAttribute="bottom" priority="750" id="vCO-VM-Fm1"/>
+                                                <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="hDV-54-bi8" secondAttribute="bottom" id="z7w-0k-mXC"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <animations/>
+                                    <constraints>
+                                        <constraint firstItem="C6M-zQ-yV0" firstAttribute="width" secondItem="cqP-co-JRq" secondAttribute="width" priority="750" id="17a-ES-4b2"/>
+                                        <constraint firstItem="cqP-co-JRq" firstAttribute="width" secondItem="3ID-Gd-tns" secondAttribute="width" priority="750" id="M9a-Sf-ulf"/>
+                                        <constraint firstItem="cqP-co-JRq" firstAttribute="centerX" secondItem="3ID-Gd-tns" secondAttribute="centerX" id="Rf8-hr-jBW"/>
+                                        <constraint firstAttribute="bottom" secondItem="C6M-zQ-yV0" secondAttribute="bottom" id="Viw-3J-0o7"/>
+                                        <constraint firstItem="C6M-zQ-yV0" firstAttribute="top" secondItem="cqP-co-JRq" secondAttribute="bottom" id="auW-W9-PeQ"/>
+                                        <constraint firstItem="cqP-co-JRq" firstAttribute="top" secondItem="3ID-Gd-tns" secondAttribute="top" id="e7v-OV-nbj"/>
+                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" secondItem="C6M-zQ-yV0" secondAttribute="width" id="ft2-cO-r4v"/>
+                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" secondItem="cqP-co-JRq" secondAttribute="width" id="iCs-a6-96t"/>
+                                        <constraint firstItem="C6M-zQ-yV0" firstAttribute="centerX" secondItem="3ID-Gd-tns" secondAttribute="centerX" id="lwi-Be-GYR"/>
+                                        <constraint firstItem="C6M-zQ-yV0" firstAttribute="width" relation="greaterThanOrEqual" secondItem="cqP-co-JRq" secondAttribute="width" id="sZb-eP-5nT"/>
+                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="cqP-co-JRq" secondAttribute="bottom" id="vlc-nc-ssA"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <animations/>
+                                <connections>
+                                    <outlet property="enabled" destination="hDV-54-bi8" id="TP9-S2-L1N"/>
+                                    <outlet property="repeat" destination="f7Y-PQ-Fte" id="Itf-TM-0xq"/>
+                                    <outlet property="time" destination="cqP-co-JRq" id="hph-kR-nvK"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

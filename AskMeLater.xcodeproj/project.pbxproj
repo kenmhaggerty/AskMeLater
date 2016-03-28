@@ -32,6 +32,7 @@
 		7D7DE7F11C8B6D8100FFA637 /* AMLDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7DE7F01C8B6D8100FFA637 /* AMLDataManager.m */; };
 		7DBB1F141CA433DD00C7C403 /* AMLQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D621C99D6EB000A02F0 /* AMLQuestion.m */; };
 		7DBB1F151CA433E800C7C403 /* AMLSurvey.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D5A1C99D6EB000A02F0 /* AMLSurvey.m */; };
+		7DBB1F1A1CA98FBA00C7C403 /* AMLSurveyTimingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB1F191CA98FBA00C7C403 /* AMLSurveyTimingCell.m */; };
 		7DDE78531C93234D00241A80 /* AMLFirebaseQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDE78521C93234D00241A80 /* AMLFirebaseQuery.m */; };
 		7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D511C936775000A02F0 /* NSArray+Extras.m */; };
 		7DE38D671C99D6EB000A02F0 /* AMLSurvey+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D581C99D6EB000A02F0 /* AMLSurvey+CoreDataProperties.m */; };
@@ -124,6 +125,8 @@
 		7D7DE7EF1C8B6D8100FFA637 /* AMLDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLDataManager.h; sourceTree = "<group>"; };
 		7D7DE7F01C8B6D8100FFA637 /* AMLDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLDataManager.m; sourceTree = "<group>"; };
 		7D7DE7F41C8E1A3600FFA637 /* AMLFirebaseNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLFirebaseNotifications.h; path = Firebase/AMLFirebaseNotifications.h; sourceTree = "<group>"; };
+		7DBB1F181CA98FBA00C7C403 /* AMLSurveyTimingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLSurveyTimingCell.h; path = "AskMeLater/View Controllers/AMLSurveyTimingCell.h"; sourceTree = SOURCE_ROOT; };
+		7DBB1F191CA98FBA00C7C403 /* AMLSurveyTimingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMLSurveyTimingCell.m; path = "AskMeLater/View Controllers/AMLSurveyTimingCell.m"; sourceTree = SOURCE_ROOT; };
 		7DDE78511C93234D00241A80 /* AMLFirebaseQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLFirebaseQuery.h; sourceTree = "<group>"; };
 		7DDE78521C93234D00241A80 /* AMLFirebaseQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLFirebaseQuery.m; sourceTree = "<group>"; };
 		7DDE78541C9328FC00241A80 /* AMLFirebaseQuery+FQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AMLFirebaseQuery+FQuery.h"; sourceTree = "<group>"; };
@@ -492,6 +495,7 @@
 				7DE38D7D1C9A0C21000A02F0 /* AMLSurveyTableViewController.h */,
 				7DE38D7E1C9A0C21000A02F0 /* AMLSurveyTableViewController.m */,
 				7DBB1F121CA4335800C7C403 /* AMLSurveyTableViewCell */,
+				7DBB1F171CA98F8100C7C403 /* AMLSurveyTimingCell */,
 				7DBB1F131CA4336600C7C403 /* AMLResultsViewController */,
 			);
 			name = AMLSurveyTableViewController;
@@ -523,6 +527,15 @@
 				7D7DE7F01C8B6D8100FFA637 /* AMLDataManager.m */,
 			);
 			name = "Data Manager";
+			sourceTree = "<group>";
+		};
+		7DBB1F171CA98F8100C7C403 /* AMLSurveyTimingCell */ = {
+			isa = PBXGroup;
+			children = (
+				7DBB1F181CA98FBA00C7C403 /* AMLSurveyTimingCell.h */,
+				7DBB1F191CA98FBA00C7C403 /* AMLSurveyTimingCell.m */,
+			);
+			name = AMLSurveyTimingCell;
 			sourceTree = "<group>";
 		};
 		7DDE78571C93290900241A80 /* AMLFirebaseQuery */ = {
@@ -915,6 +928,7 @@
 				7DE38D821C9A0C37000A02F0 /* AMLSurveyTableViewCell.m in Sources */,
 				7D5A655D1CA03FD400D7AE8D /* AMLMockSurvey.m in Sources */,
 				7DE38D7C1C9A0C18000A02F0 /* AMLSurveysTableViewController.m in Sources */,
+				7DBB1F1A1CA98FBA00C7C403 /* AMLSurveyTimingCell.m in Sources */,
 				7D12CABF1C8A30280021519B /* AppDelegate.m in Sources */,
 				7D7DE7F11C8B6D8100FFA637 /* AMLDataManager.m in Sources */,
 				7DE38D6B1C99D6EB000A02F0 /* AMLQuestion+CoreDataProperties.m in Sources */,
