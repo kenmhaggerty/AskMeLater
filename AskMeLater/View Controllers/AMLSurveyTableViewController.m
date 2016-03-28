@@ -445,13 +445,13 @@ NSString * const AddCellReuseIdentifier = @"addCell";
 - (void)addObserversToSurvey:(id <AMLSurvey>)survey {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyNameDidChange:) name:NOTIFICATION_AMLSURVEY_NAME_DID_CHANGE object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyNameDidChange:) name:AMLSurveyNameDidChangeNotification object:survey];
 }
 
 - (void)removeObserversFromSurvey:(id <AMLSurvey>)survey {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_AMLSURVEY_NAME_DID_CHANGE object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyNameDidChangeNotification object:survey];
 }
 
 #pragma mark - // PRIVATE METHODS (Responders) //

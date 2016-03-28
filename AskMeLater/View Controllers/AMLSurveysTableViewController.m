@@ -46,7 +46,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
 // RESPONDERS //
 
 - (void)currentUserDidChange:(NSNotification *)notification;
-- (void)surveyNameDidChange:(NSNotification *)notification;
+- (void)surveyDidChange:(NSNotification *)notification;
 
 // OTHER //
 
@@ -286,17 +286,17 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
 - (void)addObserversToSurvey:(id <AMLSurvey>)survey {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyDidChange:) name:NOTIFICATION_AMLSURVEY_NAME_DID_CHANGE object:survey];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyDidChange:) name:NOTIFICATION_AMLSURVEY_EDITEDAT_DID_CHANGE object:survey];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyWillBeDeleted:) name:NOTIFICATION_AMLSURVEY_WILL_BE_DELETED object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyDidChange:) name:AMLSurveyNameDidChangeNotification object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyDidChange:) name:AMLSurveyEditedAtDidChangeNotification object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyWillBeDeleted:) name:AMLSurveyWillBeDeletedNotification object:survey];
 }
 
 - (void)removeObserversFromSurvey:(id <AMLSurvey>)survey {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_AMLSURVEY_NAME_DID_CHANGE object:survey];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_AMLSURVEY_EDITEDAT_DID_CHANGE object:survey];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_AMLSURVEY_WILL_BE_DELETED object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyNameDidChangeNotification object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyEditedAtDidChangeNotification object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyWillBeDeletedNotification object:survey];
 }
 
 #pragma mark - // PRIVATE METHODS (Responders) //

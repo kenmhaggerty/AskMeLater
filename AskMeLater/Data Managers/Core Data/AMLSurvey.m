@@ -42,7 +42,7 @@
     [self setPrimitiveValue:name forKey:NSStringFromSelector(@selector(name))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(name))];
     
-    [AKGenerics postNotificationName:NOTIFICATION_AMLSURVEY_NAME_DID_CHANGE object:self userInfo:userInfo];
+    [AKGenerics postNotificationName:AMLSurveyNameDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setEditedAt:(NSDate *)editedAt {
@@ -61,7 +61,7 @@
     [self setPrimitiveValue:editedAt forKey:NSStringFromSelector(@selector(editedAt))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(editedAt))];
     
-    [AKGenerics postNotificationName:NOTIFICATION_AMLSURVEY_EDITEDAT_DID_CHANGE object:self userInfo:userInfo];
+    [AKGenerics postNotificationName:AMLSurveyEditedAtDidChangeNotification object:self userInfo:userInfo];
 }
 
 #pragma mark - // INITS AND LOADS //
@@ -69,7 +69,7 @@
 - (void)prepareForDeletion {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
-    [AKGenerics postNotificationName:NOTIFICATION_AMLSURVEY_WILL_BE_DELETED object:self userInfo:nil];
+    [AKGenerics postNotificationName:AMLSurveyWillBeDeletedNotification object:self userInfo:nil];
 }
 
 #pragma mark - // PUBLIC METHODS //

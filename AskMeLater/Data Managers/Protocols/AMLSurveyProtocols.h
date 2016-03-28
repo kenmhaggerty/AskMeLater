@@ -18,9 +18,9 @@
 
 #define AMLSurveyNamePlaceholder @"unnamed survey"
 
-#define NOTIFICATION_AMLSURVEY_NAME_DID_CHANGE @"kNotificationAMLSurvey_NameDidChange"
-#define NOTIFICATION_AMLSURVEY_EDITEDAT_DID_CHANGE @"kNotificationAMLSurvey_EditedAtDidChange"
-#define NOTIFICATION_AMLSURVEY_WILL_BE_DELETED @"kNotificationAMLSurvey_WillBeDeleted"
+#define AMLSurveyNameDidChangeNotification @"kNotificationAMLSurvey_NameDidChange"
+#define AMLSurveyEditedAtDidChangeNotification @"kNotificationAMLSurvey_EditedAtDidChange"
+#define AMLSurveyWillBeDeletedNotification @"kNotificationAMLSurvey_WillBeDeleted"
 
 #pragma mark - // PROTOCOL (AMLSurvey) //
 
