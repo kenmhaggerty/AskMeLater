@@ -7,7 +7,7 @@
     </entity>
     <entity name="AMLQuestion" representedClassName="AMLQuestion" syncable="YES">
         <attribute name="secure" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
-        <attribute name="text" attributeType="String" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="choices" optional="YES" toMany="YES" maxCount="2" deletionRule="Cascade" ordered="YES" destinationEntity="AMLChoice" inverseName="question" inverseEntity="AMLChoice" syncable="YES"/>
         <relationship name="responses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AMLResponse" inverseName="question" inverseEntity="AMLResponse" syncable="YES"/>
         <relationship name="survey" maxCount="1" deletionRule="Nullify" destinationEntity="AMLSurvey" inverseName="questions" inverseEntity="AMLSurvey" syncable="YES"/>
