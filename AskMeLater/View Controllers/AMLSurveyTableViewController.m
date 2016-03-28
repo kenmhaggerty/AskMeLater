@@ -520,9 +520,9 @@ NSUInteger const TimingTableViewSection = 2;
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyNameDidChange:) name:AMLSurveyNameDidChangeNotification object:survey];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyTimeDidChange:) name:AMLSurveyTimeDidChangeNotifiation object:survey];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyRepeatDidChange:) name:AMLSurveyRepeatDidChangeNotifiation object:survey];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyEnabledDidChange:) name:AMLSurveyEnabledDidChangeNotifiation object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyTimeDidChange:) name:AMLSurveyTimeDidChangeNotification object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyRepeatDidChange:) name:AMLSurveyRepeatDidChangeNotification object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyEnabledDidChange:) name:AMLSurveyEnabledDidChangeNotification object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionsDidChange:) name:AMLSurveyQuestionsDidChangeNotification object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionWasAdded:) name:AMLSurveyQuestionWasAddedNotification object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionWasReordered:) name:AMLSurveyQuestionWasReorderedNotification object:survey];
@@ -533,9 +533,9 @@ NSUInteger const TimingTableViewSection = 2;
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyNameDidChangeNotification object:survey];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyTimeDidChangeNotifiation object:survey];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyRepeatDidChangeNotifiation object:survey];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyEnabledDidChangeNotifiation object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyTimeDidChangeNotification object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyRepeatDidChangeNotification object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyEnabledDidChangeNotification object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyQuestionsDidChangeNotification object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyQuestionWasAddedNotification object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyQuestionWasReorderedNotification object:survey];

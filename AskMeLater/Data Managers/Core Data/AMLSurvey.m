@@ -90,7 +90,7 @@
     [self setPrimitiveValue:time forKey:NSStringFromSelector(@selector(time))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(time))];
     
-    [AKGenerics postNotificationName:AMLSurveyTimeDidChangeNotifiation object:self userInfo:userInfo];
+    [AKGenerics postNotificationName:AMLSurveyTimeDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setRepeatValue:(NSNumber *)repeatValue {
@@ -109,7 +109,7 @@
     [self setPrimitiveValue:repeatValue forKey:NSStringFromSelector(@selector(repeatValue))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(repeatValue))];
     
-    [AKGenerics postNotificationName:AMLSurveyRepeatDidChangeNotifiation object:self userInfo:userInfo];
+    [AKGenerics postNotificationName:AMLSurveyRepeatDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setEnabledValue:(NSNumber *)enabledValue {
@@ -128,7 +128,7 @@
     [self setPrimitiveValue:enabledValue forKey:NSStringFromSelector(@selector(enabledValue))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(enabledValue))];
     
-    [AKGenerics postNotificationName:AMLSurveyEnabledDidChangeNotifiation object:self userInfo:userInfo];
+    [AKGenerics postNotificationName:AMLSurveyEnabledDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setQuestions:(NSOrderedSet <AMLQuestion *> *)questions {
