@@ -25,6 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AMLQuestion : NSManagedObject <AMLQuestion_PRIVATE>
 
+- (BOOL)secure;
+- (void)setSecure:(BOOL)secure;
+
 - (void)replaceChoiceAtIndex:(NSUInteger)index withChoice:(AMLChoice *)choice;
 - (void)removeChoiceAtIndex:(NSUInteger)index;
 - (void)removeChoice:(AMLChoice *)choice;

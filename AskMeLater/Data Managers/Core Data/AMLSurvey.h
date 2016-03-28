@@ -26,6 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AMLSurvey : NSManagedObject <AMLSurvey_Editable>
 
+- (BOOL)repeat;
+- (void)setRepeat:(BOOL)repeat;
+- (BOOL)enabled;
+- (void)setEnabled:(BOOL)enabled;
+
 - (void)addQuestion:(AMLQuestion *)question;
 - (void)insertQuestion:(AMLQuestion *)question atIndex:(NSUInteger)index;
 - (void)moveQuestion:(AMLQuestion *)question toIndex:(NSUInteger)index;

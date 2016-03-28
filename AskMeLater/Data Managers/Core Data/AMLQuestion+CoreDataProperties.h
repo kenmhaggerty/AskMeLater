@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface AMLQuestion (CoreDataProperties)
 
 @property (nullable, nonatomic, retain) NSString *text;
-@property (nullable, nonatomic, retain) NSNumber *secure;
+@property (nullable, nonatomic, retain) NSNumber *secureValue;
 @property (nullable, nonatomic, retain) NSSet <AMLResponse *> *responses;
 @property (nullable, nonatomic, retain) NSOrderedSet <AMLChoice *> *choices;
 @property (nullable, nonatomic, retain) AMLSurvey *survey;

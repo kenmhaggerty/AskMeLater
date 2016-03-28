@@ -37,6 +37,18 @@
 
 #pragma mark - // PUBLIC METHODS //
 
+- (BOOL)secure {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    return self.secureValue.boolValue;
+}
+
+- (void)setSecure:(BOOL)secure {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    self.secureValue = [NSNumber numberWithBool:secure];
+}
+
 - (void)replaceChoiceAtIndex:(NSUInteger)index withChoice:(AMLChoice *)choice {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     

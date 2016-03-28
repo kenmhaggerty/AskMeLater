@@ -74,6 +74,34 @@
     [AKGenerics postNotificationName:AMLSurveyEditedAtDidChangeNotification object:self userInfo:userInfo];
 }
 
+- (void)setRepeatValue:(NSNumber *)repeatValue {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSNumber *primitiveRepeatValue = [self primitiveValueForKey:NSStringFromSelector(@selector(repeatValue))];
+    
+    if ([AKGenerics object:repeatValue isEqualToObject:primitiveRepeatValue]) {
+        return;
+    }
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(repeatValue))];
+    [self setPrimitiveValue:repeatValue forKey:NSStringFromSelector(@selector(repeatValue))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(repeatValue))];
+}
+
+- (void)setEnabledValue:(NSNumber *)enabledValue {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSNumber *primitiveEnabledValue = [self primitiveValueForKey:NSStringFromSelector(@selector(enabledValue))];
+    
+    if ([AKGenerics object:enabledValue isEqualToObject:primitiveEnabledValue]) {
+        return;
+    }
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(enabledValue))];
+    [self setPrimitiveValue:enabledValue forKey:NSStringFromSelector(@selector(enabledValue))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(enabledValue))];
+}
+
 - (void)setQuestions:(NSOrderedSet <AMLQuestion *> *)questions {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
     
@@ -132,6 +160,30 @@
 }
 
 #pragma mark - // PUBLIC METHODS //
+
+- (BOOL)repeat {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    return self.repeatValue.boolValue;
+}
+
+- (void)setRepeat:(BOOL)repeat {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    self.repeatValue = [NSNumber numberWithBool:repeat];
+}
+
+- (BOOL)enabled {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    return self.enabledValue.boolValue;
+}
+
+- (void)setEnabled:(BOOL)enabled {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    self.enabledValue = [NSNumber numberWithBool:enabled];
+}
 
 - (void)addQuestion:(AMLQuestion *)question {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];

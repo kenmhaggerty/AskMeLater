@@ -27,8 +27,8 @@
 @dynamic createdAt;
 @dynamic editedAt;
 @dynamic time;
-@dynamic repeat;
-@dynamic enabled;
+@dynamic repeatValue;
+@dynamic enabledValue;
 @dynamic questions;
 @dynamic author;
 

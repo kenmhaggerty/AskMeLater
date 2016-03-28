@@ -24,7 +24,7 @@
 #pragma mark - // SETTERS AND GETTERS //
 
 @dynamic text;
-@dynamic secure;
+@dynamic secureValue;
 @dynamic responses;
 @dynamic choices;
 @dynamic survey;
