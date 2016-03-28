@@ -118,9 +118,8 @@ NSString * const AddCellReuseIdentifier = @"addCell";
         [CATransaction begin];
         [CATransaction setCompletionBlock: ^{
             NSString *text = _alertEditChoice.textFields[0].text;
-            AMLMockQuestion *question = (AMLMockQuestion *)_alertEditChoice.info[NOTIFICATION_OBJECT_KEY];
-            NSUInteger index = ((NSNumber *)_alertEditChoice.info[NOTIFICATION_SECONDARY_KEY]).integerValue;
-            question.choices[index] = (text.length ? text : nil);
+            id <AMLChoice_Editable> choice = (id <AMLChoice_Editable>)_alertEditChoice.info[NOTIFICATION_OBJECT_KEY];
+            choice.text = (text.length ? text : nil);
         }];
         [self.tableView setEditing:NO animated:YES];
         [CATransaction commit];
@@ -281,18 +280,18 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     
     id <AMLQuestion_Editable> question = (id <AMLQuestion_Editable>)[self.survey.questions objectAtIndex:indexPath.row];
     
-    NSString *primaryString = question.choices[0];
-    UITableViewRowAction *primaryAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:(primaryString ?: @"(blank)") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        self.alertEditChoice.textFields[0].text = primaryString;
-        self.alertEditChoice.info = @{NOTIFICATION_OBJECT_KEY : question, NOTIFICATION_SECONDARY_KEY : [NSNumber numberWithInteger:0]};
+    id <AMLChoice_Editable> primaryChoice = (id <AMLChoice_Editable>)[question.choices objectAtIndex:0];
+    UITableViewRowAction *primaryAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:(primaryChoice.text ?: @"(blank)") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        self.alertEditChoice.textFields[0].text = primaryChoice.text;
+        self.alertEditChoice.info = @{NOTIFICATION_OBJECT_KEY : primaryChoice};
         [self presentViewController:self.alertEditChoice animated:YES completion:nil];
     }];
     primaryAction.backgroundColor = self.view.tintColor;
     
-    NSString *secondaryString = question.choices[1];
-    UITableViewRowAction *secondaryAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:(secondaryString ?: @"(blank)") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        self.alertEditChoice.textFields[0].text = secondaryString;
-        self.alertEditChoice.info = @{NOTIFICATION_OBJECT_KEY : question, NOTIFICATION_SECONDARY_KEY : [NSNumber numberWithInteger:1]};
+    id <AMLChoice_Editable> secondaryChoice = (id <AMLChoice_Editable>)[question.choices objectAtIndex:1];
+    UITableViewRowAction *secondaryAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:(secondaryChoice.text ?: @"(blank)") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        self.alertEditChoice.textFields[0].text = secondaryChoice.text;
+        self.alertEditChoice.info = @{NOTIFICATION_OBJECT_KEY : secondaryChoice};
         [self presentViewController:self.alertEditChoice animated:YES completion:nil];
     }];
     secondaryAction.backgroundColor = [UIColor colorWithWhite:0.75f alpha:1.0f];
