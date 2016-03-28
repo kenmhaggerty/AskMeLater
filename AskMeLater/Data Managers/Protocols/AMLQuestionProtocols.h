@@ -16,6 +16,12 @@
 
 #pragma mark - // DEFINITIONS //
 
+#define AMLQuestionTextDidChangeNotification @"kNotificationAMLQuestion_TextDidChange"
+#define AMLQuestionSecureDidChangeNotification @"kNotificationAMLQuestion_SecureDidChange"
+#define AMLQuestionChoicesDidChangeNotification @"kNotificationAMLQuestion_ChoicesDidChange"
+#define AMLQuestionChoiceWasAddedNotification @"kNotificationAMLQuestion_ChoiceWasAdded"
+#define AMLQuestionChoiceWasReorderedNotification @"kNotificationAMLQuestion_ChoiceWasReordered"
+#define AMLQuestionChoiceAtIndexWasRemovedNotification @"kNotificationAMLQuestion_ChoiceAtIndexWasRemoved"
 #define AMLQuestionWillBeDeletedNotification @"kNotificationAMLQuestion_WillBeDeleted"
 
 #pragma mark - // PROTOCOL (AMLQuestion) //
