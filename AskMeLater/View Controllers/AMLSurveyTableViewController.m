@@ -305,6 +305,13 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     if (indexPath.section) {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self addQuestion:nil];
+        return;
+    }
+    
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    if ([cell isKindOfClass:[AMLSurveyTableViewCell class]]) {
+        AMLSurveyTableViewCell *surveyTableViewCell = (AMLSurveyTableViewCell *)cell;
+        [surveyTableViewCell.textView becomeFirstResponder];
     }
 }
 
