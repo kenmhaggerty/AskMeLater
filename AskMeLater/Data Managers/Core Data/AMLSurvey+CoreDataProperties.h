@@ -38,14 +38,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)insertObject:(AMLQuestion *)value inQuestionsAtIndex:(NSUInteger)idx;
 - (void)removeObjectFromQuestionsAtIndex:(NSUInteger)idx;
-- (void)insertQuestions:(NSArray<AMLQuestion *> *)value atIndexes:(NSIndexSet *)indexes;
+- (void)insertQuestions:(NSArray <AMLQuestion *> *)value atIndexes:(NSIndexSet *)indexes;
 - (void)removeQuestionsAtIndexes:(NSIndexSet *)indexes;
 - (void)replaceObjectInQuestionsAtIndex:(NSUInteger)idx withObject:(AMLQuestion *)value;
-- (void)replaceQuestionsAtIndexes:(NSIndexSet *)indexes withQuestions:(NSArray<AMLQuestion *> *)values;
+- (void)replaceQuestionsAtIndexes:(NSIndexSet *)indexes withQuestions:(NSArray <AMLQuestion *> *)values;
 - (void)addQuestionsObject:(AMLQuestion *)value;
 - (void)removeQuestionsObject:(AMLQuestion *)value;
-- (void)addQuestions:(NSOrderedSet<AMLQuestion *> *)values;
-- (void)removeQuestions:(NSOrderedSet<AMLQuestion *> *)values;
+- (void)addQuestions:(NSOrderedSet <AMLQuestion *> *)values;
+- (void)removeQuestions:(NSOrderedSet <AMLQuestion *> *)values;
 
 @end
 

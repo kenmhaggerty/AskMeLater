@@ -25,8 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nullable, nonatomic, retain) NSString *text;
 @property (nullable, nonatomic, retain) NSNumber *secure;
-@property (nullable, nonatomic, retain) NSSet<AMLResponse *> *responses;
-@property (nullable, nonatomic, retain) NSOrderedSet<AMLChoice *> *choices;
+@property (nullable, nonatomic, retain) NSSet <AMLResponse *> *responses;
+@property (nullable, nonatomic, retain) NSOrderedSet <AMLChoice *> *choices;
 @property (nullable, nonatomic, retain) AMLSurvey *survey;
 
 @end
@@ -35,19 +35,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)addResponsesObject:(AMLResponse *)value;
 - (void)removeResponsesObject:(AMLResponse *)value;
-- (void)addResponses:(NSSet<AMLResponse *> *)values;
-- (void)removeResponses:(NSSet<AMLResponse *> *)values;
+- (void)addResponses:(NSSet <AMLResponse *> *)values;
+- (void)removeResponses:(NSSet <AMLResponse *> *)values;
 
 - (void)insertObject:(AMLChoice *)value inChoicesAtIndex:(NSUInteger)idx;
 - (void)removeObjectFromChoicesAtIndex:(NSUInteger)idx;
-- (void)insertChoices:(NSArray<AMLChoice *> *)value atIndexes:(NSIndexSet *)indexes;
+- (void)insertChoices:(NSArray <AMLChoice *> *)value atIndexes:(NSIndexSet *)indexes;
 - (void)removeChoicesAtIndexes:(NSIndexSet *)indexes;
 - (void)replaceObjectInChoicesAtIndex:(NSUInteger)idx withObject:(AMLChoice *)value;
-- (void)replaceChoicesAtIndexes:(NSIndexSet *)indexes withChoices:(NSArray<AMLChoice *> *)values;
+- (void)replaceChoicesAtIndexes:(NSIndexSet *)indexes withChoices:(NSArray <AMLChoice *> *)values;
 - (void)addChoicesObject:(AMLChoice *)value;
 - (void)removeChoicesObject:(AMLChoice *)value;
-- (void)addChoices:(NSOrderedSet<AMLChoice *> *)values;
-- (void)removeChoices:(NSOrderedSet<AMLChoice *> *)values;
+- (void)addChoices:(NSOrderedSet <AMLChoice *> *)values;
+- (void)removeChoices:(NSOrderedSet <AMLChoice *> *)values;
 
 @end
 
