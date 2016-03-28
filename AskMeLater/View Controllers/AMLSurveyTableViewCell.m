@@ -103,10 +103,18 @@
 - (void)textViewDidChange:(UITextView *)textView {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
-    if (self.delegate) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cellDidChangeText:)]) {
         [self.delegate cellDidChangeText:self];
     }
     [self didChangeHeight];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cellDidEndEditing:)]) {
+        [self.delegate cellDidEndEditing:self];
+    }
 }
 
 #pragma mark - // OVERWRITTEN METHODS //

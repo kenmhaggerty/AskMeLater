@@ -20,7 +20,9 @@
 @protocol AMLSurveyTableViewCellDelegate <NSObject>
 - (void)cellDidChangeHeight:(UITableViewCell *)sender;
 - (void)cellShouldBeDeleted:(UITableViewCell *)sender;
+@optional
 - (void)cellDidChangeText:(AMLSurveyTableViewCell *)sender;
+- (void)cellDidEndEditing:(AMLSurveyTableViewCell *)sender;
 @end
 
 #pragma mark - // DEFINITIONS (Public) //
