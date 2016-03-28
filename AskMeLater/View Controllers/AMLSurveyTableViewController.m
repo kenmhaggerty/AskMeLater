@@ -423,18 +423,9 @@ NSString * const AddCellReuseIdentifier = @"addCell";
 - (IBAction)addQuestion:(id)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
-//    id <AMLQuestion> question = [AMLDataManager questionForSurvey:self.survey];
-    AMLMockQuestion *question = [[AMLMockQuestion alloc] init];
-    [self.questions addObject:question];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.questions.count-1 inSection:0];
-    [CATransaction begin];
-    [self.tableView beginUpdates];
-    [CATransaction setCompletionBlock:^{
-        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    }];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
-    [self.tableView endUpdates];
-    [CATransaction commit];
+    id <AMLQuestion_Editable> question = [AMLDataManager questionForSurvey:(id <AMLSurvey_Editable>)self.survey];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
 #pragma mark - // PRIVATE METHODS (Observers) //
