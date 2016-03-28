@@ -19,6 +19,9 @@
 #define AMLSurveyNamePlaceholder @"unnamed survey"
 
 #define AMLSurveyNameDidChangeNotification @"kNotificationAMLSurvey_NameDidChange"
+#define AMLSurveyTimeDidChangeNotifiation @"kNotificationAMLSurvey_TimeDidChange"
+#define AMLSurveyRepeatDidChangeNotifiation @"kNotificationAMLSurvey_RepeatDidChange"
+#define AMLSurveyEnabledDidChangeNotifiation @"kNotificationAMLSurvey_EnabledDidChange"
 #define AMLSurveyEditedAtDidChangeNotification @"kNotificationAMLSurvey_EditedAtDidChange"
 #define AMLSurveyQuestionsDidChangeNotification @"kNotificationAMLSurvey_QuestionsDidChange"
 #define AMLSurveyQuestionWasAddedNotification @"kNotificationAMLSurvey_QuestionWasAdded"

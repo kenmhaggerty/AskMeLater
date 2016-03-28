@@ -74,6 +74,25 @@
     [AKGenerics postNotificationName:AMLSurveyEditedAtDidChangeNotification object:self userInfo:userInfo];
 }
 
+- (void)setTime:(NSDate *)time {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSDate *primitiveTime = [self primitiveValueForKey:NSStringFromSelector(@selector(time))];
+    
+    if ([AKGenerics object:time isEqualToObject:primitiveTime]) {
+        return;
+    }
+    
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = time;
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(time))];
+    [self setPrimitiveValue:time forKey:NSStringFromSelector(@selector(time))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(time))];
+    
+    [AKGenerics postNotificationName:AMLSurveyTimeDidChangeNotifiation object:self userInfo:userInfo];
+}
+
 - (void)setRepeatValue:(NSNumber *)repeatValue {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
     
@@ -83,9 +102,14 @@
         return;
     }
     
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = repeatValue;
+    
     [self willChangeValueForKey:NSStringFromSelector(@selector(repeatValue))];
     [self setPrimitiveValue:repeatValue forKey:NSStringFromSelector(@selector(repeatValue))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(repeatValue))];
+    
+    [AKGenerics postNotificationName:AMLSurveyRepeatDidChangeNotifiation object:self userInfo:userInfo];
 }
 
 - (void)setEnabledValue:(NSNumber *)enabledValue {
@@ -97,9 +121,14 @@
         return;
     }
     
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = enabledValue;
+    
     [self willChangeValueForKey:NSStringFromSelector(@selector(enabledValue))];
     [self setPrimitiveValue:enabledValue forKey:NSStringFromSelector(@selector(enabledValue))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(enabledValue))];
+    
+    [AKGenerics postNotificationName:AMLSurveyEnabledDidChangeNotifiation object:self userInfo:userInfo];
 }
 
 - (void)setQuestions:(NSOrderedSet <AMLQuestion *> *)questions {
