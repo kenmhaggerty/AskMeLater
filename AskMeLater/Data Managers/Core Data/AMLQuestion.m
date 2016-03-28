@@ -27,6 +27,14 @@
 
 #pragma mark - // INITS AND LOADS //
 
+- (void)prepareForDeletion {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
+    
+    [AKGenerics postNotificationName:AMLQuestionWillBeDeletedNotification object:self userInfo:nil];
+    
+    [super prepareForDeletion];
+}
+
 #pragma mark - // PUBLIC METHODS //
 
 - (void)replaceChoiceAtIndex:(NSUInteger)index withChoice:(AMLChoice *)choice {

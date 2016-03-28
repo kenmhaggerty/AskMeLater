@@ -18,6 +18,16 @@
 #pragma mark - // DEFINITIONS (Private) //
 
 @interface AMLSurvey ()
+
+// OBSERVERS //
+
+- (void)addObserversToQuestion:(AMLQuestion *)question;
+- (void)removeObserversFromQuestion:(AMLQuestion *)question;
+
+// RESPONDERS //
+
+- (void)questionWillBeDeleted:(NSNotification *)notification;
+
 @end
 
 @implementation AMLSurvey
@@ -64,7 +74,56 @@
     [AKGenerics postNotificationName:AMLSurveyEditedAtDidChangeNotification object:self userInfo:userInfo];
 }
 
+- (void)setQuestions:(NSOrderedSet <AMLQuestion *> *)questions {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSOrderedSet *primitiveQuestions = [self primitiveValueForKey:NSStringFromSelector(@selector(questions))];
+    
+    if ([AKGenerics object:questions isEqualToObject:primitiveQuestions]) {
+        return;
+    }
+    
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = questions;
+    
+    for (AMLQuestion *question in primitiveQuestions) {
+        [self removeObserversFromQuestion:question];
+    }
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(questions))];
+    [self setPrimitiveValue:questions forKey:NSStringFromSelector(@selector(questions))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(questions))];
+    
+    for (AMLQuestion *question in questions) {
+        [self addObserversToQuestion:question];
+    }
+    
+    [AKGenerics postNotificationName:AMLSurveyQuestionsDidChangeNotification object:self userInfo:userInfo];
+}
+
 #pragma mark - // INITS AND LOADS //
+
+- (void)dealloc {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
+    
+    [self teardown];
+}
+
+- (void)awakeFromFetch {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
+    
+    [super awakeFromFetch];
+    
+    [self setup];
+}
+
+- (void)awakeFromInsert {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
+    
+    [super awakeFromInsert];
+    
+    [self setup];
+}
 
 - (void)prepareForDeletion {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
@@ -78,12 +137,16 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
     [self addQuestionsObject:question];
+    
+    [self addObserversToQuestion:question];
 }
 
 - (void)insertQuestion:(AMLQuestion *)question atIndex:(NSUInteger)index {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
     [self insertObject:question inQuestionsAtIndex:index];
+    
+    [self addObserversToQuestion:question];
 }
 
 - (void)moveQuestion:(AMLQuestion *)question toIndex:(NSUInteger)index {
@@ -120,12 +183,16 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
     [self removeQuestionsObject:question];
+    
+    [self removeObserversFromQuestion:question];
 }
 
 - (void)removeQuestionAtIndex:(NSUInteger)index {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
     [self removeObjectFromQuestionsAtIndex:index];
+    
+    [self removeObserversFromQuestion:question];
 }
 
 #pragma mark - // CATEGORY METHODS //
@@ -134,6 +201,48 @@
 
 #pragma mark - // OVERWRITTEN METHODS //
 
-#pragma mark - // PRIVATE METHODS //
+- (void)setup {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
+    
+    [super setup];
+    
+    for (AMLQuestion *question in self.questions) {
+        [self addObserversToQuestion:question];
+    }
+}
+
+- (void)teardown {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
+    
+    for (AMLQuestion *question in self.questions) {
+        [self removeObserversFromQuestion:question];
+    }
+    
+    [super teardown];
+}
+
+#pragma mark - // PRIVATE METHODS (Observers) //
+
+- (void)addObserversToQuestion:(AMLQuestion *)question {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionWillBeDeleted:) name:AMLQuestionWillBeDeletedNotification object:question];
+}
+
+- (void)removeObserversFromQuestion:(AMLQuestion *)question {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLQuestionWillBeDeletedNotification object:question];
+}
+
+#pragma mark - // PRIVATE METHODS (Responders) //
+
+- (void)questionWillBeDeleted:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA] message:nil];
+    
+    AMLQuestion *question = notification.object;
+    
+    [self removeQuestion:question];
+}
 
 @end
