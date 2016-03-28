@@ -253,7 +253,9 @@ NSString * const AddCellReuseIdentifier = @"addCell";
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
-    // reorder
+    id <AMLSurvey_Editable> survey = (id <AMLSurvey_Editable>)self.survey;
+    [survey moveQuestionAtIndex:fromIndexPath.row toIndex:toIndexPath.row];
+    [AMLDataManager save];
 }
 
 #pragma mark - // DELEGATED METHODS (UITableViewDelegate) //
