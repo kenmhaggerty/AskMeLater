@@ -122,6 +122,8 @@
 - (void)setup {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
     
+    [super setup];
+    
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.textView.delegate = self;
 }
