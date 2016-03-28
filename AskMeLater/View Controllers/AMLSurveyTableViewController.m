@@ -336,7 +336,7 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     [AMLDataManager deleteQuestion:question];
 }
 
-- (void)cellDidChangeText:(AMLSurveyTableViewCell *)sender {
+- (void)cellDidEndEditing:(AMLSurveyTableViewCell *)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
