@@ -358,6 +358,13 @@ NSUInteger const TimingTableViewSection = 2;
     [AMLDataManager deleteQuestion:question];
 }
 
+- (void)cellDidBeginEditing:(AMLSurveyTableViewCell *)sender  {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
+    
+    AMLSurveyTimingCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:TimingTableViewSection]];
+    [cell setUserInteractionEnabled:NO];
+}
+
 - (void)cellDidEndEditing:(AMLSurveyTableViewCell *)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
@@ -369,6 +376,9 @@ NSUInteger const TimingTableViewSection = 2;
     id <AMLQuestion_Editable> question = (id <AMLQuestion_Editable>)[self.survey.questions objectAtIndex:indexPath.row];
     question.text = sender.textView.text;
     [AMLDataManager save];
+    
+    AMLSurveyTimingCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:TimingTableViewSection]];
+    [cell setUserInteractionEnabled:YES];
 }
 
 #pragma mark - // DELEGATED METHODS (UISurveyTimingCellDelegate) //
