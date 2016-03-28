@@ -162,6 +162,8 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     [super viewDidLoad];
     
     self.navigationItem.rightBarButtonItem = self.editButton;
+    self.tableView.contentInset = UIEdgeInsetsMake(self.tableView.contentInset.top, self.tableView.contentInset.left, self.tabBarController.tabBar.frame.size.height, self.tableView.contentInset.right);
+    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.tableView.scrollIndicatorInsets.top, self.tableView.scrollIndicatorInsets.left, self.tabBarController.tabBar.frame.size.height, self.tableView.scrollIndicatorInsets.right);
 }
 
 - (void)viewWillAppear:(BOOL)animated {
