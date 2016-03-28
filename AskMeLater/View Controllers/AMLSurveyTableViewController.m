@@ -47,6 +47,11 @@ NSString * const AddCellReuseIdentifier = @"addCell";
 // RESPONDERS //
 
 - (void)surveyNameDidChange:(NSNotification *)notification;
+- (void)surveyQuestionsDidChange:(NSNotification *)notification;
+- (void)surveyQuestionWasAdded:(NSNotification *)notification;
+- (void)surveyQuestionWasReordered:(NSNotification *)notification;
+- (void)surveyQuestionAtIndexWasRemoved:(NSNotification *)notification;
+- (void)surveyWillBeDeleted:(NSNotification *)notification;
 
 @end
 
@@ -446,12 +451,20 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyNameDidChange:) name:AMLSurveyNameDidChangeNotification object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionsDidChange:) name:AMLSurveyQuestionsDidChangeNotification object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionWasAdded:) name:AMLSurveyQuestionWasAddedNotification object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionWasReordered:) name:AMLSurveyQuestionWasReorderedNotification object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionAtIndexWasRemoved:) name:AMLSurveyQuestionAtIndexWasRemovedNotification object:survey];
 }
 
 - (void)removeObserversFromSurvey:(id <AMLSurvey>)survey {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyNameDidChangeNotification object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyQuestionsDidChangeNotification object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyQuestionWasAddedNotification object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyQuestionWasReorderedNotification object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyQuestionAtIndexWasRemovedNotification object:survey];
 }
 
 #pragma mark - // PRIVATE METHODS (Responders) //
@@ -460,6 +473,44 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
     
     self.title = self.survey.name;
+}
+
+- (void)surveyQuestionsDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
+    
+    [self.tableView reloadData];
+}
+
+- (void)surveyQuestionWasAdded:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
+    
+    id <AMLQuestion> question = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.survey.questions indexOfObject:question] inSection:0];
+    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)surveyQuestionWasReordered:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
+    
+    id <AMLQuestion> question = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.survey.questions indexOfObject:question] inSection:0];
+    NSNumber *oldIndex = notification.userInfo[NOTIFICATION_SECONDARY_KEY];
+    NSIndexPath *fromIndexPath = [NSIndexPath indexPathForRow:oldIndex.integerValue inSection:0];
+    [self.tableView moveRowAtIndexPath:fromIndexPath toIndexPath:indexPath];
+}
+
+- (void)surveyQuestionAtIndexWasRemoved:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
+    
+    NSNumber *index = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index.integerValue inSection:0];
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)surveyWillBeDeleted:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
