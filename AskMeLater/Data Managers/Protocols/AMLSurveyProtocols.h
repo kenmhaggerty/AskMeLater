@@ -20,6 +20,10 @@
 
 #define AMLSurveyNameDidChangeNotification @"kNotificationAMLSurvey_NameDidChange"
 #define AMLSurveyEditedAtDidChangeNotification @"kNotificationAMLSurvey_EditedAtDidChange"
+#define AMLSurveyQuestionsDidChangeNotification @"kNotificationAMLSurvey_QuestionsDidChange"
+#define AMLSurveyQuestionWasAddedNotification @"kNotificationAMLSurvey_QuestionWasAdded"
+#define AMLSurveyQuestionWasReorderedNotification @"kNotificationAMLSurvey_QuestionWasReordered"
+#define AMLSurveyQuestionAtIndexWasRemovedNotification @"kNotificationAMLSurvey_QuestionAtIndexWasRemoved"
 #define AMLSurveyWillBeDeletedNotification @"kNotificationAMLSurvey_WillBeDeleted"
 
 #pragma mark - // PROTOCOL (AMLSurvey) //

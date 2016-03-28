@@ -136,17 +136,27 @@
 - (void)addQuestion:(AMLQuestion *)question {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = question;
+    
     [self addQuestionsObject:question];
     
     [self addObserversToQuestion:question];
+    
+    [AKGenerics postNotificationName:AMLSurveyQuestionWasAddedNotification object:self userInfo:userInfo];
 }
 
 - (void)insertQuestion:(AMLQuestion *)question atIndex:(NSUInteger)index {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = question;
+    
     [self insertObject:question inQuestionsAtIndex:index];
     
     [self addObserversToQuestion:question];
+    
+    [AKGenerics postNotificationName:AMLSurveyQuestionWasAddedNotification object:self userInfo:userInfo];
 }
 
 - (void)moveQuestion:(AMLQuestion *)question toIndex:(NSUInteger)index {
@@ -162,8 +172,14 @@
         return;
     }
     
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = question;
+    userInfo[NOTIFICATION_SECONDARY_KEY] = [NSNumber numberWithInteger:[self.questions indexOfObject:question]];
+    
     [self removeQuestionsObject:question];
     [self insertObject:question inQuestionsAtIndex:index];
+    
+    [AKGenerics postNotificationName:AMLSurveyQuestionWasReorderedNotification object:self userInfo:userInfo];
 }
 
 - (void)moveQuestionAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex {
@@ -175,24 +191,43 @@
     }
     
     AMLQuestion *question = self.questions[fromIndex];
+    
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = question;
+    userInfo[NOTIFICATION_SECONDARY_KEY] = [NSNumber numberWithInteger:[self.questions indexOfObject:question]];
+    
     [self removeQuestionsObject:question];
     [self insertObject:question inQuestionsAtIndex:toIndex];
+    
+    [AKGenerics postNotificationName:AMLSurveyQuestionWasReorderedNotification object:self userInfo:userInfo];
 }
 
 - (void)removeQuestion:(AMLQuestion *)question {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithInteger:[self.questions indexOfObject:question]];
+    
     [self removeQuestionsObject:question];
     
     [self removeObserversFromQuestion:question];
+    
+    [AKGenerics postNotificationName:AMLSurveyQuestionAtIndexWasRemovedNotification object:self userInfo:userInfo];
 }
 
 - (void)removeQuestionAtIndex:(NSUInteger)index {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
+    AMLQuestion *question = [self.questions objectAtIndex:index];
+    
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithInteger:index];
+    
     [self removeObjectFromQuestionsAtIndex:index];
     
     [self removeObserversFromQuestion:question];
+    
+    [AKGenerics postNotificationName:AMLSurveyQuestionAtIndexWasRemovedNotification object:self userInfo:userInfo];
 }
 
 #pragma mark - // CATEGORY METHODS //
