@@ -17,6 +17,7 @@
 #import "AMLLoginManager.h"
 #import "AMLCoreDataController.h"
 #import "AMLFirebaseController.h"
+#import "AMLNotificationsManager.h"
 
 #pragma mark - // DEFINITIONS (Private) //
 
@@ -46,6 +47,7 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:nil];
     
     [AMLFirebaseController setup];
+    [AMLNotificationsManager setup];
 }
 
 + (void)save {

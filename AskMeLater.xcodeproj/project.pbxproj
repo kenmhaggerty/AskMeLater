@@ -33,6 +33,7 @@
 		7DBB1F141CA433DD00C7C403 /* AMLQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D621C99D6EB000A02F0 /* AMLQuestion.m */; };
 		7DBB1F151CA433E800C7C403 /* AMLSurvey.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D5A1C99D6EB000A02F0 /* AMLSurvey.m */; };
 		7DBB1F1A1CA98FBA00C7C403 /* AMLSurveyTimingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB1F191CA98FBA00C7C403 /* AMLSurveyTimingCell.m */; };
+		7DBB1F1E1CA9B16200C7C403 /* AMLNotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB1F1D1CA9B16200C7C403 /* AMLNotificationsManager.m */; };
 		7DDE78531C93234D00241A80 /* AMLFirebaseQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDE78521C93234D00241A80 /* AMLFirebaseQuery.m */; };
 		7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D511C936775000A02F0 /* NSArray+Extras.m */; };
 		7DE38D671C99D6EB000A02F0 /* AMLSurvey+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D581C99D6EB000A02F0 /* AMLSurvey+CoreDataProperties.m */; };
@@ -127,6 +128,8 @@
 		7D7DE7F41C8E1A3600FFA637 /* AMLFirebaseNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLFirebaseNotifications.h; path = Firebase/AMLFirebaseNotifications.h; sourceTree = "<group>"; };
 		7DBB1F181CA98FBA00C7C403 /* AMLSurveyTimingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLSurveyTimingCell.h; path = "AskMeLater/View Controllers/AMLSurveyTimingCell.h"; sourceTree = SOURCE_ROOT; };
 		7DBB1F191CA98FBA00C7C403 /* AMLSurveyTimingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMLSurveyTimingCell.m; path = "AskMeLater/View Controllers/AMLSurveyTimingCell.m"; sourceTree = SOURCE_ROOT; };
+		7DBB1F1C1CA9B16200C7C403 /* AMLNotificationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLNotificationsManager.h; path = "Notifications Manager/AMLNotificationsManager.h"; sourceTree = "<group>"; };
+		7DBB1F1D1CA9B16200C7C403 /* AMLNotificationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMLNotificationsManager.m; path = "Notifications Manager/AMLNotificationsManager.m"; sourceTree = "<group>"; };
 		7DDE78511C93234D00241A80 /* AMLFirebaseQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLFirebaseQuery.h; sourceTree = "<group>"; };
 		7DDE78521C93234D00241A80 /* AMLFirebaseQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLFirebaseQuery.m; sourceTree = "<group>"; };
 		7DDE78541C9328FC00241A80 /* AMLFirebaseQuery+FQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AMLFirebaseQuery+FQuery.h"; sourceTree = "<group>"; };
@@ -318,6 +321,7 @@
 				7D12CB111C8A4F860021519B /* Protocols */,
 				7DBB1F161CA44A2600C7C403 /* Data Manager */,
 				7D12CB0D1C8A4EA30021519B /* Login Manager */,
+				7DBB1F1B1CA9B13800C7C403 /* Notifications Manager */,
 				7D12CAF41C8A48910021519B /* Firebase */,
 				7DE38D8C1C9D8A37000A02F0 /* Mock Data */,
 				7D12CAF31C8A48310021519B /* Core Data */,
@@ -536,6 +540,15 @@
 				7DBB1F191CA98FBA00C7C403 /* AMLSurveyTimingCell.m */,
 			);
 			name = AMLSurveyTimingCell;
+			sourceTree = "<group>";
+		};
+		7DBB1F1B1CA9B13800C7C403 /* Notifications Manager */ = {
+			isa = PBXGroup;
+			children = (
+				7DBB1F1C1CA9B16200C7C403 /* AMLNotificationsManager.h */,
+				7DBB1F1D1CA9B16200C7C403 /* AMLNotificationsManager.m */,
+			);
+			name = "Notifications Manager";
 			sourceTree = "<group>";
 		};
 		7DDE78571C93290900241A80 /* AMLFirebaseQuery */ = {
@@ -933,6 +946,7 @@
 				7D7DE7F11C8B6D8100FFA637 /* AMLDataManager.m in Sources */,
 				7DE38D6B1C99D6EB000A02F0 /* AMLQuestion+CoreDataProperties.m in Sources */,
 				7DE38D671C99D6EB000A02F0 /* AMLSurvey+CoreDataProperties.m in Sources */,
+				7DBB1F1E1CA9B16200C7C403 /* AMLNotificationsManager.m in Sources */,
 				7DE38D6D1C99D6EB000A02F0 /* AMLChoice+CoreDataProperties.m in Sources */,
 				7D12CB081C8A4A7D0021519B /* NSObject+Basics.m in Sources */,
 				7DE38D851C9A0C45000A02F0 /* AMLResultsViewController.m in Sources */,
