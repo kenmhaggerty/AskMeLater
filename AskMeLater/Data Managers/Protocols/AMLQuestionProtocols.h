@@ -23,8 +23,8 @@
 @protocol AMLQuestion <NSObject>
 
 - (NSString *)text;
-- (NSOrderedSet <id <AMLChoice>> *)choices;
 - (BOOL)secure;
+- (NSOrderedSet <id <AMLChoice>> *)choices;
 - (NSSet <id <AMLResponse>> *)responses;
 
 @end
@@ -40,11 +40,11 @@
 // SETTERS //
 
 - (void)setText:(NSString *)text;
+- (void)setSecure:(BOOL)secure;
 - (void)setChoices:(NSOrderedSet <id <AMLChoice>> *)choices;
 - (void)replaceChoiceAtIndex:(NSUInteger)index withChoice:(id <AMLChoice>)choice;
 - (void)removeChoiceAtIndex:(NSUInteger)index;
 - (void)removeChoice:(id <AMLChoice>)choice;
-- (void)setSecure:(BOOL)secure;
 - (void)deleteResponse:(id <AMLResponse>)response;
 
 @end
