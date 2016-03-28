@@ -17,7 +17,6 @@
 #import "UIAlertController+Info.h"
 
 #import "AMLDataManager.h"
-#import "AMLMockQuestion.h" // temp
 
 #import "AMLSurveyTableViewCell.h"
 
@@ -28,7 +27,6 @@ NSString * const AddCellReuseIdentifier = @"addCell";
 @interface AMLSurveyTableViewController () <AMLSurveyTableViewCellDelegate>
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *editButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *doneButton;
-@property (nonatomic, strong) NSMutableArray <AMLMockQuestion *> *questions;
 @property (nonatomic, strong) UIAlertController *alertRenameSurvey;
 @property (nonatomic, strong) UIAlertController *alertEditChoice;
 
@@ -77,18 +75,6 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     }
     
     self.title = survey.name;
-}
-
-- (void)setQuestions:(NSMutableArray <AMLMockQuestion *> *)questions {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:nil message:nil];
-    
-    if ([AKGenerics object:questions isEqualToObject:_questions]) {
-        return;
-    }
-    
-    _questions = questions;
-    
-    [self.tableView reloadData];
 }
 
 - (UIAlertController *)alertRenameSurvey {
@@ -210,7 +196,7 @@ NSString * const AddCellReuseIdentifier = @"addCell";
         return 1;
     }
     
-    return self.questions.count;
+    return (self.survey ? self.survey.questions.count : 0);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -224,7 +210,8 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     }
     
     AMLSurveyTableViewCell *cell = (AMLSurveyTableViewCell *)[AKGenerics cellWithReuseIdentifier:[AMLSurveyTableViewCell reuseIdentifier] class:[AMLSurveyTableViewCell class] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
-    cell.textView.text = self.questions[indexPath.row].text;
+    id <AMLQuestion> question = [self.survey.questions objectAtIndex:indexPath.row];
+    cell.textView.text = question.text;
     cell.delegate = self;
     return cell;
 }
@@ -288,7 +275,7 @@ NSString * const AddCellReuseIdentifier = @"addCell";
         return nil;
     }
     
-    AMLMockQuestion *question = self.questions[indexPath.row];
+    id <AMLQuestion_Editable> question = (id <AMLQuestion_Editable>)[self.survey.questions objectAtIndex:indexPath.row];
     
     NSString *primaryString = question.choices[0];
     UITableViewRowAction *primaryAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:(primaryString ?: @"(blank)") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
@@ -334,8 +321,9 @@ NSString * const AddCellReuseIdentifier = @"addCell";
         return;
     }
     
-    [self.questions removeObjectAtIndex:indexPath.row];
-    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    id <AMLSurvey_Editable> survey = (id <AMLSurvey_Editable>)self.survey;
+    id <AMLQuestion_Editable> question = (id <AMLQuestion_Editable>)[survey.questions objectAtIndex:indexPath.row];
+    [AMLDataManager deleteQuestion:question];
 }
 
 - (void)cellDidChangeText:(AMLSurveyTableViewCell *)sender {
@@ -346,7 +334,9 @@ NSString * const AddCellReuseIdentifier = @"addCell";
         return;
     }
     
-    self.questions[indexPath.row].text = sender.textView.text;
+    id <AMLQuestion_Editable> question = (id <AMLQuestion_Editable>)[self.survey.questions objectAtIndex:indexPath.row];
+    question.text = sender.textView.text;
+    [AMLDataManager save];
 }
 
 #pragma mark - // OVERWRITTEN METHODS //
@@ -356,7 +346,6 @@ NSString * const AddCellReuseIdentifier = @"addCell";
     
     [super setup];
     
-    _questions = [NSMutableArray array];
     _editButton = [[UIBarButtonItem alloc] initWithTitle:@"Sort" style:UIBarButtonItemStylePlain target:self action:@selector(edit:)];
     
     [self.navigationItem addObserver:self forKeyPath:NSStringFromSelector(@selector(rightBarButtonItem)) options:NSKeyValueObservingOptionNew context:NULL];
