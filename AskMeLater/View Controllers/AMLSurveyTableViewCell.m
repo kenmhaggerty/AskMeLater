@@ -89,6 +89,14 @@
 
 #pragma mark - // DELEGATED METHODS (UITextViewDelegate) //
 
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cellDidBeginEditing:)]) {
+        [self.delegate cellDidBeginEditing:self];
+    }
+}
+
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeValidator tags:@[AKD_UI] message:nil];
     
