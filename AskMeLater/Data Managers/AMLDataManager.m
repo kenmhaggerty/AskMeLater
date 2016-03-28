@@ -26,6 +26,11 @@
 
 + (AMLUser *)convertUser:(id <AMLUser>)user;
 + (AMLSurvey *)convertSurvey:(id <AMLSurvey>)survey;
++ (AMLQuestion *)convertQuestion:(id <AMLQuestion>)question;
+
+// OTHER //
+
++ (NSOrderedSet <AMLChoice *> *)choices;
 
 @end
 
@@ -72,6 +77,26 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeDeletor tags:@[AKD_DATA] message:nil];
     
     [AMLCoreDataController deleteObject:[AMLDataManager convertSurvey:survey]];
+}
+
+#pragma mark - // PUBLIC METHODS (Questions) //
+
++ (id <AMLQuestion_Editable>)questionForSurvey:(id <AMLSurvey_Editable>)survey {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_DATA] message:nil];
+    
+    NSString *text = nil;
+    NSOrderedSet <AMLChoice *> *choices = [AMLDataManager choices];
+    id <AMLQuestion_Editable> question = [AMLCoreDataController questionWithText:text choices:choices];
+    [survey addQuestion:question];
+    [AMLCoreDataController save];
+    return question;
+}
+
++ (void)deleteQuestion:(id <AMLQuestion_Editable>)question {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeDeletor tags:@[AKD_DATA] message:nil];
+    
+    [AMLCoreDataController deleteObject:[AMLDataManager convertQuestion:question]];
+    [AMLCoreDataController save];
 }
 
 #pragma mark - // PUBLIC METHODS (Debugging) //
@@ -129,6 +154,26 @@
     }
     
     return nil;
+}
+
++ (AMLQuestion *)convertQuestion:(id <AMLQuestion>)question {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
+    
+    if ([question isKindOfClass:[AMLQuestion class]]) {
+        return (AMLQuestion *)question;
+    }
+    
+    return nil;
+}
+
+#pragma mark - // PRIVATE METHODS (Other) //
+
++ (NSOrderedSet <AMLChoice *> *)choices {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_DATA] message:nil];
+    
+    AMLChoice *primaryChoice = [AMLCoreDataController choiceWithText:@"👍"];
+    AMLChoice *secondaryChoice = [AMLCoreDataController choiceWithText:@"👎"];
+    return [NSOrderedSet orderedSetWithArray:@[primaryChoice, secondaryChoice]];
 }
 
 @end
