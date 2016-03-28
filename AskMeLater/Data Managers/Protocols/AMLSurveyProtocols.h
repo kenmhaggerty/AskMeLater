@@ -31,13 +31,13 @@
 @protocol AMLSurvey <NSObject>
 
 - (NSString *)name;
-- (NSOrderedSet <id <AMLQuestion>> *)questions;
-- (BOOL)enabled;
+- (NSDate *)createdAt;
+- (NSDate *)editedAt;
 - (NSDate *)time;
 - (BOOL)repeat;
-- (NSDate *)editedAt;
+- (BOOL)enabled;
+- (NSOrderedSet <id <AMLQuestion>> *)questions;
 - (id <AMLUser>)author;
-- (NSDate *)createdAt;
 
 @end
 
@@ -52,17 +52,18 @@
 // SETTERS //
 
 - (void)setName:(NSString *)name;
+- (void)setEditedAt:(NSDate *)editedAt;
+- (void)setTime:(NSDate *)time;
+- (void)setRepeat:(BOOL)repeat;
+- (void)setEnabled:(BOOL)enabled;
 - (void)setQuestions:(NSOrderedSet <id <AMLQuestion>> *)questions;
+
 - (void)addQuestion:(id <AMLQuestion>)question;
 - (void)insertQuestion:(id <AMLQuestion>)question atIndex:(NSUInteger)index;
 - (void)moveQuestion:(id <AMLQuestion>)question toIndex:(NSUInteger)index;
 - (void)moveQuestionAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
 - (void)removeQuestion:(id <AMLQuestion>)question;
 - (void)removeQuestionAtIndex:(NSUInteger)index;
-- (void)setEnabled:(BOOL)enabled;
-- (void)setTime:(NSDate *)time;
-- (void)setRepeat:(BOOL)repeat;
-- (void)setEditedAt:(NSDate *)editedAt;
 
 @end
 
