@@ -130,6 +130,7 @@
 		7DBB1F191CA98FBA00C7C403 /* AMLSurveyTimingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMLSurveyTimingCell.m; path = "AskMeLater/View Controllers/AMLSurveyTimingCell.m"; sourceTree = SOURCE_ROOT; };
 		7DBB1F1C1CA9B16200C7C403 /* AMLNotificationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLNotificationsManager.h; path = "Notifications Manager/AMLNotificationsManager.h"; sourceTree = "<group>"; };
 		7DBB1F1D1CA9B16200C7C403 /* AMLNotificationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMLNotificationsManager.m; path = "Notifications Manager/AMLNotificationsManager.m"; sourceTree = "<group>"; };
+		7DBB1F321CAAFAB000C7C403 /* AMLQuestionUIProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AMLQuestionUIProtocol.h; path = Protocols/AMLQuestionUIProtocol.h; sourceTree = "<group>"; };
 		7DDE78511C93234D00241A80 /* AMLFirebaseQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLFirebaseQuery.h; sourceTree = "<group>"; };
 		7DDE78521C93234D00241A80 /* AMLFirebaseQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLFirebaseQuery.m; sourceTree = "<group>"; };
 		7DDE78541C9328FC00241A80 /* AMLFirebaseQuery+FQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AMLFirebaseQuery+FQuery.h"; sourceTree = "<group>"; };
@@ -620,6 +621,7 @@
 			isa = PBXGroup;
 			children = (
 				7DE38D871C9B11ED000A02F0 /* AMLSurveyUIProtocol.h */,
+				7DBB1F321CAAFAB000C7C403 /* AMLQuestionUIProtocol.h */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
