@@ -6,8 +6,10 @@
         <relationship name="question" maxCount="1" deletionRule="Nullify" destinationEntity="AMLQuestion" inverseName="choices" inverseEntity="AMLQuestion" syncable="YES"/>
     </entity>
     <entity name="AMLQuestion" representedClassName="AMLQuestion" syncable="YES">
+        <attribute name="createdAt" attributeType="Date" syncable="YES"/>
         <attribute name="secureValue" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uuid" attributeType="String" syncable="YES"/>
         <relationship name="choices" optional="YES" toMany="YES" maxCount="2" deletionRule="Cascade" ordered="YES" destinationEntity="AMLChoice" inverseName="question" inverseEntity="AMLChoice" syncable="YES"/>
         <relationship name="responses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AMLResponse" inverseName="question" inverseEntity="AMLResponse" syncable="YES"/>
         <relationship name="survey" maxCount="1" deletionRule="Nullify" destinationEntity="AMLSurvey" inverseName="questions" inverseEntity="AMLSurvey" syncable="YES"/>
@@ -39,7 +41,7 @@
     </entity>
     <elements>
         <element name="AMLChoice" positionX="360" positionY="432" width="128" height="88"/>
-        <element name="AMLQuestion" positionX="360" positionY="216" width="128" height="118"/>
+        <element name="AMLQuestion" positionX="360" positionY="216" width="128" height="148"/>
         <element name="AMLResponse" positionX="142" positionY="432" width="128" height="103"/>
         <element name="AMLSurvey" positionX="144" positionY="216" width="128" height="163"/>
         <element name="AMLUser" positionX="-72" positionY="216" width="128" height="148"/>

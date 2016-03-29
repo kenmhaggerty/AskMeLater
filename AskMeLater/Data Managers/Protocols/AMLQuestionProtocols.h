@@ -59,6 +59,7 @@
 
 @protocol AMLQuestion_PRIVATE <AMLQuestion_Editable>
 
+- (NSString *)uuid;
 - (void)addResponse:(id <AMLResponse>)response;
 
 @end

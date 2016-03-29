@@ -158,6 +158,8 @@
         question = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([AMLQuestion class]) inManagedObjectContext:managedObjectContext];
         question.text = text;
         question.choices = choices;
+        question.createdAt = [NSDate date];
+        question.uuid = [[NSUUID UUID] UUIDString];
     }];
     return question;
 }

@@ -23,8 +23,10 @@
 
 #pragma mark - // SETTERS AND GETTERS //
 
-@dynamic text;
+@dynamic createdAt;
 @dynamic secureValue;
+@dynamic text;
+@dynamic uuid;
 @dynamic responses;
 @dynamic choices;
 @dynamic survey;
