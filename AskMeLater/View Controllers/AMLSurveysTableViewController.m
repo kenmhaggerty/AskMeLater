@@ -219,23 +219,20 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
     
-    NSMutableArray <UIViewController *> *viewControllers = [NSMutableArray arrayWithObject:segue.destinationViewController];
-    UIViewController *viewController;
-    do {
-        viewController = viewControllers[0];
-        if ([viewController isKindOfClass:[UINavigationController class]] || [viewController isKindOfClass:[UITabBarController class]]) {
-            [viewControllers addObjectsFromArray:viewController.childViewControllers];
+    if (![sender conformsToProtocol:@protocol(AMLSurvey)]) {
+        return;
+    }
+    
+    id <AMLSurvey> survey = (id <AMLSurvey>)sender;
+    
+    if ([segue.destinationViewController conformsToProtocol:@protocol(AMLSurveyUI)]) {
+        ((UIViewController <AMLSurveyUI> *)segue.destinationViewController).survey = survey;
+    }
+    [segue.destinationViewController performBlockOnChildViewControllers:^(UIViewController *childViewController) {
+        if ([childViewController conformsToProtocol:@protocol(AMLSurveyUI)]) {
+            ((UIViewController <AMLSurveyUI> *)childViewController).survey = survey;
         }
-        else {
-            if ([viewController conformsToProtocol:@protocol(AMLSurveyUI)]) {
-                UIViewController <AMLSurveyUI> *surveyViewController = (UIViewController <AMLSurveyUI> *)viewController;
-                if ([sender conformsToProtocol:@protocol(AMLSurvey)]) {
-                    surveyViewController.survey = (id <AMLSurvey>)sender;
-                }
-            }
-        }
-        [viewControllers removeObject:viewController];
-    } while (viewControllers.count);
+    }];
 }
 
 #pragma mark - // PRIVATE METHODS (Actions) //
