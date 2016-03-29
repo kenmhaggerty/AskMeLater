@@ -302,6 +302,7 @@
 				7D5A655E1CA0718500D7AE8D /* AMLLoginViewController */,
 				7DBB1F101CA4333800C7C403 /* AMLSurveysTableViewController */,
 				7DBB1F111CA4334700C7C403 /* AMLSurveyTableViewController */,
+				7DBB1F131CA4336600C7C403 /* AMLResultsViewController */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -500,7 +501,6 @@
 				7DE38D7E1C9A0C21000A02F0 /* AMLSurveyTableViewController.m */,
 				7DBB1F121CA4335800C7C403 /* AMLSurveyTableViewCell */,
 				7DBB1F171CA98F8100C7C403 /* AMLSurveyTimingCell */,
-				7DBB1F131CA4336600C7C403 /* AMLResultsViewController */,
 			);
 			name = AMLSurveyTableViewController;
 			path = "../Data Managers/Core Data";
@@ -522,6 +522,7 @@
 				7DE38D841C9A0C45000A02F0 /* AMLResultsViewController.m */,
 			);
 			name = AMLResultsViewController;
+			path = "../Data Managers/Core Data";
 			sourceTree = "<group>";
 		};
 		7DBB1F161CA44A2600C7C403 /* Data Manager */ = {
