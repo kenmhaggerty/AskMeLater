@@ -36,7 +36,7 @@
 - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification withResponseInfo:(NSDictionary *)responseInfo completionHandler:(void (^)())completionHandler {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-#warning TO DO – Process if already logged out
+#warning TO DO – Process even if logged out
     
     NSString *questionId = notification.userInfo[NOTIFICATION_OBJECT_KEY];
     NSString *response = identifier;
