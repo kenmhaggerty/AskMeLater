@@ -515,6 +515,10 @@ NSUInteger const TimingTableViewSection = 2;
     id <AMLQuestion_Editable> question = [AMLDataManager questionForSurvey:(id <AMLSurvey_Editable>)self.survey];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:AddTableViewSection];
     [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    
+    indexPath = [NSIndexPath indexPathForRow:[self.survey.questions indexOfObject:question] inSection:QuestionsTableViewSection];
+    AMLSurveyTableViewCell *cell = (AMLSurveyTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    [cell.textView becomeFirstResponder];
 }
 
 #pragma mark - // PRIVATE METHODS (Observers) //
