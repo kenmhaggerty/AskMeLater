@@ -603,7 +603,7 @@ NSUInteger const TimingTableViewSection = 2;
     id <AMLQuestion> question = notification.userInfo[NOTIFICATION_OBJECT_KEY];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.survey.questions indexOfObject:question] inSection:QuestionsTableViewSection];
     NSNumber *oldIndex = notification.userInfo[NOTIFICATION_SECONDARY_KEY];
-    NSIndexPath *fromIndexPath = [NSIndexPath indexPathForRow:oldIndex.integerValue inSection:0];
+    NSIndexPath *fromIndexPath = [NSIndexPath indexPathForRow:oldIndex.integerValue inSection:QuestionsTableViewSection];
     [self.tableView moveRowAtIndexPath:fromIndexPath toIndexPath:indexPath];
 }
 
