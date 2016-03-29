@@ -618,7 +618,7 @@ NSUInteger const TimingTableViewSection = 2;
 - (void)surveyWillBeDeleted:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
     
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.tabBarController.navigationController popViewControllerAnimated:YES];
 }
 
 @end
