@@ -70,13 +70,27 @@
 - (void)addResponse:(AMLResponse *)response {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OLD_KEY] = [NSNumber numberWithInteger:self.responses.count];
+    
     [self addResponsesObject:response];
+    
+    userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithInteger:self.responses.count];
+    
+    [AKGenerics postNotificationName:AMLQuestionResponsesCountDidChange object:self userInfo:userInfo];
 }
 
 - (void)deleteResponse:(AMLResponse *)response {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OLD_KEY] = [NSNumber numberWithInteger:self.responses.count];
+    
     [self removeResponsesObject:response];
+    
+    userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithInteger:self.responses.count];
+    
+    [AKGenerics postNotificationName:AMLQuestionResponsesCountDidChange object:self userInfo:userInfo];
 }
 
 #pragma mark - // CATEGORY METHODS //

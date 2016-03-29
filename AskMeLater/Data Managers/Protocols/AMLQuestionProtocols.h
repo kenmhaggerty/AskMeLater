@@ -22,6 +22,7 @@
 #define AMLQuestionChoiceWasAddedNotification @"kNotificationAMLQuestion_ChoiceWasAdded"
 #define AMLQuestionChoiceWasReorderedNotification @"kNotificationAMLQuestion_ChoiceWasReordered"
 #define AMLQuestionChoiceAtIndexWasRemovedNotification @"kNotificationAMLQuestion_ChoiceAtIndexWasRemoved"
+#define AMLQuestionResponsesCountDidChange @"kNotificationAMLQuestion_ResponsesCountDidChange"
 #define AMLQuestionWillBeDeletedNotification @"kNotificationAMLQuestion_WillBeDeleted"
 
 #pragma mark - // PROTOCOL (AMLQuestion) //
