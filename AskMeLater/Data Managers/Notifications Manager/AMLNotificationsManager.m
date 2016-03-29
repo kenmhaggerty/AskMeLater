@@ -18,9 +18,8 @@
 
 #pragma mark - // DEFINITIONS (Private) //
 
-NSString * const NotificationPrimaryActionIdentifier = @"primaryAction";
-NSString * const NotificationSecondaryActionIdentifier = @"secondaryAction";
-NSString * const NotificationActionCategoryDefault = @"default";
+NSString * const AMLNotificationActionString = @"respond";
+NSTimeInterval const AMLNotificationMinimumInterval = 0.5f;
 
 @interface AMLNotificationsManager ()
 
@@ -74,6 +73,49 @@ NSString * const NotificationActionCategoryDefault = @"default";
     }
 }
 
++ (UIMutableUserNotificationAction *)notificationActionWithTitle:(NSString *)title textInput:(BOOL)textInput destructive:(BOOL)destructive authentication:(BOOL)authentication {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
+    
+    UIMutableUserNotificationAction *notificationAction = [[UIMutableUserNotificationAction alloc] init];
+    [notificationAction setActivationMode:UIUserNotificationActivationModeBackground];
+    [notificationAction setTitle:title];
+    [notificationAction setIdentifier:title];
+    [notificationAction setDestructive:destructive];
+    [notificationAction setAuthenticationRequired:authentication];
+    [notificationAction setBehavior:(textInput ? UIUserNotificationActionBehaviorTextInput : UIUserNotificationActionBehaviorDefault)];
+    return notificationAction;
+}
+
++ (void)setNotificationWithTitle:(NSString *)title body:(NSString *)body actions:(NSArray <UIMutableUserNotificationAction *> *)actions actionString:(NSString *)actionString uuid:(NSString *)uuid fireDate:(NSDate *)fireDate repeat:(BOOL)repeat {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
+    
+    UIMutableUserNotificationCategory *actionCategory = [[UIMutableUserNotificationCategory alloc] init];
+    [actionCategory setIdentifier:uuid];
+    [actionCategory setActions:actions forContext:UIUserNotificationActionContextDefault];
+    NSSet *categories = [NSSet setWithObject:actionCategory];
+    
+    UIUserNotificationType types = (UIUserNotificationTypeAlert | UIUserNotificationTypeSound | UIUserNotificationTypeBadge);
+    
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types categories:categories];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    
+    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+    localNotification.alertTitle = title;
+    localNotification.alertBody = body;
+    localNotification.userInfo = @{NOTIFICATION_OBJECT_KEY : uuid};
+    localNotification.alertAction = actionString;
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber]+1;
+    localNotification.hasAction = YES;
+    localNotification.category = uuid;
+    localNotification.fireDate = [(fireDate ?: [NSDate date]) laterDate:[[NSDate date] dateByAddingTimeInterval:AMLNotificationMinimumInterval]];
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    if (repeat) {
+        localNotification.repeatInterval = NSCalendarUnitDay;
+    }
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+}
+
 #pragma mark - // CATEGORY METHODS //
 
 #pragma mark - // DELEGATED METHODS //
@@ -82,6 +124,9 @@ NSString * const NotificationActionCategoryDefault = @"default";
 
 - (void)setup {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge | UIUserNotificationTypeAlert | UIUserNotificationTypeSound categories:nil];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyEnabledDidChange:) name:AMLSurveyEnabledDidChangeNotification object:nil];
 }
@@ -110,58 +155,22 @@ NSString * const NotificationActionCategoryDefault = @"default";
 - (void)surveyEnabledDidChange:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    id <AMLSurvey> survey = (id <AMLSurvey>)notification.object;
+    id <AMLSurvey_Editable> survey = (id <AMLSurvey_Editable>)notification.object;
     BOOL enabled = ((NSNumber *)notification.userInfo[NOTIFICATION_OBJECT_KEY]).boolValue;
     
     if (!enabled) {
         return;
     }
     
-    for (id <AMLQuestion> question in survey.questions) {
-        
-        id <AMLChoice> primaryChoice = [question.choices objectAtIndex:0];
-        UIMutableUserNotificationAction *primaryAction = [[UIMutableUserNotificationAction alloc] init];
-        [primaryAction setActivationMode:UIUserNotificationActivationModeBackground];
-        [primaryAction setTitle:primaryChoice.text];
-        [primaryAction setIdentifier:NotificationPrimaryActionIdentifier];
-        [primaryAction setDestructive:NO];
-//        [primaryAction setAuthenticationRequired:NO];
-//        [primaryAction setBehavior:UIUserNotificationActionBehaviorDefault];
-        
-        id <AMLChoice> secondaryChoice = [question.choices objectAtIndex:1];
-        UIMutableUserNotificationAction *secondaryAction = [[UIMutableUserNotificationAction alloc] init];
-        [secondaryAction setActivationMode:UIUserNotificationActivationModeBackground];
-        [secondaryAction setTitle:secondaryChoice.text];
-        [secondaryAction setIdentifier:NotificationSecondaryActionIdentifier];
-        [secondaryAction setDestructive:NO];
-//        [secondaryAction setAuthenticationRequired:NO];
-//        [secondaryAction setBehavior:UIUserNotificationActionBehaviorDefault];
-        
-        UIMutableUserNotificationCategory *actionCategory = [[UIMutableUserNotificationCategory alloc] init];
-        [actionCategory setIdentifier:NotificationActionCategoryDefault];
-        [actionCategory setActions:@[primaryAction, secondaryAction] forContext:UIUserNotificationActionContextDefault];
-        NSSet *categories = [NSSet setWithObject:actionCategory];
-        
-        UIUserNotificationType types = (UIUserNotificationTypeAlert | UIUserNotificationTypeSound | UIUserNotificationTypeBadge);
-        
-        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types categories:categories];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-        
-        
-        
-        
-        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-        localNotification.alertTitle = survey.name;
-        localNotification.alertBody = question.text;
-        localNotification.category = ;
-        localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber]+1;
-        localNotification.fireDate = survey.time;
-        localNotification.timeZone = [NSTimeZone defaultTimeZone];
-        if (survey.repeat) {
-            localNotification.repeatInterval = NSCalendarUnitDay;
-        }
-        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-    }
+    id <AMLQuestion_PRIVATE> question = (id <AMLQuestion_PRIVATE>)survey.questions.firstObject;
+    
+    id <AMLChoice> primaryChoice = [question.choices objectAtIndex:0];
+    UIMutableUserNotificationAction *primaryAction = [AMLNotificationsManager notificationActionWithTitle:primaryChoice.text textInput:NO destructive:NO authentication:NO];
+    
+    id <AMLChoice> secondaryChoice = [question.choices objectAtIndex:1];
+    UIMutableUserNotificationAction *secondaryAction = [AMLNotificationsManager notificationActionWithTitle:secondaryChoice.text textInput:NO destructive:NO authentication:NO];
+    
+    [AMLNotificationsManager setNotificationWithTitle:survey.name body:question.text actions:@[primaryAction, secondaryAction] actionString:AMLNotificationActionString uuid:question.uuid fireDate:survey.time repeat:survey.repeat];
 }
 
 @end
