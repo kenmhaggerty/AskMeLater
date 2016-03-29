@@ -36,6 +36,8 @@
 - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification withResponseInfo:(NSDictionary *)responseInfo completionHandler:(void (^)())completionHandler {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
+#warning TO DO – Process if already logged out
+    
     NSString *questionId = notification.userInfo[NOTIFICATION_OBJECT_KEY];
     NSString *response = identifier;
     id <AMLQuestion_PRIVATE> question = (id <AMLQuestion_PRIVATE>)[AMLDataManager questionWithId:questionId];
@@ -46,7 +48,7 @@
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    //
+#warning TO DO – Display alertView after login
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
