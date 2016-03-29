@@ -23,12 +23,12 @@
 
 #pragma mark - // SETTERS AND GETTERS //
 
-@dynamic name;
 @dynamic createdAt;
 @dynamic editedAt;
-@dynamic time;
-@dynamic repeatValue;
 @dynamic enabledValue;
+@dynamic name;
+@dynamic repeatValue;
+@dynamic time;
 @dynamic questions;
 @dynamic author;
 
