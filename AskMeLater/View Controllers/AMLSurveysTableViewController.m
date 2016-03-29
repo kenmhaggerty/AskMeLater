@@ -219,26 +219,23 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
     
-    UIViewController *destinationViewController = segue.destinationViewController;
-    BOOL success = NO;
+    NSMutableArray <UIViewController *> *viewControllers = [NSMutableArray arrayWithObject:segue.destinationViewController];
+    UIViewController *viewController;
     do {
-        if ([destinationViewController isKindOfClass:[UINavigationController class]]) {
-            destinationViewController = ((UINavigationController *)destinationViewController).topViewController;
-        }
-        else if ([destinationViewController isKindOfClass:[UITabBarController class]]) {
-            destinationViewController = ((UITabBarController *)destinationViewController).viewControllers[0];
+        viewController = viewControllers[0];
+        if ([viewController isKindOfClass:[UINavigationController class]] || [viewController isKindOfClass:[UITabBarController class]]) {
+            [viewControllers addObjectsFromArray:viewController.childViewControllers];
         }
         else {
-            success = YES;
+            if ([viewController conformsToProtocol:@protocol(AMLSurveyUI)]) {
+                UIViewController <AMLSurveyUI> *surveyViewController = (UIViewController <AMLSurveyUI> *)viewController;
+                if ([sender conformsToProtocol:@protocol(AMLSurvey)]) {
+                    surveyViewController.survey = (id <AMLSurvey>)sender;
+                }
+            }
         }
-    } while (!success);
-    
-    if ([destinationViewController conformsToProtocol:@protocol(AMLSurveyUI)]) {
-        UIViewController <AMLSurveyUI> *surveyViewController = (UIViewController <AMLSurveyUI> *)destinationViewController;
-        if ([sender conformsToProtocol:@protocol(AMLSurvey)]) {
-            surveyViewController.survey = (id <AMLSurvey>)sender;
-        }
-    }
+        [viewControllers removeObject:viewController];
+    } while (viewControllers.count);
 }
 
 #pragma mark - // PRIVATE METHODS (Actions) //
