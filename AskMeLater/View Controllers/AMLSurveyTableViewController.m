@@ -406,6 +406,9 @@ NSUInteger const TimingTableViewSection = 2;
     
     BOOL enabled = sender.enabled.on;
     id <AMLSurvey_Editable> survey = (id <AMLSurvey_Editable>)self.survey;
+    if (!survey.time) {
+        survey.time = sender.time.date;
+    }
     survey.enabled = enabled;
     [AMLDataManager save];
 }
