@@ -28,6 +28,7 @@
 + (AMLUser *)convertUser:(id <AMLUser>)user;
 + (AMLSurvey *)convertSurvey:(id <AMLSurvey>)survey;
 + (AMLQuestion *)convertQuestion:(id <AMLQuestion>)question;
++ (id <AMLSurvey>)surveyForQuestion:(id <AMLQuestion>)question;
 
 // OTHER //
 
@@ -107,6 +108,30 @@
     [AMLCoreDataController save];
 }
 
+#pragma mark - // PUBLIC METHODS (Responses) //
+
++ (void)addResponse:(NSString *)text forQuestion:(id <AMLQuestion>)question {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
+    
+    id <AMLUser> currentUser = [AMLLoginManager currentUser];
+    AMLResponse *response = [AMLCoreDataController responseWithText:text user:[AMLDataManager convertUser:currentUser] date:[NSDate date]];
+    [(id <AMLQuestion_PRIVATE>)question addResponse:response];
+    
+    id <AMLSurvey_Editable> survey = (id <AMLSurvey_Editable>)[AMLDataManager surveyForQuestion:question];
+    if (![survey.questions.lastObject isEqual:question]) {
+        id <AMLQuestion_PRIVATE> nextQuestion = (id <AMLQuestion_PRIVATE>)[survey.questions objectAtIndex:[survey.questions indexOfObject:question]+1];
+        NSMutableArray <UIMutableUserNotificationAction *> *actions = [NSMutableArray arrayWithCapacity:nextQuestion.choices.count];
+        for (id <AMLChoice> choice in nextQuestion.choices) {
+            [actions addObject:[AMLNotificationsManager notificationActionWithTitle:choice.text textInput:NO destructive:NO authentication:NO]];
+        }
+        [AMLNotificationsManager setNotificationWithTitle:survey.name body:nextQuestion.text actions:actions actionString:AMLNotificationActionString uuid:nextQuestion.uuid fireDate:nil repeat:NO];
+    }
+    else if (!survey.repeat) {
+        survey.enabled = NO;
+    }
+    [AMLDataManager save];
+}
+
 #pragma mark - // PUBLIC METHODS (Debugging) //
 
 + (void)test {
@@ -172,6 +197,12 @@
     }
     
     return nil;
+}
+
++ (id <AMLSurvey>)surveyForQuestion:(id <AMLQuestion>)question {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
+    
+    return [AMLDataManager convertQuestion:question].survey;
 }
 
 #pragma mark - // PRIVATE METHODS (Other) //

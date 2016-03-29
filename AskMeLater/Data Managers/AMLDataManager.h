@@ -41,6 +41,10 @@
 + (id <AMLQuestion_Editable>)questionForSurvey:(id <AMLSurvey_Editable>)survey;
 + (void)deleteQuestion:(id <AMLQuestion_Editable>)question;
 
+// RESPONSES //
+
++ (void)addResponse:(NSString *)text forQuestion:(id <AMLQuestion>)question;
+
 // DEBUGGING //
 
 + (void)test;
