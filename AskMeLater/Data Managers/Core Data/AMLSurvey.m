@@ -286,12 +286,17 @@
 - (void)removeQuestion:(AMLQuestion *)question {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
+    [self removeObserversFromQuestion:question];
+    
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = question;
+    
+    [AKGenerics postNotificationName:AMLSurveyQuestionWillBeRemoved object:self userInfo:userInfo];
+    
+    userInfo = [NSMutableDictionary dictionary];
     userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithInteger:[self.questions indexOfObject:question]];
     
     [self removeQuestionsObject:question];
-    
-    [self removeObserversFromQuestion:question];
     
     [AKGenerics postNotificationName:AMLSurveyQuestionAtIndexWasRemovedNotification object:self userInfo:userInfo];
 }
@@ -300,15 +305,7 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
     AMLQuestion *question = [self.questions objectAtIndex:index];
-    
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithInteger:index];
-    
-    [self removeObjectFromQuestionsAtIndex:index];
-    
-    [self removeObserversFromQuestion:question];
-    
-    [AKGenerics postNotificationName:AMLSurveyQuestionAtIndexWasRemovedNotification object:self userInfo:userInfo];
+    [self removeQuestion:question];
 }
 
 #pragma mark - // CATEGORY METHODS //

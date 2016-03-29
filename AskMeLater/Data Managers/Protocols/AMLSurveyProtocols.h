@@ -26,6 +26,7 @@
 #define AMLSurveyQuestionsDidChangeNotification @"kNotificationAMLSurvey_QuestionsDidChange"
 #define AMLSurveyQuestionWasAddedNotification @"kNotificationAMLSurvey_QuestionWasAdded"
 #define AMLSurveyQuestionWasReorderedNotification @"kNotificationAMLSurvey_QuestionWasReordered"
+#define AMLSurveyQuestionWillBeRemoved @"kNotificationAMLSurvey_QuestionWillBeRemoved"
 #define AMLSurveyQuestionAtIndexWasRemovedNotification @"kNotificationAMLSurvey_QuestionAtIndexWasRemoved"
 #define AMLSurveyWillBeDeletedNotification @"kNotificationAMLSurvey_WillBeDeleted"
 
