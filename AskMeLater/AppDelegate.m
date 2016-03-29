@@ -43,6 +43,7 @@
     id <AMLQuestion_PRIVATE> question = (id <AMLQuestion_PRIVATE>)[AMLDataManager questionWithId:questionId];
     [AMLDataManager addResponse:response forQuestion:question];
     [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber-1;
+    completionHandler();
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
