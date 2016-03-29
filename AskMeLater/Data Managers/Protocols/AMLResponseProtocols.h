@@ -27,7 +27,7 @@
 
 #pragma mark - // PROTOCOL (AMLResponse_Editable) //
 
-@protocol AMLResponse_Editable <NSObject>
+@protocol AMLResponse_Editable <AMLResponse>
 
 // INITIALIZERS //
 
