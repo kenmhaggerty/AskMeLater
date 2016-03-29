@@ -83,6 +83,12 @@
 
 #pragma mark - // PUBLIC METHODS (Questions) //
 
++ (id <AMLQuestion>)questionWithId:(NSString *)uuid {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
+    
+    return [AMLCoreDataController questionWithId:uuid];
+}
+
 + (id <AMLQuestion_Editable>)questionForSurvey:(id <AMLSurvey_Editable>)survey {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_DATA] message:nil];
     

@@ -37,6 +37,7 @@
 
 // QUESTIONS //
 
++ (id <AMLQuestion>)questionWithId:(NSString *)uuid;
 + (id <AMLQuestion_Editable>)questionForSurvey:(id <AMLSurvey_Editable>)survey;
 + (void)deleteQuestion:(id <AMLQuestion_Editable>)question;
 

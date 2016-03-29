@@ -40,6 +40,7 @@
 
 + (AMLUser *)userWithUserId:(NSString *)userId;
 + (NSSet <AMLSurvey *> *)surveysWithAuthor:(AMLUser *)author;
++ (AMLQuestion *)questionWithId:(NSString *)uuid;
 
 // DELETORS //
 

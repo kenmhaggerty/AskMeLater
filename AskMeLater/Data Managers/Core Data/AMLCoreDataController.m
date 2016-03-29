@@ -247,6 +247,36 @@
     return [NSSet setWithArray:foundSurveys];
 }
 
++ (AMLQuestion *)questionWithId:(NSString *)uuid {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = [AMLCoreDataController managedObjectContext];
+    __block NSArray *foundQuestions;
+    __block NSError *error;
+    [managedObjectContext performBlockAndWait:^{
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:[NSEntityDescription entityForName:NSStringFromClass([AMLQuestion class]) inManagedObjectContext:managedObjectContext]];
+        [request setPredicate:[NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(uuid)), uuid]];
+        [request setSortDescriptors:[NSArray arrayWithObjects: [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(createdAt)) ascending:YES], nil]];
+        foundQuestions = [managedObjectContext executeFetchRequest:request error:&error];
+    }];
+    if (error)
+    {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
+    }
+    if (!foundQuestions)
+    {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is nil", stringFromVariable(foundQuestions)]];
+        return nil;
+    }
+    
+    if (foundQuestions.count > 1)
+    {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"Found %lu %@ object(s) with %@ %@; returning first object", (unsigned long)foundQuestions.count, NSStringFromClass([AMLQuestion class]), stringFromVariable(uuid), uuid]];
+    }
+    return [foundQuestions firstObject];
+}
+
 #pragma mark - // PUBLIC METHODS (Deletors) //
 
 + (void)deleteObject:(NSManagedObject *)object {
