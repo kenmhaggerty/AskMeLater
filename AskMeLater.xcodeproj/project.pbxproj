@@ -34,6 +34,9 @@
 		7DBB1F151CA433E800C7C403 /* AMLSurvey.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D5A1C99D6EB000A02F0 /* AMLSurvey.m */; };
 		7DBB1F1A1CA98FBA00C7C403 /* AMLSurveyTimingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB1F191CA98FBA00C7C403 /* AMLSurveyTimingCell.m */; };
 		7DBB1F1E1CA9B16200C7C403 /* AMLNotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB1F1D1CA9B16200C7C403 /* AMLNotificationsManager.m */; };
+		7DBB1F2B1CAAF52700C7C403 /* AMLResponsesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB1F2A1CAAF52700C7C403 /* AMLResponsesTableViewController.m */; };
+		7DBB1F2E1CAAF53B00C7C403 /* AMLResultsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB1F2D1CAAF53B00C7C403 /* AMLResultsTableViewController.m */; };
+		7DBB1F311CAAF55000C7C403 /* AMLGraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB1F301CAAF55000C7C403 /* AMLGraphViewController.m */; };
 		7DDE78531C93234D00241A80 /* AMLFirebaseQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDE78521C93234D00241A80 /* AMLFirebaseQuery.m */; };
 		7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D511C936775000A02F0 /* NSArray+Extras.m */; };
 		7DE38D671C99D6EB000A02F0 /* AMLSurvey+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D581C99D6EB000A02F0 /* AMLSurvey+CoreDataProperties.m */; };
@@ -130,6 +133,12 @@
 		7DBB1F191CA98FBA00C7C403 /* AMLSurveyTimingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMLSurveyTimingCell.m; path = "AskMeLater/View Controllers/AMLSurveyTimingCell.m"; sourceTree = SOURCE_ROOT; };
 		7DBB1F1C1CA9B16200C7C403 /* AMLNotificationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLNotificationsManager.h; path = "Notifications Manager/AMLNotificationsManager.h"; sourceTree = "<group>"; };
 		7DBB1F1D1CA9B16200C7C403 /* AMLNotificationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMLNotificationsManager.m; path = "Notifications Manager/AMLNotificationsManager.m"; sourceTree = "<group>"; };
+		7DBB1F291CAAF52700C7C403 /* AMLResponsesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLResponsesTableViewController.h; path = "AskMeLater/View Controllers/AMLResponsesTableViewController.h"; sourceTree = SOURCE_ROOT; };
+		7DBB1F2A1CAAF52700C7C403 /* AMLResponsesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMLResponsesTableViewController.m; path = "AskMeLater/View Controllers/AMLResponsesTableViewController.m"; sourceTree = SOURCE_ROOT; };
+		7DBB1F2C1CAAF53B00C7C403 /* AMLResultsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLResultsTableViewController.h; path = "AskMeLater/View Controllers/AMLResultsTableViewController.h"; sourceTree = SOURCE_ROOT; };
+		7DBB1F2D1CAAF53B00C7C403 /* AMLResultsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMLResultsTableViewController.m; path = "AskMeLater/View Controllers/AMLResultsTableViewController.m"; sourceTree = SOURCE_ROOT; };
+		7DBB1F2F1CAAF55000C7C403 /* AMLGraphViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLGraphViewController.h; path = "AskMeLater/View Controllers/AMLGraphViewController.h"; sourceTree = SOURCE_ROOT; };
+		7DBB1F301CAAF55000C7C403 /* AMLGraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMLGraphViewController.m; path = "AskMeLater/View Controllers/AMLGraphViewController.m"; sourceTree = SOURCE_ROOT; };
 		7DBB1F321CAAFAB000C7C403 /* AMLQuestionUIProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AMLQuestionUIProtocol.h; path = Protocols/AMLQuestionUIProtocol.h; sourceTree = "<group>"; };
 		7DDE78511C93234D00241A80 /* AMLFirebaseQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLFirebaseQuery.h; sourceTree = "<group>"; };
 		7DDE78521C93234D00241A80 /* AMLFirebaseQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLFirebaseQuery.m; sourceTree = "<group>"; };
@@ -521,6 +530,9 @@
 			children = (
 				7DE38D831C9A0C45000A02F0 /* AMLResultsViewController.h */,
 				7DE38D841C9A0C45000A02F0 /* AMLResultsViewController.m */,
+				7DBB1F261CAAF4C600C7C403 /* AMLGraphViewController */,
+				7DBB1F271CAAF4D600C7C403 /* AMLResultsTableViewController */,
+				7DBB1F281CAAF4F400C7C403 /* AMLResponsesTableViewController */,
 			);
 			name = AMLResultsViewController;
 			path = "../Data Managers/Core Data";
@@ -551,6 +563,33 @@
 				7DBB1F1D1CA9B16200C7C403 /* AMLNotificationsManager.m */,
 			);
 			name = "Notifications Manager";
+			sourceTree = "<group>";
+		};
+		7DBB1F261CAAF4C600C7C403 /* AMLGraphViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7DBB1F2F1CAAF55000C7C403 /* AMLGraphViewController.h */,
+				7DBB1F301CAAF55000C7C403 /* AMLGraphViewController.m */,
+			);
+			name = AMLGraphViewController;
+			sourceTree = "<group>";
+		};
+		7DBB1F271CAAF4D600C7C403 /* AMLResultsTableViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7DBB1F2C1CAAF53B00C7C403 /* AMLResultsTableViewController.h */,
+				7DBB1F2D1CAAF53B00C7C403 /* AMLResultsTableViewController.m */,
+			);
+			name = AMLResultsTableViewController;
+			sourceTree = "<group>";
+		};
+		7DBB1F281CAAF4F400C7C403 /* AMLResponsesTableViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7DBB1F291CAAF52700C7C403 /* AMLResponsesTableViewController.h */,
+				7DBB1F2A1CAAF52700C7C403 /* AMLResponsesTableViewController.m */,
+			);
+			name = AMLResponsesTableViewController;
 			sourceTree = "<group>";
 		};
 		7DDE78571C93290900241A80 /* AMLFirebaseQuery */ = {
@@ -930,6 +969,7 @@
 				7D12CB041C8A49760021519B /* AKDebuggerRules.m in Sources */,
 				7D12CAFE1C8A49560021519B /* AKDebugger.m in Sources */,
 				7DE38D691C99D6EB000A02F0 /* AMLResponse+CoreDataProperties.m in Sources */,
+				7DBB1F311CAAF55000C7C403 /* AMLGraphViewController.m in Sources */,
 				7D12CB101C8A4EBA0021519B /* AMLLoginManager.m in Sources */,
 				7D12CB011C8A49660021519B /* AKGenerics.m in Sources */,
 				7DE38D8B1C9C5EF4000A02F0 /* UITableView+Extras.m in Sources */,
@@ -951,6 +991,7 @@
 				7DE38D671C99D6EB000A02F0 /* AMLSurvey+CoreDataProperties.m in Sources */,
 				7DBB1F1E1CA9B16200C7C403 /* AMLNotificationsManager.m in Sources */,
 				7DE38D6D1C99D6EB000A02F0 /* AMLChoice+CoreDataProperties.m in Sources */,
+				7DBB1F2B1CAAF52700C7C403 /* AMLResponsesTableViewController.m in Sources */,
 				7D12CB081C8A4A7D0021519B /* NSObject+Basics.m in Sources */,
 				7DE38D851C9A0C45000A02F0 /* AMLResultsViewController.m in Sources */,
 				7DE38D7F1C9A0C21000A02F0 /* AMLSurveyTableViewController.m in Sources */,
@@ -961,6 +1002,7 @@
 				7DDE78531C93234D00241A80 /* AMLFirebaseQuery.m in Sources */,
 				7DE38D6A1C99D6EB000A02F0 /* AMLResponse.m in Sources */,
 				7D12CB1F1C8A69F20021519B /* AMLCoreDataController.m in Sources */,
+				7DBB1F2E1CAAF53B00C7C403 /* AMLResultsTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
