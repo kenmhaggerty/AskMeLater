@@ -77,7 +77,7 @@
     
     userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithInteger:self.responses.count];
     
-    [AKGenerics postNotificationName:AMLQuestionResponsesCountDidChange object:self userInfo:userInfo];
+    [AKGenerics postNotificationName:AMLQuestionResponsesCountDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)deleteResponse:(AMLResponse *)response {
@@ -90,7 +90,7 @@
     
     userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithInteger:self.responses.count];
     
-    [AKGenerics postNotificationName:AMLQuestionResponsesCountDidChange object:self userInfo:userInfo];
+    [AKGenerics postNotificationName:AMLQuestionResponsesCountDidChangeNotification object:self userInfo:userInfo];
 }
 
 #pragma mark - // CATEGORY METHODS //
