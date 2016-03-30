@@ -95,6 +95,7 @@ NSUInteger const TimingTableViewSection = 2;
     _alertRenameSurvey = [UIAlertController alertControllerWithTitle:@"Rename Survey:" message:nil preferredStyle:UIAlertControllerStyleAlert];
     [_alertRenameSurvey addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.placeholder = @"survey title";
+        textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
         textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     }];
     [_alertRenameSurvey addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
