@@ -105,6 +105,9 @@
         return NO;
     }
     
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cellWillChangeText:)]) {
+        [self.delegate cellWillChangeText:self];
+    }
     return YES;
 }
 

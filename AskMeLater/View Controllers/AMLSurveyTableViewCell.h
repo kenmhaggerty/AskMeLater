@@ -22,6 +22,7 @@
 - (void)cellShouldBeDeleted:(UITableViewCell *)sender;
 @optional
 - (void)cellDidBeginEditing:(AMLSurveyTableViewCell *)sender;
+- (void)cellWillChangeText:(AMLSurveyTableViewCell *)sender;
 - (void)cellDidChangeText:(AMLSurveyTableViewCell *)sender;
 - (void)cellDidEndEditing:(AMLSurveyTableViewCell *)sender;
 @end
