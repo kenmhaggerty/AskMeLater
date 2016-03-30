@@ -13,6 +13,7 @@
 #import "AMLSurveyTableViewController.h"
 #import "AKDebugger.h"
 #import "AKGenerics.h"
+#import "UIViewController+Keyboard.h"
 #import "UITableView+Extras.h"
 #import "UIAlertController+Info.h"
 
@@ -423,10 +424,14 @@ NSUInteger const TimingTableViewSection = 2;
     _editButton = [[UIBarButtonItem alloc] initWithTitle:@"Sort" style:UIBarButtonItemStylePlain target:self action:@selector(edit:)];
     
     [self.navigationItem addObserver:self forKeyPath:NSStringFromSelector(@selector(rightBarButtonItem)) options:NSKeyValueObservingOptionNew context:NULL];
+    
+    [self addObserversToKeyboard];
 }
 
 - (void)teardown {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    [self removeObserversFromKeyboard];
     
     [self.navigationItem removeObserver:self forKeyPath:NSStringFromSelector(@selector(rightBarButtonItem)) context:NULL];
     
