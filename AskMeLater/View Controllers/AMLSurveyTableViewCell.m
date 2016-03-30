@@ -16,7 +16,10 @@
 
 #pragma mark - // DEFINITIONS (Private) //
 
+NSTimeInterval const AMLSurveyTableViewCellAnimationDuration = 0.15f;
+
 @interface AMLSurveyTableViewCell () <UITextViewDelegate>
+@property (nonatomic, strong) IBOutlet UIButton *deleteButton;
 @property (nonatomic, strong) IBOutlet NSLayoutConstraint *constraightMinimumHeight;
 
 // ACTIONS //
@@ -92,6 +95,11 @@
 - (void)textViewDidBeginEditing:(UITextView *)textView {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
+    self.deleteButton.enabled = NO;
+    [UIView animateWithDuration:AMLSurveyTableViewCellAnimationDuration animations:^{
+        self.deleteButton.alpha = 0.0f;
+    }];
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(cellDidBeginEditing:)]) {
         [self.delegate cellDidBeginEditing:self];
     }
@@ -122,6 +130,12 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
+    
+    [UIView animateWithDuration:AMLSurveyTableViewCellAnimationDuration animations:^{
+        self.deleteButton.alpha = 1.0f;
+    } completion:^(BOOL finished) {
+        self.deleteButton.enabled = YES;
+    }];
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(cellDidEndEditing:)]) {
         [self.delegate cellDidEndEditing:self];
