@@ -168,11 +168,14 @@ NSTimeInterval const AMLSurveyTableViewCellAnimationDuration = 0.15f;
 - (void)didChangeHeight {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
-    [self setNeedsUpdateConstraints];
-    [self layoutIfNeeded];
     if (self.delegate) {
         [self.delegate cellDidChangeHeight:self];
     }
+    
+    [self setNeedsUpdateConstraints];
+    [UIView animateWithDuration:AMLSurveyTableViewCellAnimationDuration animations:^{
+        [self layoutIfNeeded];
+    }];
 }
 
 @end
