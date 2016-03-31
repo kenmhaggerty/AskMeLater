@@ -14,10 +14,10 @@
 
 #pragma mark - // PROTOCOLS //
 
-#import "AMLSurveyUIProtocol.h"
+#import "AMLQuestionUIProtocol.h"
 
 #pragma mark - // DEFINITIONS (Public) //
 
-@interface AMLGraphViewController : UIViewController <AMLSurveyUI>
-@property (nonatomic, strong) id <AMLSurvey> survey;
+@interface AMLGraphViewController : UIViewController <AMLQuestionUI>
+@property (nonatomic, strong) id <AMLQuestion> question;
 @end

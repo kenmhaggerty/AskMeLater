@@ -20,11 +20,24 @@
 
 @interface AMLGraphViewController () <PNChartDelegate>
 @property (nonatomic, strong) IBOutlet PNPieChart *chartView;
+- (void)reloadChart;
 @end
 
 @implementation AMLGraphViewController
 
 #pragma mark - // SETTERS AND GETTERS //
+
+- (void)setQuestion:(id<AMLQuestion>)question {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_UI] message:nil];
+    
+    if ([AKGenerics object:question isEqualToObject:_question]) {
+        return;
+    }
+    
+    _question = question;
+    
+    [self reloadChart];
+}
 
 #pragma mark - // INITS AND LOADS //
 
@@ -32,6 +45,8 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
     
     self.chartView.delegate = self;
+    self.chartView.descriptionTextColor = [UIColor whiteColor];
+    self.chartView.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:14.0];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -50,7 +65,29 @@
 
 #pragma mark - // PRIVATE METHODS //
 
+- (void)reloadChart {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSMutableDictionary *responses = [NSMutableDictionary dictionary];
+        NSNumber *count;
+        for (id <AMLResponse> response in self.question.responses) {
+            count = responses[response.text];
+            responses[response.text] = (count ? [NSNumber numberWithInteger:count.integerValue+1] : @1);
+        }
+        NSMutableArray *chartData = [NSMutableArray arrayWithCapacity:responses.count];
+        CGFloat hue, saturation, brightness, alpha;
+        [[UIColor iOSBlue] getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+        float i = 1.0f;
+        for (NSString *key in responses.allKeys) {
+            [chartData addObject:[PNPieChartDataItem dataItemWithValue:((NSNumber *)responses[key]).integerValue color:[UIColor colorWithHue:hue saturation:saturation*(i++/responses.count) brightness:brightness alpha:alpha] description:key]];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.chartView updateChartData:chartData];
+            [self.chartView strokeChart];
+        });
+    });
 }
 
 @end
