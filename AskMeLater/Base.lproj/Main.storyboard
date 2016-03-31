@@ -413,10 +413,6 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Results" id="Aq7-gL-0i5"/>
                     <navigationItem key="navigationItem" title="Results" id="whB-Da-2Rq"/>
-                    <connections>
-                        <outlet property="bottomView" destination="kOZ-U6-YBG" id="er1-Zq-M7T"/>
-                        <outlet property="topView" destination="1LR-ba-gcx" id="sJN-tA-fqa"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dxq-Yl-Yfx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

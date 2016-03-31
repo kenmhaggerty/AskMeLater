@@ -19,8 +19,6 @@
 #pragma mark - // DEFINITIONS (Private) //
 
 @interface AMLResultsViewController ()
-@property (nonatomic, strong) IBOutlet UIView *topView;
-@property (nonatomic, strong) IBOutlet UIView *bottomView;
 
 // OBSERVERS //
 
