@@ -2,7 +2,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 target "AskMeLater" do
   pod 'Firebase', '>= 2.5.0'
-  pod 'JBChartView'
+  pod 'PNChart'
 end
 
 def test_pods

@@ -14,12 +14,12 @@
 #import "AKDebugger.h"
 #import "AKGenerics.h"
 
-#import "JBLineChartView.h"
+#import "PNChart.h"
 
 #pragma mark - // DEFINITIONS (Private) //
 
-@interface AMLGraphViewController () <JBLineChartViewDataSource, JBLineChartViewDelegate>
-@property (nonatomic, strong) IBOutlet JBLineChartView *chartView;
+@interface AMLGraphViewController () <PNChartDelegate>
+@property (nonatomic, strong) IBOutlet PNPieChart *chartView;
 @end
 
 @implementation AMLGraphViewController
@@ -31,7 +31,6 @@
 - (void)viewDidLoad {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
     
-    self.chartView.dataSource = self;
     self.chartView.delegate = self;
 }
 
@@ -39,42 +38,19 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
     
     [super viewDidAppear:animated];
-    
-    [self.chartView reloadDataAnimated:animated];
 }
 
 #pragma mark - // PUBLIC METHODS //
 
 #pragma mark - // CATEGORY METHODS //
 
-#pragma mark - // DELEGATED METHODS (JBLineChartViewDataSource) //
-
-- (NSUInteger)numberOfLinesInLineChartView:(JBLineChartView *)lineChartView {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
-    
-    return self.survey.questions.count;
-}
-
-- (NSUInteger)lineChartView:(JBLineChartView *)lineChartView numberOfVerticalValuesAtLineIndex:(NSUInteger)lineIndex {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
-    
-    id <AMLQuestion> question = [self.survey.questions objectAtIndex:lineIndex];
-    
-    return question.responses.count;
-}
-
-#pragma mark - // DELEGATED METHODS (JBLineChartViewDelegate) //
-
-- (CGFloat)lineChartView:(JBLineChartView *)lineChartView verticalValueForHorizontalIndex:(NSUInteger)horizontalIndex atLineIndex:(NSUInteger)lineIndex {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
-    
-//    id <AMLQuestion> question = [self.survey.questions objectAtIndex:lineIndex];
-    
-    return horizontalIndex;
-}
+#pragma mark - // DELEGATED METHODS //
 
 #pragma mark - // OVERWRITTEN METHODS //
 
 #pragma mark - // PRIVATE METHODS //
+
+    
+}
 
 @end
