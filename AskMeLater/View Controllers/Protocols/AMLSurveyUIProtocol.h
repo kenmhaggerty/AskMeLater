@@ -15,6 +15,8 @@
 
 #pragma mark - // DEFINITIONS //
 
+#define AMLSurveyUIDidSelectQuestion @"kNotificationAMLSurveyUI_DidSelectQuestion"
+
 #pragma mark - // PROTOCOL (AMLSurveyUI) //
 
 @protocol AMLSurveyUI <NSObject>

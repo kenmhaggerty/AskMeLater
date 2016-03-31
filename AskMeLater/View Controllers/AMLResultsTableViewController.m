@@ -116,6 +116,7 @@
     if ([segue.destinationViewController conformsToProtocol:@protocol(AMLQuestionUI)]) {
         id <AMLQuestion> question = [self.survey.questions objectAtIndex:[self.tableView indexPathForCell:sender].row];
         ((id <AMLQuestionUI>)segue.destinationViewController).question = question;
+        [AKGenerics postNotificationName:AMLSurveyUIDidSelectQuestion object:self userInfo:@{NOTIFICATION_OBJECT_KEY : question}];
     }
 }
 
