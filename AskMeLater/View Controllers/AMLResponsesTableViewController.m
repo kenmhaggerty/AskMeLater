@@ -113,6 +113,7 @@
     id <AMLResponse> response = [self.responses objectAtIndex:indexPath.row];
     cell.textLabel.text = response.text;
     cell.detailTextLabel.text = [AMLResponsesTableViewController stringForDate:response.date];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
