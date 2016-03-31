@@ -3,6 +3,7 @@ PODS:
   - Expecta+Collections (1.0.1):
     - Expecta
   - Firebase (2.5.1)
+  - JBChartView (3.0.8)
   - KIF (3.3.2):
     - KIF/Core (= 3.3.2)
   - KIF/Core (3.3.2)
@@ -15,6 +16,7 @@ DEPENDENCIES:
   - Expecta (~> 1.0)
   - Expecta+Collections
   - Firebase (>= 2.5.0)
+  - JBChartView
   - KIF (~> 3.0)
   - KIFViewControllerActions
   - Specta (~> 1.0)
@@ -24,6 +26,7 @@ SPEC CHECKSUMS:
   Expecta: e1c022fcd33910b6be89c291d2775b3fe27a89fe
   Expecta+Collections: 6fae193f42cb98dab08fe6a1ef579e97c65aa56a
   Firebase: 3565ea88b830f28f2c77ecc524622bc71a20d085
+  JBChartView: 47aa5c25d3231fe1b08b714ac470eba886558951
   KIF: 9de83fa627adaf65d28ace31e40f19d830bc255c
   KIFViewControllerActions: fc3a8e1352a6609624bda1fe6cfad410d0e88552
   Specta: ac94d110b865115fe60ff2c6d7281053c6f8e8a2

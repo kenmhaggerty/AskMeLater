@@ -527,19 +527,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Graph View" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2f9-KO-d2W">
-                                <rect key="frame" x="256" y="90" width="89" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yHI-UF-qY1" customClass="JBLineChartView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+                                <color key="backgroundColor" red="0.76248926549999996" green="0.80875887550000003" blue="0.95837339740000005" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="2f9-KO-d2W" firstAttribute="centerY" secondItem="JBc-cQ-4kr" secondAttribute="centerY" id="dVa-Pn-fbV"/>
-                            <constraint firstItem="2f9-KO-d2W" firstAttribute="centerX" secondItem="JBc-cQ-4kr" secondAttribute="centerX" id="y2R-Mu-ZvN"/>
+                            <constraint firstAttribute="trailing" secondItem="yHI-UF-qY1" secondAttribute="trailing" id="BeP-0y-XP3"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="yHI-UF-qY1" secondAttribute="bottom" id="VBi-AH-fNS"/>
+                            <constraint firstItem="yHI-UF-qY1" firstAttribute="leading" secondItem="JBc-cQ-4kr" secondAttribute="leading" id="e6a-QF-nO4"/>
+                            <constraint firstItem="yHI-UF-qY1" firstAttribute="top" secondItem="JBc-cQ-4kr" secondAttribute="topMargin" id="lyS-6I-Vfd"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="chartView" destination="yHI-UF-qY1" id="12i-Dk-uOu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BZc-tL-x7L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
