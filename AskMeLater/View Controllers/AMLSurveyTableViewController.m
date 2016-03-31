@@ -303,7 +303,7 @@ NSUInteger const TimingTableViewSection = 2;
             self.alertEditChoice.info = @{NOTIFICATION_OBJECT_KEY : primaryChoice};
             [self presentViewController:self.alertEditChoice animated:YES completion:nil];
         }];
-        primaryAction.backgroundColor = self.view.tintColor;
+        primaryAction.backgroundColor = [UIColor iOSBlue];
         
         id <AMLChoice_Editable> secondaryChoice = (id <AMLChoice_Editable>)[question.choices objectAtIndex:1];
         UITableViewRowAction *secondaryAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:(secondaryChoice.text ?: @"(blank)") handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
