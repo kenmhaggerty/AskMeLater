@@ -128,7 +128,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionsDidChange:) name:AMLSurveyQuestionsDidChangeNotification object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionWasAdded:) name:AMLSurveyQuestionWasAddedNotification object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionWasReordered:) name:AMLSurveyQuestionWasReorderedNotification object:survey];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionWillBeRemoved:) name:AMLSurveyQuestionWillBeRemoved object:survey];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionWillBeRemoved:) name:AMLSurveyQuestionWillBeRemoved object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionAtIndexWasRemoved:) name:AMLSurveyQuestionAtIndexWasRemovedNotification object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyWillBeDeleted:) name:AMLSurveyWillBeDeletedNotification object:survey];
     
@@ -140,7 +140,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyQuestionsDidChangeNotification object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyQuestionWasAddedNotification object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyQuestionWasReorderedNotification object:survey];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyQuestionWillBeRemoved object:survey];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyQuestionWillBeRemoved object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyQuestionAtIndexWasRemovedNotification object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLSurveyWillBeDeletedNotification object:survey];
 }
@@ -184,15 +184,18 @@
     [self.tableView moveRowAtIndexPath:fromIndexPath toIndexPath:indexPath];
 }
 
-- (void)surveyQuestionWillBeRemoved:(NSNotification *)notification {
+//- (void)surveyQuestionWillBeRemoved:(NSNotification *)notification {
+//    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+//    
+//    id <AMLQuestion> question = notification.object;
+//    [self removeObserversFromQuestion:question];
+//}
+
+- (void)surveyQuestionAtIndexWasRemoved:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
     id <AMLQuestion> question = notification.object;
     [self removeObserversFromQuestion:question];
-}
-
-- (void)surveyQuestionAtIndexWasRemoved:(NSNotification *)notification {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
     NSNumber *index = notification.userInfo[NOTIFICATION_OBJECT_KEY];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index.integerValue inSection:0];
