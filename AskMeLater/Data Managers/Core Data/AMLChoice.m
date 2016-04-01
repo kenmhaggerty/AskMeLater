@@ -24,6 +24,46 @@
 
 #pragma mark - // SETTERS AND GETTERS //
 
+- (void)setText:(NSString *)text {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSString *primitiveText = [self primitiveValueForKey:NSStringFromSelector(@selector(text))];
+    
+    if ([AKGenerics object:text isEqualToObject:primitiveText]) {
+        return;
+    }
+    
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    if (text) {
+        userInfo[NOTIFICATION_OBJECT_KEY] = text;
+    }
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(text))];
+    [self setPrimitiveValue:text forKey:NSStringFromSelector(@selector(text))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(text))];
+    
+    [AKGenerics postNotificationName:AMLChoiceTextDidChangeNotification object:self userInfo:userInfo];
+}
+
+- (void)setTextInputValue:(NSNumber *)textInputValue {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSNumber *primitiveTextInputValue = [self primitiveValueForKey:NSStringFromSelector(@selector(textInputValue))];
+    
+    if ([AKGenerics object:textInputValue isEqualToObject:primitiveTextInputValue]) {
+        return;
+    }
+    
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = textInputValue;
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(textInputValue))];
+    [self setPrimitiveValue:textInputValue forKey:NSStringFromSelector(@selector(textInputValue))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(textInputValue))];
+    
+    [AKGenerics postNotificationName:AMLChoiceTextInputDidChangeNotification object:self userInfo:userInfo];
+}
+
 #pragma mark - // INITS AND LOADS //
 
 - (void)prepareForDeletion {

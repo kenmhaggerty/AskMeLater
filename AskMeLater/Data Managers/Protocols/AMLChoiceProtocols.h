@@ -14,6 +14,9 @@
 
 #pragma mark - // DEFINITIONS //
 
+#define AMLChoiceTextDidChangeNotification @"kNotificationAMLChoice_TextDidChangeNotification"
+#define AMLChoiceTextInputDidChangeNotification @"kNotificationAMLChoice_TextInputDidChangeNotification"
+
 #define AMLChoiceWillBeDeletedNotification @"kNotificationAMLChoice_WillBeDeleted"
 
 #pragma mark - // PROTOCOL (AMLChoice) //
