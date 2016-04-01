@@ -18,13 +18,17 @@
 
 #define AMLQuestionTextDidChangeNotification @"kNotificationAMLQuestion_TextDidChange"
 #define AMLQuestionSecureDidChangeNotification @"kNotificationAMLQuestion_SecureDidChange"
+
 #define AMLQuestionChoicesDidChangeNotification @"kNotificationAMLQuestion_ChoicesDidChange"
 #define AMLQuestionChoiceWasAddedNotification @"kNotificationAMLQuestion_ChoiceWasAdded"
 #define AMLQuestionChoiceWasReorderedNotification @"kNotificationAMLQuestion_ChoiceWasReordered"
+#define AMLQuestionChoiceAtIndexWasReplaced @"kNotificationAMLQuestion_ChoiceAtIndexWasReplaced"
+//#define AMLQuestionChoiceWillBeRemovedNotification @"kNotificationAMLQuestion_ChoiceWillBeRemoved"
 #define AMLQuestionChoiceAtIndexWasRemovedNotification @"kNotificationAMLQuestion_ChoiceAtIndexWasRemoved"
 
 #define AMLQuestionResponsesDidChangeNotification @"kNotificationAMLQuestion_ResponsesDidChange"
 #define AMLQuestionResponseWasAddedNotification @"kNotificationAMLQuestion_ResponseWasAdded"
+//#define AMLQuestionResponseWillBeRemovedNotification @"kNotificationAMLQuestion_ResponseWillBeRemoved"
 #define AMLQuestionResponseWasRemovedNotification @"kNotificationAMLQuestion_ResponseWasRemoved"
 #define AMLQuestionResponsesCountDidChangeNotification @"kNotificationAMLQuestion_ResponsesCountDidChange"
 
@@ -56,10 +60,15 @@
 - (void)setText:(NSString *)text;
 - (void)setSecure:(BOOL)secure;
 - (void)setChoices:(NSOrderedSet <id <AMLChoice>> *)choices;
+
+- (void)addChoice:(id <AMLChoice>)choice;
+- (void)insertChoice:(id <AMLChoice>)choice atIndex:(NSUInteger)index;
+- (void)moveChoice:(id <AMLChoice>)choice toIndex:(NSUInteger)index;
+- (void)moveChoiceAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
 - (void)replaceChoiceAtIndex:(NSUInteger)index withChoice:(id <AMLChoice>)choice;
-- (void)removeChoiceAtIndex:(NSUInteger)index;
 - (void)removeChoice:(id <AMLChoice>)choice;
 - (void)deleteResponse:(id <AMLResponse>)response;
+- (void)removeChoiceAtIndex:(NSUInteger)index;
 
 @end
 

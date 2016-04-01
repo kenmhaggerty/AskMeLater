@@ -89,6 +89,11 @@
         return;
     }
     
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    if (choices) {
+        userInfo[NOTIFICATION_OBJECT_KEY] = choices;
+    }
+    
     for (AMLChoice *choice in primitiveChoices) {
         [self removeObserversFromChoice:choice];
     }
@@ -100,6 +105,8 @@
     for (AMLChoice *choice in choices) {
         [self addObserversToChoice:choice];
     }
+    
+    [AKGenerics postNotificationName:AMLQuestionChoicesDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setResponses:(NSSet <AMLResponse *> *)responses {
@@ -109,6 +116,11 @@
     
     if ([AKGenerics object:responses isEqualToObject:primitiveResponses]) {
         return;
+    }
+    
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    if (responses) {
+        userInfo[NOTIFICATION_OBJECT_KEY] = responses;
     }
     
     for (AMLResponse *response in primitiveResponses) {
@@ -122,6 +134,8 @@
     for (AMLResponse *response in responses) {
         [self addObserversToResponse:response];
     }
+    
+    [AKGenerics postNotificationName:AMLQuestionResponsesDidChangeNotification object:self userInfo:userInfo];
 }
 
 #pragma mark - // INITS AND LOADS //
@@ -173,17 +187,27 @@
 - (void)addChoice:(AMLChoice *)choice {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = choice;
+    
     [self addChoicesObject:choice];
     
     [self addObserversToChoice:choice];
+    
+    [AKGenerics postNotificationName:AMLQuestionChoiceWasAddedNotification object:self userInfo:userInfo];
 }
 
 - (void)insertChoice:(AMLChoice *)choice atIndex:(NSUInteger)index {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = choice;
+    
     [self insertObject:choice inChoicesAtIndex:index];
     
     [self addObserversToChoice:choice];
+    
+    [AKGenerics postNotificationName:AMLQuestionChoiceWasAddedNotification object:self userInfo:userInfo];
 }
 
 - (void)moveChoice:(AMLChoice *)choice toIndex:(NSUInteger)index {
@@ -199,8 +223,14 @@
         return;
     }
     
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = choice;
+    userInfo[NOTIFICATION_SECONDARY_KEY] = [NSNumber numberWithInteger:[self.choices indexOfObject:choice]];
+    
     [self removeChoicesObject:choice];
     [self insertObject:choice inChoicesAtIndex:index];
+    
+    [AKGenerics postNotificationName:AMLQuestionChoiceWasReorderedNotification object:self userInfo:userInfo];
 }
 
 - (void)moveChoiceAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex {
@@ -213,8 +243,14 @@
     
     AMLChoice *choice = self.choices[fromIndex];
     
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = choice;
+    userInfo[NOTIFICATION_SECONDARY_KEY] = [NSNumber numberWithInteger:[self.choices indexOfObject:choice]];
+    
     [self removeChoicesObject:choice];
     [self insertObject:choice inChoicesAtIndex:toIndex];
+    
+    [AKGenerics postNotificationName:AMLQuestionChoiceWasReorderedNotification object:self userInfo:userInfo];
 }
 
 - (void)replaceChoiceAtIndex:(NSUInteger)index withChoice:(AMLChoice *)choice {
@@ -226,7 +262,12 @@
         return;
     }
     
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithInteger:index];
+    
     [self replaceObjectInChoicesAtIndex:index withObject:choice];
+    
+    [AKGenerics postNotificationName:AMLQuestionChoiceAtIndexWasReplaced object:self userInfo:userInfo];
 }
 
 - (void)removeChoiceAtIndex:(NSUInteger)index {
@@ -242,34 +283,54 @@
     
     [self removeObserversFromChoice:choice];
     
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = choice;
+    
+//    [AKGenerics postNotificationName:AMLQuestionChoiceWillBeRemoved object:self userInfo:userInfo];
+    [AKGenerics postNotificationName:AMLChoiceWillBeRemovedNotification object:choice userInfo:nil];
+    
+    userInfo = [NSMutableDictionary dictionary];
+    userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithInteger:[self.choices indexOfObject:choice]];
+    
     [self removeChoicesObject:choice];
+    
+    [AKGenerics postNotificationName:AMLQuestionChoiceAtIndexWasRemovedNotification object:self userInfo:userInfo];
 }
 
 - (void)addResponse:(AMLResponse *)response {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OLD_KEY] = [NSNumber numberWithInteger:self.responses.count];
+    userInfo[NOTIFICATION_OBJECT_KEY] = response;
     
     [self addResponsesObject:response];
     
     [self addObserversToResponse:response];
     
+    [AKGenerics postNotificationName:AMLQuestionResponseWasAddedNotification object:self userInfo:userInfo];
+    
+    userInfo = [NSMutableDictionary dictionary];
     userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithInteger:self.responses.count];
     
     [AKGenerics postNotificationName:AMLQuestionResponsesCountDidChangeNotification object:self userInfo:userInfo];
 }
 
-- (void)deleteResponse:(AMLResponse *)response {
+- (void)removeResponse:(AMLResponse *)response {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
     [self removeObserversFromResponse:response];
     
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OLD_KEY] = [NSNumber numberWithInteger:self.responses.count];
+    userInfo[NOTIFICATION_OBJECT_KEY] = response;
+    
+//    [AKGenerics postNotificationName:AMLQuestionResponseWillBeRemovedNotification object:self userInfo:userInfo];
+    [AKGenerics postNotificationName:AMLResponseWillBeRemovedNotification object:response userInfo:nil];
     
     [self removeResponsesObject:response];
     
+    [AKGenerics postNotificationName:AMLQuestionResponseWasRemovedNotification object:self userInfo:userInfo];
+    
+    userInfo = [NSMutableDictionary dictionary];
     userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithInteger:self.responses.count];
     
     [AKGenerics postNotificationName:AMLQuestionResponsesCountDidChangeNotification object:self userInfo:userInfo];
