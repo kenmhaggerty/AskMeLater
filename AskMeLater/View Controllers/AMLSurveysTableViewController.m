@@ -31,7 +31,8 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *addButton;
 @property (nonatomic, strong) NSMutableOrderedSet <id <AMLSurvey>> *surveys;
 @property (nonatomic, strong) UIAlertController *alertSettings;
-//@property (nonatomic, strong) UIAlertController *alertUpdateEmail;
+@property (nonatomic, strong) UIAlertController *alertUpdateEmail;
+@property (nonatomic, strong) UIAlertController *alertEmailUpdated;
 @property (nonatomic, strong) UIAlertController *alertUpdatePassword;
 @property (nonatomic, strong) UIAlertController *alertMismatchedPasswords;
 @property (nonatomic, strong) UIAlertController *alertInvalidPassword;
@@ -98,7 +99,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
         [AMLLoginManager logout];
     }]];
     [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Update email" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        // change email UI
+        [self presentViewController:self.alertUpdateEmail animated:YES completion:nil];
     }]];
     [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Change password" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self presentViewController:self.alertUpdatePassword animated:YES completion:nil];
@@ -114,11 +115,46 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     return _alertSettings;
 }
 
-//- (UIAlertController *)alertUpdateEmail {
-//    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
-//    
-//    //
-//}
+- (UIAlertController *)alertUpdateEmail {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    if (_alertUpdateEmail) {
+        return _alertUpdateEmail;
+    }
+    
+    _alertUpdateEmail = [UIAlertController alertControllerWithTitle:@"Update Email" message:@"Please enter a valid email and your current password. Your new email will also be used for signing in to your account." preferredStyle:UIAlertControllerStyleAlert actionText:@"Update" dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
+        
+        NSString *email = _alertUpdateEmail.textFields[0].text;
+        NSString *password = _alertUpdateEmail.textFields[1].text;
+        
+        [AMLLoginManager updateEmail:email password:password withSuccess:^{
+            [self presentViewController:self.alertEmailUpdated animated:YES completion:[AKGenerics clearTextFields:_alertUpdateEmail]];
+            
+        } failure:^(NSError *error) {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Couldn't Update Email" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert actionText:nil dismissalText:@"Cancel" completion:nil];
+            [self presentViewController:alertController animated:YES completion:[AKGenerics clearTextFields:_alertUpdateEmail]];
+        }];
+    }];
+    [_alertUpdateEmail addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"new email";
+    }];
+    [_alertUpdateEmail addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"password";
+        textField.secureTextEntry = YES;
+    }];
+    return _alertUpdateEmail;
+}
+
+- (UIAlertController *)alertEmailUpdated {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    if (_alertEmailUpdated) {
+        return _alertEmailUpdated;
+    }
+    
+    _alertEmailUpdated = [UIAlertController alertControllerWithTitle:@"Email Updated" message:@"Your email was successfully updated." preferredStyle:UIAlertControllerStyleAlert actionText:nil dismissalText:@"Dismiss" completion:nil];
+    return _alertEmailUpdated;
+}
 
 - (UIAlertController *)alertUpdatePassword {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
