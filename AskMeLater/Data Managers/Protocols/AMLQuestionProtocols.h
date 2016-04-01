@@ -67,7 +67,6 @@
 - (void)moveChoiceAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
 - (void)replaceChoiceAtIndex:(NSUInteger)index withChoice:(id <AMLChoice>)choice;
 - (void)removeChoice:(id <AMLChoice>)choice;
-- (void)deleteResponse:(id <AMLResponse>)response;
 - (void)removeChoiceAtIndex:(NSUInteger)index;
 
 @end
@@ -77,7 +76,9 @@
 @protocol AMLQuestion_PRIVATE <AMLQuestion_Editable>
 
 - (NSString *)uuid;
+
 - (void)addResponse:(id <AMLResponse>)response;
+- (void)removeResponse:(id <AMLResponse>)response;
 
 @end
 

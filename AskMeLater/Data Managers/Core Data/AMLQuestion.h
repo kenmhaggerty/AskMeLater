@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeChoiceAtIndex:(NSUInteger)index;
 
 - (void)addResponse:(AMLResponse *)response;
-- (void)deleteResponse:(AMLResponse *)response;
+- (void)removeResponse:(AMLResponse *)response;
 
 @end
 
