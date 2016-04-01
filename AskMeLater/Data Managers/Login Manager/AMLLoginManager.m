@@ -160,7 +160,6 @@ NSString * const AMLLoginManagerEmailDidChangeNotification = @"kNotificationAMLL
     NSString *email = currentUser.email;
     
     [AMLFirebaseController changePasswordForUserWithEmail:email fromOld:oldPassword toNew:newPassword withCompletionBlock:^(NSError *error) {
-        
         if (error) {
             failureBlock(error);
         }
