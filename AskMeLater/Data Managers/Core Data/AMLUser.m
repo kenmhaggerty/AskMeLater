@@ -25,16 +25,67 @@
 
 #pragma mark - // SETTERS AND GETTERS //
 
-- (void)setAvatar:(UIImage *)avatar {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_DATA] message:nil];
+- (void)setUsername:(NSString *)username {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
     
-    self.avatarData = UIImagePNGRepresentation(avatar);
+    NSString *primitiveUsername = [self primitiveValueForKey:NSStringFromSelector(@selector(username))];
+    
+    if ([AKGenerics object:username isEqualToObject:primitiveUsername]) {
+        return;
+    }
+    
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    if (username) {
+        userInfo[NOTIFICATION_OBJECT_KEY] = username;
+    }
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(username))];
+    [self setPrimitiveValue:username forKey:NSStringFromSelector(@selector(username))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(username))];
+    
+    [AKGenerics postNotificationName:AMLUserUsernameDidChangeNotification object:self userInfo:userInfo];
 }
 
-- (UIImage *)avatar {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
+- (void)setAvatarData:(NSData *)avatarData {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
     
-    return [UIImage imageWithData:self.avatarData];
+    NSData *primitiveAvatarData = [self primitiveValueForKey:NSStringFromSelector(@selector(avatarData))];
+    
+    if ([AKGenerics object:avatarData isEqualToObject:primitiveAvatarData]) {
+        return;
+    }
+    
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    if (avatarData) {
+        userInfo[NOTIFICATION_OBJECT_KEY] = [UIImage imageWithData:avatarData];
+    }
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(avatarData))];
+    [self setPrimitiveValue:avatarData forKey:NSStringFromSelector(@selector(avatarData))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(avatarData))];
+    
+    [AKGenerics postNotificationName:AMLUserAvatarDidChangeNotification object:self userInfo:userInfo];
+}
+
+- (void)setEmail:(NSString *)email {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSString *primitiveEmail = [self primitiveValueForKey:NSStringFromSelector(@selector(email))];
+    
+    if ([AKGenerics object:email isEqualToObject:primitiveEmail]) {
+        return;
+    }
+    
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    if (email) {
+        userInfo[NOTIFICATION_OBJECT_KEY] = email;
+    }
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(email))];
+    [self setPrimitiveValue:email forKey:NSStringFromSelector(@selector(email))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(email))];
+    
+    [AKGenerics postNotificationName:AMLUserEmailDidChangeNotification object:self userInfo:userInfo];
 }
 
 #pragma mark - // INITS AND LOADS //

@@ -14,6 +14,10 @@
 
 #pragma mark - // DEFINITIONS //
 
+#define AMLUserUsernameDidChangeNotification @"kNotificationAMLUser_UsernameDidChange"
+#define AMLUserAvatarDidChangeNotification @"kNotificationAMLUser_AvatarDidChange"
+#define AMLUserEmailDidChangeNotification @"kNotificationAMLUser_EmailDidChange"
+
 #define AMLUserWillBeDeletedNotification @"kNotificationAMLUser_WillBeDeleted"
 
 #pragma mark - // PROTOCOL (AMLUser) //
