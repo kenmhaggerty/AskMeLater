@@ -18,7 +18,7 @@
 
 #pragma mark - // DEFINITIONS (Public) //
 
-extern NSString * const CurrentUserDidChangeNotification;
+extern NSString * const AMLLoginManagerCurrentUserDidChangeNotification;
 
 @interface AMLLoginManager : NSObject
 + (id <AMLUser_Editable>)currentUser;

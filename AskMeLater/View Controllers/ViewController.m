@@ -196,13 +196,13 @@
 - (void)addObserversToDataManager {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(firebaseConnectionDidChange:) name:NotificationFirebaseIsConnectedDidChange object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(firebaseConnectionDidChange:) name:AMLFirebaseIsConnectedDidChangeNotification object:nil];
 }
 
 - (void)removeObserversFromDataManager {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NotificationFirebaseIsConnectedDidChange object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLFirebaseIsConnectedDidChangeNotification object:nil];
 }
 
 #pragma mark - // PRIVATE METHODS (Responders) //

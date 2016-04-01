@@ -363,13 +363,13 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
 - (void)addObserversToLoginManager {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChange:) name:CurrentUserDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChange:) name:AMLLoginManagerCurrentUserDidChangeNotification object:nil];
 }
 
 - (void)removeObserversFromLoginManager {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:CurrentUserDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLLoginManagerCurrentUserDidChangeNotification object:nil];
 }
 
 - (void)addObserversToSurvey:(id <AMLSurvey>)survey {

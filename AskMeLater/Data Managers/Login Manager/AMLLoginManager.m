@@ -19,7 +19,7 @@
 
 #pragma mark - // DEFINITIONS (Private) //
 
-NSString * const CurrentUserDidChangeNotification = @"kNotificationCurrentUserDidChange";
+NSString * const AMLLoginManagerCurrentUserDidChangeNotification = @"kNotificationAMLLoginManager_CurrentUserDidChange";
 
 @interface AMLLoginManager ()
 @property (nonatomic, strong) id <AMLUser_PRIVATE> currentUser;
@@ -54,7 +54,7 @@ NSString * const CurrentUserDidChangeNotification = @"kNotificationCurrentUserDi
     
     _currentUser = currentUser;
     
-    [AKGenerics postNotificationName:CurrentUserDidChangeNotification object:nil userInfo:userInfo];
+    [AKGenerics postNotificationName:AMLLoginManagerCurrentUserDidChangeNotification object:nil userInfo:userInfo];
 }
 
 #pragma mark - // INITS AND LOADS //

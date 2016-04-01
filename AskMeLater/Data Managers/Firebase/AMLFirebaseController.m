@@ -21,7 +21,7 @@
 
 #pragma mark - // DEFINITIONS (Private) //
 
-NSString * const NotificationFirebaseIsConnectedDidChange = @"kNotificationAMLFirebaseController_IsConnectedDidChange;";
+NSString * const AMLFirebaseIsConnectedDidChangeNotification = @"kNotificationAMLFirebaseController_IsConnectedDidChange;";
 
 NSString * const FirebaseAuthKeyEmail = @"email";
 NSString * const FirebaseAuthKeyUID = @"uid";
@@ -83,7 +83,7 @@ NSString * const FirebaseObserverChildRemoved = @"ChildRemoved";
         [self persistOfflineValues];
     }
     
-    [AKGenerics postNotificationName:NotificationFirebaseIsConnectedDidChange object:nil userInfo:userInfo];
+    [AKGenerics postNotificationName:AMLFirebaseIsConnectedDidChangeNotification object:nil userInfo:userInfo];
 }
 
 #pragma mark - // INITS AND LOADS //

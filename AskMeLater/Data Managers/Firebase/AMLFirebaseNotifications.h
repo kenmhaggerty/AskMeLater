@@ -16,4 +16,4 @@
 
 #pragma mark - // DEFINITIONS (Public) //
 
-extern NSString * const NotificationFirebaseIsConnectedDidChange;
+extern NSString * const AMLFirebaseIsConnectedDidChangeNotification;
