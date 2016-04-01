@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="15E65" minimumToolsVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15E65" minimumToolsVersion="Automatic">
     <entity name="AMLChoice" representedClassName="AMLChoice" syncable="YES">
         <attribute name="text" attributeType="String" syncable="YES"/>
-        <attribute name="textInput" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="textInputValue" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <relationship name="question" maxCount="1" deletionRule="Nullify" destinationEntity="AMLQuestion" inverseName="choices" inverseEntity="AMLQuestion" syncable="YES"/>
     </entity>
     <entity name="AMLQuestion" representedClassName="AMLQuestion" syncable="YES">

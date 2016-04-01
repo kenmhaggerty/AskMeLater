@@ -24,7 +24,7 @@
 #pragma mark - // SETTERS AND GETTERS //
 
 @dynamic text;
-@dynamic textInput;
+@dynamic textInputValue;
 @dynamic question;
 
 #pragma mark - // INITS AND LOADS //

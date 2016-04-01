@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface AMLChoice (CoreDataProperties)
 
 @property (nullable, nonatomic, retain) NSString *text;
-@property (nullable, nonatomic, retain) NSNumber *textInput;
+@property (nullable, nonatomic, retain) NSNumber *textInputValue;
 @property (nullable, nonatomic, retain) AMLQuestion *question;
 
 @end
