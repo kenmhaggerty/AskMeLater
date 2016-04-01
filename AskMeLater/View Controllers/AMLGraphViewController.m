@@ -20,7 +20,20 @@
 
 @interface AMLGraphViewController () <PNChartDelegate>
 @property (nonatomic, strong) IBOutlet PNPieChart *chartView;
+
+// OBSERVERS //
+
+- (void)addObserversToQuestion:(id <AMLQuestion>)question;
+- (void)removeObserversFromQuestion:(id <AMLQuestion>)question;
+
+// RESPONDERS //
+
+- (void)questionResponsesDidChange:(NSNotification *)notification;
+
+// OTHER //
+
 - (void)reloadChart;
+
 @end
 
 @implementation AMLGraphViewController
@@ -34,7 +47,15 @@
         return;
     }
     
+    if (_question) {
+        [self removeObserversFromQuestion:_question];
+    }
+    
     _question = question;
+    
+    if (question) {
+        [self addObserversToQuestion:question];
+    }
     
     [self reloadChart];
 }
@@ -63,7 +84,33 @@
 
 #pragma mark - // OVERWRITTEN METHODS //
 
-#pragma mark - // PRIVATE METHODS //
+#pragma mark - // PRIVATE METHODS (Observers) //
+
+- (void)addObserversToQuestion:(id <AMLQuestion>)question {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionResponsesDidChange:) name:AMLQuestionResponsesDidChangeNotification object:question];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionResponsesDidChange:) name:AMLQuestionResponseWasAddedNotification object:question];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionResponsesDidChange:) name:AMLQuestionResponseWasRemovedNotification object:question];
+}
+
+- (void)removeObserversFromQuestion:(id<AMLQuestion>)question {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLQuestionResponsesDidChangeNotification object:question];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLQuestionResponseWasAddedNotification object:question];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLQuestionResponseWasRemovedNotification object:question];
+}
+
+#pragma mark - // PRIVATE METHODS (Responders) //
+
+- (void)questionResponsesDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_UI] message:nil];
+    
+    [self reloadChart];
+}
+
+#pragma mark - // PRIVATE METHODS (Other) //
 
 - (void)reloadChart {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
