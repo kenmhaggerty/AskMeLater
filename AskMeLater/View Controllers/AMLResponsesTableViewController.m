@@ -14,6 +14,8 @@
 #import "AKDebugger.h"
 #import "AKGenerics.h"
 
+#import "AMLDataManager.h"
+
 #pragma mark - // DEFINITIONS (Private) //
 
 @interface AMLResponsesTableViewController ()
@@ -115,6 +117,16 @@
     cell.detailTextLabel.text = [AMLResponsesTableViewController stringForDate:response.date];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        id <AMLResponse> response = [self.responses objectAtIndex:indexPath.row];
+        [AMLDataManager deleteResponse:response];
+        [AMLDataManager save];
+    }
 }
 
 #pragma mark - // DELEGATED METHODS (UITableViewDelegate) //
