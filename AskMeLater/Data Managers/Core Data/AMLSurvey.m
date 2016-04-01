@@ -186,6 +186,8 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
     [AKGenerics postNotificationName:AMLSurveyWillBeDeletedNotification object:self userInfo:nil];
+    
+    [super prepareForDeletion];
 }
 
 #pragma mark - // PUBLIC METHODS //
