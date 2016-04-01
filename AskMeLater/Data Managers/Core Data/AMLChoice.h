@@ -25,7 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AMLChoice : NSManagedObject <AMLChoice_Editable>
 
-// Insert code here to declare functionality of your managed object subclass
+- (void)setTextInput:(BOOL)textInput;
+- (BOOL)textInput;
 
 @end
 
