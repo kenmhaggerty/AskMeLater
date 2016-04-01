@@ -12,6 +12,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "NSObject+Basics.h"
 
 @class AMLResponse, AMLChoice, AMLSurvey;
 
@@ -28,9 +29,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)secure;
 - (void)setSecure:(BOOL)secure;
 
+- (void)addChoice:(AMLChoice *)choice;
+- (void)insertChoice:(AMLChoice *)choice atIndex:(NSUInteger)index;
+- (void)moveChoice:(AMLChoice *)choice toIndex:(NSUInteger)index;
+- (void)moveChoiceAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
 - (void)replaceChoiceAtIndex:(NSUInteger)index withChoice:(AMLChoice *)choice;
-- (void)removeChoiceAtIndex:(NSUInteger)index;
 - (void)removeChoice:(AMLChoice *)choice;
+- (void)removeChoiceAtIndex:(NSUInteger)index;
+
 - (void)addResponse:(AMLResponse *)response;
 - (void)deleteResponse:(AMLResponse *)response;
 
