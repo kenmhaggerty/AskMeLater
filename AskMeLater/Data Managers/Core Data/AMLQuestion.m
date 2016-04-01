@@ -38,6 +38,48 @@
 
 #pragma mark - // SETTERS AND GETTERS //
 
+- (void)setText:(NSString *)text {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSString *primitiveText = [self primitiveValueForKey:NSStringFromSelector(@selector(text))];
+    
+    if ([AKGenerics object:text isEqualToObject:primitiveText]) {
+        return;
+    }
+    
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    if (text) {
+        userInfo[NOTIFICATION_OBJECT_KEY] = text;
+    }
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(text))];
+    [self setPrimitiveValue:text forKey:NSStringFromSelector(@selector(text))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(text))];
+    
+    [AKGenerics postNotificationName:AMLQuestionTextDidChangeNotification object:self userInfo:userInfo];
+}
+
+- (void)setSecureValue:(NSNumber *)secureValue {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSNumber *primitiveSecureValue = [self primitiveValueForKey:NSStringFromSelector(@selector(secureValue))];
+    
+    if ([AKGenerics object:secureValue isEqualToObject:primitiveSecureValue]) {
+        return;
+    }
+    
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    if (secureValue) {
+        userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithBool:secureValue];
+    }
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(secureValue))];
+    [self setPrimitiveValue:secureValue forKey:NSStringFromSelector(@selector(secureValue))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(secureValue))];
+    
+    [AKGenerics postNotificationName:AMLQuestionSecureDidChangeNotification object:self userInfo:userInfo];
+}
+
 - (void)setChoices:(NSOrderedSet <AMLChoice *> *)choices {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
     
