@@ -379,6 +379,12 @@ NSString * const FirebaseObserverChildRemoved = @"ChildRemoved";
     }];
 }
 
++ (void)changePasswordForUserWithEmail:(NSString *)email fromOld:(NSString *)oldPassword toNew:(NSString *)newPassword withCompletionBlock:(void(^)(NSError *error))completionBlock {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_ACCOUNTS] message:nil];
+    
+    [[AMLFirebaseController sharedController].firebase changePasswordForUser:email fromOld:oldPassword toNew:newPassword withCompletionBlock:completionBlock];
+}
+
 + (void)logout {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_ACCOUNTS] message:nil];
     

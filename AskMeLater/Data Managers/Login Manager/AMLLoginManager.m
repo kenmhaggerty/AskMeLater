@@ -92,6 +92,23 @@ NSString * const CurrentUserDidChangeNotification = @"kNotificationCurrentUserDi
     }];
 }
 
++ (void)updatePassword:(NSString *)oldPassword toPassword:(NSString *)newPassword withSuccess:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_ACCOUNTS] message:nil];
+    
+    id <AMLUser_Editable> currentUser = (id <AMLUser_Editable>)[AMLLoginManager currentUser];
+    NSString *email = currentUser.email;
+    
+    [AMLFirebaseController changePasswordForUserWithEmail:email fromOld:oldPassword toNew:newPassword withCompletionBlock:^(NSError *error) {
+        
+        if (error) {
+            failureBlock(error);
+        }
+        else {
+            successBlock();
+        }
+    }];
+}
+
 + (void)logout {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_ACCOUNTS] message:nil];
     
