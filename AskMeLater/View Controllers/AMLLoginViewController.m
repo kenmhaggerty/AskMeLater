@@ -67,8 +67,7 @@
         return _alertError;
     }
     
-    _alertError = [UIAlertController alertControllerWithTitle:@"Couldn't sign in" message:@"We couldn't sign you in. Please try again and contact us if you continue to encounter problems." preferredStyle:UIAlertControllerStyleAlert];
-    [_alertError addAction:[UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil]];
+    _alertError = [UIAlertController alertControllerWithTitle:@"Couldn't Sign In" message:@"We couldn't sign you in. Please try again and contact us if you continue to encounter problems." preferredStyle:UIAlertControllerStyleAlert actionText:nil dismissalText:@"Dismiss" completion:nil];
     return _alertError;
 }
 
