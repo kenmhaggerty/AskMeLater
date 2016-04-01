@@ -19,15 +19,17 @@
 #define AMLSurveyNamePlaceholder @"unnamed survey"
 
 #define AMLSurveyNameDidChangeNotification @"kNotificationAMLSurvey_NameDidChange"
+#define AMLSurveyEditedAtDidChangeNotification @"kNotificationAMLSurvey_EditedAtDidChange"
 #define AMLSurveyTimeDidChangeNotification @"kNotificationAMLSurvey_TimeDidChange"
 #define AMLSurveyRepeatDidChangeNotification @"kNotificationAMLSurvey_RepeatDidChange"
 #define AMLSurveyEnabledDidChangeNotification @"kNotificationAMLSurvey_EnabledDidChange"
-#define AMLSurveyEditedAtDidChangeNotification @"kNotificationAMLSurvey_EditedAtDidChange"
+
 #define AMLSurveyQuestionsDidChangeNotification @"kNotificationAMLSurvey_QuestionsDidChange"
 #define AMLSurveyQuestionWasAddedNotification @"kNotificationAMLSurvey_QuestionWasAdded"
 #define AMLSurveyQuestionWasReorderedNotification @"kNotificationAMLSurvey_QuestionWasReordered"
 #define AMLSurveyQuestionWillBeRemoved @"kNotificationAMLSurvey_QuestionWillBeRemoved"
 #define AMLSurveyQuestionAtIndexWasRemovedNotification @"kNotificationAMLSurvey_QuestionAtIndexWasRemoved"
+
 #define AMLSurveyWillBeDeletedNotification @"kNotificationAMLSurvey_WillBeDeleted"
 
 #pragma mark - // PROTOCOL (AMLSurvey) //
