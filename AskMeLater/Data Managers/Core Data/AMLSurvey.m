@@ -293,7 +293,8 @@
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
     userInfo[NOTIFICATION_OBJECT_KEY] = question;
     
-    [AKGenerics postNotificationName:AMLSurveyQuestionWillBeRemoved object:self userInfo:userInfo];
+//    [AKGenerics postNotificationName:AMLSurveyQuestionWillBeRemoved object:self userInfo:userInfo];
+    [AKGenerics postNotificationName:AMLQuestionWillBeRemovedNotification object:question userInfo:nil];
     
     userInfo = [NSMutableDictionary dictionary];
     userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithInteger:[self.questions indexOfObject:question]];
