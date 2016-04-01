@@ -34,7 +34,7 @@
 // SETTERS //
 
 - (void)setText:(NSString *)text;
-- (void)setTextInput:(BOOL)type;
+- (void)setTextInput:(BOOL)textInput;
 
 @end
 
