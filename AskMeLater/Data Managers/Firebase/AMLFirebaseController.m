@@ -23,6 +23,8 @@
 
 NSString * const AMLFirebaseIsConnectedDidChangeNotification = @"kNotificationAMLFirebaseController_IsConnectedDidChange;";
 
+NSString * const AMLFirebaseEmailDidChangeNotification = @"kNotificationAMLFirebaseController_EmailDidChange";
+
 NSString * const FirebaseAuthKeyEmail = @"email";
 NSString * const FirebaseAuthKeyUID = @"uid";
 NSString * const FirebaseAuthKeyToken = @"token";
@@ -383,6 +385,13 @@ NSString * const FirebaseObserverChildRemoved = @"ChildRemoved";
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_ACCOUNTS] message:nil];
     
     [[AMLFirebaseController sharedController].firebase changeEmailForUser:email password:password toNewEmail:newEmail withCompletionBlock:^(NSError *error){
+        
+        if (!error) {
+            NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+            userInfo[NOTIFICATION_OBJECT_KEY] = newEmail;
+            
+            [AKGenerics postNotificationName:AMLFirebaseEmailDidChangeNotification object:nil userInfo:userInfo];
+        }
         completionBlock(error);
     }];
 }

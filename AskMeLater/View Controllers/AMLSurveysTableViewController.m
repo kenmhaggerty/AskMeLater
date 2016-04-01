@@ -52,6 +52,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
 // RESPONDERS //
 
 - (void)currentUserDidChange:(NSNotification *)notification;
+- (void)emailDidChange:(NSNotification *)notification;
 - (void)surveyDidChange:(NSNotification *)notification;
 
 // OTHER //
@@ -364,12 +365,14 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChange:) name:AMLLoginManagerCurrentUserDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(emailDidChange:) name:AMLLoginManagerEmailDidChangeNotification object:nil];
 }
 
 - (void)removeObserversFromLoginManager {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLLoginManagerCurrentUserDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLLoginManagerEmailDidChangeNotification object:nil];
 }
 
 - (void)addObserversToSurvey:(id <AMLSurvey>)survey {
@@ -408,6 +411,14 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
         self.surveys = nil;
         [self performSegueWithIdentifier:SEGUE_LOGIN sender:self];
     }
+}
+
+- (void)emailDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    NSString *email = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    
+    self.alertSettings.message = email;
 }
 
 - (void)surveyDidChange:(NSNotification *)notification {

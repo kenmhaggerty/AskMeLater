@@ -20,6 +20,7 @@
 #pragma mark - // DEFINITIONS (Private) //
 
 NSString * const AMLLoginManagerCurrentUserDidChangeNotification = @"kNotificationAMLLoginManager_CurrentUserDidChange";
+NSString * const AMLLoginManagerEmailDidChangeNotification = @"kNotificationAMLLoginManager_EmailDidChange";
 
 @interface AMLLoginManager ()
 @property (nonatomic, strong) id <AMLUser_PRIVATE> currentUser;
@@ -28,6 +29,18 @@ NSString * const AMLLoginManagerCurrentUserDidChangeNotification = @"kNotificati
 
 + (instancetype)sharedManager;
 + (void)setCurrentUser:(id <AMLUser_PRIVATE>)currentUser;
+
+// OBSERVERS //
+
+- (void)addObserversToFirebase;
+- (void)removeObserversFromFirebase;
+- (void)addObserversToUser:(id <AMLUser>)user;
+- (void)removeObserversFromUser:(id <AMLUser>)user;
+
+// RESPONDERS //
+
+- (void)firebaseEmailDidChange:(NSNotification *)notification;
+- (void)currentUserEmailDidChange:(NSNotification *)notification;
 
 // OTHER //
 
@@ -52,12 +65,44 @@ NSString * const AMLLoginManagerCurrentUserDidChangeNotification = @"kNotificati
         [userInfo setObject:currentUser forKey:NOTIFICATION_OBJECT_KEY];
     }
     
+    if (_currentUser) {
+        [self removeObserversFromUser:_currentUser];
+    }
+    
     _currentUser = currentUser;
+    
+    if (currentUser) {
+        [self addObserversToUser:currentUser];
+    }
     
     [AKGenerics postNotificationName:AMLLoginManagerCurrentUserDidChangeNotification object:nil userInfo:userInfo];
 }
 
 #pragma mark - // INITS AND LOADS //
+
+- (void)dealloc {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:nil message:nil];
+    
+    [self teardown];
+}
+
+- (id)init {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:nil message:nil];
+    
+    self = [super init];
+    if (self) {
+        [self setup];
+    }
+    return self;
+}
+
+- (void)awakeFromNib {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:nil message:nil];
+    
+    [super awakeFromNib];
+    
+    [self setup];
+}
 
 #pragma mark - // PUBLIC METHODS //
 
@@ -138,6 +183,18 @@ NSString * const AMLLoginManagerCurrentUserDidChangeNotification = @"kNotificati
 
 #pragma mark - // OVERWRITTEN METHODS //
 
+- (void)setup {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:nil message:nil];
+    
+    [self addObserversToFirebase];
+}
+
+- (void)teardown {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:nil message:nil];
+    
+    [self removeObserversFromFirebase];
+}
+
 #pragma mark - // PRIVATE METHODS (General) //
 
 + (instancetype)sharedManager {
@@ -155,6 +212,48 @@ NSString * const AMLLoginManagerCurrentUserDidChangeNotification = @"kNotificati
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_ACCOUNTS] message:nil];
     
     [AMLLoginManager sharedManager].currentUser = currentUser;
+}
+
+#pragma mark - // PRIVATE METHODS (Observers) //
+
+- (void)addObserversToFirebase {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(firebaseEmailDidChange:) name:AMLFirebaseEmailDidChangeNotification object:nil];
+}
+
+- (void)removeObserversFromFirebase {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLFirebaseEmailDidChangeNotification object:nil];
+}
+
+- (void)addObserversToUser:(id <AMLUser>)user {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserEmailDidChange:) name:AMLUserEmailDidChangeNotification object:user];
+}
+
+- (void)removeObserversFromUser:(id <AMLUser>)user {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AMLUserEmailDidChangeNotification object:user];
+}
+
+#pragma mark - // PRIVATE METHODS (Responders) //
+
+- (void)firebaseEmailDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_ACCOUNTS] message:nil];
+    
+    NSString *email = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    
+    [AMLLoginManager currentUser].email = email;
+}
+
+- (void)currentUserEmailDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [AKGenerics postNotificationName:AMLLoginManagerEmailDidChangeNotification object:nil userInfo:notification.userInfo];
 }
 
 #pragma mark - // PRIVATE METHODS (Other) //

@@ -11,6 +11,7 @@
 #pragma mark - // IMPORTS (Public) //
 
 #import <Foundation/Foundation.h>
+#import "NSObject+Basics.h"
 
 #import "AMLUserProtocols.h"
 
@@ -19,6 +20,7 @@
 #pragma mark - // DEFINITIONS (Public) //
 
 extern NSString * const AMLLoginManagerCurrentUserDidChangeNotification;
+extern NSString * const AMLLoginManagerEmailDidChangeNotification;
 
 @interface AMLLoginManager : NSObject
 + (id <AMLUser_Editable>)currentUser;

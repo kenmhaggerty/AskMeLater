@@ -16,6 +16,8 @@
 
 #pragma mark - // DEFINITIONS //
 
+extern NSString * const AMLFirebaseEmailDidChangeNotification;
+
 extern NSString * const FirebaseAuthKeyEmail;
 extern NSString * const FirebaseAuthKeyUID;
 extern NSString * const FirebaseAuthKeyToken;
