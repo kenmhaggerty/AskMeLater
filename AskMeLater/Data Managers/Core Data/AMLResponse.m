@@ -26,6 +26,14 @@
 
 #pragma mark - // INITS AND LOADS //
 
+- (void)prepareForDeletion {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
+    
+    [AKGenerics postNotificationName:AMLResponseWillBeDeletedNotification object:self userInfo:nil];
+    
+    [super prepareForDeletion];
+}
+
 #pragma mark - // PUBLIC METHODS //
 
 #pragma mark - // CATEGORY METHODS //

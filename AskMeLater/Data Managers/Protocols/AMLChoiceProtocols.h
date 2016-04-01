@@ -14,6 +14,8 @@
 
 #pragma mark - // DEFINITIONS //
 
+#define AMLChoiceWillBeDeletedNotification @"kNotificationAMLChoice_WillBeDeleted"
+
 #pragma mark - // PROTOCOL (AMLChoice) //
 
 @protocol AMLChoice <NSObject>

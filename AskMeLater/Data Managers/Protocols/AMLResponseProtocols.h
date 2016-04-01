@@ -15,6 +15,8 @@
 
 #pragma mark - // DEFINITIONS //
 
+#define AMLResponseWillBeDeletedNotification @"kNotificationAMLResponse_WillBeDeleted"
+
 #pragma mark - // PROTOCOL (AMLResponse) //
 
 @protocol AMLResponse <NSObject>

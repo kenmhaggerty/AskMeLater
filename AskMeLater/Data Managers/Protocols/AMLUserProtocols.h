@@ -14,6 +14,8 @@
 
 #pragma mark - // DEFINITIONS //
 
+#define AMLUserWillBeDeletedNotification @"kNotificationAMLUser_WillBeDeleted"
+
 #pragma mark - // PROTOCOL (AMLUser) //
 
 @protocol AMLUser <NSObject>
