@@ -166,18 +166,18 @@
     [self teardown];
 }
 
-- (void)awakeFromFetch {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
-    
-    [super awakeFromFetch];
-    
-    [self setup];
-}
-
 - (void)awakeFromInsert {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
     
     [super awakeFromInsert];
+    
+    [self setup];
+}
+
+- (void)awakeFromFetch {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
+    
+    [super awakeFromFetch];
     
     [self setup];
 }
