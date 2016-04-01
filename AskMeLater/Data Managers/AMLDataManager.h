@@ -44,6 +44,7 @@
 // RESPONSES //
 
 + (void)addResponse:(NSString *)text forQuestion:(id <AMLQuestion>)question;
++ (void)deleteResponse:(id <AMLResponse>)response;
 
 // DEBUGGING //
 

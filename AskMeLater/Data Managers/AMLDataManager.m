@@ -28,6 +28,7 @@
 + (AMLUser *)convertUser:(id <AMLUser>)user;
 + (AMLSurvey *)convertSurvey:(id <AMLSurvey>)survey;
 + (AMLQuestion *)convertQuestion:(id <AMLQuestion>)question;
++ (AMLResponse *)convertResponse:(id <AMLResponse>)response;
 + (id <AMLSurvey>)surveyForQuestion:(id <AMLQuestion>)question;
 
 // OTHER //
@@ -132,6 +133,12 @@
     [AMLDataManager save];
 }
 
++ (void)deleteResponse:(id <AMLResponse>)response {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeDeletor tags:@[AKD_DATA] message:nil];
+    
+    [AMLCoreDataController deleteObject:[AMLDataManager convertResponse:response]];
+}
+
 #pragma mark - // PUBLIC METHODS (Debugging) //
 
 + (void)test {
@@ -194,6 +201,16 @@
     
     if ([question isKindOfClass:[AMLQuestion class]]) {
         return (AMLQuestion *)question;
+    }
+    
+    return nil;
+}
+
++ (AMLResponse *)convertResponse:(id <AMLResponse>)response {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
+    
+    if ([response isKindOfClass:[AMLResponse class]]) {
+        return (AMLResponse *)response;
     }
     
     return nil;
