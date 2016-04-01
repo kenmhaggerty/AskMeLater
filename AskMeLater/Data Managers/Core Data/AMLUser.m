@@ -100,6 +100,18 @@
 
 #pragma mark - // PUBLIC METHODS //
 
+- (void)setAvatar:(UIImage *)avatar {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    self.avatarData = UIImagePNGRepresentation(avatar);
+}
+
+- (UIImage *)avatar {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    return [UIImage imageWithData:self.avatarData];
+}
+
 #pragma mark - // CATEGORY METHODS //
 
 #pragma mark - // DELEGATED METHODS //
