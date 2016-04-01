@@ -21,6 +21,7 @@
 @protocol AMLUser <NSObject>
 
 - (NSString *)username;
+@optional
 - (UIImage *)avatar;
 
 @end
@@ -41,6 +42,7 @@
 
 - (void)setUsername:(NSString *)username;
 - (void)setEmail:(NSString *)email;
+@optional
 - (void)setAvatar:(UIImage *)avatar;
 
 @end
