@@ -15,6 +15,8 @@
 
 #pragma mark - // DEFINITIONS //
 
+#define AMLResponseWillBeRemovedNotification @"kNotificationAMLResponse_WillBeRemoved"
+
 #define AMLResponseWillBeDeletedNotification @"kNotificationAMLResponse_WillBeDeleted"
 
 #pragma mark - // PROTOCOL (AMLResponse) //
