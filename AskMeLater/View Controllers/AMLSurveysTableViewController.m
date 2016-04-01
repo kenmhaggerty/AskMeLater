@@ -17,6 +17,7 @@
 #import "AMLLoginManager.h"
 #import "AMLDataManager.h"
 #import "AMLSurveyProtocols.h"
+#import "AMLPrivateInfo.h"
 
 #import "AMLSurveyUIProtocol.h"
 
@@ -30,6 +31,11 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *addButton;
 @property (nonatomic, strong) NSMutableOrderedSet <id <AMLSurvey>> *surveys;
 @property (nonatomic, strong) UIAlertController *alertSettings;
+//@property (nonatomic, strong) UIAlertController *alertUpdateEmail;
+@property (nonatomic, strong) UIAlertController *alertUpdatePassword;
+@property (nonatomic, strong) UIAlertController *alertMismatchedPasswords;
+@property (nonatomic, strong) UIAlertController *alertInvalidPassword;
+@property (nonatomic, strong) UIAlertController *alertPasswordUpdated;
 
 // ACTIONS //
 
@@ -94,7 +100,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
         // change email UI
     }]];
     [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Change password" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        // change password UI
+        [self presentViewController:self.alertUpdatePassword animated:YES completion:nil];
     }]];
     [_alertSettings addAction:[UIAlertAction actionWithTitle:@"About Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         // about us UI
@@ -105,6 +111,95 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
     
     return _alertSettings;
+}
+
+//- (UIAlertController *)alertUpdateEmail {
+//    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+//    
+//    //
+//}
+
+- (UIAlertController *)alertUpdatePassword {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    if (_alertUpdatePassword) {
+        return _alertUpdatePassword;
+    }
+    
+    _alertUpdatePassword = [UIAlertController alertControllerWithTitle:@"Update Password" message:[AMLPrivateInfo passwordRequirements] preferredStyle:UIAlertControllerStyleAlert actionText:@"Update" dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
+        
+        NSString *oldPassword = _alertUpdatePassword.textFields[0].text;
+        NSString *newPassword = _alertUpdatePassword.textFields[1].text;
+        NSString *newPasswordConfirm = _alertUpdatePassword.textFields[2].text;
+        
+        if (![AKGenerics object:newPassword isEqualToObject:newPasswordConfirm]) {
+            [self presentViewController:self.alertMismatchedPasswords animated:YES completion:[AKGenerics clearTextFields:_alertUpdatePassword]];
+            return;
+        }
+        
+        if (![AMLPrivateInfo validPassword:newPassword]) {
+            [self presentViewController:self.alertInvalidPassword animated:YES completion:[AKGenerics clearTextFields:_alertUpdatePassword]];
+            return;
+        }
+        
+        [AMLLoginManager updatePassword:oldPassword toPassword:newPassword withSuccess:^{
+            [self presentViewController:self.alertPasswordUpdated animated:YES completion:[AKGenerics clearTextFields:_alertUpdatePassword]];
+            
+        } failure:^(NSError *error) {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Couldn't Update Password" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert actionText:nil dismissalText:@"Dismiss" completion:nil];
+            [self presentViewController:alertController animated:YES completion:[AKGenerics clearTextFields:_alertUpdatePassword]];
+        }];
+    }];
+    [_alertUpdatePassword addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"enter current password";
+        textField.secureTextEntry = YES;
+    }];
+    [_alertUpdatePassword addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"enter new password";
+        textField.secureTextEntry = YES;
+    }];
+    [_alertUpdatePassword addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"confirm new password";
+        textField.secureTextEntry = YES;
+    }];
+    return _alertUpdatePassword;
+}
+
+- (UIAlertController *)alertMismatchedPasswords {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    if (_alertMismatchedPasswords) {
+        return _alertMismatchedPasswords;
+    }
+    
+    _alertMismatchedPasswords = [UIAlertController alertControllerWithTitle:@"Couldn't Update Password" message:@"Your password confirmation did not match your new password." preferredStyle:UIAlertControllerStyleAlert actionText:@"Retry" dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
+        [self presentViewController:_alertUpdatePassword animated:YES completion:nil];
+    }];
+    return _alertMismatchedPasswords;
+}
+
+- (UIAlertController *)alertInvalidPassword {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    if (_alertInvalidPassword) {
+        return _alertInvalidPassword;
+    }
+    
+    _alertInvalidPassword = [UIAlertController alertControllerWithTitle:@"Couldn't Update Password" message:@"Your new password did not meet requirements." preferredStyle:UIAlertControllerStyleAlert actionText:@"Retry" dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
+        [self presentViewController:_alertUpdatePassword animated:YES completion:nil];
+    }];
+    return _alertInvalidPassword;
+}
+
+- (UIAlertController *)alertPasswordUpdated {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    if (_alertPasswordUpdated) {
+        return _alertPasswordUpdated;
+    }
+    
+    _alertPasswordUpdated = [UIAlertController alertControllerWithTitle:@"Password Updated" message:@"Your password was successfully updated." preferredStyle:UIAlertControllerStyleAlert actionText:nil dismissalText:@"Dismiss" completion:nil];
+    return _alertPasswordUpdated;
 }
 
 #pragma mark - // INITS AND LOADS //
