@@ -80,7 +80,7 @@ NSTimeInterval const AnimationSpeed = 0.18f;
         return _alertPasswordReset;
     }
     
-    _alertPasswordReset = [UIAlertController alertControllerWithTitle:@"Password Reset Requested" message:@"Please check your email and follow the instructions to reset your password." preferredStyle:UIAlertControllerStyleAlert actionText:nil dismissalText:nil completion:nil];
+    _alertPasswordReset = [UIAlertController alertControllerWithTitle:@"Password Reset Requested" message:@"Please check your email and follow the instructions to reset your password." preferredStyle:UIAlertControllerStyleAlert actions:nil dismissalText:nil completion:nil];
     return _alertPasswordReset;
 }
 
@@ -91,7 +91,7 @@ NSTimeInterval const AnimationSpeed = 0.18f;
         return _alertError;
     }
     
-    _alertError = [UIAlertController alertControllerWithTitle:@"Couldn't Sign In" message:@"We couldn't sign you in. Please try again and contact us if you continue to encounter problems." preferredStyle:UIAlertControllerStyleAlert actionText:nil dismissalText:@"Dismiss" completion:nil];
+    _alertError = [UIAlertController alertControllerWithTitle:@"Couldn't Sign In" message:@"We couldn't sign you in. Please try again and contact us if you continue to encounter problems." preferredStyle:UIAlertControllerStyleAlert actions:nil dismissalText:@"Dismiss" completion:nil];
     return _alertError;
 }
 
