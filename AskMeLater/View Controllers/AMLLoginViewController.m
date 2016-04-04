@@ -81,7 +81,7 @@ NSTimeInterval const AnimationSpeed = 0.18f;
     
     _isCreatingAccount = isCreatingAccount;
     
-    [self showPasswordConfirmation:isCreatingAccount animated:YES];
+    [self showPasswordConfirmation:isCreatingAccount animated:animated];
 }
 
 #pragma mark - // INITS AND LOADS //
