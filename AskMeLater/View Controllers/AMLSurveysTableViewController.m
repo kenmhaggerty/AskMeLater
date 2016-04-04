@@ -104,8 +104,8 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Change password" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self presentViewController:self.alertUpdatePassword animated:YES completion:nil];
     }]];
-    [_alertSettings addAction:[UIAlertAction actionWithTitle:@"About Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        // about us UI
+    [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Privacy Policy" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        // privacy policy UI
     }]];
     [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Contact Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         // contact us UI
