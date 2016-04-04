@@ -25,20 +25,23 @@ NSString * const CreateAccount = @"Create account";
 NSTimeInterval const AnimationSpeed = 0.18f;
 
 @interface AMLLoginViewController () <UITextFieldDelegate, UIKeyboardDelegate>
+@property (nonatomic, strong) IBOutlet UISegmentedControl *segmentedControl;
 @property (nonatomic, strong) IBOutlet UITextField *textFieldEmail;
 @property (nonatomic, strong) IBOutlet UITextField *textFieldPassword;
 @property (nonatomic, strong) IBOutlet UITextField *textFieldConfirmPassword;
-@property (nonatomic, strong) IBOutlet UIButton *switchButton;
+@property (nonatomic, strong) IBOutlet UIButton *passwordResetButton;
 @property (nonatomic, strong) IBOutlet UIButton *submitButton;
 @property (nonatomic, strong) IBOutlet NSLayoutConstraint *constraintShowButton;
 @property (nonatomic, strong) IBOutlet NSLayoutConstraint *constraintConfirmPassword;
+@property (nonatomic, strong) IBOutlet NSLayoutConstraint *constraintPasswordReset;
 @property (nonatomic, strong) IBOutlet NSLayoutConstraint *constraintBottom;
 @property (nonatomic, strong) UIAlertController *alertError;
 @property (nonatomic, readonly) BOOL isCreatingAccount;
 
 // ACTIONS //
 
-- (IBAction)switchAction:(UIButton *)sender;
+- (IBAction)segmentedControlDidChangeValue:(UISegmentedControl *)sender;
+- (IBAction)passwordReset:(id)sender;
 - (IBAction)submit:(UIButton *)sender;
 
 // OBSERVERS //
@@ -108,6 +111,16 @@ NSTimeInterval const AnimationSpeed = 0.18f;
     [super awakeFromNib];
     
     [self setup];
+}
+
+- (void)viewDidLoad {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    [super viewDidLoad];
+    
+    [self.segmentedControl setTitle:SignIn forSegmentAtIndex:0];
+    [self.segmentedControl setTitle:CreateAccount forSegmentAtIndex:1];
+    self.passwordResetButton.enabled = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -193,7 +206,7 @@ NSTimeInterval const AnimationSpeed = 0.18f;
 
 #pragma mark - // PRIVATE METHODS (Actions) //
 
-- (IBAction)switchAction:(UIButton *)sender {
+- (IBAction)segmentedControlDidChangeValue:(UISegmentedControl *)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
     [self setIsCreatingAccount:!self.isCreatingAccount animated:YES];
@@ -290,9 +303,6 @@ NSTimeInterval const AnimationSpeed = 0.18f;
     
     self.textFieldPassword.returnKeyType = show ? UIReturnKeyNext : UIReturnKeyGo;
     self.textFieldConfirmPassword.userInteractionEnabled = show;
-    [self.switchButton setTitle:(show ? @"Already have an account?" : @"Create account") forState:UIControlStateNormal];
-    [self.switchButton setTitle:(show ? @"Already have an account?" : @"Create account") forState:UIControlStateHighlighted];
-    [self.switchButton setTitle:(show ? @"Already have an account?" : @"Create account") forState:UIControlStateSelected];
     [self.submitButton setTitle:(show ? CreateAccount : SignIn) forState:UIControlStateNormal];
     [self.submitButton setTitle:(show ? CreateAccount : SignIn) forState:UIControlStateHighlighted];
     [self.submitButton setTitle:(show ? CreateAccount : SignIn) forState:UIControlStateSelected];

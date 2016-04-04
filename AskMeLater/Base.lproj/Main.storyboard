@@ -154,10 +154,10 @@
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="540"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xN4-9J-fLB">
-                                                <rect key="frame" x="140" y="190" width="320" height="160"/>
+                                                <rect key="frame" x="140" y="171" width="320" height="198"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="confirm password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gTA-iM-9qG">
-                                                        <rect key="frame" x="8" y="84" width="304" height="30"/>
+                                                        <rect key="frame" x="8" y="124" width="304" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                                                         <connections>
@@ -165,7 +165,7 @@
                                                         </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Eka-gd-Q6y">
-                                                        <rect key="frame" x="8" y="46" width="304" height="30"/>
+                                                        <rect key="frame" x="8" y="86" width="304" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                                                         <connections>
@@ -173,7 +173,7 @@
                                                         </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="afC-Ez-jpv">
-                                                        <rect key="frame" x="8" y="8" width="304" height="30"/>
+                                                        <rect key="frame" x="8" y="48" width="304" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                                         <connections>
@@ -181,29 +181,48 @@
                                                         </connections>
                                                     </textField>
                                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FW1-pM-aUk">
-                                                        <rect key="frame" x="108" y="122" width="105" height="30"/>
-                                                        <state key="normal" title="Create account"/>
+                                                        <rect key="frame" x="91" y="162" width="139" height="28"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                        <state key="normal" title="Forgot your password?">
+                                                            <color key="titleColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
                                                         <connections>
-                                                            <action selector="switchAction:" destination="CPB-vS-a56" eventType="touchUpInside" id="2qC-Yt-8Yk"/>
+                                                            <action selector="passwordReset:" destination="CPB-vS-a56" eventType="touchUpInside" id="5aF-2t-UlR"/>
                                                         </connections>
                                                     </button>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DJV-kG-zNK">
+                                                        <rect key="frame" x="52" y="8" width="217" height="29"/>
+                                                        <segments>
+                                                            <segment title="Sign In"/>
+                                                            <segment title="Create Account"/>
+                                                        </segments>
+                                                        <connections>
+                                                            <action selector="segmentedControlDidChangeValue:" destination="CPB-vS-a56" eventType="valueChanged" id="Edg-WW-uw8"/>
+                                                        </connections>
+                                                    </segmentedControl>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstItem="gTA-iM-9qG" firstAttribute="top" secondItem="Eka-gd-Q6y" secondAttribute="bottom" constant="8" id="3UK-PI-HI6"/>
-                                                    <constraint firstItem="afC-Ez-jpv" firstAttribute="top" secondItem="xN4-9J-fLB" secondAttribute="topMargin" id="86K-R9-YPF"/>
+                                                    <constraint firstItem="afC-Ez-jpv" firstAttribute="top" secondItem="xN4-9J-fLB" secondAttribute="topMargin" priority="750" id="86K-R9-YPF"/>
                                                     <constraint firstAttribute="bottomMargin" secondItem="Eka-gd-Q6y" secondAttribute="bottom" priority="750" id="8S5-eg-rb6"/>
                                                     <constraint firstItem="FW1-pM-aUk" firstAttribute="top" secondItem="Eka-gd-Q6y" secondAttribute="bottom" priority="750" constant="8" id="BEt-Od-WbD"/>
                                                     <constraint firstItem="Eka-gd-Q6y" firstAttribute="leading" secondItem="xN4-9J-fLB" secondAttribute="leadingMargin" id="Ebu-7v-APM"/>
                                                     <constraint firstItem="FW1-pM-aUk" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xN4-9J-fLB" secondAttribute="leadingMargin" id="Ek2-ci-3Ur"/>
                                                     <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="FW1-pM-aUk" secondAttribute="trailing" id="FM3-FS-Ell"/>
+                                                    <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="gTA-iM-9qG" secondAttribute="bottom" id="FdY-2i-wwt"/>
                                                     <constraint firstItem="gTA-iM-9qG" firstAttribute="top" secondItem="Eka-gd-Q6y" secondAttribute="top" priority="750" id="GcC-yR-EaT"/>
+                                                    <constraint firstAttribute="bottomMargin" secondItem="gTA-iM-9qG" secondAttribute="bottom" priority="750" id="Ijp-D9-7jl"/>
                                                     <constraint firstItem="afC-Ez-jpv" firstAttribute="leading" secondItem="xN4-9J-fLB" secondAttribute="leadingMargin" id="JSR-w7-lZz"/>
                                                     <constraint firstItem="FW1-pM-aUk" firstAttribute="centerX" secondItem="xN4-9J-fLB" secondAttribute="centerX" id="OlL-2x-aJW"/>
                                                     <constraint firstAttribute="trailingMargin" secondItem="gTA-iM-9qG" secondAttribute="trailing" id="PrH-pL-SRe"/>
-                                                    <constraint firstItem="FW1-pM-aUk" firstAttribute="top" secondItem="gTA-iM-9qG" secondAttribute="bottom" constant="8" id="UP8-nQ-hOE"/>
+                                                    <constraint firstItem="DJV-kG-zNK" firstAttribute="top" secondItem="xN4-9J-fLB" secondAttribute="topMargin" id="VLn-Qy-f28"/>
+                                                    <constraint firstItem="afC-Ez-jpv" firstAttribute="top" secondItem="DJV-kG-zNK" secondAttribute="bottom" constant="12" id="bo6-9z-Wk9"/>
+                                                    <constraint firstItem="DJV-kG-zNK" firstAttribute="centerX" secondItem="xN4-9J-fLB" secondAttribute="centerX" id="byJ-W0-mJC"/>
                                                     <constraint firstAttribute="trailingMargin" secondItem="Eka-gd-Q6y" secondAttribute="trailing" id="ca9-W8-bRu"/>
+                                                    <constraint firstItem="FW1-pM-aUk" firstAttribute="top" relation="greaterThanOrEqual" secondItem="gTA-iM-9qG" secondAttribute="bottom" constant="8" id="e8A-cC-fvB"/>
                                                     <constraint firstAttribute="trailingMargin" secondItem="afC-Ez-jpv" secondAttribute="trailing" id="gy2-A9-T8O"/>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" secondItem="DJV-kG-zNK" secondAttribute="width" id="pn2-kd-2ic"/>
                                                     <constraint firstItem="Eka-gd-Q6y" firstAttribute="top" secondItem="afC-Ez-jpv" secondAttribute="bottom" constant="8" id="rs2-kK-bou"/>
                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="320" id="sT9-Rz-wSs"/>
                                                     <constraint firstAttribute="leadingMargin" secondItem="gTA-iM-9qG" secondAttribute="leading" id="voU-Ao-8ia"/>
@@ -281,10 +300,12 @@
                     <connections>
                         <outlet property="constraintBottom" destination="CZS-pK-aMi" id="sfY-lr-cW2"/>
                         <outlet property="constraintConfirmPassword" destination="3UK-PI-HI6" id="wyj-zI-oNo"/>
+                        <outlet property="constraintPasswordReset" destination="vqg-Ki-fzU" id="Lex-fl-7U6"/>
                         <outlet property="constraintShowButton" destination="fQP-Kx-9KC" id="XK0-ik-3oT"/>
+                        <outlet property="passwordResetButton" destination="FW1-pM-aUk" id="ZvP-tU-IyQ"/>
                         <outlet property="scrollView" destination="w03-J4-uCZ" id="IsM-0R-kYv"/>
+                        <outlet property="segmentedControl" destination="DJV-kG-zNK" id="pxU-mu-F1d"/>
                         <outlet property="submitButton" destination="Ovl-Ks-cvv" id="wyO-vP-MWy"/>
-                        <outlet property="switchButton" destination="FW1-pM-aUk" id="95L-JB-m62"/>
                         <outlet property="textFieldConfirmPassword" destination="gTA-iM-9qG" id="L8k-rG-FN7"/>
                         <outlet property="textFieldEmail" destination="afC-Ez-jpv" id="J5F-G7-rYU"/>
                         <outlet property="textFieldPassword" destination="Eka-gd-Q6y" id="9qM-6z-HSu"/>
