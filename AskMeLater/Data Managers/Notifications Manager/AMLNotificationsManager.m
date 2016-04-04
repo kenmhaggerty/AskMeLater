@@ -31,6 +31,10 @@ NSTimeInterval const AMLNotificationMinimumInterval = 0.5f;
 
 - (void)surveyEnabledDidChange:(NSNotification *)notification;
 
+// OTHER //
+
+- (void)cancelNotificationsForSurvey:(id <AMLSurvey>)survey;
+
 @end
 
 @implementation AMLNotificationsManager
@@ -159,6 +163,7 @@ NSTimeInterval const AMLNotificationMinimumInterval = 0.5f;
     BOOL enabled = ((NSNumber *)notification.userInfo[NOTIFICATION_OBJECT_KEY]).boolValue;
     
     if (!enabled) {
+        [self cancelNotificationsForSurvey:survey];
         return;
     }
     
@@ -171,6 +176,30 @@ NSTimeInterval const AMLNotificationMinimumInterval = 0.5f;
     UIMutableUserNotificationAction *secondaryAction = [AMLNotificationsManager notificationActionWithTitle:secondaryChoice.text textInput:NO destructive:NO authentication:NO];
     
     [AMLNotificationsManager setNotificationWithTitle:survey.name body:question.text actions:@[primaryAction, secondaryAction] actionString:AMLNotificationActionString uuid:question.uuid fireDate:survey.time repeat:survey.repeat];
+}
+
+#pragma mark - // PRIVATE METHODS (Other) //
+
+- (void)cancelNotificationsForSurvey:(id<AMLSurvey>)survey {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
+    
+    NSMutableArray *questionIds = [NSMutableArray arrayWithCapacity:survey.questions.count];
+    for (id <AMLQuestion_PRIVATE> question in survey.questions) {
+        [questionIds addObject: question.uuid];
+    }
+    
+    UIApplication *application = [UIApplication sharedApplication];
+    NSArray <UILocalNotification *> *scheduledNotifications = [application scheduledLocalNotifications];
+    UILocalNotification *localNotification;
+    NSString *notificationId;
+    for (int i = 0; i < scheduledNotifications.count; i++)
+    {
+        localNotification = scheduledNotifications[i];
+        notificationId = localNotification.userInfo[NOTIFICATION_OBJECT_KEY];
+        if ([questionIds containsObject:notificationId]) {
+            [application cancelLocalNotification:localNotification];
+        }
+    }
 }
 
 @end
