@@ -36,8 +36,10 @@
 - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification withResponseInfo:(NSDictionary *)responseInfo completionHandler:(void (^)())completionHandler {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-#warning TO DO – Process even if logged out
+#warning TO DO – Process even if logged out / recipient should be in userInfo
+#warning TO DO – Fix badge numbers
     
+    NSString *userId;
     NSString *questionId = notification.userInfo[NOTIFICATION_OBJECT_KEY];
     NSString *response = identifier;
     id <AMLQuestion_PRIVATE> question = (id <AMLQuestion_PRIVATE>)[AMLDataManager questionWithId:questionId];
@@ -49,7 +51,21 @@
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-#warning TO DO – Display alertView after login
+#warning TO DO – Display alertView only after login
+    
+    NSString *questionId = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    id <AMLQuestion_PRIVATE> question = (id <AMLQuestion_PRIVATE>)[AMLDataManager questionWithId:questionId];
+    NSMutableArray <NSString *> *actions = [NSMutableArray arrayWithCapacity:question.choices.count];
+    for (id <AMLChoice> choice in question.choices) {
+        [actions addObject:choice.text];
+    }
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:question.text message:nil preferredStyle:UIAlertControllerStyleAlert actions:actions dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
+        NSString *response = action.title;
+        [AMLDataManager addResponse:response forQuestion:question];
+        [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber-1;
+    }];
+    [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
