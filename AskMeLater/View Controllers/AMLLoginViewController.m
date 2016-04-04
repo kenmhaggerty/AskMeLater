@@ -35,6 +35,7 @@ NSTimeInterval const AnimationSpeed = 0.18f;
 @property (nonatomic, strong) IBOutlet NSLayoutConstraint *constraintConfirmPassword;
 @property (nonatomic, strong) IBOutlet NSLayoutConstraint *constraintPasswordReset;
 @property (nonatomic, strong) IBOutlet NSLayoutConstraint *constraintBottom;
+@property (nonatomic, strong) UIAlertController *alertPasswordReset;
 @property (nonatomic, strong) UIAlertController *alertError;
 @property (nonatomic, readonly) BOOL isCreatingAccount;
 
@@ -57,17 +58,30 @@ NSTimeInterval const AnimationSpeed = 0.18f;
 
 - (void)signIn;
 - (void)createAccount;
+- (void)resetPassword;
 
 // OTHER //
 
 - (void)showButton:(BOOL)show;
 - (void)showPasswordConfirmation:(BOOL)show animated:(BOOL)animated;
+- (void)showPasswordReset:(BOOL)show animated:(BOOL)animated;
 
 @end
 
 @implementation AMLLoginViewController
 
 #pragma mark - // SETTERS AND GETTERS //
+
+- (UIAlertController *)alertPasswordReset {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    if (_alertPasswordReset) {
+        return _alertPasswordReset;
+    }
+    
+    _alertPasswordReset = [UIAlertController alertControllerWithTitle:@"Password Reset Requested" message:@"Please check your email and follow the instructions to reset your password." preferredStyle:UIAlertControllerStyleAlert actionText:nil dismissalText:nil completion:nil];
+    return _alertPasswordReset;
+}
 
 - (UIAlertController *)alertError {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
@@ -86,6 +100,7 @@ NSTimeInterval const AnimationSpeed = 0.18f;
     _isCreatingAccount = isCreatingAccount;
     
     [self showPasswordConfirmation:isCreatingAccount animated:animated];
+    [self showPasswordReset:!isCreatingAccount animated:animated];
 }
 
 #pragma mark - // INITS AND LOADS //
@@ -211,6 +226,13 @@ NSTimeInterval const AnimationSpeed = 0.18f;
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
     [self setIsCreatingAccount:!self.isCreatingAccount animated:YES];
+    [self showPasswordReset:!self.isCreatingAccount animated:YES];
+}
+
+- (IBAction)passwordReset:(id)sender {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
+    
+    [self resetPassword];
 }
 
 - (IBAction)submit:(UIButton *)sender {
@@ -280,6 +302,20 @@ NSTimeInterval const AnimationSpeed = 0.18f;
     }];
 }
 
+- (void)resetPassword {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI, AKD_ACCOUNTS] message:nil];
+    
+    NSString *email = self.textFieldEmail.text;
+    
+    [AMLLoginManager resetPasswordForEmail:email success:^{
+        self.alertPasswordReset.message = [NSString stringWithFormat:@"Please check your email at %@ and follow the instructions to reset your password.", email];
+        [self presentViewController:self.alertPasswordReset animated:YES completion:nil];
+    } failure:^(NSError *error) {
+        self.alertError.message = error.localizedDescription;
+        [self presentViewController:self.alertError animated:YES completion:nil];
+    }];
+}
+
 #pragma mark - // PRIVATE METHODS (Other) //
 
 - (void)enableButton:(BOOL)enabled {
@@ -324,6 +360,18 @@ NSTimeInterval const AnimationSpeed = 0.18f;
             self.textFieldConfirmPassword.text = nil;
         }
     }];
+}
+
+- (void)showPasswordReset:(BOOL)show animated:(BOOL)animated {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
+    
+    self.constraintPasswordReset.active = show;
+    
+    [self.view setNeedsUpdateConstraints];
+    [UIView animateWithDuration:(animated ? AnimationSpeed : 0.0f) animations:^{
+        [self.view layoutIfNeeded];
+        self.passwordResetButton.alpha = show ? 1.0f : 0.0f;
+    } completion:nil];
 }
 
 @end
