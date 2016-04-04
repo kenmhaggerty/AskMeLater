@@ -111,6 +111,15 @@ NSTimeInterval const AnimationSpeed = 0.18f;
     [self teardown];
 }
 
+- (void)didReceiveMemoryWarning {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    [super didReceiveMemoryWarning];
+    
+    self.alertPasswordReset = nil;
+    self.alertError = nil;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
     
