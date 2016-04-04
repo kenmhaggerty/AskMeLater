@@ -15,6 +15,7 @@
 #import "AKGenerics.h"
 #import "UIViewController+Keyboard.h"
 
+#import "AMLPrivateInfo.h"
 #import "AMLLoginManager.h"
 
 #pragma mark - // DEFINITIONS (Private) //
@@ -185,6 +186,15 @@ NSTimeInterval const AnimationSpeed = 0.18f;
     }
     
     return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
+    
+    if ([textField isEqual:self.textFieldEmail]) {
+        NSString *email = self.textFieldEmail.text;
+        self.passwordResetButton.enabled = [AMLPrivateInfo validEmail:email];
+    }
 }
 
 #pragma mark - // DELEGATED METHODS (UIKeyboardDelegate) //
