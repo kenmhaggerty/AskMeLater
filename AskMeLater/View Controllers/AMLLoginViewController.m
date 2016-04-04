@@ -19,6 +19,11 @@
 
 #pragma mark - // DEFINITIONS (Private) //
 
+NSString * const SignIn = @"Sign in";
+NSString * const CreateAccount = @"Create account";
+
+NSTimeInterval const AnimationSpeed = 0.18f;
+
 @interface AMLLoginViewController () <UITextFieldDelegate, UIKeyboardDelegate>
 @property (nonatomic, strong) IBOutlet UITextField *textFieldEmail;
 @property (nonatomic, strong) IBOutlet UITextField *textFieldPassword;
@@ -288,13 +293,13 @@
     [self.switchButton setTitle:(show ? @"Already have an account?" : @"Create account") forState:UIControlStateNormal];
     [self.switchButton setTitle:(show ? @"Already have an account?" : @"Create account") forState:UIControlStateHighlighted];
     [self.switchButton setTitle:(show ? @"Already have an account?" : @"Create account") forState:UIControlStateSelected];
-    [self.submitButton setTitle:(show ? @"Create account" : @"Sign in") forState:UIControlStateNormal];
-    [self.submitButton setTitle:(show ? @"Create account" : @"Sign in") forState:UIControlStateHighlighted];
-    [self.submitButton setTitle:(show ? @"Create account" : @"Sign in") forState:UIControlStateSelected];
+    [self.submitButton setTitle:(show ? CreateAccount : SignIn) forState:UIControlStateNormal];
+    [self.submitButton setTitle:(show ? CreateAccount : SignIn) forState:UIControlStateHighlighted];
+    [self.submitButton setTitle:(show ? CreateAccount : SignIn) forState:UIControlStateSelected];
     self.constraintConfirmPassword.active = show;
     
     [self.view setNeedsUpdateConstraints];
-    [UIView animateWithDuration:(animated ? 0.18f : 0.0f) animations:^{
+    [UIView animateWithDuration:(animated ? AnimationSpeed : 0.0f) animations:^{
         [self.view layoutIfNeeded];
         [self.textFieldConfirmPassword setAlpha:(show ? 1.0f : 0.0f)];
     } completion:^(BOOL finished) {
