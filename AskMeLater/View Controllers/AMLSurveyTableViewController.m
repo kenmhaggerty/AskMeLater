@@ -226,12 +226,12 @@ NSUInteger const TimingTableViewSection = 2;
         AMLSurveyTimingCell *cell = (AMLSurveyTimingCell *)[AKGenerics cellWithReuseIdentifier:[AMLSurveyTimingCell reuseIdentifier] class:[AMLSurveyTimingCell class] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
         cell.delegate = self;
         if (self.survey.time) {
-            cell.time.date = self.survey.time;
+            cell.timePicker.date = self.survey.time;
         }
-        cell.time.userInteractionEnabled = !self.survey.enabled;
-        cell.time.alpha = self.survey.enabled ? 0.5f : 1.0f;
-        cell.repeat.on = self.survey.repeat;
-        cell.enabled.on = self.survey.enabled;
+        cell.timePicker.userInteractionEnabled = !self.survey.enabled;
+        cell.timePicker.alpha = self.survey.enabled ? 0.5f : 1.0f;
+        [cell setRepeatSwitch:self.survey.repeat animated:NO];
+        [cell setEnabledSwitch:self.survey.enabled animated:NO];
         cell.separatorInset = UIEdgeInsetsMake(0.f, cell.bounds.size.width, 0.f, 0.f);
         return cell;
     }
@@ -390,7 +390,7 @@ NSUInteger const TimingTableViewSection = 2;
 - (void)timingCellTimeDidChange:(AMLSurveyTimingCell *)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
-    NSDate *time = sender.time.date;
+    NSDate *time = sender.timePicker.date;
     id <AMLSurvey_Editable> survey = (id <AMLSurvey_Editable>)self.survey;
     survey.time = time;
     [AMLDataManager save];
@@ -399,7 +399,7 @@ NSUInteger const TimingTableViewSection = 2;
 - (void)timingCellRepeatDidChange:(AMLSurveyTimingCell *)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
-    BOOL repeat = sender.repeat.on;
+    BOOL repeat = sender.repeat;
     id <AMLSurvey_Editable> survey = (id <AMLSurvey_Editable>)self.survey;
     survey.repeat = repeat;
     [AMLDataManager save];
@@ -408,14 +408,14 @@ NSUInteger const TimingTableViewSection = 2;
 - (void)timingCellEnabledDidChange:(AMLSurveyTimingCell *)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
-    BOOL enabled = sender.enabled.on;
+    BOOL enabled = sender.enabled;
     id <AMLSurvey_Editable> survey = (id <AMLSurvey_Editable>)self.survey;
-    survey.time = sender.time.date;
+    survey.time = sender.timePicker.date;
     survey.enabled = enabled;
     [AMLDataManager save];
     
-    sender.time.userInteractionEnabled = !enabled;
-    sender.time.alpha = enabled ? 0.5f : 1.0f;
+    sender.timePicker.userInteractionEnabled = !enabled;
+    sender.timePicker.alpha = enabled ? 0.5f : 1.0f;
 }
 
 #pragma mark - // OVERWRITTEN METHODS //
@@ -575,7 +575,7 @@ NSUInteger const TimingTableViewSection = 2;
     }
     
     AMLSurveyTimingCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:TimingTableViewSection]];
-    [cell.time setDate:time animated:YES];
+    [cell.timePicker setDate:time animated:YES];
 }
 
 - (void)surveyRepeatDidChange:(NSNotification *)notification {
@@ -584,7 +584,7 @@ NSUInteger const TimingTableViewSection = 2;
     BOOL repeat = ((NSNumber *)notification.userInfo[NOTIFICATION_OBJECT_KEY]).boolValue;
     
     AMLSurveyTimingCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:TimingTableViewSection]];
-    [cell.repeat setOn:repeat animated:YES];
+    [cell setRepeatSwitch:repeat animated:YES];
 }
 
 - (void)surveyEnabledDidChange:(NSNotification *)notification {
@@ -593,7 +593,7 @@ NSUInteger const TimingTableViewSection = 2;
     BOOL enabled = ((NSNumber *)notification.userInfo[NOTIFICATION_OBJECT_KEY]).boolValue;
     
     AMLSurveyTimingCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:TimingTableViewSection]];
-    [cell.enabled setOn:enabled animated:YES];
+    [cell setEnabledSwitch:enabled animated:YES];
 }
 
 - (void)surveyQuestionsDidChange:(NSNotification *)notification {

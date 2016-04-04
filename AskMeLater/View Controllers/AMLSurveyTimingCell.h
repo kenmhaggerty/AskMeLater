@@ -27,9 +27,11 @@
 #pragma mark - // DEFINITIONS (Public) //
 
 @interface AMLSurveyTimingCell : UITableViewCell
-@property (nonatomic, strong) IBOutlet UIDatePicker *time;
-@property (nonatomic, strong) IBOutlet UISwitch *repeat;
-@property (nonatomic, strong) IBOutlet UISwitch *enabled;
+@property (nonatomic, strong) IBOutlet UIDatePicker *timePicker;
 @property (nonatomic, strong) id <AMLSurveyTimingCellDelegate> delegate;
 + (NSString *)reuseIdentifier;
+- (void)setRepeatSwitch:(BOOL)on animated:(BOOL)animated;
+- (BOOL)repeat;
+- (void)setEnabledSwitch:(BOOL)on animated:(BOOL)animated;
+- (BOOL)enabled;
 @end

@@ -757,9 +757,9 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="enabled" destination="hDV-54-bi8" id="TP9-S2-L1N"/>
-                                    <outlet property="repeat" destination="f7Y-PQ-Fte" id="Itf-TM-0xq"/>
-                                    <outlet property="time" destination="cqP-co-JRq" id="hph-kR-nvK"/>
+                                    <outlet property="enabledSwitch" destination="hDV-54-bi8" id="xzC-gW-qc9"/>
+                                    <outlet property="repeatSwitch" destination="f7Y-PQ-Fte" id="wb7-rD-njM"/>
+                                    <outlet property="timePicker" destination="cqP-co-JRq" id="3Jl-ja-tpV"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

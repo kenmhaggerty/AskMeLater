@@ -17,6 +17,8 @@
 #pragma mark - // DEFINITIONS (Private) //
 
 @interface AMLSurveyTimingCell ()
+@property (nonatomic, strong) IBOutlet UISwitch *repeatSwitch;
+@property (nonatomic, strong) IBOutlet UISwitch *enabledSwitch;
 
 // ACTIONS //
 
@@ -56,6 +58,40 @@
     return NSStringFromClass([AMLSurveyTimingCell class]);
 }
 
+- (void)setRepeatSwitch:(BOOL)on animated:(BOOL)animated {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_UI] message:nil];
+    
+    if (on == self.repeatSwitch.on) {
+        return;
+    }
+    
+    [self.repeatSwitch setOn:on animated:animated];
+    [self switchDidSwitch:self.repeatSwitch];
+}
+
+- (BOOL)repeat {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    return self.repeatSwitch.on;
+}
+
+- (void)setEnabledSwitch:(BOOL)on animated:(BOOL)animated {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_UI] message:nil];
+    
+    if (on == self.enabledSwitch.on) {
+        return;
+    }
+    
+    [self.enabledSwitch setOn:on animated:animated];
+    [self switchDidSwitch:self.enabledSwitch];
+}
+
+- (BOOL)enabled {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    return self.enabledSwitch.on;
+}
+
 #pragma mark - // CATEGORY METHODS //
 
 #pragma mark - // DELEGATED METHODS //
@@ -68,7 +104,7 @@
     [super setup];
     
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    self.time.minimumDate = [NSDate date];
+    self.timePicker.minimumDate = [NSDate date];
 }
 
 #pragma mark - // PRIVATE METHODS (Actions) //
@@ -88,10 +124,10 @@
         return;
     }
     
-    if ([sender isEqual:self.repeat]) {
+    if ([sender isEqual:self.repeatSwitch]) {
         [self.delegate timingCellRepeatDidChange:self];
     }
-    else if ([sender isEqual:self.enabled]) {
+    else if ([sender isEqual:self.enabledSwitch]) {
         [self.delegate timingCellEnabledDidChange:self];
     }
 }
