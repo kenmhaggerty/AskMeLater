@@ -311,7 +311,7 @@ NSTimeInterval const AnimationSpeed = 0.18f;
     [self.view setNeedsUpdateConstraints];
     [UIView animateWithDuration:(animated ? AnimationSpeed : 0.0f) animations:^{
         [self.view layoutIfNeeded];
-        [self.textFieldConfirmPassword setAlpha:(show ? 1.0f : 0.0f)];
+        self.textFieldConfirmPassword.alpha = show ? 1.0f : 0.0f;
     } completion:^(BOOL finished) {
         if (self.textFieldPassword.isFirstResponder) {
             [UIView setAnimationsEnabled:NO];
