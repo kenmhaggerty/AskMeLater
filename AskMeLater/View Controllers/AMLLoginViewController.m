@@ -56,6 +56,7 @@ NSTimeInterval const AnimationSpeed = 0.18f;
 // DATA //
 
 - (void)signIn;
+- (void)createAccount;
 
 // OTHER //
 
