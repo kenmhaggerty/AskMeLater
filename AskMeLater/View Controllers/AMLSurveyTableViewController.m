@@ -228,6 +228,8 @@ NSUInteger const TimingTableViewSection = 2;
         if (self.survey.time) {
             cell.time.date = self.survey.time;
         }
+        cell.time.userInteractionEnabled = !self.survey.enabled;
+        cell.time.alpha = self.survey.enabled ? 0.5f : 1.0f;
         cell.repeat.on = self.survey.repeat;
         cell.enabled.on = self.survey.enabled;
         cell.separatorInset = UIEdgeInsetsMake(0.f, cell.bounds.size.width, 0.f, 0.f);
@@ -408,11 +410,12 @@ NSUInteger const TimingTableViewSection = 2;
     
     BOOL enabled = sender.enabled.on;
     id <AMLSurvey_Editable> survey = (id <AMLSurvey_Editable>)self.survey;
-    if (!survey.time) {
-        survey.time = sender.time.date;
-    }
+    survey.time = sender.time.date;
     survey.enabled = enabled;
     [AMLDataManager save];
+    
+    sender.time.userInteractionEnabled = !enabled;
+    sender.time.alpha = enabled ? 0.5f : 1.0f;
 }
 
 #pragma mark - // OVERWRITTEN METHODS //
