@@ -137,6 +137,19 @@ NSString * const AMLLoginManagerEmailDidChangeNotification = @"kNotificationAMLL
     }];
 }
 
++ (void)resetPasswordForEmail:(NSString *)email success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_ACCOUNTS] message:nil];
+    
+    [AMLFirebaseController resetPasswordForUserWithEmail:email withCompletionBlock:^(NSError *error) {
+        if (error) {
+            failureBlock(error);
+        }
+        else {
+            successBlock();
+        }
+    }];
+}
+
 + (void)updateEmail:(NSString *)email password:(NSString *)password withSuccess:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_ACCOUNTS] message:nil];
     
