@@ -193,7 +193,7 @@ NSTimeInterval const AnimationSpeed = 0.18f;
     
     if ([textField isEqual:self.textFieldEmail]) {
         NSString *email = self.textFieldEmail.text;
-        self.passwordResetButton.enabled = [AMLPrivateInfo validEmail:email];
+        self.passwordResetButton.enabled = email.isEmail;
     }
 }
 
