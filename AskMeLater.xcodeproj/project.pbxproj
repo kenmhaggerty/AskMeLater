@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D09C8581CB3193600962A23 /* UIViewController+Email.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D09C8571CB3193600962A23 /* UIViewController+Email.m */; };
 		7D12CABC1C8A30280021519B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CABB1C8A30280021519B /* main.m */; };
 		7D12CABF1C8A30280021519B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CABE1C8A30280021519B /* AppDelegate.m */; };
 		7D12CAC21C8A30280021519B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CAC11C8A30280021519B /* ViewController.m */; };
@@ -82,6 +83,8 @@
 		3C5C3B95D2D15A48E4A8E7F6 /* libPods-AskMeLater.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AskMeLater.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D490ED1FC4977E9D9D80EA9 /* Pods-AskMeLater.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AskMeLater.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AskMeLater/Pods-AskMeLater.debug.xcconfig"; sourceTree = "<group>"; };
 		5AA1F07776FB536EECA51A89 /* libPods-AskMeLaterTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AskMeLaterTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D09C8561CB3193600962A23 /* UIViewController+Email.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Email.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Email/UIViewController+Email/UIViewController+Email.h"; sourceTree = "<group>"; };
+		7D09C8571CB3193600962A23 /* UIViewController+Email.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Email.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Email/UIViewController+Email/UIViewController+Email.m"; sourceTree = "<group>"; };
 		7D12CAB71C8A30280021519B /* AskMeLater.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AskMeLater.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D12CABB1C8A30280021519B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7D12CABD1C8A30280021519B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -245,6 +248,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7D09C8551CB3191200962A23 /* UIViewController+Email */ = {
+			isa = PBXGroup;
+			children = (
+				7D09C8561CB3193600962A23 /* UIViewController+Email.h */,
+				7D09C8571CB3193600962A23 /* UIViewController+Email.m */,
+			);
+			name = "UIViewController+Email";
+			sourceTree = "<group>";
+		};
 		7D12CAAE1C8A30280021519B = {
 			isa = PBXGroup;
 			children = (
@@ -384,6 +396,7 @@
 				7DE38D4F1C936756000A02F0 /* NSArray+Extras */,
 				7DE38D911C9D9239000A02F0 /* UIAlertController+Info */,
 				7DE38D881C9C5ED5000A02F0 /* UITableView+Extras */,
+				7D09C8551CB3191200962A23 /* UIViewController+Email */,
 				7D5A65621CA0797C00D7AE8D /* UIViewController+Keyboard */,
 			);
 			name = IMPORTS;
@@ -977,6 +990,7 @@
 				7D12CB041C8A49760021519B /* AKDebuggerRules.m in Sources */,
 				7D12CAFE1C8A49560021519B /* AKDebugger.m in Sources */,
 				7DE38D691C99D6EB000A02F0 /* AMLResponse+CoreDataProperties.m in Sources */,
+				7D09C8581CB3193600962A23 /* UIViewController+Email.m in Sources */,
 				7DBB1F311CAAF55000C7C403 /* AMLGraphViewController.m in Sources */,
 				7D12CB101C8A4EBA0021519B /* AMLLoginManager.m in Sources */,
 				7D12CB011C8A49660021519B /* AKGenerics.m in Sources */,

@@ -20,8 +20,12 @@
 #import "AMLPrivateInfo.h"
 
 #import "AMLSurveyUIProtocol.h"
+#import "UIViewController+Email.h"
 
 #pragma mark - // DEFINITIONS (Private) //
+
+NSString * const AMLContactUsEmail = @"kenmhaggerty@gmail.com";
+NSString * const AMLContactUsSubject = @"AskMeLater: Customer Email";
 
 NSString * const REUSE_IDENTIFIER = @"surveyCell";
 NSString * const SEGUE_SURVEY = @"segueSurvey";
@@ -104,11 +108,31 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Change password" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self presentViewController:self.alertUpdatePassword animated:YES completion:nil];
     }]];
+    [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Contact Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        id <AMLUser> currentUser = [AMLLoginManager currentUser];
+        NSString *suffix = @"";
+        if (currentUser && currentUser.username) {
+            suffix = [NSString stringWithFormat:@" from %@", currentUser.username];
+        }
+        NSString *subject = [NSString stringWithFormat:@"%@%@", AMLContactUsSubject, suffix];
+        NSString *body = @"<p>Please enter your feedback below and we'll get back to you within 24 hours:</p>";
+        
+        BOOL success = [self emailInCurrentAppWithSubject:subject body:body attachments:nil to:@[AMLContactUsEmail] cc:nil bcc:nil completionBlock:nil];
+        if (!success) {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Need Support?" message:@"Email me at kenmhaggerty@gmail.com." preferredStyle:UIAlertControllerStyleAlert actions:@[@"Send Email"] dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
+                
+                NSURLComponents *mailTo = [NSURLComponents componentsWithString:[NSString stringWithFormat:@"mailto:%@", AMLContactUsEmail]];
+                NSURLQueryItem *subjectQuery = [NSURLQueryItem queryItemWithName:@"subject" value:subject];
+                NSURLQueryItem *bodyQuery = [NSURLQueryItem queryItemWithName:@"body" value:body];
+                mailTo.queryItems = @[subjectQuery, bodyQuery];
+                
+                [[UIApplication sharedApplication] openURL:mailTo.URL];
+            }];
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+    }]];
     [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Privacy Policy" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         // privacy policy UI
-    }]];
-    [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Contact Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        // contact us UI
     }]];
     [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
     
