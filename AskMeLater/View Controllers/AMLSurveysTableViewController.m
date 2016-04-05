@@ -295,8 +295,10 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     [super viewDidLoad];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    [super viewDidAppear:animated];
     
     if (![AMLLoginManager currentUser]) {
         [self performSegueWithIdentifier:SEGUE_LOGIN sender:self];
