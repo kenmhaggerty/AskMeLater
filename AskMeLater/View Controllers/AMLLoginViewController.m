@@ -14,6 +14,7 @@
 #import "AKDebugger.h"
 #import "AKGenerics.h"
 #import "UIViewController+Keyboard.h"
+#import "UIViewController+Syncing.h"
 
 #import "AMLPrivateInfo.h"
 #import "AMLLoginManager.h"
@@ -296,11 +297,16 @@ NSTimeInterval const AnimationSpeed = 0.18f;
 - (void)signIn {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI, AKD_ACCOUNTS] message:nil];
     
+    [self startSyncViewWithPrimaryText:@"Signing in..." secondaryText:nil progressView:NO cancelButton:NO animated:YES];
     [AMLLoginManager loginWithEmail:self.textFieldEmail.text password:self.textFieldPassword.text success:^(id <AMLUser_Editable> user) {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self cancelSyncViewWithPrimaryText:@"Welcome!" secondaryText:nil animated:YES completionType:SyncViewComplete alertController:nil delay:1.0f completionBlock:^{
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }];
     } failure:^(NSError *error) {
-        self.alertError.message = error.localizedDescription;
-        [self presentViewController:self.alertError animated:YES completion:nil];
+        [self cancelSyncViewWithPrimaryText:nil secondaryText:nil animated:YES completionType:SyncViewBlank alertController:nil delay:0.0f completionBlock:^{
+            self.alertError.message = error.localizedDescription;
+            [self presentViewController:self.alertError animated:YES completion:nil];
+        }];
     }];
 }
 
@@ -313,11 +319,16 @@ NSTimeInterval const AnimationSpeed = 0.18f;
         return;
     }
     
+    [self startSyncViewWithPrimaryText:@"Creating account..." secondaryText:nil progressView:NO cancelButton:NO animated:YES];
     [AMLLoginManager signUpWithEmail:self.textFieldEmail.text password:self.textFieldPassword.text success:^(id <AMLUser_Editable> user) {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self cancelSyncViewWithPrimaryText:@"Welcome!" secondaryText:nil animated:YES completionType:SyncViewComplete alertController:nil delay:1.0f completionBlock:^{
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }];
     } failure:^(NSError *error) {
-        self.alertError.message = error.localizedDescription;
-        [self presentViewController:self.alertError animated:YES completion:nil];
+        [self cancelSyncViewWithPrimaryText:nil secondaryText:nil animated:YES completionType:SyncViewBlank alertController:nil delay:0.0f completionBlock:^{
+            self.alertError.message = error.localizedDescription;
+            [self presentViewController:self.alertError animated:YES completion:nil];
+        }];
     }];
 }
 

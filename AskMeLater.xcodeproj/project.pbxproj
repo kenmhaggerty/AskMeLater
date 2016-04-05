@@ -8,6 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		7D09C8581CB3193600962A23 /* UIViewController+Email.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D09C8571CB3193600962A23 /* UIViewController+Email.m */; };
+		7D09C86D1CB4153C00962A23 /* SyncViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D09C8691CB4153C00962A23 /* SyncViewController.m */; };
+		7D09C86E1CB4153C00962A23 /* SyncViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D09C86A1CB4153C00962A23 /* SyncViewController.xib */; };
+		7D09C86F1CB4153C00962A23 /* UIViewController+Syncing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D09C86C1CB4153C00962A23 /* UIViewController+Syncing.m */; };
+		7D09C8791CB4185F00962A23 /* syncview_check.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D09C8711CB4185F00962A23 /* syncview_check.png */; };
+		7D09C87A1CB4185F00962A23 /* syncview_check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D09C8721CB4185F00962A23 /* syncview_check@2x.png */; };
+		7D09C87B1CB4185F00962A23 /* syncview_exclamation.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D09C8731CB4185F00962A23 /* syncview_exclamation.png */; };
+		7D09C87C1CB4185F00962A23 /* syncview_exclamation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D09C8741CB4185F00962A23 /* syncview_exclamation@2x.png */; };
+		7D09C87D1CB4185F00962A23 /* syncview_question.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D09C8751CB4185F00962A23 /* syncview_question.png */; };
+		7D09C87E1CB4185F00962A23 /* syncview_question@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D09C8761CB4185F00962A23 /* syncview_question@2x.png */; };
+		7D09C87F1CB4185F00962A23 /* syncview_x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D09C8771CB4185F00962A23 /* syncview_x.png */; };
+		7D09C8801CB4185F00962A23 /* syncview_x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D09C8781CB4185F00962A23 /* syncview_x@2x.png */; };
 		7D12CABC1C8A30280021519B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CABB1C8A30280021519B /* main.m */; };
 		7D12CABF1C8A30280021519B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CABE1C8A30280021519B /* AppDelegate.m */; };
 		7D12CAC21C8A30280021519B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CAC11C8A30280021519B /* ViewController.m */; };
@@ -85,6 +96,19 @@
 		5AA1F07776FB536EECA51A89 /* libPods-AskMeLaterTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AskMeLaterTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D09C8561CB3193600962A23 /* UIViewController+Email.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Email.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Email/UIViewController+Email/UIViewController+Email.h"; sourceTree = "<group>"; };
 		7D09C8571CB3193600962A23 /* UIViewController+Email.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Email.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Email/UIViewController+Email/UIViewController+Email.m"; sourceTree = "<group>"; };
+		7D09C8681CB4153C00962A23 /* SyncViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SyncViewController.h; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/SyncViewController.h"; sourceTree = "<group>"; };
+		7D09C8691CB4153C00962A23 /* SyncViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SyncViewController.m; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/SyncViewController.m"; sourceTree = "<group>"; };
+		7D09C86A1CB4153C00962A23 /* SyncViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SyncViewController.xib; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/SyncViewController.xib"; sourceTree = "<group>"; };
+		7D09C86B1CB4153C00962A23 /* UIViewController+Syncing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Syncing.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/UIViewController+Syncing.h"; sourceTree = "<group>"; };
+		7D09C86C1CB4153C00962A23 /* UIViewController+Syncing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Syncing.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/UIViewController+Syncing.m"; sourceTree = "<group>"; };
+		7D09C8711CB4185F00962A23 /* syncview_check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncview_check.png; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/Icons/syncview_check.png"; sourceTree = "<group>"; };
+		7D09C8721CB4185F00962A23 /* syncview_check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "syncview_check@2x.png"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/Icons/syncview_check@2x.png"; sourceTree = "<group>"; };
+		7D09C8731CB4185F00962A23 /* syncview_exclamation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncview_exclamation.png; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/Icons/syncview_exclamation.png"; sourceTree = "<group>"; };
+		7D09C8741CB4185F00962A23 /* syncview_exclamation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "syncview_exclamation@2x.png"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/Icons/syncview_exclamation@2x.png"; sourceTree = "<group>"; };
+		7D09C8751CB4185F00962A23 /* syncview_question.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncview_question.png; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/Icons/syncview_question.png"; sourceTree = "<group>"; };
+		7D09C8761CB4185F00962A23 /* syncview_question@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "syncview_question@2x.png"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/Icons/syncview_question@2x.png"; sourceTree = "<group>"; };
+		7D09C8771CB4185F00962A23 /* syncview_x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncview_x.png; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/Icons/syncview_x.png"; sourceTree = "<group>"; };
+		7D09C8781CB4185F00962A23 /* syncview_x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "syncview_x@2x.png"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/Icons/syncview_x@2x.png"; sourceTree = "<group>"; };
 		7D12CAB71C8A30280021519B /* AskMeLater.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AskMeLater.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D12CABB1C8A30280021519B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7D12CABD1C8A30280021519B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -257,6 +281,42 @@
 			name = "UIViewController+Email";
 			sourceTree = "<group>";
 		};
+		7D09C8671CB4152100962A23 /* UIViewController+Syncing */ = {
+			isa = PBXGroup;
+			children = (
+				7D09C86B1CB4153C00962A23 /* UIViewController+Syncing.h */,
+				7D09C86C1CB4153C00962A23 /* UIViewController+Syncing.m */,
+				7D09C8701CB4155100962A23 /* SyncViewController */,
+				7D09C8811CB4186600962A23 /* Icons */,
+			);
+			name = "UIViewController+Syncing";
+			sourceTree = "<group>";
+		};
+		7D09C8701CB4155100962A23 /* SyncViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7D09C8681CB4153C00962A23 /* SyncViewController.h */,
+				7D09C8691CB4153C00962A23 /* SyncViewController.m */,
+				7D09C86A1CB4153C00962A23 /* SyncViewController.xib */,
+			);
+			name = SyncViewController;
+			sourceTree = "<group>";
+		};
+		7D09C8811CB4186600962A23 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				7D09C8711CB4185F00962A23 /* syncview_check.png */,
+				7D09C8721CB4185F00962A23 /* syncview_check@2x.png */,
+				7D09C8731CB4185F00962A23 /* syncview_exclamation.png */,
+				7D09C8741CB4185F00962A23 /* syncview_exclamation@2x.png */,
+				7D09C8751CB4185F00962A23 /* syncview_question.png */,
+				7D09C8761CB4185F00962A23 /* syncview_question@2x.png */,
+				7D09C8771CB4185F00962A23 /* syncview_x.png */,
+				7D09C8781CB4185F00962A23 /* syncview_x@2x.png */,
+			);
+			name = Icons;
+			sourceTree = "<group>";
+		};
 		7D12CAAE1C8A30280021519B = {
 			isa = PBXGroup;
 			children = (
@@ -398,6 +458,7 @@
 				7DE38D881C9C5ED5000A02F0 /* UITableView+Extras */,
 				7D09C8551CB3191200962A23 /* UIViewController+Email */,
 				7D5A65621CA0797C00D7AE8D /* UIViewController+Keyboard */,
+				7D09C8671CB4152100962A23 /* UIViewController+Syncing */,
 			);
 			name = IMPORTS;
 			sourceTree = "<group>";
@@ -834,9 +895,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D09C87B1CB4185F00962A23 /* syncview_exclamation.png in Resources */,
 				7D12CACD1C8A30280021519B /* LaunchScreen.storyboard in Resources */,
+				7D09C87A1CB4185F00962A23 /* syncview_check@2x.png in Resources */,
 				7D12CACA1C8A30280021519B /* Assets.xcassets in Resources */,
+				7D09C87C1CB4185F00962A23 /* syncview_exclamation@2x.png in Resources */,
+				7D09C87D1CB4185F00962A23 /* syncview_question.png in Resources */,
 				7D12CAC51C8A30280021519B /* Main.storyboard in Resources */,
+				7D09C8791CB4185F00962A23 /* syncview_check.png in Resources */,
+				7D09C87E1CB4185F00962A23 /* syncview_question@2x.png in Resources */,
+				7D09C8801CB4185F00962A23 /* syncview_x@2x.png in Resources */,
+				7D09C87F1CB4185F00962A23 /* syncview_x.png in Resources */,
+				7D09C86E1CB4153C00962A23 /* SyncViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -994,6 +1064,8 @@
 				7DBB1F311CAAF55000C7C403 /* AMLGraphViewController.m in Sources */,
 				7D12CB101C8A4EBA0021519B /* AMLLoginManager.m in Sources */,
 				7D12CB011C8A49660021519B /* AKGenerics.m in Sources */,
+				7D09C86F1CB4153C00962A23 /* UIViewController+Syncing.m in Sources */,
+				7D09C86D1CB4153C00962A23 /* SyncViewController.m in Sources */,
 				7DE38D8B1C9C5EF4000A02F0 /* UITableView+Extras.m in Sources */,
 				7D12CAC81C8A30280021519B /* AskMeLater.xcdatamodeld in Sources */,
 				7DE38D901C9D8A70000A02F0 /* AMLMockQuestion.m in Sources */,
