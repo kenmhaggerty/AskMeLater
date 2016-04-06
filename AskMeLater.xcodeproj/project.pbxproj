@@ -19,6 +19,7 @@
 		7D09C87E1CB4185F00962A23 /* syncview_question@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D09C8761CB4185F00962A23 /* syncview_question@2x.png */; };
 		7D09C87F1CB4185F00962A23 /* syncview_x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D09C8771CB4185F00962A23 /* syncview_x.png */; };
 		7D09C8801CB4185F00962A23 /* syncview_x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D09C8781CB4185F00962A23 /* syncview_x@2x.png */; };
+		7D09C8851CB45F3900962A23 /* AMLAppInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D09C8841CB45F3900962A23 /* AMLAppInfo.m */; };
 		7D12CABC1C8A30280021519B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CABB1C8A30280021519B /* main.m */; };
 		7D12CABF1C8A30280021519B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CABE1C8A30280021519B /* AppDelegate.m */; };
 		7D12CAC21C8A30280021519B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CAC11C8A30280021519B /* ViewController.m */; };
@@ -109,6 +110,8 @@
 		7D09C8761CB4185F00962A23 /* syncview_question@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "syncview_question@2x.png"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/Icons/syncview_question@2x.png"; sourceTree = "<group>"; };
 		7D09C8771CB4185F00962A23 /* syncview_x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncview_x.png; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/Icons/syncview_x.png"; sourceTree = "<group>"; };
 		7D09C8781CB4185F00962A23 /* syncview_x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "syncview_x@2x.png"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/Icons/syncview_x@2x.png"; sourceTree = "<group>"; };
+		7D09C8831CB45F3900962A23 /* AMLAppInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLAppInfo.h; sourceTree = "<group>"; };
+		7D09C8841CB45F3900962A23 /* AMLAppInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLAppInfo.m; sourceTree = "<group>"; };
 		7D12CAB71C8A30280021519B /* AskMeLater.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AskMeLater.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D12CABB1C8A30280021519B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7D12CABD1C8A30280021519B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -317,6 +320,15 @@
 			name = Icons;
 			sourceTree = "<group>";
 		};
+		7D09C8821CB45F2A00962A23 /* AMLAppInfo */ = {
+			isa = PBXGroup;
+			children = (
+				7D09C8831CB45F3900962A23 /* AMLAppInfo.h */,
+				7D09C8841CB45F3900962A23 /* AMLAppInfo.m */,
+			);
+			name = AMLAppInfo;
+			sourceTree = "<group>";
+		};
 		7D12CAAE1C8A30280021519B = {
 			isa = PBXGroup;
 			children = (
@@ -345,6 +357,7 @@
 				7D12CAF81C8A49260021519B /* IMPORTS */,
 				7D12CAFB1C8A49380021519B /* AKDebuggerRules */,
 				7D12CB091C8A4B2E0021519B /* AMLPrivateInfo */,
+				7D09C8821CB45F2A00962A23 /* AMLAppInfo */,
 				7D12CAC91C8A30280021519B /* Assets.xcassets */,
 				7D12CABD1C8A30280021519B /* AppDelegate.h */,
 				7D12CABE1C8A30280021519B /* AppDelegate.m */,
@@ -1092,6 +1105,7 @@
 				7D12CABC1C8A30280021519B /* main.m in Sources */,
 				7DE38D941C9D924C000A02F0 /* UIAlertController+Info.m in Sources */,
 				7D5A65651CA0799800D7AE8D /* UIViewController+Keyboard.m in Sources */,
+				7D09C8851CB45F3900962A23 /* AMLAppInfo.m in Sources */,
 				7D12CB1A1C8A69610021519B /* AMLUser+CoreDataProperties.m in Sources */,
 				7DDE78531C93234D00241A80 /* AMLFirebaseQuery.m in Sources */,
 				7DE38D6A1C99D6EB000A02F0 /* AMLResponse.m in Sources */,
