@@ -1,4 +1,5 @@
 PODS:
+  - ARSPopover (2.2.1)
   - Expecta (1.0.5)
   - Expecta+Collections (1.0.1):
     - Expecta
@@ -15,6 +16,7 @@ PODS:
   - UICountingLabel (1.2.0)
 
 DEPENDENCIES:
+  - ARSPopover
   - Expecta (~> 1.0)
   - Expecta+Collections
   - Firebase (>= 2.5.0)
@@ -25,6 +27,7 @@ DEPENDENCIES:
   - Swizzlean (~> 0.2)
 
 SPEC CHECKSUMS:
+  ARSPopover: ec2531fe8f498da1181e00f9ffeaa586a3d16d82
   Expecta: e1c022fcd33910b6be89c291d2775b3fe27a89fe
   Expecta+Collections: 6fae193f42cb98dab08fe6a1ef579e97c65aa56a
   Firebase: 3565ea88b830f28f2c77ecc524622bc71a20d085

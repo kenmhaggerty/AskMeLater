@@ -3,6 +3,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 target "AskMeLater" do
   pod 'Firebase', '>= 2.5.0'
   pod 'PNChart'
+  pod 'ARSPopover'
 end
 
 def test_pods
