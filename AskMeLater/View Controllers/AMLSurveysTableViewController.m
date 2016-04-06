@@ -18,9 +18,11 @@
 #import "AMLDataManager.h"
 #import "AMLSurveyProtocols.h"
 #import "AMLPrivateInfo.h"
+#import "AMLAppInfo.h"
 
 #import "AMLSurveyUIProtocol.h"
 #import "UIViewController+Email.h"
+#import "ARSPopover.h"
 
 #pragma mark - // DEFINITIONS (Private) //
 
@@ -63,6 +65,10 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
 // OTHER //
 
 + (NSString *)stringForDate:(NSDate *)date;
+
+// POPOVERS //
+
+- (void)startTutorial;
 
 @end
 
@@ -302,6 +308,11 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     
     if (![AMLLoginManager currentUser]) {
         [self performSegueWithIdentifier:SEGUE_LOGIN sender:self];
+        return;
+    }
+    
+    if ([AMLAppInfo showTutorial]) {
+        [self startTutorial];
     }
 }
 
@@ -506,6 +517,50 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     NSString *dateString = [NSDateFormatter localizedStringFromDate:date dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterNoStyle];
     NSString *timeString = [NSDateFormatter localizedStringFromDate:date dateStyle:NSDateFormatterNoStyle timeStyle:NSDateFormatterMediumStyle];
     return [NSString stringWithFormat:@"%@ at %@", dateString, timeString];
+}
+
+#pragma mark - // PRIVATE METHODS (Popovers) //
+
+- (void)startTutorial {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
+    
+    NSMutableArray *buttons = [[NSMutableArray alloc] init];
+    for (UIControl *button in self.navigationController.navigationBar.subviews) {
+        if ([button isKindOfClass:[UIControl class]]) {
+            [buttons addObject:button];
+        }
+    }
+    UIView *rightBarButtonView = [buttons lastObject];
+    
+    ARSPopover *popover = [ARSPopover new];
+    popover.sourceView = rightBarButtonView;
+    popover.sourceRect = CGRectMake(CGRectGetMidX(rightBarButtonView.bounds), CGRectGetMaxY(rightBarButtonView.bounds), 0.0f, 0.0f);
+    popover.contentSize = CGSizeMake(200.0f, 100.0f);
+    popover.arrowDirection = UIPopoverArrowDirectionUp;
+    
+    [popover insertContentIntoPopover:^(ARSPopover *popover, CGSize popoverPresentedSize, CGFloat popoverArrowHeight) {
+        UILabel *label = [[UILabel alloc] init];
+        label.text = @"This is a tutorial view! Let's see if this works properly.";
+        label.numberOfLines = 0;
+        label.textAlignment = NSTextAlignmentLeft;
+        [label sizeToFit];
+        [popover.view addSubview:label];
+        
+        [popover.view addConstraint:[NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:popover.view attribute:NSLayoutAttributeLeftMargin multiplier:1.0f constant:0.0f]];
+        [popover.view addConstraint:[NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:popover.view attribute:NSLayoutAttributeRightMargin multiplier:1.0f constant:0.0f]];
+        [popover.view addConstraint:[NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:popover.view attribute:NSLayoutAttributeTopMargin multiplier:1.0f constant:0.0f]];
+        [popover.view addConstraint:[NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:popover.view attribute:NSLayoutAttributeBottomMargin multiplier:1.0f constant:0.0f]];
+        
+        [popover.view setNeedsUpdateConstraints];
+        [popover.view layoutIfNeeded];
+    }];
+    
+    [self presentViewController:popover animated:YES completion:nil];
+    
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:popover.view attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.view attribute:NSLayoutAttributeLeftMargin multiplier:1.0f constant:0.0f]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:popover.view attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.view attribute:NSLayoutAttributeRightMargin multiplier:1.0f constant:0.0f]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:popover.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1.0f constant:0.0f]];
+//    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:popover.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.bottomLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.0f constant:0.0f]];
 }
 
 @end
