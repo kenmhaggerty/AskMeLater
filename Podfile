@@ -1,6 +1,6 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-target "AskMeLater" do
+target "PushQuery" do
   pod 'Firebase', '>= 2.5.0'
   pod 'PNChart'
 end
@@ -14,10 +14,10 @@ def test_pods
   pod 'KIFViewControllerActions'
 end
 
-target "AskMeLaterTests" do
+target "PushQueryTests" do
   test_pods
 end
 
-target "AskMeLaterUITests" do
+target "PushQueryUITests" do
   test_pods
 end
