@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="1.0" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15E65" minimumToolsVersion="Automatic">
-    <entity name="PQChoice" representedClassName="AMLChoice" syncable="YES">
+    <entity name="PQChoice" representedClassName="PQChoice" syncable="YES">
         <attribute name="text" attributeType="String" syncable="YES"/>
         <attribute name="textInputValue" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <relationship name="question" maxCount="1" deletionRule="Nullify" destinationEntity="PQQuestion" inverseName="choices" inverseEntity="PQQuestion" syncable="YES"/>
     </entity>
-    <entity name="PQQuestion" representedClassName="AMLQuestion" syncable="YES">
+    <entity name="PQQuestion" representedClassName="PQQuestion" syncable="YES">
         <attribute name="createdAt" attributeType="Date" syncable="YES"/>
         <attribute name="secureValue" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
@@ -14,13 +14,13 @@
         <relationship name="responses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PQResponse" inverseName="question" inverseEntity="PQResponse" syncable="YES"/>
         <relationship name="survey" maxCount="1" deletionRule="Nullify" destinationEntity="PQSurvey" inverseName="questions" inverseEntity="PQSurvey" syncable="YES"/>
     </entity>
-    <entity name="PQResponse" representedClassName="AMLResponse" syncable="YES">
+    <entity name="PQResponse" representedClassName="PQResponse" syncable="YES">
         <attribute name="date" attributeType="Date" syncable="YES"/>
         <attribute name="text" attributeType="String" syncable="YES"/>
         <relationship name="question" maxCount="1" deletionRule="Nullify" destinationEntity="PQQuestion" inverseName="responses" inverseEntity="PQQuestion" syncable="YES"/>
         <relationship name="user" maxCount="1" deletionRule="Nullify" destinationEntity="PQUser" inverseName="responses" inverseEntity="PQUser" syncable="YES"/>
     </entity>
-    <entity name="PQSurvey" representedClassName="AMLSurvey" syncable="YES">
+    <entity name="PQSurvey" representedClassName="PQSurvey" syncable="YES">
         <attribute name="createdAt" attributeType="Date" syncable="YES"/>
         <attribute name="editedAt" attributeType="Date" syncable="YES"/>
         <attribute name="enabledValue" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
@@ -30,7 +30,7 @@
         <relationship name="author" maxCount="1" deletionRule="Nullify" destinationEntity="PQUser" inverseName="surveys" inverseEntity="PQUser" syncable="YES"/>
         <relationship name="questions" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="PQQuestion" inverseName="survey" inverseEntity="PQQuestion" syncable="YES"/>
     </entity>
-    <entity name="PQUser" representedClassName="AMLUser" syncable="YES">
+    <entity name="PQUser" representedClassName="PQUser" syncable="YES">
         <attribute name="avatarData" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="createdAt" attributeType="Date" syncable="YES"/>
         <attribute name="email" attributeType="String" syncable="YES"/>
@@ -40,10 +40,10 @@
         <relationship name="surveys" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PQSurvey" inverseName="author" inverseEntity="PQSurvey" syncable="YES"/>
     </entity>
     <elements>
-        <element name="PQChoice" positionX="0" positionY="0" width="128" height="90"/>
-        <element name="PQQuestion" positionX="0" positionY="0" width="128" height="150"/>
-        <element name="PQResponse" positionX="0" positionY="0" width="128" height="105"/>
-        <element name="PQSurvey" positionX="0" positionY="0" width="128" height="165"/>
-        <element name="PQUser" positionX="0" positionY="0" width="128" height="150"/>
+        <element name="PQChoice" positionX="216" positionY="216" width="128" height="88"/>
+        <element name="PQQuestion" positionX="216" positionY="0" width="128" height="148"/>
+        <element name="PQResponse" positionX="-2" positionY="216" width="128" height="103"/>
+        <element name="PQSurvey" positionX="0" positionY="0" width="128" height="163"/>
+        <element name="PQUser" positionX="-216" positionY="0" width="128" height="148"/>
     </elements>
 </model>
