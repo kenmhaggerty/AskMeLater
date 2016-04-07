@@ -24,6 +24,8 @@
 
 #pragma mark - // DEFINITIONS (Private) //
 
+NSString * const UnnamedSurveyString = @"tap to name survey";
+
 NSString * const AddCellReuseIdentifier = @"addCell";
 NSUInteger const QuestionsTableViewSection = 0;
 NSUInteger const AddTableViewSection = 1;
@@ -472,7 +474,7 @@ NSUInteger const TimingTableViewSection = 2;
     label.userInteractionEnabled = YES;
     [label addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(titleWasTapped:)]];
     
-    label.text = title ?: PQSurveyNamePlaceholder;
+    label.text = title ?: UnnamedSurveyString;
     label.textColor = title ? [UIColor blackColor] : [UIColor lightGrayColor];
     [label sizeToFit];
     
