@@ -132,11 +132,11 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
             [self presentViewController:alertController animated:YES completion:nil];
         }
     }]];
-    [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Privacy Policy" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        SFSafariViewController *safariViewController = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:@"http://kenmhaggerty.com/pushquery/privacy/"]];
-        safariViewController.modalPresentationStyle = UIModalPresentationFormSheet;
-        [self presentViewController:safariViewController animated:YES completion:nil];
-    }]];
+//    [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Privacy Policy" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//        SFSafariViewController *safariViewController = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:@"http://kenmhaggerty.com/pushquery/privacy/"]];
+//        safariViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+//        [self presentViewController:safariViewController animated:YES completion:nil];
+//    }]];
     [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
     
     return _alertSettings;
