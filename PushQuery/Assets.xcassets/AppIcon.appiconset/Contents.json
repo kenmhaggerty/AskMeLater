@@ -1,38 +1,163 @@
 {
   "images" : [
     {
-      "idiom" : "iphone",
       "size" : "29x29",
+      "idiom" : "iphone",
+      "filename" : "iOS_7_Icons_1,1_iPhone_Spotlight,Settings_2x_29pt.png",
       "scale" : "2x"
     },
     {
-      "idiom" : "iphone",
       "size" : "29x29",
+      "idiom" : "iphone",
+      "filename" : "iOS_7_Icons_1,2_iPhone_Spotlight,Settings_3x_29pt.png",
       "scale" : "3x"
     },
     {
-      "idiom" : "iphone",
       "size" : "40x40",
+      "idiom" : "iphone",
+      "filename" : "iOS_7_Icons_1,3_iPhone_Spotlight_2x_40pt.png",
       "scale" : "2x"
     },
     {
-      "idiom" : "iphone",
       "size" : "40x40",
+      "idiom" : "iphone",
+      "filename" : "iOS_7_Icons_1,4_iPhone_Spotlight_3x_40pt.png",
       "scale" : "3x"
     },
     {
-      "idiom" : "iphone",
       "size" : "60x60",
+      "idiom" : "iphone",
+      "filename" : "iOS_7_Icons_1,5_iPhone_App_2x_60pt.png",
       "scale" : "2x"
     },
     {
-      "idiom" : "iphone",
       "size" : "60x60",
+      "idiom" : "iphone",
+      "filename" : "iOS_7_Icons_1,6_iPhone_App_3x_60pt.png",
       "scale" : "3x"
+    },
+    {
+      "size" : "29x29",
+      "idiom" : "ipad",
+      "filename" : "iOS_7_Icons_2,1_iPad_Settings_1x_29pt.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "29x29",
+      "idiom" : "ipad",
+      "filename" : "iOS_7_Icons_2,2_iPad_Settings_2x_29pt.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "40x40",
+      "idiom" : "ipad",
+      "filename" : "iOS_7_Icons_2,3_iPad_Spotlight_1x_40pt.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "40x40",
+      "idiom" : "ipad",
+      "filename" : "iOS_7_Icons_2,4_iPad_Spotlight_2x_40pt.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "ipad",
+      "filename" : "iOS_7_Icons_2,5_iPad_App_1x_76pt.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "ipad",
+      "filename" : "iOS_7_Icons_2,6_iPad_App_2x_76pt.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "83.5x83.5",
+      "idiom" : "ipad",
+      "filename" : "iOS_7_Icons_3,1_iPad_ProApp_2x_83,5pt.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "60x60",
+      "idiom" : "car",
+      "filename" : "iOS_7_Icons_3,2_CarPlay_2x_60pt.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "60x60",
+      "idiom" : "car",
+      "filename" : "iOS_7_Icons_3,3_CarPlay_3x_60pt.png",
+      "scale" : "3x"
+    },
+    {
+      "size" : "24x24",
+      "idiom" : "watch",
+      "filename" : "iOS_7_Icons_3,4_Watch_NotificationCenter_2x_24pt.png",
+      "scale" : "2x",
+      "role" : "notificationCenter",
+      "subtype" : "38mm"
+    },
+    {
+      "size" : "27.5x27.5",
+      "idiom" : "watch",
+      "filename" : "iOS_7_Icons_3,5_Watch_NotificationCenter_2x_27,5pt.png",
+      "scale" : "2x",
+      "role" : "notificationCenter",
+      "subtype" : "42mm"
+    },
+    {
+      "size" : "29x29",
+      "idiom" : "watch",
+      "filename" : "iOS_7_Icons_3,6_Watch_CompanionSettings_2x_29pt.png",
+      "role" : "companionSettings",
+      "scale" : "2x"
+    },
+    {
+      "size" : "29x29",
+      "idiom" : "watch",
+      "filename" : "iOS_7_Icons_4,1_Watch_CompanionSettings_3x_29pt.png",
+      "role" : "companionSettings",
+      "scale" : "3x"
+    },
+    {
+      "size" : "40x40",
+      "idiom" : "watch",
+      "filename" : "iOS_7_Icons_4,2_Watch_HomeScreen,LongLook_2x_40pt.png",
+      "scale" : "2x",
+      "role" : "appLauncher",
+      "subtype" : "38mm"
+    },
+    {
+      "size" : "44x44",
+      "idiom" : "watch",
+      "filename" : "iOS_7_Icons_4,3_Watch_LongLook_2x_44pt.png",
+      "scale" : "2x",
+      "role" : "longLook",
+      "subtype" : "42mm"
+    },
+    {
+      "size" : "86x86",
+      "idiom" : "watch",
+      "filename" : "iOS_7_Icons_4,4_Watch_ShortLook_2x_86pt.png",
+      "scale" : "2x",
+      "role" : "quickLook",
+      "subtype" : "38mm"
+    },
+    {
+      "size" : "98x98",
+      "idiom" : "watch",
+      "filename" : "iOS_7_Icons_4,5_Watch_ShortLook_2x_98pt.png",
+      "scale" : "2x",
+      "role" : "quickLook",
+      "subtype" : "42mm"
     }
   ],
   "info" : {
     "version" : 1,
     "author" : "xcode"
+  },
+  "properties" : {
+    "pre-rendered" : true
   }
 }
