@@ -333,7 +333,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     id <PQSurvey> survey = self.surveys[indexPath.row];
     cell.textLabel.text = survey.name ?: PQSurveyNamePlaceholder;
     cell.textLabel.textColor = (survey.name ? [UIColor blackColor] : [UIColor lightGrayColor]);
-    cell.detailTextLabel.text = [PQSurveysTableViewController stringForDate:survey.editedAt];
+//    cell.detailTextLabel.text = [PQSurveysTableViewController stringForDate:survey.editedAt];
     return cell;
 }
 
