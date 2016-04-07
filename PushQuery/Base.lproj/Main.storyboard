@@ -432,7 +432,7 @@
                             <constraint firstItem="s30-JS-yLi" firstAttribute="centerX" secondItem="vKJ-ms-dJR" secondAttribute="centerX" id="skl-Iv-nve"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Results" id="Aq7-gL-0i5"/>
+                    <tabBarItem key="tabBarItem" title="Results" image="results" id="Aq7-gL-0i5"/>
                     <navigationItem key="navigationItem" title="Results" id="whB-Da-2Rq"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dxq-Yl-Yfx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -544,7 +544,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="yHI-UF-qY1" customClass="PNPieChart">
+                            <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yHI-UF-qY1" customClass="PNPieChart">
                                 <rect key="frame" x="20" y="20" width="560" height="160"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="yHI-UF-qY1" secondAttribute="height" multiplier="1:1" id="fbW-yf-MYu"/>
@@ -580,7 +580,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="qCz-C1-oFF">
-                            <rect key="frame" x="0.0" y="664" width="600" height="0.0"/>
+                            <rect key="frame" x="0.0" y="514" width="600" height="0.0"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
@@ -674,7 +674,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="299"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <datePicker contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="cqP-co-JRq">
+                                        <datePicker contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="cqP-co-JRq">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="216"/>
                                             <date key="date" timeIntervalSinceReferenceDate="480874342.81187499">
                                                 <!--2016-03-28 16:12:22 +0000-->
@@ -683,28 +683,28 @@
                                                 <action selector="datePickerDidChange:" destination="3cP-g0-PGa" eventType="valueChanged" id="trU-HA-gRZ"/>
                                             </connections>
                                         </datePicker>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C6M-zQ-yV0">
+                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C6M-zQ-yV0">
                                             <rect key="frame" x="0.0" y="216" width="600" height="83"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ukx-cF-bdB">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ukx-cF-bdB">
                                                     <rect key="frame" x="8" y="47" width="535" height="28"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repeat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GSV-Zc-iXr">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Repeat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GSV-Zc-iXr">
                                                     <rect key="frame" x="8" y="8" width="535" height="31"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hDV-54-bi8">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hDV-54-bi8">
                                                     <rect key="frame" x="543" y="47" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="switchDidSwitch:" destination="3cP-g0-PGa" eventType="valueChanged" id="msp-0h-AAJ"/>
                                                     </connections>
                                                 </switch>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="f7Y-PQ-Fte">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="f7Y-PQ-Fte">
                                                     <rect key="frame" x="543" y="8" width="51" height="28"/>
                                                     <connections>
                                                         <action selector="switchDidSwitch:" destination="3cP-g0-PGa" eventType="valueChanged" id="jGL-WF-Zf5"/>
@@ -768,7 +768,7 @@
                             <outlet property="delegate" destination="Gp0-xq-Aqh" id="ugA-TZ-HFc"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Survey" id="iSI-tB-O0b"/>
+                    <tabBarItem key="tabBarItem" title="Survey" image="survey" id="iSI-tB-O0b"/>
                     <navigationItem key="navigationItem" title="My First Survey" id="Gac-Ty-W5l">
                         <barButtonItem key="rightBarButtonItem" title="Done" style="done" id="NLm-Zn-qUi">
                             <connections>
@@ -838,4 +838,8 @@
             <point key="canvasLocation" x="3631" y="1601.5"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="results" width="25" height="25"/>
+        <image name="survey" width="25" height="24"/>
+    </resources>
 </document>
