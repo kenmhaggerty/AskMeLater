@@ -181,6 +181,7 @@ NSUInteger const TimingTableViewSection = 2;
     
     self.title = self.survey.name;
     self.tabBarController.navigationItem.rightBarButtonItems = self.navigationItem.rightBarButtonItems;
+    self.tabBarController.navigationItem.hidesBackButton = NO;
 }
 
 #pragma mark - // PUBLIC METHODS //

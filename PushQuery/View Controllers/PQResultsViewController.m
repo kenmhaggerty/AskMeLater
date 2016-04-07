@@ -85,6 +85,7 @@
     
     self.tabBarController.navigationItem.title = self.navigationItem.title;
     self.tabBarController.navigationItem.rightBarButtonItems = self.navigationItem.rightBarButtonItems;
+    self.tabBarController.navigationItem.hidesBackButton = YES;
 }
 
 #pragma mark - // PUBLIC METHODS //
