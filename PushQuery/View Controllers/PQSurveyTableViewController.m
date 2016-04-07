@@ -360,7 +360,13 @@ NSUInteger const TimingTableViewSection = 2;
     
     id <PQSurvey_Editable> survey = (id <PQSurvey_Editable>)self.survey;
     id <PQQuestion_Editable> question = (id <PQQuestion_Editable>)[survey.questions objectAtIndex:indexPath.row];
-    [PQDataManager deleteQuestion:question];
+    
+    UIAlertController *confirmationAlert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet actions:nil dismissalText:@"Cancel" completion:nil];
+    [confirmationAlert addAction:[UIAlertAction actionWithTitle:@"Delete Question" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+        [PQDataManager deleteQuestion:question];
+    }]];
+    
+    [self presentViewController:confirmationAlert animated:YES completion:nil];
 }
 
 - (void)cellDidBeginEditing:(PQSurveyTableViewCell *)sender  {
