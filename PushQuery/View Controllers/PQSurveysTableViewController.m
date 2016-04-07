@@ -21,6 +21,7 @@
 
 #import "PQSurveyUIProtocol.h"
 #import "UIViewController+Email.h"
+@import SafariServices;
 
 #pragma mark - // DEFINITIONS (Private) //
 
@@ -132,7 +133,9 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
         }
     }]];
     [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Privacy Policy" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        // privacy policy UI
+        SFSafariViewController *safariViewController = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:@"http://kenmhaggerty.com/pushquery/privacy/"]];
+        safariViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+        [self presentViewController:safariViewController animated:YES completion:nil];
     }]];
     [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
     
