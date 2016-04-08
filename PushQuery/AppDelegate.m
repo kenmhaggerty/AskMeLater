@@ -44,7 +44,7 @@
     NSString *response = identifier;
     id <PQQuestion_PRIVATE> question = (id <PQQuestion_PRIVATE>)[PQDataManager questionWithId:questionId];
     [PQDataManager addResponse:response forQuestion:question];
-    [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber-1;
+//    [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber-1;
     completionHandler();
 }
 
@@ -63,7 +63,7 @@
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:question.text message:nil preferredStyle:UIAlertControllerStyleAlert actions:actions dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
         NSString *response = action.title;
         [PQDataManager addResponse:response forQuestion:question];
-        [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber-1;
+//        [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber-1;
     }];
     [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
 }
@@ -72,6 +72,8 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:nil message:nil];
     
     [PQDataManager setup];
+    
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     
     return YES;
 }
