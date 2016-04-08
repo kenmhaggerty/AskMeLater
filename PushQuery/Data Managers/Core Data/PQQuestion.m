@@ -70,7 +70,7 @@
     
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
     if (secureValue) {
-        userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithBool:secureValue];
+        userInfo[NOTIFICATION_OBJECT_KEY] = secureValue;
     }
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(secureValue))];
@@ -219,7 +219,7 @@
     }
     
     if (index == [self.choices indexOfObject:choice]) {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is alread at index %lu", stringFromVariable(choice), index]];
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is alread at index %lu", stringFromVariable(choice), (unsigned long)index]];
         return;
     }
     
@@ -237,7 +237,7 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
     if (fromIndex == toIndex) {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ (%lu) and %@ (%lu) are equal", stringFromVariable(fromIndex), fromIndex, stringFromVariable(toIndex), toIndex]];
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ (%lu) and %@ (%lu) are equal", stringFromVariable(fromIndex), (unsigned long)fromIndex, stringFromVariable(toIndex), (unsigned long)toIndex]];
         return;
     }
     
