@@ -68,6 +68,7 @@
 		7DE38D8B1C9C5EF4000A02F0 /* UITableView+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D8A1C9C5EF4000A02F0 /* UITableView+Extras.m */; };
 		7DE38D941C9D924C000A02F0 /* UIAlertController+Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D931C9D924C000A02F0 /* UIAlertController+Info.m */; };
 		7DFEDD0E1CB6F81500166383 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFEDD0D1CB6F81500166383 /* SafariServices.framework */; };
+		7DFEDD121CB7447700166383 /* PQResultsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFEDD111CB7447700166383 /* PQResultsTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -209,6 +210,8 @@
 		7DE38D921C9D924C000A02F0 /* UIAlertController+Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIAlertController+Info.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIAlertController+Info/UIAlertController+Info.h"; sourceTree = "<group>"; };
 		7DE38D931C9D924C000A02F0 /* UIAlertController+Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIAlertController+Info.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIAlertController+Info/UIAlertController+Info.m"; sourceTree = "<group>"; };
 		7DFEDD0D1CB6F81500166383 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		7DFEDD101CB7447700166383 /* PQResultsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQResultsTableViewCell.h; path = "PushQuery/View Controllers/PQResultsTableViewCell.h"; sourceTree = SOURCE_ROOT; };
+		7DFEDD111CB7447700166383 /* PQResultsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PQResultsTableViewCell.m; path = "PushQuery/View Controllers/PQResultsTableViewCell.m"; sourceTree = SOURCE_ROOT; };
 		8C4E311519C9FFB36B6EB68D /* Pods-PushQuery.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PushQuery.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PushQuery/Pods-PushQuery.debug.xcconfig"; sourceTree = "<group>"; };
 		C934212345A9EA6CF9FDB64C /* libPods-PushQueryUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PushQueryUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D633F574BB4EE9131BFA53D4 /* Pods-PushQueryTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PushQueryTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PushQueryTests/Pods-PushQueryTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -658,6 +661,7 @@
 			children = (
 				7DBB1F2C1CAAF53B00C7C403 /* PQResultsTableViewController.h */,
 				7DBB1F2D1CAAF53B00C7C403 /* PQResultsTableViewController.m */,
+				7DFEDD0F1CB7445700166383 /* PQResultsTableViewCell */,
 			);
 			name = PQResultsTableViewController;
 			sourceTree = "<group>";
@@ -779,6 +783,15 @@
 				7DE38D931C9D924C000A02F0 /* UIAlertController+Info.m */,
 			);
 			name = "UIAlertController+Info";
+			sourceTree = "<group>";
+		};
+		7DFEDD0F1CB7445700166383 /* PQResultsTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				7DFEDD101CB7447700166383 /* PQResultsTableViewCell.h */,
+				7DFEDD111CB7447700166383 /* PQResultsTableViewCell.m */,
+			);
+			name = PQResultsTableViewCell;
 			sourceTree = "<group>";
 		};
 		8BF08E050897CED8111F48A2 /* Pods */ = {
@@ -1106,6 +1119,7 @@
 				7DE38D6A1C99D6EB000A02F0 /* PQResponse.m in Sources */,
 				7D12CB1F1C8A69F20021519B /* PQCoreDataController.m in Sources */,
 				7DBB1F2E1CAAF53B00C7C403 /* PQResultsTableViewController.m in Sources */,
+				7DFEDD121CB7447700166383 /* PQResultsTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

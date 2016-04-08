@@ -108,6 +108,18 @@
 
 #pragma mark - // DELEGATED METHODS (UITableViewDelegate) //
 
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    return UITableViewAutomaticDimension;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    return UITableViewAutomaticDimension;
+}
+
 #pragma mark - // OVERWRITTEN METHODS //
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
