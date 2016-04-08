@@ -16,6 +16,9 @@
 
 #import "PQDataManager.h"
 
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 #pragma mark - // DEFINITIONS (Private) //
 
 @interface AppDelegate ()
@@ -73,7 +76,7 @@
     
     [PQDataManager setup];
     
-    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    [Fabric with:@[[Crashlytics class]]];
     
     return YES;
 }

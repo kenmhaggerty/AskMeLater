@@ -3,6 +3,8 @@ source 'https://github.com/CocoaPods/Specs.git'
 target "PushQuery" do
   pod 'Firebase', '>= 2.5.0'
   pod 'PNChart'
+  pod 'Fabric'
+  pod 'Crashlytics'
 end
 
 def test_pods

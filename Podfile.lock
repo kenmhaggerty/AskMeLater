@@ -1,7 +1,10 @@
 PODS:
+  - Crashlytics (3.7.0):
+    - Fabric (~> 1.6.3)
   - Expecta (1.0.5)
   - Expecta+Collections (1.0.1):
     - Expecta
+  - Fabric (1.6.7)
   - Firebase (2.5.1)
   - KIF (3.3.2):
     - KIF/Core (= 3.3.2)
@@ -15,8 +18,10 @@ PODS:
   - UICountingLabel (1.2.0)
 
 DEPENDENCIES:
+  - Crashlytics
   - Expecta (~> 1.0)
   - Expecta+Collections
+  - Fabric
   - Firebase (>= 2.5.0)
   - KIF (~> 3.0)
   - KIFViewControllerActions
@@ -25,8 +30,10 @@ DEPENDENCIES:
   - Swizzlean (~> 0.2)
 
 SPEC CHECKSUMS:
+  Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   Expecta: e1c022fcd33910b6be89c291d2775b3fe27a89fe
   Expecta+Collections: 6fae193f42cb98dab08fe6a1ef579e97c65aa56a
+  Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   Firebase: 3565ea88b830f28f2c77ecc524622bc71a20d085
   KIF: 9de83fa627adaf65d28ace31e40f19d830bc255c
   KIFViewControllerActions: fc3a8e1352a6609624bda1fe6cfad410d0e88552
