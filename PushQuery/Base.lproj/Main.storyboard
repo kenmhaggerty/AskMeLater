@@ -409,33 +409,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s30-JS-yLi">
-                                <rect key="frame" x="0.0" y="64" width="600" height="200"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.5" contentMode="center" id="iLf-3l-nfg">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1LR-ba-gcx">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
-                                            <connections>
-                                                <segue destination="dRA-Zd-coe" kind="embed" id="8ee-Y6-xOO"/>
-                                            </connections>
-                                        </containerView>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="1LR-ba-gcx" firstAttribute="centerY" secondItem="iLf-3l-nfg" secondAttribute="centerY" id="aQg-H7-qBg"/>
-                                        <constraint firstItem="1LR-ba-gcx" firstAttribute="centerX" secondItem="iLf-3l-nfg" secondAttribute="centerX" id="bjq-yI-twx"/>
-                                        <constraint firstItem="1LR-ba-gcx" firstAttribute="width" secondItem="iLf-3l-nfg" secondAttribute="width" id="qrb-un-0vw"/>
-                                        <constraint firstItem="1LR-ba-gcx" firstAttribute="height" secondItem="iLf-3l-nfg" secondAttribute="height" id="tzG-99-EFS"/>
-                                    </constraints>
-                                </view>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1LR-ba-gcx">
+                                <rect key="frame" x="0.0" y="64" width="600" height="180"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="nlv-Ar-C3O"/>
+                                    <constraint firstAttribute="height" constant="180" id="vdU-dh-AZr"/>
                                 </constraints>
-                                <blurEffect style="light"/>
-                            </visualEffectView>
+                                <connections>
+                                    <segue destination="dRA-Zd-coe" kind="embed" id="8ee-Y6-xOO"/>
+                                </connections>
+                            </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kOZ-U6-YBG">
-                                <rect key="frame" x="0.0" y="264" width="600" height="287"/>
+                                <rect key="frame" x="0.0" y="244" width="600" height="307"/>
                                 <connections>
                                     <segue destination="hGO-Df-A05" kind="embed" id="I02-Pw-7Ga"/>
                                 </connections>
@@ -444,13 +428,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="L6V-80-Iw9" firstAttribute="top" secondItem="kOZ-U6-YBG" secondAttribute="bottom" id="2iY-bv-xkT"/>
+                            <constraint firstItem="kOZ-U6-YBG" firstAttribute="top" secondItem="1LR-ba-gcx" secondAttribute="bottom" id="Aux-4t-Zs1"/>
+                            <constraint firstItem="1LR-ba-gcx" firstAttribute="top" secondItem="YBu-9Y-bhd" secondAttribute="bottom" id="FYT-RL-GRX"/>
                             <constraint firstItem="kOZ-U6-YBG" firstAttribute="width" secondItem="vKJ-ms-dJR" secondAttribute="width" id="IsY-HH-iIs"/>
+                            <constraint firstItem="1LR-ba-gcx" firstAttribute="width" secondItem="vKJ-ms-dJR" secondAttribute="width" id="Lot-xB-dgK"/>
                             <constraint firstItem="kOZ-U6-YBG" firstAttribute="top" relation="greaterThanOrEqual" secondItem="YBu-9Y-bhd" secondAttribute="bottom" id="Rof-ho-x0l"/>
-                            <constraint firstItem="kOZ-U6-YBG" firstAttribute="top" secondItem="s30-JS-yLi" secondAttribute="bottom" id="YHU-JG-fPS"/>
+                            <constraint firstItem="1LR-ba-gcx" firstAttribute="centerX" secondItem="vKJ-ms-dJR" secondAttribute="centerX" id="Zb5-xz-NvL"/>
                             <constraint firstItem="kOZ-U6-YBG" firstAttribute="centerX" secondItem="vKJ-ms-dJR" secondAttribute="centerX" id="b1i-RD-Zxl"/>
-                            <constraint firstItem="s30-JS-yLi" firstAttribute="width" secondItem="vKJ-ms-dJR" secondAttribute="width" id="gv9-Sw-GyY"/>
-                            <constraint firstItem="s30-JS-yLi" firstAttribute="top" secondItem="YBu-9Y-bhd" secondAttribute="bottom" id="lir-9f-EQQ"/>
-                            <constraint firstItem="s30-JS-yLi" firstAttribute="centerX" secondItem="vKJ-ms-dJR" secondAttribute="centerX" id="skl-Iv-nve"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Results" image="results" id="Aq7-gL-0i5"/>
@@ -465,7 +449,7 @@
             <objects>
                 <tableViewController id="Kuh-vW-mmM" customClass="PQResultsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="WpR-hq-Cvo">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="287"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="307"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -525,7 +509,7 @@
             <objects>
                 <tableViewController id="RLH-LS-4Fs" customClass="PQResponsesTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="W9R-Ps-zDa">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="287"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="307"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -574,11 +558,12 @@
                         <viewControllerLayoutGuide type="bottom" id="23R-6c-5ed"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="JBc-cQ-4kr">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="180"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yHI-UF-qY1" customClass="PNPieChart">
-                                <rect key="frame" x="20" y="20" width="560" height="160"/>
+                                <rect key="frame" x="221" y="20" width="160" height="160"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="yHI-UF-qY1" secondAttribute="height" multiplier="1:1" id="fbW-yf-MYu"/>
                                 </constraints>
@@ -586,14 +571,14 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="yHI-UF-qY1" firstAttribute="top" relation="greaterThanOrEqual" secondItem="JBc-cQ-4kr" secondAttribute="topMargin" constant="20" id="4fv-rf-mvy"/>
+                            <constraint firstItem="yHI-UF-qY1" firstAttribute="top" relation="greaterThanOrEqual" secondItem="JBc-cQ-4kr" secondAttribute="topMargin" constant="16" id="4fv-rf-mvy"/>
                             <constraint firstItem="yHI-UF-qY1" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="JBc-cQ-4kr" secondAttribute="leadingMargin" id="AD6-ch-3bX"/>
-                            <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="yHI-UF-qY1" secondAttribute="bottom" constant="20" id="Ep0-MA-81A"/>
+                            <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="yHI-UF-qY1" secondAttribute="bottom" constant="16" id="Ep0-MA-81A"/>
                             <constraint firstItem="yHI-UF-qY1" firstAttribute="height" secondItem="JBc-cQ-4kr" secondAttribute="height" priority="750" id="Qky-Vf-idR"/>
                             <constraint firstItem="yHI-UF-qY1" firstAttribute="width" secondItem="JBc-cQ-4kr" secondAttribute="width" priority="750" id="lyI-gE-PRb"/>
                             <constraint firstItem="yHI-UF-qY1" firstAttribute="centerX" secondItem="JBc-cQ-4kr" secondAttribute="centerX" id="ok1-OR-ooE"/>
                             <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="yHI-UF-qY1" secondAttribute="trailing" id="sPJ-7l-6CZ"/>
-                            <constraint firstItem="yHI-UF-qY1" firstAttribute="centerY" secondItem="JBc-cQ-4kr" secondAttribute="centerY" id="zhO-hH-9sb"/>
+                            <constraint firstItem="yHI-UF-qY1" firstAttribute="centerY" secondItem="JBc-cQ-4kr" secondAttribute="centerY" priority="750" id="zhO-hH-9sb"/>
                         </constraints>
                     </view>
                     <connections>
