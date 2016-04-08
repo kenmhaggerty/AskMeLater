@@ -214,6 +214,7 @@ NSTimeInterval const AnimationSpeed = 0.18f;
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
     self.constraintBottom.constant = frame.size.height;
+    self.customInset = frame.size.height+self.submitButton.frame.size.height;
     [self.view setNeedsUpdateConstraints];
     [UIView animateWithDuration:animationDuration animations:^{
         [self.view layoutIfNeeded];

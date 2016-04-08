@@ -139,7 +139,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nYw-tE-ER8" userLabel="View Above Button">
+                            <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="nYw-tE-ER8" userLabel="View Above Button">
                                 <rect key="frame" x="0.0" y="20" width="600" height="540"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -150,37 +150,13 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w03-J4-uCZ">
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X9T-2E-WXM" userLabel="Content View">
+                                    <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="X9T-2E-WXM" userLabel="Content View">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="540"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xN4-9J-fLB">
+                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="xN4-9J-fLB">
                                                 <rect key="frame" x="140" y="105" width="320" height="331"/>
                                                 <subviews>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="confirm password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gTA-iM-9qG">
-                                                        <rect key="frame" x="8" y="257" width="304" height="30"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
-                                                        <connections>
-                                                            <outlet property="delegate" destination="CPB-vS-a56" id="JFg-rj-cd9"/>
-                                                        </connections>
-                                                    </textField>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Eka-gd-Q6y">
-                                                        <rect key="frame" x="8" y="219" width="304" height="30"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
-                                                        <connections>
-                                                            <outlet property="delegate" destination="CPB-vS-a56" id="IE9-5b-WvK"/>
-                                                        </connections>
-                                                    </textField>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="afC-Ez-jpv">
-                                                        <rect key="frame" x="8" y="181" width="304" height="30"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
-                                                        <connections>
-                                                            <outlet property="delegate" destination="CPB-vS-a56" id="SG1-8g-Hl1"/>
-                                                        </connections>
-                                                    </textField>
-                                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FW1-pM-aUk">
+                                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FW1-pM-aUk">
                                                         <rect key="frame" x="91" y="295" width="139" height="28"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                         <state key="normal" title="Forgot your password?">
@@ -190,7 +166,31 @@
                                                             <action selector="passwordReset:" destination="CPB-vS-a56" eventType="touchUpInside" id="5aF-2t-UlR"/>
                                                         </connections>
                                                     </button>
-                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DJV-kG-zNK">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="confirm password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gTA-iM-9qG">
+                                                        <rect key="frame" x="8" y="257" width="304" height="30"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="CPB-vS-a56" id="JFg-rj-cd9"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Eka-gd-Q6y">
+                                                        <rect key="frame" x="8" y="219" width="304" height="30"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="CPB-vS-a56" id="IE9-5b-WvK"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="afC-Ez-jpv">
+                                                        <rect key="frame" x="8" y="181" width="304" height="30"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="CPB-vS-a56" id="SG1-8g-Hl1"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DJV-kG-zNK">
                                                         <rect key="frame" x="52" y="141" width="217" height="29"/>
                                                         <segments>
                                                             <segment title="Sign In"/>
@@ -200,19 +200,19 @@
                                                             <action selector="segmentedControlDidChangeValue:" destination="CPB-vS-a56" eventType="valueChanged" id="Edg-WW-uw8"/>
                                                         </connections>
                                                     </segmentedControl>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon" translatesAutoresizingMaskIntoConstraints="NO" id="ndk-4k-nCf">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="Icon" translatesAutoresizingMaskIntoConstraints="NO" id="ndk-4k-nCf">
                                                         <rect key="frame" x="122" y="8" width="76" height="76"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" secondItem="ndk-4k-nCf" secondAttribute="height" multiplier="1:1" id="7gv-yg-IEF"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="PushQuery" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tZy-S4-kqM">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="PushQuery" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tZy-S4-kqM">
                                                         <rect key="frame" x="118" y="92" width="85" height="20"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="v1.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L8J-nS-Mrc">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="v1.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L8J-nS-Mrc">
                                                         <rect key="frame" x="147" y="116" width="26" height="17"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -258,8 +258,13 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" hint="" identifier="" label=""/>
                                         <constraints>
+                                            <constraint firstAttribute="height" secondItem="xN4-9J-fLB" secondAttribute="height" priority="750" id="EXW-JZ-jrw"/>
                                             <constraint firstItem="xN4-9J-fLB" firstAttribute="centerY" secondItem="X9T-2E-WXM" secondAttribute="centerY" id="KVU-wg-qC9"/>
+                                            <constraint firstItem="xN4-9J-fLB" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="X9T-2E-WXM" secondAttribute="leading" id="Kt0-Rq-9Oy"/>
                                             <constraint firstItem="xN4-9J-fLB" firstAttribute="centerX" secondItem="X9T-2E-WXM" secondAttribute="centerX" id="agC-xX-3sF"/>
+                                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="xN4-9J-fLB" secondAttribute="bottom" id="nJI-zT-2Mx"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xN4-9J-fLB" secondAttribute="trailing" id="sSB-0l-DIB"/>
+                                            <constraint firstItem="xN4-9J-fLB" firstAttribute="top" relation="greaterThanOrEqual" secondItem="X9T-2E-WXM" secondAttribute="top" id="yRP-uh-YUw"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -267,11 +272,12 @@
                                     <constraint firstItem="X9T-2E-WXM" firstAttribute="top" secondItem="w03-J4-uCZ" secondAttribute="top" id="3tA-G2-4wj"/>
                                     <constraint firstItem="xN4-9J-fLB" firstAttribute="width" secondItem="w03-J4-uCZ" secondAttribute="width" priority="750" id="6q9-Xj-ytr"/>
                                     <constraint firstAttribute="trailing" secondItem="X9T-2E-WXM" secondAttribute="trailing" id="87f-xN-c0e"/>
+                                    <constraint firstItem="X9T-2E-WXM" firstAttribute="width" secondItem="w03-J4-uCZ" secondAttribute="width" id="Ap4-Ig-DPJ"/>
                                     <constraint firstAttribute="bottom" secondItem="X9T-2E-WXM" secondAttribute="bottom" id="bcr-yK-buU"/>
                                     <constraint firstItem="X9T-2E-WXM" firstAttribute="leading" secondItem="w03-J4-uCZ" secondAttribute="leading" id="qRu-Ei-v0g"/>
                                 </constraints>
                             </scrollView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4bR-EE-twI">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4bR-EE-twI" userLabel="Button View">
                                 <rect key="frame" x="0.0" y="560" width="600" height="40"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ovl-Ks-cvv">
@@ -307,10 +313,9 @@
                             <constraint firstItem="ucR-rh-Mfi" firstAttribute="top" secondItem="Lnb-5r-sYO" secondAttribute="bottom" id="CZS-pK-aMi"/>
                             <constraint firstItem="Lnb-5r-sYO" firstAttribute="top" secondItem="oT5-M9-dT1" secondAttribute="bottom" id="Fci-pG-QuZ"/>
                             <constraint firstItem="w03-J4-uCZ" firstAttribute="top" secondItem="oT5-M9-dT1" secondAttribute="bottom" id="H6u-6D-OgZ"/>
-                            <constraint firstItem="X9T-2E-WXM" firstAttribute="height" secondItem="nYw-tE-ER8" secondAttribute="height" priority="750" id="OuY-z2-CcN"/>
+                            <constraint firstItem="X9T-2E-WXM" firstAttribute="height" relation="greaterThanOrEqual" secondItem="nYw-tE-ER8" secondAttribute="height" id="OuY-z2-CcN"/>
                             <constraint firstItem="4bR-EE-twI" firstAttribute="width" secondItem="iO1-iM-3tf" secondAttribute="width" id="UsH-oG-xGe"/>
                             <constraint firstItem="4bR-EE-twI" firstAttribute="bottom" secondItem="Lnb-5r-sYO" secondAttribute="bottom" id="YGV-5B-h7E"/>
-                            <constraint firstItem="X9T-2E-WXM" firstAttribute="width" relation="greaterThanOrEqual" secondItem="nYw-tE-ER8" secondAttribute="width" id="aYF-pb-hl6"/>
                             <constraint firstItem="Lnb-5r-sYO" firstAttribute="width" secondItem="iO1-iM-3tf" secondAttribute="width" id="cHp-rA-s9L"/>
                             <constraint firstItem="Lnb-5r-sYO" firstAttribute="centerX" secondItem="iO1-iM-3tf" secondAttribute="centerX" id="fIi-QO-Rf0"/>
                             <constraint firstItem="nYw-tE-ER8" firstAttribute="top" secondItem="oT5-M9-dT1" secondAttribute="bottom" id="inm-XP-inP"/>
@@ -318,8 +323,6 @@
                             <constraint firstItem="4bR-EE-twI" firstAttribute="top" secondItem="nYw-tE-ER8" secondAttribute="bottom" id="jKk-q0-D5z"/>
                             <constraint firstItem="nYw-tE-ER8" firstAttribute="centerX" secondItem="iO1-iM-3tf" secondAttribute="centerX" id="l0u-Km-6nH"/>
                             <constraint firstItem="ucR-rh-Mfi" firstAttribute="top" secondItem="w03-J4-uCZ" secondAttribute="bottom" id="lK6-7f-23b"/>
-                            <constraint firstItem="X9T-2E-WXM" firstAttribute="height" relation="greaterThanOrEqual" secondItem="nYw-tE-ER8" secondAttribute="height" id="x8d-Xf-SIO"/>
-                            <constraint firstItem="X9T-2E-WXM" firstAttribute="width" secondItem="nYw-tE-ER8" secondAttribute="width" priority="750" id="zg7-cG-bpK"/>
                         </constraints>
                     </view>
                     <connections>
