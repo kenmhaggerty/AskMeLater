@@ -154,10 +154,10 @@
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="540"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xN4-9J-fLB">
-                                                <rect key="frame" x="140" y="171" width="320" height="198"/>
+                                                <rect key="frame" x="140" y="105" width="320" height="331"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="confirm password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gTA-iM-9qG">
-                                                        <rect key="frame" x="8" y="124" width="304" height="30"/>
+                                                        <rect key="frame" x="8" y="257" width="304" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                                                         <connections>
@@ -165,7 +165,7 @@
                                                         </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Eka-gd-Q6y">
-                                                        <rect key="frame" x="8" y="86" width="304" height="30"/>
+                                                        <rect key="frame" x="8" y="219" width="304" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                                                         <connections>
@@ -173,7 +173,7 @@
                                                         </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="afC-Ez-jpv">
-                                                        <rect key="frame" x="8" y="48" width="304" height="30"/>
+                                                        <rect key="frame" x="8" y="181" width="304" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                                         <connections>
@@ -181,7 +181,7 @@
                                                         </connections>
                                                     </textField>
                                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FW1-pM-aUk">
-                                                        <rect key="frame" x="91" y="162" width="139" height="28"/>
+                                                        <rect key="frame" x="91" y="295" width="139" height="28"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                         <state key="normal" title="Forgot your password?">
                                                             <color key="titleColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -191,7 +191,7 @@
                                                         </connections>
                                                     </button>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DJV-kG-zNK">
-                                                        <rect key="frame" x="52" y="8" width="217" height="29"/>
+                                                        <rect key="frame" x="52" y="141" width="217" height="29"/>
                                                         <segments>
                                                             <segment title="Sign In"/>
                                                             <segment title="Create Account"/>
@@ -200,14 +200,35 @@
                                                             <action selector="segmentedControlDidChangeValue:" destination="CPB-vS-a56" eventType="valueChanged" id="Edg-WW-uw8"/>
                                                         </connections>
                                                     </segmentedControl>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon" translatesAutoresizingMaskIntoConstraints="NO" id="ndk-4k-nCf">
+                                                        <rect key="frame" x="122" y="8" width="76" height="76"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="ndk-4k-nCf" secondAttribute="height" multiplier="1:1" id="7gv-yg-IEF"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="PushQuery" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tZy-S4-kqM">
+                                                        <rect key="frame" x="118" y="92" width="85" height="20"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="v1.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L8J-nS-Mrc">
+                                                        <rect key="frame" x="147" y="116" width="26" height="17"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
+                                                    <constraint firstItem="tZy-S4-kqM" firstAttribute="centerX" secondItem="xN4-9J-fLB" secondAttribute="centerX" id="3Tq-Ni-clP"/>
                                                     <constraint firstItem="gTA-iM-9qG" firstAttribute="top" secondItem="Eka-gd-Q6y" secondAttribute="bottom" constant="8" id="3UK-PI-HI6"/>
-                                                    <constraint firstItem="afC-Ez-jpv" firstAttribute="top" secondItem="xN4-9J-fLB" secondAttribute="topMargin" priority="750" id="86K-R9-YPF"/>
+                                                    <constraint firstItem="ndk-4k-nCf" firstAttribute="top" secondItem="xN4-9J-fLB" secondAttribute="topMargin" id="5VR-up-Z8Z"/>
+                                                    <constraint firstItem="afC-Ez-jpv" firstAttribute="top" secondItem="xN4-9J-fLB" secondAttribute="topMargin" priority="250" id="86K-R9-YPF"/>
                                                     <constraint firstAttribute="bottomMargin" secondItem="Eka-gd-Q6y" secondAttribute="bottom" priority="750" id="8S5-eg-rb6"/>
                                                     <constraint firstItem="FW1-pM-aUk" firstAttribute="top" secondItem="Eka-gd-Q6y" secondAttribute="bottom" priority="750" constant="8" id="BEt-Od-WbD"/>
                                                     <constraint firstItem="Eka-gd-Q6y" firstAttribute="leading" secondItem="xN4-9J-fLB" secondAttribute="leadingMargin" id="Ebu-7v-APM"/>
+                                                    <constraint firstItem="tZy-S4-kqM" firstAttribute="top" secondItem="ndk-4k-nCf" secondAttribute="bottom" constant="8" id="EhV-6D-Ja3"/>
                                                     <constraint firstItem="FW1-pM-aUk" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xN4-9J-fLB" secondAttribute="leadingMargin" id="Ek2-ci-3Ur"/>
                                                     <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="FW1-pM-aUk" secondAttribute="trailing" id="FM3-FS-Ell"/>
                                                     <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="gTA-iM-9qG" secondAttribute="bottom" id="FdY-2i-wwt"/>
@@ -215,13 +236,17 @@
                                                     <constraint firstAttribute="bottomMargin" secondItem="gTA-iM-9qG" secondAttribute="bottom" priority="750" id="Ijp-D9-7jl"/>
                                                     <constraint firstItem="afC-Ez-jpv" firstAttribute="leading" secondItem="xN4-9J-fLB" secondAttribute="leadingMargin" id="JSR-w7-lZz"/>
                                                     <constraint firstItem="FW1-pM-aUk" firstAttribute="centerX" secondItem="xN4-9J-fLB" secondAttribute="centerX" id="OlL-2x-aJW"/>
+                                                    <constraint firstItem="L8J-nS-Mrc" firstAttribute="top" secondItem="tZy-S4-kqM" secondAttribute="bottom" constant="4" id="Pgs-JX-5HN"/>
                                                     <constraint firstAttribute="trailingMargin" secondItem="gTA-iM-9qG" secondAttribute="trailing" id="PrH-pL-SRe"/>
-                                                    <constraint firstItem="DJV-kG-zNK" firstAttribute="top" secondItem="xN4-9J-fLB" secondAttribute="topMargin" id="VLn-Qy-f28"/>
+                                                    <constraint firstItem="DJV-kG-zNK" firstAttribute="top" secondItem="xN4-9J-fLB" secondAttribute="topMargin" priority="750" id="VLn-Qy-f28"/>
                                                     <constraint firstItem="afC-Ez-jpv" firstAttribute="top" secondItem="DJV-kG-zNK" secondAttribute="bottom" constant="12" id="bo6-9z-Wk9"/>
                                                     <constraint firstItem="DJV-kG-zNK" firstAttribute="centerX" secondItem="xN4-9J-fLB" secondAttribute="centerX" id="byJ-W0-mJC"/>
                                                     <constraint firstAttribute="trailingMargin" secondItem="Eka-gd-Q6y" secondAttribute="trailing" id="ca9-W8-bRu"/>
                                                     <constraint firstItem="FW1-pM-aUk" firstAttribute="top" relation="greaterThanOrEqual" secondItem="gTA-iM-9qG" secondAttribute="bottom" constant="8" id="e8A-cC-fvB"/>
+                                                    <constraint firstItem="ndk-4k-nCf" firstAttribute="centerX" secondItem="xN4-9J-fLB" secondAttribute="centerX" id="fKk-Vj-hFZ"/>
                                                     <constraint firstAttribute="trailingMargin" secondItem="afC-Ez-jpv" secondAttribute="trailing" id="gy2-A9-T8O"/>
+                                                    <constraint firstItem="L8J-nS-Mrc" firstAttribute="centerX" secondItem="xN4-9J-fLB" secondAttribute="centerX" id="jYx-cs-rH0"/>
+                                                    <constraint firstItem="DJV-kG-zNK" firstAttribute="top" secondItem="L8J-nS-Mrc" secondAttribute="bottom" constant="8" id="jho-Fc-gcJ"/>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" secondItem="DJV-kG-zNK" secondAttribute="width" id="pn2-kd-2ic"/>
                                                     <constraint firstItem="Eka-gd-Q6y" firstAttribute="top" secondItem="afC-Ez-jpv" secondAttribute="bottom" constant="8" id="rs2-kK-bou"/>
                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="320" id="sT9-Rz-wSs"/>
@@ -832,6 +857,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Icon" width="76" height="76"/>
         <image name="results" width="25" height="25"/>
         <image name="survey" width="25" height="24"/>
     </resources>
