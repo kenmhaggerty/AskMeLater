@@ -1249,7 +1249,7 @@
 				INFOPLIST_FILE = PushQuery/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.flatiron-school.learn.ios.PushQuery";
+				PRODUCT_BUNDLE_IDENTIFIER = com.eurekavalleyco.distribution.PushQuery;
 				PRODUCT_NAME = PushQuery;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1264,7 +1264,7 @@
 				INFOPLIST_FILE = PushQuery/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.flatiron-school.learn.ios.PushQuery";
+				PRODUCT_BUNDLE_IDENTIFIER = com.eurekavalleyco.distribution.PushQuery;
 				PRODUCT_NAME = PushQuery;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
