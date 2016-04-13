@@ -158,7 +158,6 @@ NSString * const FirebaseObserverChildRemoved = @"ChildRemoved";
         }
         
         completionBlock(success, error);
-        
     }];
 }
 

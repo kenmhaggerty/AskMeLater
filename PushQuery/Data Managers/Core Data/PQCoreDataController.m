@@ -136,6 +136,7 @@
         user.userId = userId;
         user.createdAt = [NSDate date];
     }];
+    
     return user;
 }
 
@@ -152,6 +153,7 @@
         survey.editedAt = survey.createdAt;
         survey.uuid = [PQCoreDataController uuidForDate:survey.createdAt];
     }];
+    
     return survey;
 }
 
@@ -167,6 +169,7 @@
         question.createdAt = [NSDate date];
         question.uuid = [PQCoreDataController uuidForDate:question.createdAt];
     }];
+    
     return question;
 }
 
@@ -179,6 +182,7 @@
         choice = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQChoice class]) inManagedObjectContext:managedObjectContext];
         choice.text = text;
     }];
+    
     return choice;
 }
 
@@ -194,6 +198,7 @@
         response.date = date;
         response.uuid = [PQCoreDataController uuidForDate:response.date];
     }];
+    
     return response;
 }
 
