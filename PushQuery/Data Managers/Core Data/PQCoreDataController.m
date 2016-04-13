@@ -28,6 +28,10 @@
 + (NSManagedObjectContext *)managedObjectContext;
 + (NSURL *)applicationDocumentsDirectory;
 
+// OTHER //
+
++ (NSString *)uuidForDate:(NSDate *)date;
+
 @end
 
 @implementation PQCoreDataController
@@ -146,6 +150,7 @@
         survey.author = author;
         survey.createdAt = [NSDate date];
         survey.editedAt = survey.createdAt;
+        survey.uuid = [PQCoreDataController uuidForDate:survey.createdAt];
     }];
     return survey;
 }
@@ -160,7 +165,7 @@
         question.text = text;
         question.choices = choices;
         question.createdAt = [NSDate date];
-        question.uuid = [[NSUUID UUID] UUIDString];
+        question.uuid = [PQCoreDataController uuidForDate:question.createdAt];
     }];
     return question;
 }
@@ -187,6 +192,7 @@
         response.text = text;
         response.user = user;
         response.date = date;
+        response.uuid = [PQCoreDataController uuidForDate:response.date];
     }];
     return response;
 }
@@ -320,6 +326,15 @@
     // The directory the application uses to store the Core Data store file. This code uses a directory named "com.flatiron-school.learn.ios.PushQuery" in the application's documents directory.
     
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+#pragma mark - // OTHER //
+
++ (NSString *)uuidForDate:(NSDate *)date {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
+    
+    NSString *uuid = [NSString stringWithFormat:@"%f", date.timeIntervalSince1970];
+    return [uuid stringByReplacingOccurrencesOfString:@"." withString:@"-"];
 }
 
 @end

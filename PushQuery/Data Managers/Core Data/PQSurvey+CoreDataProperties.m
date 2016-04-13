@@ -29,6 +29,7 @@
 @dynamic name;
 @dynamic repeatValue;
 @dynamic time;
+@dynamic uuid;
 @dynamic questions;
 @dynamic author;
 
