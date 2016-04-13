@@ -175,7 +175,10 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FW1-pM-aUk">
-                                                        <rect key="frame" x="86" y="295" width="148" height="29"/>
+                                                        <rect key="frame" x="86" y="295" width="148" height="0.0"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" id="Otd-OC-nUP"/>
+                                                        </constraints>
                                                         <state key="normal">
                                                             <attributedString key="attributedTitle">
                                                                 <fragment content="Forgot your password?">
@@ -229,7 +232,7 @@
                                                         </connections>
                                                     </segmentedControl>
                                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n7O-rY-DVg">
-                                                        <rect key="frame" x="82" y="324" width="157" height="28"/>
+                                                        <rect key="frame" x="82" y="295" width="157" height="28"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                         <state key="normal" title="or use without an account">
                                                             <color key="titleColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -276,7 +279,6 @@
                                                     <constraint firstItem="Eka-gd-Q6y" firstAttribute="top" secondItem="afC-Ez-jpv" secondAttribute="bottom" constant="8" id="rs2-kK-bou"/>
                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="320" id="sT9-Rz-wSs"/>
                                                     <constraint firstAttribute="leadingMargin" secondItem="gTA-iM-9qG" secondAttribute="leading" id="voU-Ao-8ia"/>
-                                                    <constraint firstAttribute="bottomMargin" secondItem="FW1-pM-aUk" secondAttribute="bottom" priority="750" id="vqg-Ki-fzU"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -353,7 +355,7 @@
                     <connections>
                         <outlet property="constraintBottom" destination="CZS-pK-aMi" id="sfY-lr-cW2"/>
                         <outlet property="constraintConfirmPassword" destination="3UK-PI-HI6" id="wyj-zI-oNo"/>
-                        <outlet property="constraintPasswordReset" destination="vqg-Ki-fzU" id="Lex-fl-7U6"/>
+                        <outlet property="constraintPasswordReset" destination="Otd-OC-nUP" id="aox-hd-pMI"/>
                         <outlet property="constraintShowButton" destination="fQP-Kx-9KC" id="XK0-ik-3oT"/>
                         <outlet property="passwordResetButton" destination="FW1-pM-aUk" id="ZvP-tU-IyQ"/>
                         <outlet property="scrollView" destination="w03-J4-uCZ" id="IsM-0R-kYv"/>

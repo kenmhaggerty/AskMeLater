@@ -157,6 +157,7 @@ NSTimeInterval const AnimationSpeed = 0.18f;
     [super viewWillAppear:animated];
     
     [self showPasswordConfirmation:NO animated:NO];
+    [self showPasswordReset:YES animated:NO];
     [self enableButton:NO];
 }
 
@@ -404,7 +405,7 @@ NSTimeInterval const AnimationSpeed = 0.18f;
 - (void)showPasswordReset:(BOOL)show animated:(BOOL)animated {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
-    self.constraintPasswordReset.active = show;
+    self.constraintPasswordReset.active = !show;
     
     [self.view setNeedsUpdateConstraints];
     [UIView animateWithDuration:(animated ? AnimationSpeed : 0.0f) animations:^{
