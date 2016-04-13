@@ -66,12 +66,41 @@
 
 #pragma mark - // INITS AND LOADS //
 
+- (void)willSave {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    [super willSave];
+    
+    if (!self.updated) {
+        return;
+    }
+    
+    [AKGenerics postNotificationName:PQChoiceWillBeSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
+}
+
+- (void)didSave {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    for (NSString *key in self.changedKeys) {
+        if ([key isEqualToString:NSStringFromSelector(@selector(text))]) {
+            [AKGenerics postNotificationName:PQChoiceTextDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.text}];
+        }
+        else if ([key isEqualToString:NSStringFromSelector(@selector(textInputValue))]) {
+            [AKGenerics postNotificationName:PQChoiceTextInputDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.textInputValue}];
+        }
+    }
+    
+    [AKGenerics postNotificationName:PQChoiceWasSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
+    
+    [super didSave];
+}
+
 - (void)prepareForDeletion {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
     
-    [AKGenerics postNotificationName:PQChoiceWillBeDeletedNotification object:self userInfo:nil];
-    
     [super prepareForDeletion];
+    
+    [AKGenerics postNotificationName:PQChoiceWillBeDeletedNotification object:self userInfo:nil];
 }
 
 #pragma mark - // PUBLIC METHODS //

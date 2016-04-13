@@ -15,8 +15,9 @@
 
 #pragma mark - // DEFINITIONS //
 
+#define PQResponseWillBeSavedNotification @"kNotificationPQResponse_WillBeSaved"
+#define PQResponseWasSavedNotification @"kNotificationPQResponse_WasSaved"
 #define PQResponseWillBeRemovedNotification @"kNotificationPQResponse_WillBeRemoved"
-
 #define PQResponseWillBeDeletedNotification @"kNotificationPQResponse_WillBeDeleted"
 
 #pragma mark - // PROTOCOL (PQResponse) //

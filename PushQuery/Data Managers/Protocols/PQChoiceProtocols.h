@@ -17,8 +17,12 @@
 #define PQChoiceTextDidChangeNotification @"kNotificationPQChoice_TextDidChangeNotification"
 #define PQChoiceTextInputDidChangeNotification @"kNotificationPQChoice_TextInputDidChangeNotification"
 
-#define PQChoiceWillBeRemovedNotification @"kNotificationPQChoice_WillBeRemoved"
+#define PQChoiceTextDidSaveNotification @"kNotificationPQChoice_TextDidSaveNotification"
+#define PQChoiceTextInputDidSaveNotification @"kNotificationPQChoice_TextInputDidSaveNotification"
 
+#define PQChoiceWillBeSavedNotification @"kNotificationPQChoice_WillBeSaved"
+#define PQChoiceWasSavedNotification @"kNotificationPQChoice_WasSaved"
+#define PQChoiceWillBeRemovedNotification @"kNotificationPQChoice_WillBeRemoved"
 #define PQChoiceWillBeDeletedNotification @"kNotificationPQChoice_WillBeDeleted"
 
 #pragma mark - // PROTOCOL (PQChoice) //

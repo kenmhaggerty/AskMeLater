@@ -24,12 +24,22 @@
 #define PQSurveyRepeatDidChangeNotification @"kNotificationPQSurvey_RepeatDidChange"
 #define PQSurveyEnabledDidChangeNotification @"kNotificationPQSurvey_EnabledDidChange"
 
+#define PQSurveyNameDidSaveNotification @"kNotificationPQSurvey_NameDidSave"
+#define PQSurveyEditedAtDidSaveNotification @"kNotificationPQSurvey_EditedAtDidSave"
+#define PQSurveyTimeDidSaveNotification @"kNotificationPQSurvey_TimeDidSave"
+#define PQSurveyRepeatDidSaveNotification @"kNotificationPQSurvey_RepeatDidSave"
+#define PQSurveyEnabledDidSaveNotification @"kNotificationPQSurvey_EnabledDidSave"
+
 #define PQSurveyQuestionsDidChangeNotification @"kNotificationPQSurvey_QuestionsDidChange"
 #define PQSurveyQuestionWasAddedNotification @"kNotificationPQSurvey_QuestionWasAdded"
 #define PQSurveyQuestionWasReorderedNotification @"kNotificationPQSurvey_QuestionWasReordered"
 //#define PQSurveyQuestionWillBeRemoved @"kNotificationPQSurvey_QuestionWillBeRemoved"
 #define PQSurveyQuestionAtIndexWasRemovedNotification @"kNotificationPQSurvey_QuestionAtIndexWasRemoved"
 
+#define PQSurveyQuestionsDidSaveNotification @"kNotificationPQSurvey_QuestionsDidSave"
+
+#define PQSurveyWillBeSavedNotification @"kNotificationPQSurvey_WillBeSaved"
+#define PQSurveyWasSavedNotification @"kNotificationPQSurvey_WasSaved"
 #define PQSurveyWillBeDeletedNotification @"kNotificationPQSurvey_WillBeDeleted"
 
 #pragma mark - // PROTOCOL (PQSurvey) //

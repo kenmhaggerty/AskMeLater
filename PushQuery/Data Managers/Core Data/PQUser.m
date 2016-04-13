@@ -90,12 +90,44 @@
 
 #pragma mark - // INITS AND LOADS //
 
+- (void)willSave {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
+    
+    [super willSave];
+    
+    if (!self.updated) {
+        return;
+    }
+    
+    [AKGenerics postNotificationName:PQUserWillBeSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
+}
+
+- (void)didSave {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
+    
+    for (NSString *key in self.changedKeys) {
+        if ([key isEqualToString:NSStringFromSelector(@selector(avatarData))]) {
+            [AKGenerics postNotificationName:PQUserAvatarDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.avatar}];
+        }
+        else if ([key isEqualToString:NSStringFromSelector(@selector(email))]) {
+            [AKGenerics postNotificationName:PQUserEmailDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.email}];
+        }
+        else if ([key isEqualToString:NSStringFromSelector(@selector(username))]) {
+            [AKGenerics postNotificationName:PQUserUsernameDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.username}];
+        }
+    }
+    
+    [AKGenerics postNotificationName:PQUserWasSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
+    
+    [super didSave];
+}
+
 - (void)prepareForDeletion {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
     
-    [AKGenerics postNotificationName:PQUserWillBeDeletedNotification object:self userInfo:nil];
-    
     [super prepareForDeletion];
+    
+    [AKGenerics postNotificationName:PQUserWillBeDeletedNotification object:self userInfo:nil];
 }
 
 #pragma mark - // PUBLIC METHODS //

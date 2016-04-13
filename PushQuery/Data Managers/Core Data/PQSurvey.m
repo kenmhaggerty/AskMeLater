@@ -160,34 +160,50 @@
 
 #pragma mark - // INITS AND LOADS //
 
-- (void)dealloc {
+- (void)willSave {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
     
-    [self teardown];
+    [super willSave];
+    
+    if (!self.updated) {
+        return;
+    }
+    
+    [AKGenerics postNotificationName:PQSurveyWillBeSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
 }
 
-- (void)awakeFromInsert {
+- (void)didSave {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
     
-    [super awakeFromInsert];
+    for (NSString *key in self.changedKeys) {
+        if ([key isEqualToString:NSStringFromSelector(@selector(name))]) {
+            [AKGenerics postNotificationName:PQSurveyNameDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.name}];
+        }
+        else if ([key isEqualToString:NSStringFromSelector(@selector(editedAt))]) {
+            [AKGenerics postNotificationName:PQSurveyEditedAtDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.editedAt}];
+        }
+        else if ([key isEqualToString:NSStringFromSelector(@selector(time))]) {
+            [AKGenerics postNotificationName:PQSurveyTimeDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.time}];
+        }
+        else if ([key isEqualToString:NSStringFromSelector(@selector(repeatValue))]) {
+            [AKGenerics postNotificationName:PQSurveyRepeatDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.repeatValue}];
+        }
+        else if ([key isEqualToString:NSStringFromSelector(@selector(enabledValue))]) {
+            [AKGenerics postNotificationName:PQSurveyEnabledDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.enabledValue}];
+        }
+    }
     
-    [self setup];
-}
-
-- (void)awakeFromFetch {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
+    [AKGenerics postNotificationName:PQUserWasSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
     
-    [super awakeFromFetch];
-    
-    [self setup];
+    [super didSave];
 }
 
 - (void)prepareForDeletion {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
-    
-    [AKGenerics postNotificationName:PQSurveyWillBeDeletedNotification object:self userInfo:nil];
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
     
     [super prepareForDeletion];
+    
+    [AKGenerics postNotificationName:PQUserWillBeDeletedNotification object:self userInfo:nil];
 }
 
 #pragma mark - // PUBLIC METHODS //

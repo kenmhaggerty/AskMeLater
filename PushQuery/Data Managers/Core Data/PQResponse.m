@@ -26,12 +26,32 @@
 
 #pragma mark - // INITS AND LOADS //
 
+- (void)willSave {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    [super willSave];
+    
+    if (!self.updated) {
+        return;
+    }
+    
+    [AKGenerics postNotificationName:PQResponseWillBeSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
+}
+
+- (void)didSave {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    [AKGenerics postNotificationName:PQResponseWasSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
+    
+    [super didSave];
+}
+
 - (void)prepareForDeletion {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
     
-    [AKGenerics postNotificationName:PQResponseWillBeDeletedNotification object:self userInfo:nil];
-    
     [super prepareForDeletion];
+    
+    [AKGenerics postNotificationName:PQResponseWillBeDeletedNotification object:self userInfo:nil];
 }
 
 #pragma mark - // PUBLIC METHODS //

@@ -14,10 +14,16 @@
 
 #pragma mark - // DEFINITIONS //
 
-#define PQUserUsernameDidChangeNotification @"kNotificationPQUser_UsernameDidChange"
 #define PQUserAvatarDidChangeNotification @"kNotificationPQUser_AvatarDidChange"
 #define PQUserEmailDidChangeNotification @"kNotificationPQUser_EmailDidChange"
+#define PQUserUsernameDidChangeNotification @"kNotificationPQUser_UsernameDidChange"
 
+#define PQUserAvatarDidSaveNotification @"kNotificationPQUser_AvatarDidSave"
+#define PQUserEmailDidSaveNotification @"kNotificationPQUser_EmailDidSave"
+#define PQUserUsernameDidSaveNotification @"kNotificationPQUser_UsernameDidSave"
+
+#define PQUserWillBeSavedNotification @"kNotificationPQUser_WillBeSaved"
+#define PQUserWasSavedNotification @"kNotificationPQUser_WasSaved"
 #define PQUserWillBeDeletedNotification @"kNotificationPQUser_WillBeDeleted"
 
 #pragma mark - // PROTOCOL (PQUser) //
