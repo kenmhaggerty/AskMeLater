@@ -16,8 +16,9 @@
 
 #import "PQLoginManager.h"
 #import "PQCoreDataController.h"
-#import "PQFirebaseController.h"
+#import "PQFirebaseController.h" // temp
 #import "PQNotificationsManager.h"
+#import "PQSyncEngine.h"
 
 #pragma mark - // DEFINITIONS (Private) //
 
@@ -49,6 +50,7 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:nil];
     
     [PQFirebaseController setup];
+    [PQSyncEngine setup];
     [PQNotificationsManager setup];
 }
 

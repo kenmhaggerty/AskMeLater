@@ -41,6 +41,7 @@
 		7D12CB1A1C8A69610021519B /* PQUser+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB171C8A69610021519B /* PQUser+CoreDataProperties.m */; };
 		7D12CB1B1C8A69610021519B /* PQUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB191C8A69610021519B /* PQUser.m */; };
 		7D12CB1F1C8A69F20021519B /* PQCoreDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB1E1C8A69F20021519B /* PQCoreDataController.m */; };
+		7D43DDBB1CB83ED600FEA394 /* PQSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D43DDBA1CB83ED600FEA394 /* PQSyncEngine.m */; };
 		7D43DDC51CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D43DDC21CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.m */; };
 		7D43DDC61CBE911B00FEA394 /* PQManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D43DDC41CBE911B00FEA394 /* PQManagedObject.m */; };
 		7D5A65611CA0719900D7AE8D /* PQLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5A65601CA0719900D7AE8D /* PQLoginViewController.m */; };
@@ -149,6 +150,8 @@
 		7D12CB1D1C8A69F20021519B /* PQCoreDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQCoreDataController.h; sourceTree = "<group>"; };
 		7D12CB1E1C8A69F20021519B /* PQCoreDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQCoreDataController.m; sourceTree = "<group>"; };
 		7D19E2821C8E1CA700020305 /* PQFirebaseProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQFirebaseProtocols.h; path = Firebase/PQFirebaseProtocols.h; sourceTree = "<group>"; };
+		7D43DDB91CB83ED600FEA394 /* PQSyncEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQSyncEngine.h; path = "Sync Engine/PQSyncEngine.h"; sourceTree = "<group>"; };
+		7D43DDBA1CB83ED600FEA394 /* PQSyncEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PQSyncEngine.m; path = "Sync Engine/PQSyncEngine.m"; sourceTree = "<group>"; };
 		7D43DDC11CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PQManagedObject+CoreDataProperties.h"; sourceTree = "<group>"; };
 		7D43DDC21CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PQManagedObject+CoreDataProperties.m"; sourceTree = "<group>"; };
 		7D43DDC31CBE911B00FEA394 /* PQManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQManagedObject.h; sourceTree = "<group>"; };
@@ -413,6 +416,7 @@
 				7D12CB0D1C8A4EA30021519B /* Login Manager */,
 				7DBB1F1B1CA9B13800C7C403 /* Notifications Manager */,
 				7D12CAF41C8A48910021519B /* Firebase */,
+				7D43DDB81CB83EB100FEA394 /* Sync Engine */,
 				7D12CAF31C8A48310021519B /* Core Data */,
 			);
 			path = "Data Managers";
@@ -554,6 +558,15 @@
 				7DE38D8C1C9D8A37000A02F0 /* Mock Data */,
 			);
 			name = UNUSED;
+			sourceTree = "<group>";
+		};
+		7D43DDB81CB83EB100FEA394 /* Sync Engine */ = {
+			isa = PBXGroup;
+			children = (
+				7D43DDB91CB83ED600FEA394 /* PQSyncEngine.h */,
+				7D43DDBA1CB83ED600FEA394 /* PQSyncEngine.m */,
+			);
+			name = "Sync Engine";
 			sourceTree = "<group>";
 		};
 		7D43DDC01CBE8F0400FEA394 /* PQManagedObject */ = {
@@ -1132,6 +1145,7 @@
 				7D12CAF71C8A48D10021519B /* PQFirebaseController.m in Sources */,
 				7DE38D821C9A0C37000A02F0 /* PQSurveyTableViewCell.m in Sources */,
 				7D43DDC61CBE911B00FEA394 /* PQManagedObject.m in Sources */,
+				7D43DDBB1CB83ED600FEA394 /* PQSyncEngine.m in Sources */,
 				7DE38D7C1C9A0C18000A02F0 /* PQSurveysTableViewController.m in Sources */,
 				7DBB1F1A1CA98FBA00C7C403 /* PQSurveyTimingCell.m in Sources */,
 				7D12CABF1C8A30280021519B /* AppDelegate.m in Sources */,
