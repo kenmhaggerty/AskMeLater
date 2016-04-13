@@ -90,7 +90,6 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
         [self addObserversToSurvey:survey];
     }
     
-#warning TO DO – Loading indicator if surveys is nil
     [self.tableView reloadData];
 }
 

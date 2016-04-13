@@ -61,9 +61,6 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
     }
     
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    if (currentUser) {
-        [userInfo setObject:currentUser forKey:NOTIFICATION_OBJECT_KEY];
-    }
     
     if (_currentUser) {
         [self removeObserversFromUser:_currentUser];
@@ -73,6 +70,7 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
     
     if (currentUser) {
         [self addObserversToUser:currentUser];
+        [userInfo setObject:currentUser forKey:NOTIFICATION_OBJECT_KEY];
     }
     
     [AKGenerics postNotificationName:PQLoginManagerCurrentUserDidChangeNotification object:nil userInfo:userInfo];
