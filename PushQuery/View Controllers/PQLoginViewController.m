@@ -253,6 +253,7 @@ NSTimeInterval const AnimationSpeed = 0.18f;
 - (IBAction)passwordReset:(id)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
+    [self.view.firstResponder resignFirstResponder];
     [self resetPassword];
 }
 
