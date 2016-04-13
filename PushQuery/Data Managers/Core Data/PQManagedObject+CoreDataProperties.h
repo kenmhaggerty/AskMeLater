@@ -1,32 +1,27 @@
 //
-//  PQResponse.h
+//  PQManagedObject+CoreDataProperties.h
 //  PushQuery
 //
-//  Created by Ken M. Haggerty on 3/16/16.
+//  Created by Ken M. Haggerty on 4/13/16.
 //  Copyright © 2016 Flatiron School. All rights reserved.
+//
+//  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
+//  to delete and recreate this implementation file for your updated model.
 //
 
 #pragma mark - // NOTES (Public) //
 
 #pragma mark - // IMPORTS (Public) //
 
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
 #import "PQManagedObject.h"
 
-@class PQUser, PQQuestion;
-
 #pragma mark - // PROTOCOLS //
-
-#import "PQResponseProtocols.h"
 
 #pragma mark - // DEFINITIONS (Public) //
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PQResponse : PQManagedObject <PQResponse_Editable>
+@interface PQManagedObject (CoreDataProperties)
 @end
 
 NS_ASSUME_NONNULL_END
-
-#import "PQResponse+CoreDataProperties.h"

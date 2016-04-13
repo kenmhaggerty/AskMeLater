@@ -12,6 +12,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "PQManagedObject.h"
 
 @class PQSurvey, PQResponse;
 
@@ -23,7 +24,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PQUser : NSManagedObject <PQUser_PRIVATE>
+@interface PQUser : PQManagedObject <PQUser_PRIVATE>
 
 - (void)setAvatar:(UIImage *)avatar;
 - (UIImage *)avatar;

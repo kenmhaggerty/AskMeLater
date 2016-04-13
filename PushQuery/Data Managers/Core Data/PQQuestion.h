@@ -12,6 +12,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "PQManagedObject.h"
 #import "NSObject+Basics.h"
 
 @class PQResponse, PQChoice, PQSurvey;
@@ -24,7 +25,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PQQuestion : NSManagedObject <PQQuestion_PRIVATE>
+@interface PQQuestion : PQManagedObject <PQQuestion_PRIVATE>
 
 - (BOOL)secure;
 - (void)setSecure:(BOOL)secure;

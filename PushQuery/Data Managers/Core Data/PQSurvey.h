@@ -12,6 +12,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "PQManagedObject.h"
 #import "NSObject+Basics.h"
 
 @class PQUser, PQQuestion;
@@ -24,7 +25,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PQSurvey : NSManagedObject <PQSurvey_Editable>
+@interface PQSurvey : PQManagedObject <PQSurvey_Editable>
 
 - (BOOL)repeat;
 - (void)setRepeat:(BOOL)repeat;

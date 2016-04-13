@@ -12,6 +12,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "PQManagedObject.h"
 
 @class PQQuestion;
 
@@ -23,7 +24,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PQChoice : NSManagedObject <PQChoice_Editable>
+@interface PQChoice : PQManagedObject <PQChoice_Editable>
 
 - (void)setTextInput:(BOOL)textInput;
 - (BOOL)textInput;

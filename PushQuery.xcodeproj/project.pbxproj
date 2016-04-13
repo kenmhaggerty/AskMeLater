@@ -41,6 +41,8 @@
 		7D12CB1A1C8A69610021519B /* PQUser+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB171C8A69610021519B /* PQUser+CoreDataProperties.m */; };
 		7D12CB1B1C8A69610021519B /* PQUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB191C8A69610021519B /* PQUser.m */; };
 		7D12CB1F1C8A69F20021519B /* PQCoreDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB1E1C8A69F20021519B /* PQCoreDataController.m */; };
+		7D43DDC51CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D43DDC21CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.m */; };
+		7D43DDC61CBE911B00FEA394 /* PQManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D43DDC41CBE911B00FEA394 /* PQManagedObject.m */; };
 		7D5A65611CA0719900D7AE8D /* PQLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5A65601CA0719900D7AE8D /* PQLoginViewController.m */; };
 		7D5A65651CA0799800D7AE8D /* UIViewController+Keyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5A65641CA0799800D7AE8D /* UIViewController+Keyboard.m */; };
 		7D7DE7F11C8B6D8100FFA637 /* PQDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7DE7F01C8B6D8100FFA637 /* PQDataManager.m */; };
@@ -147,6 +149,10 @@
 		7D12CB1D1C8A69F20021519B /* PQCoreDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQCoreDataController.h; sourceTree = "<group>"; };
 		7D12CB1E1C8A69F20021519B /* PQCoreDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQCoreDataController.m; sourceTree = "<group>"; };
 		7D19E2821C8E1CA700020305 /* PQFirebaseProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQFirebaseProtocols.h; path = Firebase/PQFirebaseProtocols.h; sourceTree = "<group>"; };
+		7D43DDC11CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PQManagedObject+CoreDataProperties.h"; sourceTree = "<group>"; };
+		7D43DDC21CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PQManagedObject+CoreDataProperties.m"; sourceTree = "<group>"; };
+		7D43DDC31CBE911B00FEA394 /* PQManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQManagedObject.h; sourceTree = "<group>"; };
+		7D43DDC41CBE911B00FEA394 /* PQManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQManagedObject.m; sourceTree = "<group>"; };
 		7D5A655B1CA03FD400D7AE8D /* PQMockSurvey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQMockSurvey.h; path = "Mock Data/PQMockSurvey.h"; sourceTree = "<group>"; };
 		7D5A655C1CA03FD400D7AE8D /* PQMockSurvey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PQMockSurvey.m; path = "Mock Data/PQMockSurvey.m"; sourceTree = "<group>"; };
 		7D5A655F1CA0719900D7AE8D /* PQLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQLoginViewController.h; sourceTree = "<group>"; };
@@ -417,6 +423,7 @@
 			children = (
 				7D12CAC61C8A30280021519B /* PushQuery.xcdatamodeld */,
 				7D12CB201C8A69FC0021519B /* PQCoreDataController */,
+				7D43DDC01CBE8F0400FEA394 /* PQManagedObject */,
 				7D12CB1C1C8A69660021519B /* PQUser */,
 				7DE38D6F1C99D728000A02F0 /* PQSurvey */,
 				7DE38D711C99D734000A02F0 /* PQQuestion */,
@@ -547,6 +554,17 @@
 				7DE38D8C1C9D8A37000A02F0 /* Mock Data */,
 			);
 			name = UNUSED;
+			sourceTree = "<group>";
+		};
+		7D43DDC01CBE8F0400FEA394 /* PQManagedObject */ = {
+			isa = PBXGroup;
+			children = (
+				7D43DDC31CBE911B00FEA394 /* PQManagedObject.h */,
+				7D43DDC41CBE911B00FEA394 /* PQManagedObject.m */,
+				7D43DDC11CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.h */,
+				7D43DDC21CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.m */,
+			);
+			name = PQManagedObject;
 			sourceTree = "<group>";
 		};
 		7D5A655A1CA03FBD00D7AE8D /* Mock Survey */ = {
@@ -1113,12 +1131,14 @@
 				7D5A65611CA0719900D7AE8D /* PQLoginViewController.m in Sources */,
 				7D12CAF71C8A48D10021519B /* PQFirebaseController.m in Sources */,
 				7DE38D821C9A0C37000A02F0 /* PQSurveyTableViewCell.m in Sources */,
+				7D43DDC61CBE911B00FEA394 /* PQManagedObject.m in Sources */,
 				7DE38D7C1C9A0C18000A02F0 /* PQSurveysTableViewController.m in Sources */,
 				7DBB1F1A1CA98FBA00C7C403 /* PQSurveyTimingCell.m in Sources */,
 				7D12CABF1C8A30280021519B /* AppDelegate.m in Sources */,
 				7D7DE7F11C8B6D8100FFA637 /* PQDataManager.m in Sources */,
 				7DE38D6B1C99D6EB000A02F0 /* PQQuestion+CoreDataProperties.m in Sources */,
 				7DE38D671C99D6EB000A02F0 /* PQSurvey+CoreDataProperties.m in Sources */,
+				7D43DDC51CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.m in Sources */,
 				7DBB1F1E1CA9B16200C7C403 /* PQNotificationsManager.m in Sources */,
 				7DE38D6D1C99D6EB000A02F0 /* PQChoice+CoreDataProperties.m in Sources */,
 				7DBB1F2B1CAAF52700C7C403 /* PQResponsesTableViewController.m in Sources */,
