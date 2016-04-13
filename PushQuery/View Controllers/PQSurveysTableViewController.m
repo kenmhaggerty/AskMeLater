@@ -36,6 +36,8 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *addButton;
 @property (nonatomic, strong) NSMutableOrderedSet <id <PQSurvey>> *surveys;
 @property (nonatomic, strong) UIAlertController *alertSettings;
+@property (nonatomic, strong) UIAlertAction *alertActionSignIn;
+@property (nonatomic, strong) UIAlertAction *alertActionSignOut;
 @property (nonatomic, strong) UIAlertController *alertUpdateEmail;
 @property (nonatomic, strong) UIAlertController *alertEmailUpdated;
 @property (nonatomic, strong) UIAlertController *alertUpdatePassword;
@@ -100,15 +102,22 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     }
     
     _alertSettings = [UIAlertController alertControllerWithTitle:@"Settings" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Sign out" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-        [PQLoginManager logout];
-    }]];
-    [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Update email" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self presentViewController:self.alertUpdateEmail animated:YES completion:nil];
-    }]];
-    [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Change password" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self presentViewController:self.alertUpdatePassword animated:YES completion:nil];
-    }]];
+    
+    id <PQUser_Editable> currentUser = [PQLoginManager currentUser];
+    if (currentUser) {
+        _alertSettings.message = currentUser.email;
+        [_alertSettings addAction:self.alertActionSignOut];
+        [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Update email" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self presentViewController:self.alertUpdateEmail animated:YES completion:nil];
+        }]];
+        [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Change password" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self presentViewController:self.alertUpdatePassword animated:YES completion:nil];
+        }]];
+    }
+    else {
+        [_alertSettings addAction:self.alertActionSignIn];
+        _alertSettings.preferredAction = self.alertActionSignIn;
+    }
     [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Contact Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         id <PQUser> currentUser = [PQLoginManager currentUser];
         NSString *suffix = @"";
@@ -140,6 +149,32 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
     
     return _alertSettings;
+}
+
+- (UIAlertAction *)alertActionSignIn {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    if (_alertActionSignIn) {
+        return _alertActionSignIn;
+    }
+    
+    _alertActionSignIn = [UIAlertAction actionWithTitle:@"Sign In / Create Account" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self performSegueWithIdentifier:SEGUE_LOGIN sender:self];
+    }];
+    return _alertActionSignIn;
+}
+
+- (UIAlertAction *)alertActionSignOut {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    if (_alertActionSignOut) {
+        return _alertActionSignOut;
+    }
+    
+    _alertActionSignOut = [UIAlertAction actionWithTitle:@"Sign out" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+        [PQLoginManager logout];
+    }];
+    return _alertActionSignOut;
 }
 
 - (UIAlertController *)alertUpdateEmail {
@@ -292,22 +327,6 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     [self setup];
 }
 
-- (void)viewDidLoad {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
-    
-    [super viewDidLoad];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
-    
-    [super viewDidAppear:animated];
-    
-    if (![PQLoginManager currentUser]) {
-        [self performSegueWithIdentifier:SEGUE_LOGIN sender:self];
-    }
-}
-
 #pragma mark - // PUBLIC METHODS //
 
 #pragma mark - // CATEGORY METHODS //
@@ -401,8 +420,6 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
 - (IBAction)settings:(id)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
-    id <PQUser_Editable> currentUser = [PQLoginManager currentUser];
-    self.alertSettings.message = currentUser.email;
     [self presentViewController:self.alertSettings animated:YES completion:nil];
 }
 
@@ -474,8 +491,9 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     }
     else {
         self.surveys = nil;
-        [self performSegueWithIdentifier:SEGUE_LOGIN sender:self];
     }
+    
+    self.alertSettings = nil;
 }
 
 - (void)emailDidChange:(NSNotification *)notification {
