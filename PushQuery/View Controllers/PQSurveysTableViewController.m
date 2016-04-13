@@ -120,7 +120,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
         
         BOOL success = [self emailInCurrentAppWithSubject:subject body:body attachments:nil to:@[PQContactUsEmail] cc:nil bcc:nil completionBlock:nil];
         if (!success) {
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Need Support?" message:@"Email me at kenmhaggerty@gmail.com." preferredStyle:UIAlertControllerStyleAlert actions:@[@"Send Email"] dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Need Support?" message:@"Email me at kenmhaggerty@gmail.com." preferredStyle:UIAlertControllerStyleAlert actions:@[@"Send Email"] preferredAction:@"Send Email" dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
                 
                 NSURLComponents *mailTo = [NSURLComponents componentsWithString:[NSString stringWithFormat:@"mailto:%@", PQContactUsEmail]];
                 NSURLQueryItem *subjectQuery = [NSURLQueryItem queryItemWithName:@"subject" value:subject];
@@ -149,7 +149,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
         return _alertUpdateEmail;
     }
     
-    _alertUpdateEmail = [UIAlertController alertControllerWithTitle:@"Update Email" message:@"Please enter a valid email and your current password. Your new email will also be used for signing in to your account." preferredStyle:UIAlertControllerStyleAlert actions:@[@"Update"] dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
+    _alertUpdateEmail = [UIAlertController alertControllerWithTitle:@"Update Email" message:@"Please enter a valid email and your current password. Your new email will also be used for signing in to your account." preferredStyle:UIAlertControllerStyleAlert actions:@[@"Update"] preferredAction:@"Update" dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
         
         NSString *email = _alertUpdateEmail.textFields[0].text;
         NSString *password = _alertUpdateEmail.textFields[1].text;
@@ -158,7 +158,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
             [self presentViewController:self.alertEmailUpdated animated:YES completion:[AKGenerics clearTextFields:_alertUpdateEmail]];
             
         } failure:^(NSError *error) {
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Couldn't Update Email" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert actions:nil dismissalText:@"Cancel" completion:nil];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Couldn't Update Email" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert actions:nil preferredAction:nil dismissalText:@"Cancel" completion:nil];
             [self presentViewController:alertController animated:YES completion:[AKGenerics clearTextFields:_alertUpdateEmail]];
         }];
     }];
@@ -179,7 +179,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
         return _alertEmailUpdated;
     }
     
-    _alertEmailUpdated = [UIAlertController alertControllerWithTitle:@"Email Updated" message:@"Your email was successfully updated." preferredStyle:UIAlertControllerStyleAlert actions:nil dismissalText:@"Dismiss" completion:nil];
+    _alertEmailUpdated = [UIAlertController alertControllerWithTitle:@"Email Updated" message:@"Your email was successfully updated." preferredStyle:UIAlertControllerStyleAlert actions:nil preferredAction:nil dismissalText:@"Dismiss" completion:nil];
     return _alertEmailUpdated;
 }
 
@@ -190,7 +190,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
         return _alertUpdatePassword;
     }
     
-    _alertUpdatePassword = [UIAlertController alertControllerWithTitle:@"Update Password" message:[PQPrivateInfo passwordRequirements] preferredStyle:UIAlertControllerStyleAlert actions:@[@"Update"] dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
+    _alertUpdatePassword = [UIAlertController alertControllerWithTitle:@"Update Password" message:[PQPrivateInfo passwordRequirements] preferredStyle:UIAlertControllerStyleAlert actions:@[@"Update"] preferredAction:@"Update" dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
         
         NSString *oldPassword = _alertUpdatePassword.textFields[0].text;
         NSString *newPassword = _alertUpdatePassword.textFields[1].text;
@@ -210,7 +210,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
             [self presentViewController:self.alertPasswordUpdated animated:YES completion:[AKGenerics clearTextFields:_alertUpdatePassword]];
             
         } failure:^(NSError *error) {
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Couldn't Update Password" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert actions:nil dismissalText:@"Dismiss" completion:nil];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Couldn't Update Password" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert actions:nil preferredAction:nil dismissalText:@"Dismiss" completion:nil];
             [self presentViewController:alertController animated:YES completion:[AKGenerics clearTextFields:_alertUpdatePassword]];
         }];
     }];
@@ -236,7 +236,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
         return _alertMismatchedPasswords;
     }
     
-    _alertMismatchedPasswords = [UIAlertController alertControllerWithTitle:@"Couldn't Update Password" message:@"Your password confirmation did not match your new password." preferredStyle:UIAlertControllerStyleAlert actions:@[@"Retry"] dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
+    _alertMismatchedPasswords = [UIAlertController alertControllerWithTitle:@"Couldn't Update Password" message:@"Your password confirmation did not match your new password." preferredStyle:UIAlertControllerStyleAlert actions:@[@"Retry"] preferredAction:nil dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
         [self presentViewController:_alertUpdatePassword animated:YES completion:nil];
     }];
     return _alertMismatchedPasswords;
@@ -249,7 +249,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
         return _alertInvalidPassword;
     }
     
-    _alertInvalidPassword = [UIAlertController alertControllerWithTitle:@"Couldn't Update Password" message:@"Your new password did not meet requirements." preferredStyle:UIAlertControllerStyleAlert actions:@[@"Retry"] dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
+    _alertInvalidPassword = [UIAlertController alertControllerWithTitle:@"Couldn't Update Password" message:@"Your new password did not meet requirements." preferredStyle:UIAlertControllerStyleAlert actions:@[@"Retry"] preferredAction:nil dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
         [self presentViewController:_alertUpdatePassword animated:YES completion:nil];
     }];
     return _alertInvalidPassword;
@@ -262,7 +262,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
         return _alertPasswordUpdated;
     }
     
-    _alertPasswordUpdated = [UIAlertController alertControllerWithTitle:@"Password Updated" message:@"Your password was successfully updated." preferredStyle:UIAlertControllerStyleAlert actions:nil dismissalText:@"Dismiss" completion:nil];
+    _alertPasswordUpdated = [UIAlertController alertControllerWithTitle:@"Password Updated" message:@"Your password was successfully updated." preferredStyle:UIAlertControllerStyleAlert actions:nil preferredAction:nil dismissalText:@"Dismiss" completion:nil];
     return _alertPasswordUpdated;
 }
 

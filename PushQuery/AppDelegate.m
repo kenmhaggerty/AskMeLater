@@ -63,7 +63,7 @@
         [actions addObject:choice.text];
     }
     
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:question.text message:nil preferredStyle:UIAlertControllerStyleAlert actions:actions dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:question.text message:nil preferredStyle:UIAlertControllerStyleAlert actions:actions preferredAction:nil dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
         NSString *response = action.title;
         [PQDataManager addResponse:response forQuestion:question];
 //        [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber-1;

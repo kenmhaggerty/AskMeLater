@@ -94,20 +94,18 @@ NSUInteger const TimingTableViewSection = 2;
         return _alertRenameSurvey;
     }
     
-    _alertRenameSurvey = [UIAlertController alertControllerWithTitle:@"Rename Survey:" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    [_alertRenameSurvey addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"survey title";
-        textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
-        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    }];
-    [_alertRenameSurvey addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
-    [_alertRenameSurvey addAction:[UIAlertAction actionWithTitle:@"Rename" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    _alertRenameSurvey = [UIAlertController alertControllerWithTitle:@"Rename Survey:" message:nil preferredStyle:UIAlertControllerStyleAlert actions:@[@"Rename"] preferredAction:@"Rename" dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
         NSString *title = _alertRenameSurvey.textFields[0].text;
         id <PQSurvey_Editable> survey = (id <PQSurvey_Editable>)self.survey;
         survey.name = title.length ? title : nil;
         survey.editedAt = [NSDate date];
         [PQDataManager save];
-    }]];
+    }];
+    [_alertRenameSurvey addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"survey title";
+        textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    }];
     
     return _alertRenameSurvey;
 }
@@ -119,13 +117,7 @@ NSUInteger const TimingTableViewSection = 2;
         return _alertEditChoice;
     }
     
-    _alertEditChoice = [UIAlertController alertControllerWithTitle:@"Edit Choice" message:@"Enter your desired choice below. Choices should be kept short in order to be displayed properly:" preferredStyle:UIAlertControllerStyleAlert];
-    [_alertEditChoice addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"choice";
-        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    }];
-    [_alertEditChoice addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
-    [_alertEditChoice addAction:[UIAlertAction actionWithTitle:@"Update" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    _alertEditChoice = [UIAlertController alertControllerWithTitle:@"Edit Choice" message:@"Enter your desired choice below. Choices should be kept short in order to be displayed properly:" preferredStyle:UIAlertControllerStyleAlert actions:@[@"Update"] preferredAction:@"Update" dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
         [CATransaction begin];
         [CATransaction setCompletionBlock: ^{
             NSString *text = _alertEditChoice.textFields[0].text;
@@ -135,7 +127,11 @@ NSUInteger const TimingTableViewSection = 2;
         }];
         [self.tableView setEditing:NO animated:YES];
         [CATransaction commit];
-    }]];
+    }];
+    [_alertEditChoice addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"choice";
+        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    }];
     
     return _alertEditChoice;
 }
@@ -364,7 +360,7 @@ NSUInteger const TimingTableViewSection = 2;
     id <PQSurvey_Editable> survey = (id <PQSurvey_Editable>)self.survey;
     id <PQQuestion_Editable> question = (id <PQQuestion_Editable>)[survey.questions objectAtIndex:indexPath.row];
     
-    UIAlertController *confirmationAlert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet actions:nil dismissalText:@"Cancel" completion:nil];
+    UIAlertController *confirmationAlert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet actions:nil preferredAction:nil dismissalText:@"Cancel" completion:nil];
     [confirmationAlert addAction:[UIAlertAction actionWithTitle:@"Delete Question" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
         [PQDataManager deleteQuestion:question];
     }]];
