@@ -352,7 +352,7 @@ NSTimeInterval const AnimationSpeed = 0.18f;
 - (void)enableButton:(BOOL)enabled {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
-    self.submitButton.backgroundColor = (enabled ? [UIColor colorWithRed:0.0f/255.0f green:122.0f/255.0f blue:255.0f/255.0f alpha:1.0f] : [UIColor grayColor]);
+    self.submitButton.backgroundColor = (enabled ? [UIColor colorWithRed:0.0f/255.0f green:122.0f/255.0f blue:255.0f/255.0f alpha:1.0f] : [UIColor lightGrayColor]);
     self.submitButton.enabled = enabled;
 }
 
