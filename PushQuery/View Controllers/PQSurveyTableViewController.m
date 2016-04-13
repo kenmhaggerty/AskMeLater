@@ -131,6 +131,7 @@ NSUInteger const TimingTableViewSection = 2;
             NSString *text = _alertEditChoice.textFields[0].text;
             id <PQChoice_Editable> choice = (id <PQChoice_Editable>)_alertEditChoice.info[NOTIFICATION_OBJECT_KEY];
             choice.text = (text.length ? text : nil);
+            [PQDataManager save];
         }];
         [self.tableView setEditing:NO animated:YES];
         [CATransaction commit];
