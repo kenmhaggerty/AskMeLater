@@ -153,53 +153,9 @@
                                     <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="X9T-2E-WXM" userLabel="Content View">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="540"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="xN4-9J-fLB">
-                                                <rect key="frame" x="140" y="105" width="320" height="331"/>
+                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xN4-9J-fLB">
+                                                <rect key="frame" x="140" y="91" width="320" height="360"/>
                                                 <subviews>
-                                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FW1-pM-aUk">
-                                                        <rect key="frame" x="91" y="295" width="139" height="28"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                        <state key="normal" title="Forgot your password?">
-                                                            <color key="titleColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="passwordReset:" destination="CPB-vS-a56" eventType="touchUpInside" id="5aF-2t-UlR"/>
-                                                        </connections>
-                                                    </button>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="confirm password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gTA-iM-9qG">
-                                                        <rect key="frame" x="8" y="257" width="304" height="30"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
-                                                        <connections>
-                                                            <outlet property="delegate" destination="CPB-vS-a56" id="JFg-rj-cd9"/>
-                                                        </connections>
-                                                    </textField>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Eka-gd-Q6y">
-                                                        <rect key="frame" x="8" y="219" width="304" height="30"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
-                                                        <connections>
-                                                            <outlet property="delegate" destination="CPB-vS-a56" id="IE9-5b-WvK"/>
-                                                        </connections>
-                                                    </textField>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="afC-Ez-jpv">
-                                                        <rect key="frame" x="8" y="181" width="304" height="30"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
-                                                        <connections>
-                                                            <outlet property="delegate" destination="CPB-vS-a56" id="SG1-8g-Hl1"/>
-                                                        </connections>
-                                                    </textField>
-                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DJV-kG-zNK">
-                                                        <rect key="frame" x="52" y="141" width="217" height="29"/>
-                                                        <segments>
-                                                            <segment title="Sign In"/>
-                                                            <segment title="Create Account"/>
-                                                        </segments>
-                                                        <connections>
-                                                            <action selector="segmentedControlDidChangeValue:" destination="CPB-vS-a56" eventType="valueChanged" id="Edg-WW-uw8"/>
-                                                        </connections>
-                                                    </segmentedControl>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="Icon" translatesAutoresizingMaskIntoConstraints="NO" id="ndk-4k-nCf">
                                                         <rect key="frame" x="122" y="8" width="76" height="76"/>
                                                         <constraints>
@@ -218,11 +174,76 @@
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
+                                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FW1-pM-aUk">
+                                                        <rect key="frame" x="86" y="295" width="148" height="29"/>
+                                                        <state key="normal">
+                                                            <attributedString key="attributedTitle">
+                                                                <fragment content="Forgot your password?">
+                                                                    <attributes>
+                                                                        <color key="NSColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <font key="NSFont" size="13" name="SFUIText-Regular"/>
+                                                                        <integer key="NSUnderline" value="1"/>
+                                                                    </attributes>
+                                                                </fragment>
+                                                            </attributedString>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="passwordReset:" destination="CPB-vS-a56" eventType="touchUpInside" id="5aF-2t-UlR"/>
+                                                        </connections>
+                                                    </button>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="confirm password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gTA-iM-9qG">
+                                                        <rect key="frame" x="8" y="257" width="304" height="30"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
+                                                        <connections>
+                                                            <action selector="textFieldDidChange:" destination="CPB-vS-a56" eventType="editingChanged" id="6of-zb-zwD"/>
+                                                            <outlet property="delegate" destination="CPB-vS-a56" id="JFg-rj-cd9"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Eka-gd-Q6y">
+                                                        <rect key="frame" x="8" y="219" width="304" height="30"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
+                                                        <connections>
+                                                            <action selector="textFieldDidChange:" destination="CPB-vS-a56" eventType="editingChanged" id="1V5-mC-7Lo"/>
+                                                            <outlet property="delegate" destination="CPB-vS-a56" id="IE9-5b-WvK"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="afC-Ez-jpv">
+                                                        <rect key="frame" x="8" y="181" width="304" height="30"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
+                                                        <connections>
+                                                            <action selector="textFieldDidChange:" destination="CPB-vS-a56" eventType="editingChanged" id="tGU-ns-F9R"/>
+                                                            <outlet property="delegate" destination="CPB-vS-a56" id="SG1-8g-Hl1"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DJV-kG-zNK">
+                                                        <rect key="frame" x="52" y="141" width="217" height="29"/>
+                                                        <segments>
+                                                            <segment title="Sign In"/>
+                                                            <segment title="Create Account"/>
+                                                        </segments>
+                                                        <connections>
+                                                            <action selector="segmentedControlDidChangeValue:" destination="CPB-vS-a56" eventType="valueChanged" id="Edg-WW-uw8"/>
+                                                        </connections>
+                                                    </segmentedControl>
+                                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n7O-rY-DVg">
+                                                        <rect key="frame" x="82" y="324" width="157" height="28"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                        <state key="normal" title="or use without an account">
+                                                            <color key="titleColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="cancel:" destination="CPB-vS-a56" eventType="touchUpInside" id="d2b-po-pRH"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstItem="tZy-S4-kqM" firstAttribute="centerX" secondItem="xN4-9J-fLB" secondAttribute="centerX" id="3Tq-Ni-clP"/>
                                                     <constraint firstItem="gTA-iM-9qG" firstAttribute="top" secondItem="Eka-gd-Q6y" secondAttribute="bottom" constant="8" id="3UK-PI-HI6"/>
+                                                    <constraint firstAttribute="bottomMargin" secondItem="n7O-rY-DVg" secondAttribute="bottom" id="43C-9D-0jk"/>
                                                     <constraint firstItem="ndk-4k-nCf" firstAttribute="top" secondItem="xN4-9J-fLB" secondAttribute="topMargin" id="5VR-up-Z8Z"/>
                                                     <constraint firstItem="afC-Ez-jpv" firstAttribute="top" secondItem="xN4-9J-fLB" secondAttribute="topMargin" priority="250" id="86K-R9-YPF"/>
                                                     <constraint firstAttribute="bottomMargin" secondItem="Eka-gd-Q6y" secondAttribute="bottom" priority="750" id="8S5-eg-rb6"/>
@@ -233,17 +254,21 @@
                                                     <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="FW1-pM-aUk" secondAttribute="trailing" id="FM3-FS-Ell"/>
                                                     <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="gTA-iM-9qG" secondAttribute="bottom" id="FdY-2i-wwt"/>
                                                     <constraint firstItem="gTA-iM-9qG" firstAttribute="top" secondItem="Eka-gd-Q6y" secondAttribute="top" priority="750" id="GcC-yR-EaT"/>
+                                                    <constraint firstItem="n7O-rY-DVg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xN4-9J-fLB" secondAttribute="leadingMargin" id="Gxj-0s-7LH"/>
                                                     <constraint firstAttribute="bottomMargin" secondItem="gTA-iM-9qG" secondAttribute="bottom" priority="750" id="Ijp-D9-7jl"/>
                                                     <constraint firstItem="afC-Ez-jpv" firstAttribute="leading" secondItem="xN4-9J-fLB" secondAttribute="leadingMargin" id="JSR-w7-lZz"/>
                                                     <constraint firstItem="FW1-pM-aUk" firstAttribute="centerX" secondItem="xN4-9J-fLB" secondAttribute="centerX" id="OlL-2x-aJW"/>
                                                     <constraint firstItem="L8J-nS-Mrc" firstAttribute="top" secondItem="tZy-S4-kqM" secondAttribute="bottom" constant="4" id="Pgs-JX-5HN"/>
                                                     <constraint firstAttribute="trailingMargin" secondItem="gTA-iM-9qG" secondAttribute="trailing" id="PrH-pL-SRe"/>
                                                     <constraint firstItem="DJV-kG-zNK" firstAttribute="top" secondItem="xN4-9J-fLB" secondAttribute="topMargin" priority="750" id="VLn-Qy-f28"/>
+                                                    <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="n7O-rY-DVg" secondAttribute="trailing" id="adp-sx-eKh"/>
+                                                    <constraint firstItem="n7O-rY-DVg" firstAttribute="centerX" secondItem="xN4-9J-fLB" secondAttribute="centerX" id="bJ2-jm-Bn1"/>
                                                     <constraint firstItem="afC-Ez-jpv" firstAttribute="top" secondItem="DJV-kG-zNK" secondAttribute="bottom" constant="12" id="bo6-9z-Wk9"/>
                                                     <constraint firstItem="DJV-kG-zNK" firstAttribute="centerX" secondItem="xN4-9J-fLB" secondAttribute="centerX" id="byJ-W0-mJC"/>
                                                     <constraint firstAttribute="trailingMargin" secondItem="Eka-gd-Q6y" secondAttribute="trailing" id="ca9-W8-bRu"/>
                                                     <constraint firstItem="FW1-pM-aUk" firstAttribute="top" relation="greaterThanOrEqual" secondItem="gTA-iM-9qG" secondAttribute="bottom" constant="8" id="e8A-cC-fvB"/>
                                                     <constraint firstItem="ndk-4k-nCf" firstAttribute="centerX" secondItem="xN4-9J-fLB" secondAttribute="centerX" id="fKk-Vj-hFZ"/>
+                                                    <constraint firstItem="n7O-rY-DVg" firstAttribute="top" secondItem="FW1-pM-aUk" secondAttribute="bottom" id="ghj-4V-wo0"/>
                                                     <constraint firstAttribute="trailingMargin" secondItem="afC-Ez-jpv" secondAttribute="trailing" id="gy2-A9-T8O"/>
                                                     <constraint firstItem="L8J-nS-Mrc" firstAttribute="centerX" secondItem="xN4-9J-fLB" secondAttribute="centerX" id="jYx-cs-rH0"/>
                                                     <constraint firstItem="DJV-kG-zNK" firstAttribute="top" secondItem="L8J-nS-Mrc" secondAttribute="bottom" constant="8" id="jho-Fc-gcJ"/>
@@ -251,7 +276,7 @@
                                                     <constraint firstItem="Eka-gd-Q6y" firstAttribute="top" secondItem="afC-Ez-jpv" secondAttribute="bottom" constant="8" id="rs2-kK-bou"/>
                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="320" id="sT9-Rz-wSs"/>
                                                     <constraint firstAttribute="leadingMargin" secondItem="gTA-iM-9qG" secondAttribute="leading" id="voU-Ao-8ia"/>
-                                                    <constraint firstAttribute="bottomMargin" secondItem="FW1-pM-aUk" secondAttribute="bottom" id="vqg-Ki-fzU"/>
+                                                    <constraint firstAttribute="bottomMargin" secondItem="FW1-pM-aUk" secondAttribute="bottom" priority="750" id="vqg-Ki-fzU"/>
                                                 </constraints>
                                             </view>
                                         </subviews>

@@ -45,7 +45,8 @@ NSTimeInterval const AnimationSpeed = 0.18f;
 
 - (IBAction)segmentedControlDidChangeValue:(UISegmentedControl *)sender;
 - (IBAction)passwordReset:(id)sender;
-- (IBAction)submit:(UIButton *)sender;
+- (IBAction)cancel:(id)sender;
+- (IBAction)submit:(id)sender;
 
 // OBSERVERS //
 
@@ -156,6 +157,7 @@ NSTimeInterval const AnimationSpeed = 0.18f;
     [super viewWillAppear:animated];
     
     [self showPasswordConfirmation:NO animated:NO];
+    [self enableButton:NO];
 }
 
 #pragma mark - // PUBLIC METHODS //
@@ -189,13 +191,11 @@ NSTimeInterval const AnimationSpeed = 0.18f;
     return YES;
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField {
+- (IBAction)textFieldDidChange:(UITextField *)textField {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
-    if ([textField isEqual:self.textFieldEmail]) {
-        NSString *email = self.textFieldEmail.text;
-        self.passwordResetButton.enabled = email.isEmail;
-    }
+    self.passwordResetButton.enabled = self.textFieldEmail.text.isEmail;
+    [self enableButton:(self.textFieldEmail.text.isEmail && self.textFieldPassword.text.length && (!self.isCreatingAccount || [self.textFieldConfirmPassword.text isEqualToString:self.textFieldPassword.text]))];
 }
 
 #pragma mark - // DELEGATED METHODS (UIKeyboardDelegate) //
@@ -248,6 +248,7 @@ NSTimeInterval const AnimationSpeed = 0.18f;
     
     [self setIsCreatingAccount:!self.isCreatingAccount animated:YES];
     [self showPasswordReset:!self.isCreatingAccount animated:YES];
+    [self enableButton:(self.textFieldEmail.text.isEmail && self.textFieldPassword.text.length && (!self.isCreatingAccount || [self.textFieldConfirmPassword.text isEqualToString:self.textFieldPassword.text]))];
 }
 
 - (IBAction)passwordReset:(id)sender {
@@ -257,7 +258,13 @@ NSTimeInterval const AnimationSpeed = 0.18f;
     [self resetPassword];
 }
 
-- (IBAction)submit:(UIButton *)sender {
+- (IBAction)cancel:(id)sender {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)submit:(id)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
     [self.view.firstResponder resignFirstResponder];
