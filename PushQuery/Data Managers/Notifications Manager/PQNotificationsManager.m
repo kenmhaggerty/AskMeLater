@@ -98,7 +98,7 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     [actionCategory setActions:actions forContext:UIUserNotificationActionContextDefault];
     NSSet *categories = [NSSet setWithObject:actionCategory];
     
-    UIUserNotificationType types = (UIUserNotificationTypeAlert | UIUserNotificationTypeSound | UIUserNotificationTypeBadge);
+    UIUserNotificationType types = (UIUserNotificationTypeAlert | UIUserNotificationTypeSound); // UIUserNotificationTypeBadge
     
     UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types categories:categories];
     [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
