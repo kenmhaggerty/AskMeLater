@@ -20,7 +20,7 @@
         <attribute name="text" attributeType="String" syncable="YES"/>
         <attribute name="uuid" attributeType="String" syncable="YES"/>
         <relationship name="question" maxCount="1" deletionRule="Nullify" destinationEntity="PQQuestion" inverseName="responses" inverseEntity="PQQuestion" syncable="YES"/>
-        <relationship name="user" maxCount="1" deletionRule="Nullify" destinationEntity="PQUser" inverseName="responses" inverseEntity="PQUser" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PQUser" inverseName="responses" inverseEntity="PQUser" syncable="YES"/>
     </entity>
     <entity name="PQSurvey" representedClassName="PQSurvey" parentEntity="PQManagedObject" syncable="YES">
         <attribute name="createdAt" attributeType="Date" syncable="YES"/>
@@ -30,7 +30,7 @@
         <attribute name="repeatValue" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="uuid" attributeType="String" syncable="YES"/>
-        <relationship name="author" maxCount="1" deletionRule="Nullify" destinationEntity="PQUser" inverseName="surveys" inverseEntity="PQUser" syncable="YES"/>
+        <relationship name="author" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PQUser" inverseName="surveys" inverseEntity="PQUser" syncable="YES"/>
         <relationship name="questions" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="PQQuestion" inverseName="survey" inverseEntity="PQQuestion" syncable="YES"/>
     </entity>
     <entity name="PQUser" representedClassName="PQUser" parentEntity="PQManagedObject" syncable="YES">
