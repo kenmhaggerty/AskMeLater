@@ -24,6 +24,19 @@
 
 @interface PQDataManager ()
 
+// GENERAL //
+
++ (instancetype)sharedManager;
+
+// OBSERVERS //
+
+- (void)addObserversToLoginManager;
+- (void)removeObserversFromLoginManager;
+
+// RESPONDERS //
+
+- (void)currentUserDidChange:(NSNotification *)notification;
+
 // CONVERTERS //
 
 + (PQUser *)convertUser:(id <PQUser>)user;
@@ -44,11 +57,38 @@
 
 #pragma mark - // INITS AND LOADS //
 
+- (void)dealloc {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:nil];
+    
+    [self teardown];
+}
+
+- (id)init {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:nil];
+    
+    self = [super init];
+    if (self) {
+        [self setup];
+    }
+    return self;
+}
+
+- (void)awakeFromNib {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:nil];
+    
+    [super awakeFromNib];
+    
+    [self setup];
+}
+
 #pragma mark - // PUBLIC METHODS (General) //
 
 + (void)setup {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:nil];
     
+    if (![PQDataManager sharedManager]) {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeWarning methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:[NSString stringWithFormat:@"Could not initialize %@", NSStringFromClass([PQDataManager class])]];
+    }
     [PQFirebaseController setup];
     [PQSyncEngine setup];
     [PQNotificationsManager setup];
@@ -175,6 +215,60 @@
 #pragma mark - // DELEGATED METHODS //
 
 #pragma mark - // OVERWRITTEN METHODS //
+
+- (void)setup {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:nil];
+    
+    [super setup];
+    
+    [self addObserversToLoginManager];
+}
+
+- (void)teardown {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
+    
+    [self removeObserversFromLoginManager];
+    
+    [super teardown];
+}
+
+#pragma mark - // PRIVATE METHODS (General) //
+
++ (instancetype)sharedManager {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:nil message:nil];
+    
+    static PQDataManager *_sharedManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _sharedManager = [[PQDataManager alloc] init];
+    });
+    return _sharedManager;
+}
+
+#pragma mark - // PRIVATE METHODS (Observers) //
+
+- (void)addObserversToLoginManager {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChange:) name:PQLoginManagerCurrentUserDidChangeNotification object:nil];
+}
+
+- (void)removeObserversFromLoginManager {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQLoginManagerCurrentUserDidChangeNotification object:nil];
+}
+
+#pragma mark - // PRIVATE METHODS (Responders) //
+
+- (void)currentUserDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_ACCOUNTS] message:nil];
+    
+    id <PQUser> currentUser = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    if (!currentUser) {
+        return;
+    }
+}
 
 #pragma mark - // PRIVATE METHODS (Converters) //
 

@@ -11,6 +11,7 @@
 #pragma mark - // IMPORTS (Public) //
 
 #import <Foundation/Foundation.h>
+#import "NSObject+Basics.h"
 
 #pragma mark - // PROTOCOLS //
 
