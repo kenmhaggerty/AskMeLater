@@ -16,6 +16,7 @@
 #pragma mark - // DEFINITIONS //
 
 #define PQResponseUserDidChangeNotification @"kNotificationPQResponse_UserDidChange"
+#define PQResponseUserDidSaveNotification @"kNotificationPQResponse_UserDidSave"
 
 #define PQResponseWillBeSavedNotification @"kNotificationPQResponse_WillBeSaved"
 #define PQResponseWasSavedNotification @"kNotificationPQResponse_WasSaved"
