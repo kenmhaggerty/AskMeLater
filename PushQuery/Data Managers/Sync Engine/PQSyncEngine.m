@@ -79,6 +79,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
 - (void)surveyRepeatDidSave:(NSNotification *)notification;
 - (void)surveyTimeDidSave:(NSNotification *)notification;
 - (void)surveyQuestionsDidSave:(NSNotification *)notification;
+- (void)surveyAuthorDidSave:(NSNotification *)notification;
 
 - (void)questionSecureDidSave:(NSNotification *)notification;
 - (void)questionTextDidSave:(NSNotification *)notification;
@@ -206,6 +207,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyRepeatDidSave:) name:PQSurveyRepeatDidSaveNotification object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyTimeDidSave:) name:PQSurveyTimeDidSaveNotification object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionsDidSave:) name:PQSurveyQuestionsDidSaveNotification object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyAuthorDidSave:) name:PQSurveyAuthorDidSaveNotification object:survey];
 }
 
 - (void)removeObserversFromSurvey:(PQSurvey *)survey {
@@ -218,6 +220,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyRepeatDidSaveNotification object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyTimeDidSaveNotification object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionsDidSaveNotification object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyAuthorDidSaveNotification object:survey];
 }
 
 - (void)addObserversToQuestion:(PQQuestion *)question {
@@ -424,6 +427,28 @@ NSString * const PQFirebasePathResponseUser = @"user";
             convertedQuestions[question.uuid] = [PQSyncEngine convertQuestion:question];
         }
         [PQFirebaseController saveObject:convertedQuestions toPath:url.relativeString withCompletion:^(BOOL success, NSError *error) {
+            if (error) {
+                [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeDeletor tags:@[AKD_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
+            }
+        }];
+    }];
+}
+
+- (void)surveyAuthorDidSave:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    PQUser *author = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    if (!author) {
+        return;
+    }
+    
+    [PQSyncEngine performBlockForCurrentUser:^(NSString *userId) {
+        // $userId/surveys/$surveyId
+        PQSurvey *survey = (PQSurvey *)notification.object;
+        NSString *surveyId = survey.uuid;
+        NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId]];
+        NSDictionary *convertedSurvey = [PQSyncEngine convertSurvey:survey];
+        [PQFirebaseController saveObject:convertedSurvey toPath:url.relativeString withCompletion:^(BOOL success, NSError *error) {
             if (error) {
                 [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeDeletor tags:@[AKD_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
             }
