@@ -65,6 +65,7 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
 // OTHER //
 
 + (NSString *)stringForDate:(NSDate *)date;
+- (void)fetchSurveys;
 
 @end
 
@@ -326,6 +327,14 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
     [self setup];
 }
 
+- (void)viewDidLoad {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    [super viewDidLoad];
+    
+    [self fetchSurveys];
+}
+
 #pragma mark - // PUBLIC METHODS //
 
 #pragma mark - // CATEGORY METHODS //
@@ -477,21 +486,7 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
 - (void)currentUserDidChange:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_ACCOUNTS] message:nil];
     
-    id <PQUser> currentUser = notification.userInfo[NOTIFICATION_OBJECT_KEY];
-    if (currentUser) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            NSMutableOrderedSet *surveys = [NSMutableOrderedSet orderedSetWithSet:[PQDataManager surveysAuthoredByUser:currentUser]];
-            NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(editedAt)) ascending:NO];
-            [surveys sortUsingDescriptors:@[sortDescriptor]];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                self.surveys = surveys;
-            });
-        });
-    }
-    else {
-        self.surveys = nil;
-    }
-    
+    [self fetchSurveys];
     self.alertSettings = nil;
 }
 
@@ -526,6 +521,20 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
     NSString *dateString = [NSDateFormatter localizedStringFromDate:date dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterNoStyle];
     NSString *timeString = [NSDateFormatter localizedStringFromDate:date dateStyle:NSDateFormatterNoStyle timeStyle:NSDateFormatterMediumStyle];
     return [NSString stringWithFormat:@"%@ at %@", dateString, timeString];
+}
+
+- (void)fetchSurveys {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        id <PQUser> currentUser = [PQLoginManager currentUser];
+        NSMutableOrderedSet *surveys = [NSMutableOrderedSet orderedSetWithSet:[PQDataManager surveysAuthoredByUser:currentUser]];
+        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(editedAt)) ascending:NO];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [surveys sortUsingDescriptors:@[sortDescriptor]];
+            self.surveys = surveys;
+        });
+    });
 }
 
 @end
