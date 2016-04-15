@@ -194,6 +194,9 @@
     NSUInteger index = [self.responses indexOfObject:response inSortedRange:(NSRange){0, [self.responses count]} options:NSBinarySearchingInsertionIndex usingComparator:self.sortComparator];
     
     [self.responses insertObject:response atIndex:index];
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void)questionResponseWasRemoved:(NSNotification *)notification {
