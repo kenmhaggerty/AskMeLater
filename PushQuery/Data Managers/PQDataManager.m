@@ -268,6 +268,20 @@
     if (!currentUser) {
         return;
     }
+    
+    PQUser *user = [PQDataManager convertUser:currentUser];
+    
+    NSSet <PQSurvey *> *surveys = [PQCoreDataController surveysWithAuthor:nil];
+    for (PQSurvey *survey in surveys) {
+        survey.author = user;
+    }
+    
+    NSSet <PQResponse *> *responses = [PQCoreDataController responsesWithUser:nil];
+    for (PQResponse *response in responses) {
+        response.user = user;
+    }
+    
+    [PQDataManager save];
 }
 
 #pragma mark - // PRIVATE METHODS (Converters) //
