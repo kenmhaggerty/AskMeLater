@@ -77,8 +77,10 @@ NSString * const PQManagedObjectWillBeDeletedNotification = @"kNotificationPQMan
     
     [super didSave];
     
-    [AKGenerics postNotificationName:PQManagedObjectWasSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
-    self.changedKeys = nil;
+    if (self.changedKeys) {
+        [AKGenerics postNotificationName:PQManagedObjectWasSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
+        self.changedKeys = nil;
+    }
 }
 
 - (void)prepareForDeletion {
