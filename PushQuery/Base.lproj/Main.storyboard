@@ -435,7 +435,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1LR-ba-gcx">
+                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1LR-ba-gcx">
                                 <rect key="frame" x="0.0" y="64" width="600" height="180"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="180" id="vdU-dh-AZr"/>
@@ -444,7 +444,7 @@
                                     <segue destination="dRA-Zd-coe" kind="embed" id="8ee-Y6-xOO"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kOZ-U6-YBG">
+                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kOZ-U6-YBG">
                                 <rect key="frame" x="0.0" y="244" width="600" height="307"/>
                                 <connections>
                                     <segue destination="hGO-Df-A05" kind="embed" id="I02-Pw-7Ga"/>

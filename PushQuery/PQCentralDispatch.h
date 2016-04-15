@@ -21,4 +21,5 @@
 @interface PQCentralDispatch : NSObject
 + (id <PQUser>)currentUser;
 + (void)requestLoginWithCompletion:(void(^)(id <PQUser> user))completionBlock;
++ (void)requestLogoutWithCompletion:(void(^)(BOOL success))completionBlock;
 @end

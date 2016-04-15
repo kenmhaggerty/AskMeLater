@@ -172,7 +172,18 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
     }
     
     _alertActionSignOut = [UIAlertAction actionWithTitle:@"Sign out" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-        [PQLoginManager logout];
+        [PQCentralDispatch requestLogoutWithCompletion:^(BOOL success) {
+            if (success) {
+                id <PQUser> currentUser = [PQLoginManager currentUser];
+                NSSet *surveys = [PQDataManager surveysAuthoredByUser:currentUser];
+                for (id <PQSurvey_Editable> survey in surveys) {
+                    survey.enabled = NO;
+                }
+                [PQLoginManager logout];
+                [PQDataManager save];
+                [PQCentralDispatch requestLoginWithCompletion:nil];
+            }
+        }];
     }];
     return _alertActionSignOut;
 }

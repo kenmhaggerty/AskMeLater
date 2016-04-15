@@ -53,6 +53,15 @@
     }
 }
 
++ (void)requestLogoutWithCompletion:(void (^)(BOOL))completionBlock {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_ACCOUNTS] message:nil];
+    
+    id <PQLoginDelegate> loginDelegate = [PQCentralDispatch loginDelegate];
+    if (loginDelegate) {
+        [loginDelegate requestLogoutWithCompletion:completionBlock];
+    }
+}
+
 #pragma mark - // CATEGORY METHODS (Delegates) //
 
 + (void)setLoginDelegate:(id <PQLoginDelegate>)loginDelegate {

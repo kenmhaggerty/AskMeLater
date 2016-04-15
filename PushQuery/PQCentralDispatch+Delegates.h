@@ -16,6 +16,7 @@
 
 @protocol PQLoginDelegate <NSObject>
 - (void)requestLoginWithCompletion:(void(^)(id <PQUser> user))completionBlock;
+- (void)requestLogoutWithCompletion:(void(^)(BOOL success))completionBlock;
 @end
 
 @protocol PQAccountDelegate <NSObject>
