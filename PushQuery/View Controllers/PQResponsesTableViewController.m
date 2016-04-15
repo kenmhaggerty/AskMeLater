@@ -31,6 +31,7 @@
 
 // RESPONDERS //
 
+- (void)questionTextDidChange:(NSNotification *)notification;
 - (void)questionResponsesDidChange:(NSNotification *)notification;
 - (void)questionResponseWasAdded:(NSNotification *)notification;
 - (void)questionResponseWasRemoved:(NSNotification *)notification;
@@ -149,6 +150,7 @@
 - (void)addObserversToQuestion:(id <PQQuestion>)question {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionTextDidChange:) name:PQQuestionTextDidChangeNotification object:question];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionResponsesDidChange:) name:PQQuestionResponsesDidChangeNotification object:question];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionResponseWasAdded:) name:PQQuestionResponseWasAddedNotification object:question];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionResponseWasRemoved:) name:PQQuestionResponseWasRemovedNotification object:question];
@@ -158,6 +160,7 @@
 - (void)removeObserversFromQuestion:(id <PQQuestion>)question {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionTextDidChangeNotification object:question];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionResponsesDidChangeNotification object:question];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionResponseWasAddedNotification object:question];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionResponseWasRemovedNotification object:question];
@@ -165,6 +168,12 @@
 }
 
 #pragma mark - // PRIVATE METHODS (Responders) //
+
+- (void)questionTextDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [self.tableView reloadData];
+}
 
 - (void)questionResponsesDidChange:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
