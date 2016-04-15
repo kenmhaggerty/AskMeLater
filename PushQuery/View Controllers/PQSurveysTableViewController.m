@@ -33,7 +33,6 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
 NSString * const SEGUE_LOGIN = @"segueLogin";
 
 @interface PQSurveysTableViewController ()
-@property (nonatomic, strong) IBOutlet UIBarButtonItem *addButton;
 @property (nonatomic, strong) NSMutableOrderedSet <id <PQSurvey>> *surveys;
 @property (nonatomic, strong) UIAlertController *alertSettings;
 @property (nonatomic, strong) UIAlertAction *alertActionSignIn;
