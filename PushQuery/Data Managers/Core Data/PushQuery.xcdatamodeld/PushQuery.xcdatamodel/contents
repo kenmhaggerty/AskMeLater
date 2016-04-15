@@ -28,6 +28,7 @@
         <attribute name="enabledValue" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="repeatValue" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="secureValue" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="uuid" attributeType="String" syncable="YES"/>
         <relationship name="author" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PQUser" inverseName="surveys" inverseEntity="PQUser" syncable="YES"/>
@@ -44,10 +45,10 @@
     </entity>
     <elements>
         <element name="PQChoice" positionX="216" positionY="216" width="128" height="88"/>
+        <element name="PQManagedObject" positionX="-216" positionY="-214" width="128" height="43"/>
         <element name="PQQuestion" positionX="216" positionY="0" width="128" height="148"/>
         <element name="PQResponse" positionX="-2" positionY="216" width="128" height="118"/>
-        <element name="PQSurvey" positionX="0" positionY="0" width="128" height="178"/>
+        <element name="PQSurvey" positionX="0" positionY="0" width="128" height="193"/>
         <element name="PQUser" positionX="-216" positionY="0" width="128" height="148"/>
-        <element name="PQManagedObject" positionX="-216" positionY="-214" width="128" height="43"/>
     </elements>
 </model>

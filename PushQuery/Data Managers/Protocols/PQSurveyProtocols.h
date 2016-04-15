@@ -18,24 +18,28 @@
 
 #define PQSurveyNamePlaceholder @"unnamed survey"
 
-#define PQSurveyNameDidChangeNotification @"kNotificationPQSurvey_NameDidChange"
 #define PQSurveyEditedAtDidChangeNotification @"kNotificationPQSurvey_EditedAtDidChange"
-#define PQSurveyTimeDidChangeNotification @"kNotificationPQSurvey_TimeDidChange"
-#define PQSurveyRepeatDidChangeNotification @"kNotificationPQSurvey_RepeatDidChange"
 #define PQSurveyEnabledDidChangeNotification @"kNotificationPQSurvey_EnabledDidChange"
+#define PQSurveyNameDidChangeNotification @"kNotificationPQSurvey_NameDidChange"
+#define PQSurveyRepeatDidChangeNotification @"kNotificationPQSurvey_RepeatDidChange"
+#define PQSurveySecureDidChangeNotification @"kNotificationPQSurvey_SecureDidChange"
+#define PQSurveyTimeDidChangeNotification @"kNotificationPQSurvey_TimeDidChange"
 
-#define PQSurveyNameDidSaveNotification @"kNotificationPQSurvey_NameDidSave"
 #define PQSurveyEditedAtDidSaveNotification @"kNotificationPQSurvey_EditedAtDidSave"
-#define PQSurveyTimeDidSaveNotification @"kNotificationPQSurvey_TimeDidSave"
-#define PQSurveyRepeatDidSaveNotification @"kNotificationPQSurvey_RepeatDidSave"
 #define PQSurveyEnabledDidSaveNotification @"kNotificationPQSurvey_EnabledDidSave"
+#define PQSurveyNameDidSaveNotification @"kNotificationPQSurvey_NameDidSave"
+#define PQSurveyRepeatDidSaveNotification @"kNotificationPQSurvey_RepeatDidSave"
+#define PQSurveySecureDidSaveNotification @"kNotificationPQSurvey_SecureDidSave"
+#define PQSurveyTimeDidSaveNotification @"kNotificationPQSurvey_TimeDidSave"
+
+#define PQSurveyAuthorDidChangeNotification @"kNotificationPQSurvey_AuthorDidChange"
+#define PQSurveyAuthorDidSaveNotification @"kNotificationPQSurvey_AuthorDidSave"
 
 #define PQSurveyQuestionsDidChangeNotification @"kNotificationPQSurvey_QuestionsDidChange"
 #define PQSurveyQuestionWasAddedNotification @"kNotificationPQSurvey_QuestionWasAdded"
 #define PQSurveyQuestionWasReorderedNotification @"kNotificationPQSurvey_QuestionWasReordered"
 //#define PQSurveyQuestionWillBeRemoved @"kNotificationPQSurvey_QuestionWillBeRemoved"
 #define PQSurveyQuestionAtIndexWasRemovedNotification @"kNotificationPQSurvey_QuestionAtIndexWasRemoved"
-
 #define PQSurveyQuestionsDidSaveNotification @"kNotificationPQSurvey_QuestionsDidSave"
 
 #define PQSurveyWillBeSavedNotification @"kNotificationPQSurvey_WillBeSaved"
@@ -46,12 +50,13 @@
 
 @protocol PQSurvey <NSObject>
 
-- (NSString *)name;
 - (NSDate *)createdAt;
 - (NSDate *)editedAt;
-- (NSDate *)time;
-- (BOOL)repeat;
 - (BOOL)enabled;
+- (NSString *)name;
+- (BOOL)repeat;
+- (BOOL)secure;
+- (NSDate *)time;
 - (NSOrderedSet <id <PQQuestion>> *)questions;
 - (id <PQUser>)author;
 
@@ -67,11 +72,12 @@
 
 // SETTERS //
 
-- (void)setName:(NSString *)name;
 - (void)setEditedAt:(NSDate *)editedAt;
-- (void)setTime:(NSDate *)time;
-- (void)setRepeat:(BOOL)repeat;
 - (void)setEnabled:(BOOL)enabled;
+- (void)setName:(NSString *)name;
+- (void)setRepeat:(BOOL)repeat;
+- (void)setSecure:(BOOL)secure;
+- (void)setTime:(NSDate *)time;
 - (void)setQuestions:(NSOrderedSet <id <PQQuestion>> *)questions;
 
 - (void)addQuestion:(id <PQQuestion>)question;

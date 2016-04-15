@@ -27,10 +27,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PQSurvey : PQManagedObject <PQSurvey_Editable>
 
-- (BOOL)repeat;
-- (void)setRepeat:(BOOL)repeat;
 - (BOOL)enabled;
 - (void)setEnabled:(BOOL)enabled;
+- (BOOL)repeat;
+- (void)setRepeat:(BOOL)repeat;
+- (BOOL)secure;
+- (void)setSecure:(BOOL)secure;
 
 - (void)addQuestion:(PQQuestion *)question;
 - (void)insertQuestion:(PQQuestion *)question atIndex:(NSUInteger)index;
