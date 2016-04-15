@@ -24,6 +24,24 @@
 
 #pragma mark - // SETTERS AND GETTERS //
 
+- (void)setUser:(PQUser *)user {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    PQUser *primitiveUser = [self primitiveValueForKey:NSStringFromSelector(@selector(user))];
+    
+    if ([AKGenerics object:user isEqualToObject:primitiveUser]) {
+        return;
+    }
+    
+    NSDictionary *userInfo = [NSMutableDictionary dictionaryWithObject:user forKey:NOTIFICATION_OBJECT_KEY];
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(user))];
+    [self setPrimitiveValue:user forKey:NSStringFromSelector(@selector(user))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(user))];
+    
+    [AKGenerics postNotificationName:PQResponseUserDidChangeNotification object:self userInfo:userInfo];
+}
+
 #pragma mark - // INITS AND LOADS //
 
 - (void)willSave {
