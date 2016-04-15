@@ -55,6 +55,9 @@ NSString * const PQFirebasePathResponseUser = @"user";
 - (void)addObserversToCoreData;
 - (void)removeObserversFromCoreData;
 
+- (void)addObserversToManagedObject:(NSManagedObject *)managedObject;
+- (void)removeObserversFromManagedObject:(NSManagedObject *)managedObject;
+
 - (void)addObserversToSurvey:(PQSurvey *)survey;
 - (void)removeObserversFromSurvey:(PQSurvey *)survey;
 
@@ -69,7 +72,8 @@ NSString * const PQFirebasePathResponseUser = @"user";
 
 // RESPONDERS //
 
-- (void)managedObjectDidAppear:(NSNotification *)notification;
+- (void)managedObjectWasCreated:(NSNotification *)notification;
+- (void)managedObjectWasFetched:(NSNotification *)notification;
 - (void)managedObjectWillBeDeallocated:(NSNotification *)notification;
 
 - (void)surveyDidSave:(NSNotification *)notification;
@@ -99,6 +103,10 @@ NSString * const PQFirebasePathResponseUser = @"user";
 + (NSDictionary *)convertResponse:(PQResponse *)response;
 + (NSString *)convertIndex:(NSUInteger)index;
 + (NSString *)convertDate:(NSDate *)date;
+
+// SAVERS //
+
++ (void)saveSurvey:(PQSurvey *)survey;
 
 // OTHER //
 
@@ -186,8 +194,8 @@ NSString * const PQFirebasePathResponseUser = @"user";
 - (void)addObserversToCoreData {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectDidAppear:) name:PQManagedObjectWasCreatedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectDidAppear:) name:PQManagedObjectWasFetchedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectWasCreated:) name:PQManagedObjectWasCreatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectWasFetched:) name:PQManagedObjectWasFetchedNotification object:nil];
 }
 
 - (void)removeObserversFromCoreData {
@@ -195,6 +203,52 @@ NSString * const PQFirebasePathResponseUser = @"user";
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQManagedObjectWasCreatedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQManagedObjectWasFetchedNotification object:nil];
+}
+
+- (void)addObserversToManagedObject:(NSManagedObject *)managedObject {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectWillBeDeallocated:) name:PQManagedObjectWillBeDeallocatedNotification object:managedObject];
+    
+    if ([managedObject isKindOfClass:[PQSurvey class]]) {
+        PQSurvey *survey = (PQSurvey *)managedObject;
+        [self addObserversToSurvey:survey];
+    }
+    else if ([managedObject isKindOfClass:[PQQuestion class]]) {
+        PQQuestion *question = (PQQuestion *)managedObject;
+        [self addObserversToQuestion:question];
+    }
+    else if ([managedObject isKindOfClass:[PQChoice class]]) {
+        PQChoice *choice = (PQChoice *)managedObject;
+        [self addObserversToChoice:choice];
+    }
+    else if ([managedObject isKindOfClass:[PQResponse class]]) {
+        PQResponse *response = (PQResponse *)managedObject;
+        [self addObserversToResponse:response];
+    }
+}
+
+- (void)removeObserversFromManagedObject:(NSManagedObject *)managedObject {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    if ([managedObject isKindOfClass:[PQSurvey class]]) {
+        PQSurvey *survey = (PQSurvey *)managedObject;
+        [self removeObserversFromSurvey:survey];
+    }
+    else if ([managedObject isKindOfClass:[PQQuestion class]]) {
+        PQQuestion *question = (PQQuestion *)managedObject;
+        [self removeObserversFromQuestion:question];
+    }
+    else if ([managedObject isKindOfClass:[PQChoice class]]) {
+        PQChoice *choice = (PQChoice *)managedObject;
+        [self removeObserversFromChoice:choice];
+    }
+    else if ([managedObject isKindOfClass:[PQResponse class]]) {
+        PQResponse *response = (PQResponse *)managedObject;
+        [self removeObserversFromResponse:response];
+    }
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQManagedObjectWillBeDeallocatedNotification object:managedObject];
 }
 
 - (void)addObserversToSurvey:(PQSurvey *)survey {
@@ -269,40 +323,36 @@ NSString * const PQFirebasePathResponseUser = @"user";
 
 #pragma mark - // PRIVATE METHODS (Responders) //
 
-- (void)managedObjectDidAppear:(NSNotification *)notification {
+- (void)managedObjectWasCreated:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    NSManagedObject *object = notification.object;
-    if ([object isKindOfClass:[PQSurvey class]]) {
-        PQSurvey *survey = (PQSurvey *)object;
-        [self addObserversToSurvey:survey];
-    }
-    else if ([object isKindOfClass:[PQQuestion class]]) {
-        PQQuestion *question = (PQQuestion *)object;
-        [self addObserversToQuestion:question];
-    }
-    else if ([object isKindOfClass:[PQChoice class]]) {
-        PQChoice *choice = (PQChoice *)object;
-        [self addObserversToChoice:choice];
+    NSManagedObject *managedObject = notification.object;
+    
+    [self addObserversToManagedObject:managedObject];
+}
+
+- (void)managedObjectWasFetched:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    NSManagedObject *managedObject = notification.object;
+    
+    [self addObserversToManagedObject:managedObject];
+    
+    if ([managedObject isKindOfClass:[PQSurvey class]]) {
+        PQSurvey *survey = (PQSurvey *)managedObject;
+        id <PQUser> currentUser = [PQLoginManager currentUser];
+        if (currentUser && survey.author && [AKGenerics object:currentUser isEqualToObject:survey.author]) {
+            [PQSyncEngine saveSurvey:survey];
+        }
     }
 }
 
 - (void)managedObjectWillBeDeallocated:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    NSManagedObject *object = notification.object;
-    if ([object isKindOfClass:[PQSurvey class]]) {
-        PQSurvey *survey = (PQSurvey *)object;
-        [self removeObserversFromSurvey:survey];
-    }
-    else if ([object isKindOfClass:[PQQuestion class]]) {
-        PQQuestion *question = (PQQuestion *)object;
-        [self removeObserversFromQuestion:question];
-    }
-    else if ([object isKindOfClass:[PQChoice class]]) {
-        PQChoice *choice = (PQChoice *)object;
-        [self removeObserversFromChoice:choice];
-    }
+    NSManagedObject *managedObject = notification.object;
+    
+    [self removeObserversFromManagedObject:managedObject];
 }
 
 - (void)surveyDidSave:(NSNotification *)notification {
@@ -313,17 +363,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
         return;
     }
     
-    [PQSyncEngine performBlockForCurrentUser:^(NSString *userId) {
-        // $userId/surveys/$surveyId
-        NSString *surveyId = survey.uuid;
-        NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId]];
-        NSDictionary *convertedSurvey = [PQSyncEngine convertSurvey:survey];
-        [PQFirebaseController saveObject:convertedSurvey toPath:url.relativeString withCompletion:^(BOOL success, NSError *error) {
-            if (error) {
-                [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeDeletor tags:@[AKD_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
-            }
-        }];
-    }];
+    [PQSyncEngine saveSurvey:survey];
 }
 
 - (void)surveyEditedAtDidSave:(NSNotification *)notification {
@@ -494,9 +534,6 @@ NSString * const PQFirebasePathResponseUser = @"user";
 
 - (void)questionChoicesDidSave:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
-    
-    // Remove old PQChoice observers
-    // Add new PQChoice observers
     
     [PQSyncEngine performBlockForCurrentUser:^(NSString *userId) {
         PQQuestion *question = (PQQuestion *)notification.object;
@@ -694,6 +731,24 @@ NSString * const PQFirebasePathResponseUser = @"user";
     }
     
     return [NSString stringWithFormat:@"%f", date.timeIntervalSince1970];
+}
+
+#pragma mark - // PRIVATE METHODS (SAVERS) //
+
++ (void)saveSurvey:(PQSurvey *)survey {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
+    
+    [PQSyncEngine performBlockForCurrentUser:^(NSString *userId) {
+        // $userId/surveys/$surveyId
+        NSString *surveyId = survey.uuid;
+        NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId]];
+        NSDictionary *convertedSurvey = [PQSyncEngine convertSurvey:survey];
+        [PQFirebaseController saveObject:convertedSurvey toPath:url.relativeString withCompletion:^(BOOL success, NSError *error) {
+            if (error) {
+                [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeDeletor tags:@[AKD_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
+            }
+        }];
+    }];
 }
 
 #pragma mark - // PRIVATE METHODS (OTHER) //
