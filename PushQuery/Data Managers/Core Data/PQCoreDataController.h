@@ -41,6 +41,7 @@
 + (PQUser *)userWithUserId:(NSString *)userId;
 + (NSSet <PQSurvey *> *)surveysWithAuthor:(PQUser *)author;
 + (PQQuestion *)questionWithId:(NSString *)uuid;
++ (NSSet <PQResponse *> *)responsesWithUser:(PQUser *)user;
 
 // DELETORS //
 
