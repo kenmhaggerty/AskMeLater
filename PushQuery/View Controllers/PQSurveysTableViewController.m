@@ -99,25 +99,24 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
         return _alertSettings;
     }
     
-    _alertSettings = [UIAlertController alertControllerWithTitle:@"Settings" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertSettings = [UIAlertController alertControllerWithTitle:@"Settings" message:nil preferredStyle:UIAlertControllerStyleAlert];
     
-    id <PQUser_Editable> currentUser = [PQLoginManager currentUser];
+    id <PQUser_Editable> currentUser = (id <PQUser_Editable>)[PQCentralDispatch currentUser];
     if (currentUser) {
-        _alertSettings.message = currentUser.email;
-        [_alertSettings addAction:self.alertActionSignOut];
-        [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Update email" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        alertSettings.message = currentUser.email;
+        [alertSettings addAction:self.alertActionSignOut];
+        [alertSettings addAction:[UIAlertAction actionWithTitle:@"Update email" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self presentViewController:self.alertUpdateEmail animated:YES completion:nil];
         }]];
-        [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Change password" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [alertSettings addAction:[UIAlertAction actionWithTitle:@"Change password" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self presentViewController:self.alertUpdatePassword animated:YES completion:nil];
         }]];
     }
     else {
-        [_alertSettings addAction:self.alertActionSignIn];
-        _alertSettings.preferredAction = self.alertActionSignIn;
+        [alertSettings addAction:self.alertActionSignIn];
+        alertSettings.preferredAction = self.alertActionSignIn;
     }
-    [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Contact Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        id <PQUser> currentUser = [PQLoginManager currentUser];
+    [alertSettings addAction:[UIAlertAction actionWithTitle:@"Contact Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSString *suffix = @"";
         if (currentUser && currentUser.username) {
             suffix = [NSString stringWithFormat:@" from %@", currentUser.username];
@@ -139,12 +138,14 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
             [self presentViewController:alertController animated:YES completion:nil];
         }
     }]];
-//    [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Privacy Policy" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//    [alertSettings addAction:[UIAlertAction actionWithTitle:@"Privacy Policy" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
 //        SFSafariViewController *safariViewController = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:@"http://kenmhaggerty.com/pushquery/privacy/"]];
 //        safariViewController.modalPresentationStyle = UIModalPresentationFormSheet;
 //        [self presentViewController:safariViewController animated:YES completion:nil];
 //    }]];
-    [_alertSettings addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+    [alertSettings addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+    
+    _alertSettings = alertSettings;
     
     return _alertSettings;
 }
