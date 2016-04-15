@@ -140,7 +140,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionsDidChange:) name:PQSurveyQuestionsDidChangeNotification object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionWasAdded:) name:PQSurveyQuestionWasAddedNotification object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionWasReordered:) name:PQSurveyQuestionWasReorderedNotification object:survey];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionWillBeRemoved:) name:PQSurveyQuestionWillBeRemoved object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionAtIndexWasRemoved:) name:PQSurveyQuestionAtIndexWasRemovedNotification object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyWillBeDeleted:) name:PQSurveyWillBeDeletedNotification object:survey];
     
@@ -152,7 +151,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionsDidChangeNotification object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionWasAddedNotification object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionWasReorderedNotification object:survey];
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionWillBeRemoved object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionAtIndexWasRemovedNotification object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyWillBeDeletedNotification object:survey];
 }
@@ -197,13 +195,6 @@
     NSIndexPath *fromIndexPath = [NSIndexPath indexPathForRow:oldIndex.integerValue inSection:0];
     [self.tableView moveRowAtIndexPath:fromIndexPath toIndexPath:indexPath];
 }
-
-//- (void)surveyQuestionWillBeRemoved:(NSNotification *)notification {
-//    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
-//    
-//    id <PQQuestion> question = notification.object;
-//    [self removeObserversFromQuestion:question];
-//}
 
 - (void)surveyQuestionAtIndexWasRemoved:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
