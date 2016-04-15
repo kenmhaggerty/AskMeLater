@@ -160,12 +160,14 @@
 - (void)addObserversToQuestion:(id<PQQuestion>)question {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionWasUpdated:) name:PQQuestionTextDidChangeNotification object:question];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionWasUpdated:) name:PQQuestionResponsesCountDidChangeNotification object:question];
 }
 
 - (void)removeObserversFromQuestion:(id<PQQuestion>)question {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionTextDidChangeNotification object:question];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionResponsesCountDidChangeNotification object:question];
 }
 
