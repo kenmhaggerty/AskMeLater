@@ -16,6 +16,8 @@
 
 #import "PQDataManager.h"
 
+#import "PQTableViewCell.h"
+
 #pragma mark - // DEFINITIONS (Private) //
 
 @interface PQResponsesTableViewController ()
@@ -117,10 +119,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
     
-    UITableViewCell *cell = [AKGenerics cellWithReuseIdentifier:@"cell" class:[UITableViewCell class] style:UITableViewCellStyleValue1 tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
+    PQTableViewCell *cell = (PQTableViewCell *)[AKGenerics cellWithReuseIdentifier:@"responseCell" class:[PQTableViewCell class] style:UITableViewCellStyleValue1 tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
     id <PQResponse> response = [self.responses objectAtIndex:indexPath.row];
+    id <PQUser_PRIVATE> user = (id <PQUser_PRIVATE>)response.user;
     cell.textLabel.text = response.text;
     cell.detailTextLabel.text = [PQResponsesTableViewController stringForDate:response.date];
+    cell.subtitleTextLabel.text = [NSString stringWithFormat:@"by %@", user ? (user.username ?: user.email) : @"anonymous"];
+    cell.subtitleTextLabel.textColor = response.user ? [UIColor blackColor] : [UIColor lightGrayColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }

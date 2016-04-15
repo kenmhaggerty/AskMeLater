@@ -14,6 +14,7 @@
 #import "AKDebugger.h"
 #import "AKGenerics.h"
 
+#import "PQCentralDispatch.h"
 #import "PQLoginManager.h"
 #import "PQDataManager.h"
 #import "PQSurveyProtocols.h"
@@ -30,7 +31,6 @@ NSString * const PQContactUsSubject = @"PushQuery: Customer Email";
 
 NSString * const REUSE_IDENTIFIER = @"surveyCell";
 NSString * const SEGUE_SURVEY = @"segueSurvey";
-NSString * const SEGUE_LOGIN = @"segueLogin";
 
 @interface PQSurveysTableViewController ()
 @property (nonatomic, strong) NSMutableOrderedSet <id <PQSurvey>> *surveys;
@@ -157,7 +157,7 @@ NSString * const SEGUE_LOGIN = @"segueLogin";
     }
     
     _alertActionSignIn = [UIAlertAction actionWithTitle:@"Sign In / Create Account" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self performSegueWithIdentifier:SEGUE_LOGIN sender:self];
+        [PQCentralDispatch requestLoginWithCompletion:nil];
     }];
     return _alertActionSignIn;
 }

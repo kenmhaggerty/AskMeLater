@@ -44,6 +44,8 @@
 		7D43DDBB1CB83ED600FEA394 /* PQSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D43DDBA1CB83ED600FEA394 /* PQSyncEngine.m */; };
 		7D43DDC51CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D43DDC21CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.m */; };
 		7D43DDC61CBE911B00FEA394 /* PQManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D43DDC41CBE911B00FEA394 /* PQManagedObject.m */; };
+		7D50AB431CBEDBF70086DAF1 /* PQRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D50AB421CBEDBF70086DAF1 /* PQRootViewController.m */; };
+		7D50AB471CBEDD0D0086DAF1 /* PQCentralDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D50AB461CBEDD0D0086DAF1 /* PQCentralDispatch.m */; };
 		7D5A65611CA0719900D7AE8D /* PQLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5A65601CA0719900D7AE8D /* PQLoginViewController.m */; };
 		7D5A65651CA0799800D7AE8D /* UIViewController+Keyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5A65641CA0799800D7AE8D /* UIViewController+Keyboard.m */; };
 		7D7DE7F11C8B6D8100FFA637 /* PQDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7DE7F01C8B6D8100FFA637 /* PQDataManager.m */; };
@@ -71,7 +73,7 @@
 		7DE38D8B1C9C5EF4000A02F0 /* UITableView+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D8A1C9C5EF4000A02F0 /* UITableView+Extras.m */; };
 		7DE38D941C9D924C000A02F0 /* UIAlertController+Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D931C9D924C000A02F0 /* UIAlertController+Info.m */; };
 		7DFEDD0E1CB6F81500166383 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFEDD0D1CB6F81500166383 /* SafariServices.framework */; };
-		7DFEDD121CB7447700166383 /* PQResultsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFEDD111CB7447700166383 /* PQResultsTableViewCell.m */; };
+		7DFEDD121CB7447700166383 /* PQTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFEDD111CB7447700166383 /* PQTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -156,6 +158,12 @@
 		7D43DDC21CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PQManagedObject+CoreDataProperties.m"; sourceTree = "<group>"; };
 		7D43DDC31CBE911B00FEA394 /* PQManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQManagedObject.h; sourceTree = "<group>"; };
 		7D43DDC41CBE911B00FEA394 /* PQManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQManagedObject.m; sourceTree = "<group>"; };
+		7D50AB411CBEDBF70086DAF1 /* PQRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQRootViewController.h; sourceTree = "<group>"; };
+		7D50AB421CBEDBF70086DAF1 /* PQRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQRootViewController.m; sourceTree = "<group>"; };
+		7D50AB451CBEDD0D0086DAF1 /* PQCentralDispatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQCentralDispatch.h; sourceTree = "<group>"; };
+		7D50AB461CBEDD0D0086DAF1 /* PQCentralDispatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQCentralDispatch.m; sourceTree = "<group>"; };
+		7D50AB481CBEDD1B0086DAF1 /* PQCentralDispatch+Delegates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PQCentralDispatch+Delegates.h"; sourceTree = "<group>"; };
+		7D50AB4C1CBEE3C00086DAF1 /* PQLoginUIProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PQLoginUIProtocol.h; sourceTree = "<group>"; };
 		7D5A655B1CA03FD400D7AE8D /* PQMockSurvey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQMockSurvey.h; path = "Mock Data/PQMockSurvey.h"; sourceTree = "<group>"; };
 		7D5A655C1CA03FD400D7AE8D /* PQMockSurvey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PQMockSurvey.m; path = "Mock Data/PQMockSurvey.m"; sourceTree = "<group>"; };
 		7D5A655F1CA0719900D7AE8D /* PQLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQLoginViewController.h; sourceTree = "<group>"; };
@@ -219,8 +227,8 @@
 		7DE38D921C9D924C000A02F0 /* UIAlertController+Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIAlertController+Info.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIAlertController+Info/UIAlertController+Info.h"; sourceTree = "<group>"; };
 		7DE38D931C9D924C000A02F0 /* UIAlertController+Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIAlertController+Info.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIAlertController+Info/UIAlertController+Info.m"; sourceTree = "<group>"; };
 		7DFEDD0D1CB6F81500166383 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
-		7DFEDD101CB7447700166383 /* PQResultsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQResultsTableViewCell.h; path = "PushQuery/View Controllers/PQResultsTableViewCell.h"; sourceTree = SOURCE_ROOT; };
-		7DFEDD111CB7447700166383 /* PQResultsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PQResultsTableViewCell.m; path = "PushQuery/View Controllers/PQResultsTableViewCell.m"; sourceTree = SOURCE_ROOT; };
+		7DFEDD101CB7447700166383 /* PQTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQTableViewCell.h; path = "PushQuery/View Controllers/PQTableViewCell.h"; sourceTree = SOURCE_ROOT; };
+		7DFEDD111CB7447700166383 /* PQTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PQTableViewCell.m; path = "PushQuery/View Controllers/PQTableViewCell.m"; sourceTree = SOURCE_ROOT; };
 		8C4E311519C9FFB36B6EB68D /* Pods-PushQuery.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PushQuery.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PushQuery/Pods-PushQuery.debug.xcconfig"; sourceTree = "<group>"; };
 		C934212345A9EA6CF9FDB64C /* libPods-PushQueryUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PushQueryUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D633F574BB4EE9131BFA53D4 /* Pods-PushQueryTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PushQueryTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PushQueryTests/Pods-PushQueryTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -346,12 +354,13 @@
 				7D12CAF81C8A49260021519B /* IMPORTS */,
 				7D12CAFB1C8A49380021519B /* AKDebuggerRules */,
 				7D12CB091C8A4B2E0021519B /* PQPrivateInfo */,
-				7D12CAC91C8A30280021519B /* Assets.xcassets */,
+				7D50AB441CBEDCE40086DAF1 /* PQCentralDispatch */,
 				7D12CABD1C8A30280021519B /* AppDelegate.h */,
 				7D12CABE1C8A30280021519B /* AppDelegate.m */,
 				7D12CAF11C8A47D60021519B /* Storyboards */,
 				7D12CAF01C8A47CD0021519B /* View Controllers */,
 				7D12CAF21C8A482B0021519B /* Data Managers */,
+				7D12CAC91C8A30280021519B /* Assets.xcassets */,
 				7D12CABA1C8A30280021519B /* Supporting Files */,
 				7D1D63871CB547DC008DDD2E /* UNUSED */,
 			);
@@ -391,6 +400,7 @@
 				7D12CAC01C8A30280021519B /* ViewController.h */,
 				7D12CAC11C8A30280021519B /* ViewController.m */,
 				7DE38D861C9B11CE000A02F0 /* Protocols */,
+				7D50AB401CBEDBE00086DAF1 /* PQRootViewController */,
 				7D5A655E1CA0718500D7AE8D /* PQLoginViewController */,
 				7DBB1F101CA4333800C7C403 /* PQSurveysTableViewController */,
 				7DBB1F111CA4334700C7C403 /* PQSurveyTableViewController */,
@@ -580,6 +590,25 @@
 			name = PQManagedObject;
 			sourceTree = "<group>";
 		};
+		7D50AB401CBEDBE00086DAF1 /* PQRootViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7D50AB411CBEDBF70086DAF1 /* PQRootViewController.h */,
+				7D50AB421CBEDBF70086DAF1 /* PQRootViewController.m */,
+			);
+			name = PQRootViewController;
+			sourceTree = "<group>";
+		};
+		7D50AB441CBEDCE40086DAF1 /* PQCentralDispatch */ = {
+			isa = PBXGroup;
+			children = (
+				7D50AB451CBEDD0D0086DAF1 /* PQCentralDispatch.h */,
+				7D50AB481CBEDD1B0086DAF1 /* PQCentralDispatch+Delegates.h */,
+				7D50AB461CBEDD0D0086DAF1 /* PQCentralDispatch.m */,
+			);
+			name = PQCentralDispatch;
+			sourceTree = "<group>";
+		};
 		7D5A655A1CA03FBD00D7AE8D /* Mock Survey */ = {
 			isa = PBXGroup;
 			children = (
@@ -644,6 +673,7 @@
 				7DE38D831C9A0C45000A02F0 /* PQResultsViewController.h */,
 				7DE38D841C9A0C45000A02F0 /* PQResultsViewController.m */,
 				7DBB1F261CAAF4C600C7C403 /* PQGraphViewController */,
+				7DFEDD0F1CB7445700166383 /* PQTableViewCell */,
 				7DBB1F271CAAF4D600C7C403 /* PQResultsTableViewController */,
 				7DBB1F281CAAF4F400C7C403 /* PQResponsesTableViewController */,
 			);
@@ -692,7 +722,6 @@
 			children = (
 				7DBB1F2C1CAAF53B00C7C403 /* PQResultsTableViewController.h */,
 				7DBB1F2D1CAAF53B00C7C403 /* PQResultsTableViewController.m */,
-				7DFEDD0F1CB7445700166383 /* PQResultsTableViewCell */,
 			);
 			name = PQResultsTableViewController;
 			sourceTree = "<group>";
@@ -773,6 +802,7 @@
 		7DE38D861C9B11CE000A02F0 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				7D50AB4C1CBEE3C00086DAF1 /* PQLoginUIProtocol.h */,
 				7DE38D871C9B11ED000A02F0 /* PQSurveyUIProtocol.h */,
 				7DBB1F321CAAFAB000C7C403 /* PQQuestionUIProtocol.h */,
 			);
@@ -816,13 +846,13 @@
 			name = "UIAlertController+Info";
 			sourceTree = "<group>";
 		};
-		7DFEDD0F1CB7445700166383 /* PQResultsTableViewCell */ = {
+		7DFEDD0F1CB7445700166383 /* PQTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				7DFEDD101CB7447700166383 /* PQResultsTableViewCell.h */,
-				7DFEDD111CB7447700166383 /* PQResultsTableViewCell.m */,
+				7DFEDD101CB7447700166383 /* PQTableViewCell.h */,
+				7DFEDD111CB7447700166383 /* PQTableViewCell.m */,
 			);
-			name = PQResultsTableViewCell;
+			name = PQTableViewCell;
 			sourceTree = "<group>";
 		};
 		8BF08E050897CED8111F48A2 /* Pods */ = {
@@ -1125,6 +1155,7 @@
 			files = (
 				7DBB1F151CA433E800C7C403 /* PQSurvey.m in Sources */,
 				7DBB1F141CA433DD00C7C403 /* PQQuestion.m in Sources */,
+				7D50AB471CBEDD0D0086DAF1 /* PQCentralDispatch.m in Sources */,
 				7DE38D6E1C99D6EB000A02F0 /* PQChoice.m in Sources */,
 				7D12CB041C8A49760021519B /* AKDebuggerRules.m in Sources */,
 				7D12CAFE1C8A49560021519B /* AKDebugger.m in Sources */,
@@ -1148,6 +1179,7 @@
 				7D43DDBB1CB83ED600FEA394 /* PQSyncEngine.m in Sources */,
 				7DE38D7C1C9A0C18000A02F0 /* PQSurveysTableViewController.m in Sources */,
 				7DBB1F1A1CA98FBA00C7C403 /* PQSurveyTimingCell.m in Sources */,
+				7D50AB431CBEDBF70086DAF1 /* PQRootViewController.m in Sources */,
 				7D12CABF1C8A30280021519B /* AppDelegate.m in Sources */,
 				7D7DE7F11C8B6D8100FFA637 /* PQDataManager.m in Sources */,
 				7DE38D6B1C99D6EB000A02F0 /* PQQuestion+CoreDataProperties.m in Sources */,
@@ -1167,7 +1199,7 @@
 				7DE38D6A1C99D6EB000A02F0 /* PQResponse.m in Sources */,
 				7D12CB1F1C8A69F20021519B /* PQCoreDataController.m in Sources */,
 				7DBB1F2E1CAAF53B00C7C403 /* PQResultsTableViewController.m in Sources */,
-				7DFEDD121CB7447700166383 /* PQResultsTableViewCell.m in Sources */,
+				7DFEDD121CB7447700166383 /* PQTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

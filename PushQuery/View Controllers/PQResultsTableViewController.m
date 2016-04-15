@@ -99,7 +99,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
     
-    UITableViewCell *cell = [AKGenerics cellWithReuseIdentifier:@"cell" class:[UITableViewCell class] style:UITableViewCellStyleValue1 tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
+    UITableViewCell *cell = [AKGenerics cellWithReuseIdentifier:@"questionCell" class:[UITableViewCell class] style:UITableViewCellStyleValue1 tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
     id <PQQuestion> question = [self.survey.questions objectAtIndex:indexPath.row];
     cell.textLabel.text = question.text;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu %@", (unsigned long)question.responses.count, [AKGenerics pluralizationForCount:question.responses.count singular:@"response" plural:@"responses"]];

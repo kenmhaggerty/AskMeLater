@@ -242,6 +242,16 @@ NSTimeInterval const AnimationSpeed = 0.18f;
     [super teardown];
 }
 
+- (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    [super dismissViewControllerAnimated:flag completion:^{
+        if (self.completionBlock) {
+            self.completionBlock([PQLoginManager currentUser]);
+        }
+    }];
+}
+
 #pragma mark - // PRIVATE METHODS (Actions) //
 
 - (IBAction)segmentedControlDidChangeValue:(UISegmentedControl *)sender {
