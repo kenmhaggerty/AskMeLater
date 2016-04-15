@@ -47,10 +47,7 @@
         return;
     }
     
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    if (text) {
-        userInfo[NOTIFICATION_OBJECT_KEY] = text;
-    }
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:text forKey:NOTIFICATION_OBJECT_KEY];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(text))];
     [self setPrimitiveValue:text forKey:NSStringFromSelector(@selector(text))];
@@ -68,10 +65,7 @@
         return;
     }
     
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    if (secureValue) {
-        userInfo[NOTIFICATION_OBJECT_KEY] = secureValue;
-    }
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:secureValue forKey:NOTIFICATION_OBJECT_KEY];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(secureValue))];
     [self setPrimitiveValue:secureValue forKey:NSStringFromSelector(@selector(secureValue))];
@@ -89,10 +83,7 @@
         return;
     }
     
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    if (choices) {
-        userInfo[NOTIFICATION_OBJECT_KEY] = choices;
-    }
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:choices forKey:NOTIFICATION_OBJECT_KEY];
     
     for (PQChoice *choice in primitiveChoices) {
         [self removeObserversFromChoice:choice];
@@ -118,10 +109,7 @@
         return;
     }
     
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    if (responses) {
-        userInfo[NOTIFICATION_OBJECT_KEY] = responses;
-    }
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:responses forKey:NOTIFICATION_OBJECT_KEY];
     
     for (PQResponse *response in primitiveResponses) {
         [self removeObserversFromResponse:response];
@@ -155,22 +143,26 @@
 - (void)didSave {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
-    for (NSString *key in self.changedKeys) {
-        if ([key isEqualToString:NSStringFromSelector(@selector(text))]) {
-            [AKGenerics postNotificationName:PQQuestionTextDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.text}];
+    if (self.changedKeys) {
+        NSDictionary *userInfo;
+        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(text))]) {
+            userInfo = [NSDictionary dictionaryWithNullableObject:self.text forKey:NOTIFICATION_OBJECT_KEY];
+            [AKGenerics postNotificationName:PQQuestionTextDidSaveNotification object:self userInfo:userInfo];
         }
-        else if ([key isEqualToString:NSStringFromSelector(@selector(secureValue))]) {
-            [AKGenerics postNotificationName:PQQuestionSecureDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.secureValue}];
+        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(secureValue))]) {
+            userInfo = [NSDictionary dictionaryWithObject:self.secureValue forKey:NOTIFICATION_OBJECT_KEY];
+            [AKGenerics postNotificationName:PQQuestionSecureDidSaveNotification object:self userInfo:userInfo];
         }
-        else if ([key isEqualToString:NSStringFromSelector(@selector(choices))]) {
-            [AKGenerics postNotificationName:PQQuestionChoicesDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.choices}];
+        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(choices))]) {
+            userInfo = [NSDictionary dictionaryWithNullableObject:self.choices forKey:NOTIFICATION_OBJECT_KEY];
+            [AKGenerics postNotificationName:PQQuestionChoicesDidSaveNotification object:self userInfo:userInfo];
         }
-        else if ([key isEqualToString:NSStringFromSelector(@selector(responses))]) {
-            [AKGenerics postNotificationName:PQQuestionResponsesDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.responses}];
+        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(responses))]) {
+            userInfo = [NSDictionary dictionaryWithNullableObject:self.responses forKey:NOTIFICATION_OBJECT_KEY];
+            [AKGenerics postNotificationName:PQQuestionResponsesDidSaveNotification object:self userInfo:userInfo];
         }
+        [AKGenerics postNotificationName:PQQuestionWasSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
     }
-    
-    [AKGenerics postNotificationName:PQQuestionWasSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
     
     [super didSave];
 }

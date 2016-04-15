@@ -97,8 +97,7 @@
         return;
     }
     
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OBJECT_KEY] = repeatValue;
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:repeatValue forKey:NOTIFICATION_OBJECT_KEY];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(repeatValue))];
     [self setPrimitiveValue:repeatValue forKey:NSStringFromSelector(@selector(repeatValue))];
@@ -152,8 +151,7 @@
         return;
     }
     
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OBJECT_KEY] = questions;
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:questions forKey:NOTIFICATION_OBJECT_KEY];
     
     for (PQQuestion *question in primitiveQuestions) {
         [self removeObserversFromQuestion:question];

@@ -59,7 +59,14 @@
 - (void)didSave {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
-    [AKGenerics postNotificationName:PQResponseWasSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
+    if (self.changedKeys) {
+        NSDictionary *userInfo;
+        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(user))]) {
+            userInfo = [NSDictionary dictionaryWithNullableObject:self.user forKey:NOTIFICATION_OBJECT_KEY];
+            [AKGenerics postNotificationName:PQResponseUserDidSaveNotification object:self userInfo:userInfo];
+        }
+        [AKGenerics postNotificationName:PQResponseWasSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
+    }
     
     [super didSave];
 }

@@ -33,10 +33,7 @@
         return;
     }
     
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    if (text) {
-        userInfo[NOTIFICATION_OBJECT_KEY] = text;
-    }
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:text forKey:NOTIFICATION_OBJECT_KEY];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(text))];
     [self setPrimitiveValue:text forKey:NSStringFromSelector(@selector(text))];
@@ -54,8 +51,7 @@
         return;
     }
     
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OBJECT_KEY] = textInputValue;
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:textInputValue forKey:NOTIFICATION_OBJECT_KEY];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(textInputValue))];
     [self setPrimitiveValue:textInputValue forKey:NSStringFromSelector(@selector(textInputValue))];
@@ -81,16 +77,18 @@
 - (void)didSave {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
-    for (NSString *key in self.changedKeys) {
-        if ([key isEqualToString:NSStringFromSelector(@selector(text))]) {
-            [AKGenerics postNotificationName:PQChoiceTextDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.text}];
+    if (self.changedKeys) {
+        NSDictionary *userInfo;
+        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(text))]) {
+            userInfo = [NSDictionary dictionaryWithNullableObject:self.text forKey:NOTIFICATION_OBJECT_KEY];
+            [AKGenerics postNotificationName:PQChoiceTextDidSaveNotification object:self userInfo:userInfo];
         }
-        else if ([key isEqualToString:NSStringFromSelector(@selector(textInputValue))]) {
-            [AKGenerics postNotificationName:PQChoiceTextInputDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.textInputValue}];
+        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(textInputValue))]) {
+            userInfo = [NSDictionary dictionaryWithObject:self.textInputValue forKey:NOTIFICATION_OBJECT_KEY];
+            [AKGenerics postNotificationName:PQChoiceTextInputDidSaveNotification object:self userInfo:userInfo];
         }
+        [AKGenerics postNotificationName:PQChoiceWasSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
     }
-    
-    [AKGenerics postNotificationName:PQChoiceWasSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
     
     [super didSave];
 }

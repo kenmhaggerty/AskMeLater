@@ -34,10 +34,7 @@
         return;
     }
     
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    if (username) {
-        userInfo[NOTIFICATION_OBJECT_KEY] = username;
-    }
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:username forKey:NOTIFICATION_OBJECT_KEY];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(username))];
     [self setPrimitiveValue:username forKey:NSStringFromSelector(@selector(username))];
@@ -55,10 +52,7 @@
         return;
     }
     
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    if (avatarData) {
-        userInfo[NOTIFICATION_OBJECT_KEY] = [UIImage imageWithData:avatarData];
-    }
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:(avatarData ? [UIImage imageWithData:avatarData] : nil) forKey:NOTIFICATION_OBJECT_KEY];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(avatarData))];
     [self setPrimitiveValue:avatarData forKey:NSStringFromSelector(@selector(avatarData))];
@@ -76,10 +70,7 @@
         return;
     }
     
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    if (email) {
-        userInfo[NOTIFICATION_OBJECT_KEY] = email;
-    }
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:email forKey:NOTIFICATION_OBJECT_KEY];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(email))];
     [self setPrimitiveValue:email forKey:NSStringFromSelector(@selector(email))];
@@ -105,19 +96,22 @@
 - (void)didSave {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
     
-    for (NSString *key in self.changedKeys) {
-        if ([key isEqualToString:NSStringFromSelector(@selector(avatarData))]) {
-            [AKGenerics postNotificationName:PQUserAvatarDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.avatar}];
+    if (self.changedKeys) {
+        NSDictionary *userInfo;
+        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(avatarData))]) {
+            userInfo = [NSDictionary dictionaryWithNullableObject:self.avatar forKey:NOTIFICATION_OBJECT_KEY];
+            [AKGenerics postNotificationName:PQUserAvatarDidSaveNotification object:self userInfo:userInfo];
         }
-        else if ([key isEqualToString:NSStringFromSelector(@selector(email))]) {
-            [AKGenerics postNotificationName:PQUserEmailDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.email}];
+        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(email))]) {
+            userInfo = [NSDictionary dictionaryWithNullableObject:self.email forKey:NOTIFICATION_OBJECT_KEY];
+            [AKGenerics postNotificationName:PQUserEmailDidSaveNotification object:self userInfo:userInfo];
         }
-        else if ([key isEqualToString:NSStringFromSelector(@selector(username))]) {
-            [AKGenerics postNotificationName:PQUserUsernameDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.username}];
+        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(username))]) {
+            userInfo = [NSDictionary dictionaryWithObject:self.username forKey:NOTIFICATION_OBJECT_KEY];
+            [AKGenerics postNotificationName:PQUserUsernameDidSaveNotification object:self userInfo:userInfo];
         }
+        [AKGenerics postNotificationName:PQUserWasSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
     }
-    
-    [AKGenerics postNotificationName:PQUserWasSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
     
     [super didSave];
 }
