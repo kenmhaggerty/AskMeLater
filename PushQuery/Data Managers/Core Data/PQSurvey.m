@@ -106,24 +106,6 @@
     [AKGenerics postNotificationName:PQSurveyRepeatDidChangeNotification object:self userInfo:userInfo];
 }
 
-- (void)setSecureValue:(NSNumber *)secureValue {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
-    
-    NSNumber *primitiveSecureValue = [self primitiveValueForKey:NSStringFromSelector(@selector(secureValue))];
-    
-    if ([AKGenerics object:secureValue isEqualToObject:primitiveSecureValue]) {
-        return;
-    }
-    
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:secureValue forKey:NOTIFICATION_OBJECT_KEY];
-    
-    [self willChangeValueForKey:NSStringFromSelector(@selector(secureValue))];
-    [self setPrimitiveValue:secureValue forKey:NSStringFromSelector(@selector(secureValue))];
-    [self didChangeValueForKey:NSStringFromSelector(@selector(secureValue))];
-    
-    [AKGenerics postNotificationName:PQSurveySecureDidChangeNotification object:self userInfo:userInfo];
-}
-
 - (void)setTime:(NSDate *)time {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
     
@@ -221,10 +203,6 @@
             userInfo = [NSDictionary dictionaryWithObject:self.repeatValue forKey:NOTIFICATION_OBJECT_KEY];
             [AKGenerics postNotificationName:PQSurveyRepeatDidSaveNotification object:self userInfo:userInfo];
         }
-        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(secureValue))]) {
-            userInfo = [NSDictionary dictionaryWithObject:self.secureValue forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQSurveySecureDidSaveNotification object:self userInfo:userInfo];
-        }
         if ([self.changedKeys containsObject:NSStringFromSelector(@selector(time))]) {
             userInfo = [NSDictionary dictionaryWithNullableObject:self.time forKey:NOTIFICATION_OBJECT_KEY];
             [AKGenerics postNotificationName:PQSurveyTimeDidSaveNotification object:self userInfo:userInfo];
@@ -271,17 +249,6 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
     
     self.repeatValue = [NSNumber numberWithBool:repeat];
-}
-
-- (BOOL)secure {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
-    
-    return self.secureValue.boolValue;
-}
-- (void)setSecure:(BOOL)secure {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
-    
-    self.secureValue = [NSNumber numberWithBool:secure];
 }
 
 - (void)addQuestion:(PQQuestion *)question {

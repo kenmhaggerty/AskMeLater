@@ -28,7 +28,6 @@
         <attribute name="enabledValue" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="repeatValue" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
-        <attribute name="secureValue" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="surveyId" attributeType="String" syncable="YES"/>
         <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="author" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PQUser" inverseName="surveys" inverseEntity="PQUser" syncable="YES"/>

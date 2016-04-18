@@ -22,14 +22,12 @@
 #define PQSurveyEnabledDidChangeNotification @"kNotificationPQSurvey_EnabledDidChange"
 #define PQSurveyNameDidChangeNotification @"kNotificationPQSurvey_NameDidChange"
 #define PQSurveyRepeatDidChangeNotification @"kNotificationPQSurvey_RepeatDidChange"
-#define PQSurveySecureDidChangeNotification @"kNotificationPQSurvey_SecureDidChange"
 #define PQSurveyTimeDidChangeNotification @"kNotificationPQSurvey_TimeDidChange"
 
 #define PQSurveyEditedAtDidSaveNotification @"kNotificationPQSurvey_EditedAtDidSave"
 #define PQSurveyEnabledDidSaveNotification @"kNotificationPQSurvey_EnabledDidSave"
 #define PQSurveyNameDidSaveNotification @"kNotificationPQSurvey_NameDidSave"
 #define PQSurveyRepeatDidSaveNotification @"kNotificationPQSurvey_RepeatDidSave"
-#define PQSurveySecureDidSaveNotification @"kNotificationPQSurvey_SecureDidSave"
 #define PQSurveyTimeDidSaveNotification @"kNotificationPQSurvey_TimeDidSave"
 
 #define PQSurveyAuthorDidChangeNotification @"kNotificationPQSurvey_AuthorDidChange"
@@ -55,7 +53,6 @@
 - (BOOL)enabled;
 - (NSString *)name;
 - (BOOL)repeat;
-- (BOOL)secure;
 - (NSDate *)time;
 - (NSOrderedSet <id <PQQuestion>> *)questions;
 - (id <PQUser>)author;
@@ -76,7 +73,6 @@
 - (void)setEnabled:(BOOL)enabled;
 - (void)setName:(NSString *)name;
 - (void)setRepeat:(BOOL)repeat;
-- (void)setSecure:(BOOL)secure;
 - (void)setTime:(NSDate *)time;
 - (void)setQuestions:(NSOrderedSet <id <PQQuestion>> *)questions;
 

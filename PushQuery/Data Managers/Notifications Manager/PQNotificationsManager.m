@@ -170,10 +170,10 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     id <PQQuestion_PRIVATE> question = (id <PQQuestion_PRIVATE>)survey.questions.firstObject;
     
     id <PQChoice> primaryChoice = [question.choices objectAtIndex:0];
-    UIMutableUserNotificationAction *primaryAction = [PQNotificationsManager notificationActionWithTitle:primaryChoice.text textInput:primaryChoice.textInput destructive:NO authentication:survey.secure];
+    UIMutableUserNotificationAction *primaryAction = [PQNotificationsManager notificationActionWithTitle:primaryChoice.text textInput:primaryChoice.textInput destructive:NO authentication:question.secure];
     
     id <PQChoice> secondaryChoice = [question.choices objectAtIndex:1];
-    UIMutableUserNotificationAction *secondaryAction = [PQNotificationsManager notificationActionWithTitle:secondaryChoice.text textInput:secondaryChoice.textInput destructive:NO authentication:survey.secure];
+    UIMutableUserNotificationAction *secondaryAction = [PQNotificationsManager notificationActionWithTitle:secondaryChoice.text textInput:secondaryChoice.textInput destructive:NO authentication:question.secure];
     
     [PQNotificationsManager setNotificationWithTitle:survey.name body:question.text actions:@[primaryAction, secondaryAction] actionString:PQNotificationActionString uuid:question.questionId fireDate:survey.time repeat:survey.repeat];
 }

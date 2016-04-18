@@ -28,7 +28,6 @@
 @dynamic enabledValue;
 @dynamic name;
 @dynamic repeatValue;
-@dynamic secureValue;
 @dynamic surveyId;
 @dynamic time;
 @dynamic questions;
