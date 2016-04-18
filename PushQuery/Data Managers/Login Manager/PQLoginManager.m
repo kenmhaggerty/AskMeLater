@@ -44,7 +44,7 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
 
 // OTHER //
 
-+ (id <PQUser_Editable>)setCurrentUserUsingAuthData:(NSDictionary *)authData;
++ (void)setCurrentUserUsingAuthData:(NSDictionary *)authData;
 + (void)updateUser:(id <PQUser_Editable>)user withDictionary:(NSDictionary *)dictionary;
 
 @end
@@ -104,11 +104,22 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
 
 #pragma mark - // PUBLIC METHODS //
 
++ (void)setup {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:nil message:nil];
+    
+    if (![PQLoginManager sharedManager]) {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeWarning methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:[NSString stringWithFormat:@"Could not initialize %@", NSStringFromClass([PQLoginManager class])]];
+    }
+    
+    [PQLoginManager setCurrentUserUsingAuthData:[PQFirebaseController authData]];
+}
+
 + (id <PQUser_Editable>)currentUser {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_ACCOUNTS] message:nil];
     
     NSDictionary *authData = [PQFirebaseController authData];
-    return [PQLoginManager setCurrentUserUsingAuthData:authData];
+    [PQLoginManager setCurrentUserUsingAuthData:authData];
+    return [PQLoginManager sharedManager].currentUser;
 }
 
 + (void)signUpWithEmail:(NSString *)email password:(NSString *)password success:(void (^)(id <PQUser_Editable>))successBlock failure:(void (^)(NSError *))failureBlock {
@@ -127,7 +138,8 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_ACCOUNTS] message:nil];
     
     [PQFirebaseController loginUserWithEmail:email password:password success:^(NSDictionary *userInfo) {
-        id <PQUser_Editable> currentUser = [PQLoginManager setCurrentUserUsingAuthData:userInfo];
+        [PQLoginManager setCurrentUserUsingAuthData:userInfo];
+        id <PQUser_Editable> currentUser = [PQLoginManager sharedManager].currentUser;
         successBlock(currentUser);
         
     } failure:^(NSError *error) {
@@ -268,19 +280,19 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
 
 #pragma mark - // PRIVATE METHODS (Other) //
 
-+ (id <PQUser_Editable>)setCurrentUserUsingAuthData:(NSDictionary *)authData {
++ (void)setCurrentUserUsingAuthData:(NSDictionary *)authData {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
     
     if (!authData) {
         [PQLoginManager setCurrentUser:nil];
-        return nil;
+        return;
     }
     
     NSString *userId = authData[FirebaseAuthKeyUID];
     
     id <PQUser_PRIVATE> currentUser = [PQLoginManager sharedManager].currentUser;
     if (currentUser && [currentUser.userId isEqualToString:userId]) {
-        return currentUser;
+        return;
     }
     
     currentUser = [PQCoreDataController getUserWithId:userId];
@@ -291,7 +303,6 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
     [PQLoginManager updateUser:currentUser withDictionary:authData];
     [PQCoreDataController save];
     [PQLoginManager setCurrentUser:currentUser];
-    return currentUser;
 }
 
 + (void)updateUser:(id <PQUser_Editable>)user withDictionary:(NSDictionary *)dictionary {

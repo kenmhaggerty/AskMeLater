@@ -92,6 +92,7 @@
     [PQFirebaseController setup];
     [PQSyncEngine setup];
     [PQNotificationsManager setup];
+    [PQLoginManager setup];
 }
 
 + (void)save {

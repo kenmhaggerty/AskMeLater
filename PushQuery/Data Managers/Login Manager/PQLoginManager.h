@@ -23,6 +23,7 @@ extern NSString * const PQLoginManagerCurrentUserDidChangeNotification;
 extern NSString * const PQLoginManagerEmailDidChangeNotification;
 
 @interface PQLoginManager : NSObject
++ (void)setup;
 + (id <PQUser_Editable>)currentUser;
 + (void)signUpWithEmail:(NSString *)email password:(NSString *)password success:(void (^)(id <PQUser_Editable>))successBlock failure:(void (^)(NSError *))failureBlock;
 + (void)loginWithEmail:(NSString *)email password:(NSString *)password success:(void (^)(id <PQUser_Editable>))successBlock failure:(void (^)(NSError *))failureBlock;
