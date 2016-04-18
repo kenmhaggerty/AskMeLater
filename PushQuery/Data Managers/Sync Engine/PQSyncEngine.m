@@ -72,8 +72,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
 
 // RESPONDERS //
 
-- (void)managedObjectWasCreated:(NSNotification *)notification;
-- (void)managedObjectWasFetched:(NSNotification *)notification;
+- (void)managedObjectDidAppear:(NSNotification *)notification;
 - (void)managedObjectWillBeDeallocated:(NSNotification *)notification;
 
 - (void)surveyDidSave:(NSNotification *)notification;
@@ -101,12 +100,17 @@ NSString * const PQFirebasePathResponseUser = @"user";
 + (NSDictionary *)convertQuestion:(PQQuestion *)question;
 + (NSDictionary *)convertChoice:(PQChoice *)choice;
 + (NSDictionary *)convertResponse:(PQResponse *)response;
-+ (NSString *)convertIndex:(NSUInteger)index;
++ (NSString *)convertInteger:(NSUInteger)integer;
 + (NSString *)convertDate:(NSDate *)date;
++ (NSDate *)convertDateString:(NSString *)dateString;
 
-// SAVERS //
+// SYNC //
 
-+ (void)saveSurvey:(PQSurvey *)survey;
++ (void)saveSurveyToRemote:(PQSurvey *)survey withAuthorId:(NSString *)authorId;
++ (void)synchronizeSurveyWithId:(NSString *)surveyId authorId:(NSString *)authorId dictionary:(NSDictionary *)dictionary;
++ (void)saveSurveyToLocalWithId:(NSString *)surveyId authorId:(NSString *)authorId dictionary:(NSDictionary *)dictionary;
++ (void)overwriteSurvey:(PQSurvey *)survey withDictionary:(NSDictionary *)dictionary;
++ (void)overwriteQuestion:(PQQuestion *)question withDictionary:(NSDictionary *)dictionary;
 
 // OTHER //
 
@@ -154,6 +158,31 @@ NSString * const PQFirebasePathResponseUser = @"user";
     }
 }
 
++ (void)fetchSurveysWithCompletion:(void(^)(BOOL success))completionBlock {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
+    
+    [PQSyncEngine performBlockForCurrentUser:^(NSString *userId) {
+        // $userId/surveys/
+        NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys]];
+        [PQFirebaseController getObjectsAtPath:url.relativeString withQueries:nil andCompletion:^(id result) {
+            if (![result isKindOfClass:[NSDictionary class]]) {
+                completionBlock(NO);
+                return;
+            }
+            
+            NSDictionary *dictionary = (NSDictionary *)result;
+            NSArray *surveyIds = dictionary.allKeys;
+            NSDictionary *survey;
+            for (NSString *surveyId in surveyIds) {
+                survey = dictionary[surveyId];
+                [PQSyncEngine synchronizeSurveyWithId:surveyId authorId:userId dictionary:survey];
+            }
+            [PQCoreDataController save];
+            completionBlock(YES);
+        }];
+    }];
+}
+
 #pragma mark - // CATEGORY METHODS //
 
 #pragma mark - // DELEGATED METHODS //
@@ -194,8 +223,8 @@ NSString * const PQFirebasePathResponseUser = @"user";
 - (void)addObserversToCoreData {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectWasCreated:) name:PQManagedObjectWasCreatedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectWasFetched:) name:PQManagedObjectWasFetchedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectDidAppear:) name:PQManagedObjectWasCreatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectDidAppear:) name:PQManagedObjectWasFetchedNotification object:nil];
 }
 
 - (void)removeObserversFromCoreData {
@@ -323,28 +352,12 @@ NSString * const PQFirebasePathResponseUser = @"user";
 
 #pragma mark - // PRIVATE METHODS (Responders) //
 
-- (void)managedObjectWasCreated:(NSNotification *)notification {
+- (void)managedObjectDidAppear:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
     NSManagedObject *managedObject = notification.object;
     
     [self addObserversToManagedObject:managedObject];
-}
-
-- (void)managedObjectWasFetched:(NSNotification *)notification {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
-    
-    NSManagedObject *managedObject = notification.object;
-    
-    [self addObserversToManagedObject:managedObject];
-    
-    if ([managedObject isKindOfClass:[PQSurvey class]]) {
-        PQSurvey *survey = (PQSurvey *)managedObject;
-        id <PQUser> currentUser = [PQLoginManager currentUser];
-        if (currentUser && survey.author && [AKGenerics object:currentUser isEqualToObject:survey.author]) {
-            [PQSyncEngine saveSurvey:survey];
-        }
-    }
 }
 
 - (void)managedObjectWillBeDeallocated:(NSNotification *)notification {
@@ -363,7 +376,11 @@ NSString * const PQFirebasePathResponseUser = @"user";
         return;
     }
     
-    [PQSyncEngine saveSurvey:survey];
+    if (!survey.author) {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeWarning methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:[NSString stringWithFormat:@"%@ is nil", NSStringFromSelector(@selector(author))]];
+    }
+    
+    [PQSyncEngine saveSurveyToRemote:survey withAuthorId:survey.author.userId];
 }
 
 - (void)surveyEditedAtDidSave:(NSNotification *)notification {
@@ -547,7 +564,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
         NSString *key;
         for (PQChoice *choice in choices) {
             index = [choice.question.choices indexOfObject:choice];
-            key = [PQSyncEngine convertIndex:index];
+            key = [PQSyncEngine convertInteger:index];
             convertedChoices[key] = [PQSyncEngine convertChoice:choice];
         }
         [PQFirebaseController saveObject:convertedChoices toPath:url.relativeString withCompletion:^(BOOL success, NSError *error) {
@@ -589,7 +606,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
         NSString *surveyId = choice.question.survey.surveyId;
         NSString *questionId = choice.question.questionId;
         NSUInteger index = [choice.question.choices indexOfObject:choice];
-        NSString *convertedIndex = [PQSyncEngine convertIndex:index];
+        NSString *convertedIndex = [PQSyncEngine convertInteger:index];
         NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathQuestions, questionId, PQFirebasePathChoices, convertedIndex, PQFirebasePathChoiceText]];
         NSString *text = notification.userInfo[NOTIFICATION_OBJECT_KEY];
         [PQFirebaseController saveObject:text toPath:url.relativeString withCompletion:^(BOOL success, NSError *error) {
@@ -609,7 +626,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
         NSString *surveyId = choice.question.survey.surveyId;
         NSString *questionId = choice.question.questionId;
         NSUInteger index = [choice.question.choices indexOfObject:choice];
-        NSString *convertedIndex = [PQSyncEngine convertIndex:index];
+        NSString *convertedIndex = [PQSyncEngine convertInteger:index];
         NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathQuestions, questionId, PQFirebasePathChoices, convertedIndex, PQFirebasePathChoiceTextInput]];
         NSNumber *textInputValue = notification.userInfo[NOTIFICATION_OBJECT_KEY];
         [PQFirebaseController saveObject:textInputValue toPath:url.relativeString withCompletion:^(BOOL success, NSError *error) {
@@ -681,11 +698,11 @@ NSString * const PQFirebasePathResponseUser = @"user";
     
     NSMutableDictionary *convertedChoices = [NSMutableDictionary dictionary];
     NSUInteger index;
-    NSString *key;
+    NSString *indexString;
     for (PQChoice *choice in question.choices) {
         index = [choice.question.choices indexOfObject:choice];
-        key = [PQSyncEngine convertIndex:index];
-        convertedChoices[key] = [PQSyncEngine convertChoice:choice];
+        indexString = [PQSyncEngine convertInteger:index];
+        convertedChoices[indexString] = [PQSyncEngine convertChoice:choice];
     }
     dictionary[PQFirebasePathChoices] = convertedChoices;
     
@@ -717,38 +734,174 @@ NSString * const PQFirebasePathResponseUser = @"user";
     return dictionary;
 }
 
-+ (NSString *)convertIndex:(NSUInteger)index {
++ (NSString *)convertInteger:(NSUInteger)integer {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
     
-    return [NSString stringWithFormat:@"%lu", index];
+    return [NSString stringWithFormat:@"%lu", integer];
 }
 
 + (NSString *)convertDate:(NSDate *)date {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
     
     if (!date) {
         return nil;
     }
     
-    return [NSString stringWithFormat:@"%f", date.timeIntervalSince1970];
+    NSString *uuid = [NSString stringWithFormat:@"%f", date.timeIntervalSince1970];
+    return [uuid stringByReplacingOccurrencesOfString:@"." withString:@"-"];
 }
 
-#pragma mark - // PRIVATE METHODS (SAVERS) //
++ (NSDate *)convertDateString:(NSString *)dateString {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
+    
+    return [NSDate dateWithTimeIntervalSince1970:[dateString stringByReplacingOccurrencesOfString:@"-" withString:@"."].floatValue];
+}
 
-+ (void)saveSurvey:(PQSurvey *)survey {
+#pragma mark - // PRIVATE METHODS (SYNC) //
+
++ (void)saveSurveyToRemote:(PQSurvey *)survey withAuthorId:(NSString *)authorId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
     
-    [PQSyncEngine performBlockForCurrentUser:^(NSString *userId) {
-        // $userId/surveys/$surveyId
-        NSString *surveyId = survey.uuid;
-        NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId]];
-        NSDictionary *convertedSurvey = [PQSyncEngine convertSurvey:survey];
-        [PQFirebaseController saveObject:convertedSurvey toPath:url.relativeString withCompletion:^(BOOL success, NSError *error) {
-            if (error) {
-                [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeDeletor tags:@[AKD_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
-            }
-        }];
+    // $userId/surveys/$surveyId
+    NSString *surveyId = survey.surveyId;
+    NSURL *url = [NSURL fileURLWithPathComponents:@[authorId, PQFirebasePathSurveys, surveyId]];
+    NSDictionary *convertedSurvey = [PQSyncEngine convertSurvey:survey];
+    [PQFirebaseController saveObject:convertedSurvey toPath:url.relativeString withCompletion:^(BOOL success, NSError *error) {
+        if (error) {
+            [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeDeletor tags:@[AKD_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
+        }
     }];
+}
+
++ (void)synchronizeSurveyWithId:(NSString *)surveyId authorId:(NSString *)authorId dictionary:(NSDictionary *)dictionary {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
+    
+    PQSurvey *survey = [PQCoreDataController getSurveyWithId:surveyId];
+    if (!survey) {
+        [PQSyncEngine saveSurveyToLocalWithId:surveyId authorId:authorId dictionary:dictionary];
+        return;
+    }
+    
+    NSDate *remoteEditDate = [PQSyncEngine convertDateString:dictionary[PQFirebasePathSurveyEditedAt]];
+    NSDate *localEditDate = survey.editedAt;
+    NSComparisonResult comparison = [localEditDate compare:remoteEditDate];
+    if (comparison == NSOrderedAscending) {
+        [PQSyncEngine overwriteSurvey:survey withDictionary:dictionary];
+    }
+    else if (comparison == NSOrderedDescending) {
+        [PQSyncEngine saveSurveyToRemote:survey withAuthorId:authorId];
+    }
+}
+
++ (void)saveSurveyToLocalWithId:(NSString *)surveyId authorId:(NSString *)authorId dictionary:(NSDictionary *)dictionary {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
+    
+    PQUser *author = [PQCoreDataController getUserWithId:authorId];
+    if (!author) {
+        author = [PQCoreDataController userWithUserId:authorId email:nil];
+    }
+    
+    PQSurvey *survey = [PQCoreDataController surveyWithName:nil author:author];
+    survey.surveyId = surveyId;
+    survey.createdAt = [PQSyncEngine convertDateString:dictionary[PQFirebasePathSurveyCreatedAt]];
+    [PQSyncEngine overwriteSurvey:survey withDictionary:dictionary];
+}
+
++ (void)overwriteSurvey:(PQSurvey *)survey withDictionary:(NSDictionary *)dictionary {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
+    
+    survey.createdAt = [PQSyncEngine convertDateString:dictionary[PQFirebasePathSurveyCreatedAt]];
+    survey.enabledValue = (NSNumber *)dictionary[PQFirebasePathSurveyEnabled];
+    survey.name = dictionary[PQFirebasePathSurveyName];
+    survey.repeatValue = (NSNumber *)dictionary[PQFirebasePathSurveyRepeat];
+    survey.time = [PQSyncEngine convertDateString:dictionary[PQFirebasePathSurveyTime]];
+    
+    NSDictionary *questionDictionaries = dictionary[PQFirebasePathQuestions];
+    if (!questionDictionaries.count) {
+        return;
+    }
+    
+    NSMutableDictionary *indices = [NSMutableDictionary dictionaryWithCapacity:questionDictionaries.count];
+    NSDictionary *questionDictionary;
+    NSString *questionId;
+    NSNumber *index;
+    NSUInteger maxIndex = 0;
+    for (questionId in questionDictionaries.allKeys) {
+        questionDictionary = questionDictionaries[questionId];
+        index = (NSNumber *)questionDictionary[PQFirebasePathQuestionIndex];
+        [indices setObject:@{questionId : questionDictionary} forKey:index];
+        maxIndex = MAX(maxIndex, index.integerValue);
+    }
+    NSMutableOrderedSet *questions = [NSMutableOrderedSet orderedSetWithCapacity:questionDictionaries.count];
+    PQQuestion *question;
+    for (int i = 0 ; i <= maxIndex; i++) {
+        questionDictionary = indices[[NSNumber numberWithInteger:i]];
+        questionId = questionDictionary.allKeys.firstObject;
+        questionDictionary = questionDictionary[questionId];
+        
+        question = [PQCoreDataController getQuestionWithId:questionId];
+        if (!question) {
+            question = [PQCoreDataController questionWithText:nil choices:nil];
+            question.questionId = questionId;
+        }
+        [PQSyncEngine overwriteQuestion:question withDictionary:questionDictionary];
+        [questions addObject:question];
+    }
+    survey.questions = questions;
+    
+    survey.editedAt = [PQSyncEngine convertDateString:dictionary[PQFirebasePathSurveyEditedAt]];
+}
+
++ (void)overwriteQuestion:(PQQuestion *)question withDictionary:(NSDictionary *)dictionary {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
+    
+    question.createdAt = [PQSyncEngine convertDateString:dictionary[PQFirebasePathQuestionCreatedAt]];
+    question.secureValue = (NSNumber *)dictionary[PQFirebasePathQuestionSecure];
+    question.text = dictionary[PQFirebasePathQuestionText];
+    
+    NSArray *choiceDictionaries = dictionary[PQFirebasePathChoices];
+    NSMutableOrderedSet *choices = [NSMutableOrderedSet orderedSetWithCapacity:choiceDictionaries.count];
+    NSDictionary *choiceDictionary;
+    PQChoice *choice;
+    for (int i = 0; i < choiceDictionaries.count; i++) {
+        choiceDictionary = choiceDictionaries[i];
+        NSString *text = choiceDictionary[PQFirebasePathChoiceText];
+        
+        if (i < question.choices.count) {
+            choice = question.choices[i];
+            choice.text = text;
+        }
+        else {
+            choice = [PQCoreDataController choiceWithText:text];
+        }
+        choice.textInputValue = (NSNumber *)choiceDictionary[PQFirebasePathChoiceTextInput];
+        
+        [choices addObject:choice];
+    }
+    question.choices = choices;
+    
+    NSDictionary *responseDictionaries = dictionary[PQFirebasePathResponses];
+    NSDictionary *responseDictionary;
+    NSSet *foundResponses;
+    NSString *userId;
+    PQUser *user;
+    PQResponse *response;
+    NSDate *responseDate;
+    for (NSString *responseId in responseDictionaries.allKeys) {
+        responseDictionary = responseDictionaries[responseId];
+        foundResponses = [question.responses filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"%K == %@", NSStringFromSelector(@selector(responseId)), responseId]];
+        if (!foundResponses.count) {
+            userId = responseDictionary[PQFirebasePathResponseUser];
+            user = [PQCoreDataController getUserWithId:userId];
+            if (!user) {
+                user = [PQCoreDataController userWithUserId:userId email:nil];
+            }
+            
+            responseDate = [PQSyncEngine convertDateString:responseDictionary[PQFirebasePathResponseDate]];
+            response = [PQCoreDataController responseWithText:responseDictionary[PQFirebasePathResponseText] user:user date:responseDate];
+            [question addResponse:response];
+        }
+    }
 }
 
 #pragma mark - // PRIVATE METHODS (OTHER) //

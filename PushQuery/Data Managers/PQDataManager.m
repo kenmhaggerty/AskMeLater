@@ -120,6 +120,12 @@
     return [PQCoreDataController getSurveysWithAuthor:author];
 }
 
++ (void)fetchSurveysWithCompletion:(void(^)(BOOL success))completionBlock {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
+    
+    [PQSyncEngine fetchSurveysWithCompletion:completionBlock]; // error?
+}
+
 + (void)deleteSurvey:(id <PQSurvey_Editable>)survey {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeDeletor tags:@[AKD_DATA] message:nil];
     
