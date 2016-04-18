@@ -175,7 +175,7 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
         [PQCentralDispatch requestLogoutWithCompletion:^(BOOL success) {
             if (success) {
                 id <PQUser> currentUser = [PQLoginManager currentUser];
-                NSSet *surveys = [PQDataManager surveysAuthoredByUser:currentUser];
+                NSSet *surveys = [PQDataManager getSurveysAuthoredByUser:currentUser];
                 for (id <PQSurvey_Editable> survey in surveys) {
                     survey.enabled = NO;
                 }
