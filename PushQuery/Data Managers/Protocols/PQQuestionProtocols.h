@@ -26,14 +26,12 @@
 #define PQQuestionChoiceWasAddedNotification @"kNotificationPQQuestion_ChoiceWasAdded"
 #define PQQuestionChoiceWasReorderedNotification @"kNotificationPQQuestion_ChoiceWasReordered"
 #define PQQuestionChoiceAtIndexWasReplaced @"kNotificationPQQuestion_ChoiceAtIndexWasReplaced"
-//#define PQQuestionChoiceWillBeRemovedNotification @"kNotificationPQQuestion_ChoiceWillBeRemoved"
 #define PQQuestionChoiceAtIndexWasRemovedNotification @"kNotificationPQQuestion_ChoiceAtIndexWasRemoved"
 
 #define PQQuestionChoicesDidSaveNotification @"kNotificationPQQuestion_ChoicesDidSave"
 
 #define PQQuestionResponsesDidChangeNotification @"kNotificationPQQuestion_ResponsesDidChange"
 #define PQQuestionResponseWasAddedNotification @"kNotificationPQQuestion_ResponseWasAdded"
-//#define PQQuestionResponseWillBeRemovedNotification @"kNotificationPQQuestion_ResponseWillBeRemoved"
 #define PQQuestionResponseWasRemovedNotification @"kNotificationPQQuestion_ResponseWasRemoved"
 #define PQQuestionResponsesCountDidChangeNotification @"kNotificationPQQuestion_ResponsesCountDidChange"
 
