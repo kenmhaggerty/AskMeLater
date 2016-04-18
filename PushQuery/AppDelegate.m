@@ -43,7 +43,7 @@
     
     NSString *questionId = notification.userInfo[NOTIFICATION_OBJECT_KEY];
     NSString *response = identifier;
-    id <PQQuestion_PRIVATE> question = (id <PQQuestion_PRIVATE>)[PQDataManager questionWithId:questionId];
+    id <PQQuestion_PRIVATE> question = (id <PQQuestion_PRIVATE>)[PQDataManager getQuestionWithId:questionId];
     [PQDataManager addResponse:response forQuestion:question];
 //    [UIApplication sharedApplication].applicationIconBadgeNumber = [UIApplication sharedApplication].applicationIconBadgeNumber-1;
     completionHandler();
@@ -53,7 +53,7 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
     NSString *questionId = notification.userInfo[NOTIFICATION_OBJECT_KEY];
-    id <PQQuestion_PRIVATE> question = (id <PQQuestion_PRIVATE>)[PQDataManager questionWithId:questionId];
+    id <PQQuestion_PRIVATE> question = (id <PQQuestion_PRIVATE>)[PQDataManager getQuestionWithId:questionId];
     NSMutableArray <NSString *> *actions = [NSMutableArray arrayWithCapacity:question.choices.count];
     for (id <PQChoice> choice in question.choices) {
         [actions addObject:choice.text];

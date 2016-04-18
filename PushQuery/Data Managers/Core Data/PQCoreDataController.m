@@ -30,7 +30,10 @@
 
 // OTHER //
 
-+ (NSString *)uuidForDate:(NSDate *)date;
++ (NSString *)uuidWithValidator:(BOOL(^)(NSString *uuid))validationBlock;
++ (NSString *)surveyId;
++ (NSString *)questionId;
++ (NSString *)responseId;
 
 @end
 
@@ -123,7 +126,7 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
     __block PQUser *user;
-    user = [PQCoreDataController userWithUserId:userId];
+    user = [PQCoreDataController getUserWithId:userId];
     if (user) {
         user.email = email;
         return user;
@@ -151,7 +154,7 @@
         survey.author = author;
         survey.createdAt = [NSDate date];
         survey.editedAt = survey.createdAt;
-        survey.uuid = [PQCoreDataController uuidForDate:survey.createdAt];
+        survey.surveyId = [PQCoreDataController surveyId];
     }];
     
     return survey;
@@ -167,7 +170,7 @@
         question.text = text;
         question.choices = choices;
         question.createdAt = [NSDate date];
-        question.uuid = [PQCoreDataController uuidForDate:question.createdAt];
+        question.questionId = [PQCoreDataController questionId];
     }];
     
     return question;
@@ -196,7 +199,7 @@
         response.text = text;
         response.user = user;
         response.date = date;
-        response.uuid = [PQCoreDataController uuidForDate:response.date];
+        response.responseId = [PQCoreDataController responseId];
     }];
     
     return response;
@@ -204,7 +207,7 @@
 
 #pragma mark - // PUBLIC METHODS (Getters) //
 
-+ (PQUser *)userWithUserId:(NSString *)userId {
++ (PQUser *)getUserWithId:(NSString *)userId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
     
     NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
@@ -234,7 +237,37 @@
     return [foundUsers firstObject];
 }
 
-+ (NSSet <PQSurvey *> *)surveysWithAuthor:(PQUser *)author {
++ (PQSurvey *)getSurveyWithId:(NSString *)surveyId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
+    __block NSArray *foundSurveys;
+    __block NSError *error;
+    [managedObjectContext performBlockAndWait:^{
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:[NSEntityDescription entityForName:NSStringFromClass([PQSurvey class]) inManagedObjectContext:managedObjectContext]];
+        [request setPredicate:[NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(surveyId)), surveyId]];
+        [request setSortDescriptors:[NSArray arrayWithObjects: [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(createdAt)) ascending:YES], nil]];
+        foundSurveys = [managedObjectContext executeFetchRequest:request error:&error];
+    }];
+    if (error)
+    {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
+    }
+    if (!foundSurveys)
+    {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is nil", stringFromVariable(foundUsers)]];
+        return nil;
+    }
+    
+    if (foundSurveys.count > 1)
+    {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"Found %lu %@ object(s) with %@ %@; returning first object", (unsigned long)foundSurveys.count, NSStringFromClass([PQSurvey class]), stringFromVariable(surveyId), surveyId]];
+    }
+    return [foundSurveys firstObject];
+}
+
++ (NSSet *)getSurveysWithAuthor:(PQUser *)author {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
     
     NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
@@ -259,7 +292,7 @@
     return [NSSet setWithArray:foundSurveys];
 }
 
-+ (PQQuestion *)questionWithId:(NSString *)uuid {
++ (PQQuestion *)getQuestionWithId:(NSString *)questionId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
     
     NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
@@ -268,7 +301,7 @@
     [managedObjectContext performBlockAndWait:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         [request setEntity:[NSEntityDescription entityForName:NSStringFromClass([PQQuestion class]) inManagedObjectContext:managedObjectContext]];
-        [request setPredicate:[NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(uuid)), uuid]];
+        [request setPredicate:[NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(questionId)), questionId]];
         [request setSortDescriptors:[NSArray arrayWithObjects: [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(createdAt)) ascending:YES], nil]];
         foundQuestions = [managedObjectContext executeFetchRequest:request error:&error];
     }];
@@ -284,12 +317,42 @@
     
     if (foundQuestions.count > 1)
     {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"Found %lu %@ object(s) with %@ %@; returning first object", (unsigned long)foundQuestions.count, NSStringFromClass([PQQuestion class]), stringFromVariable(uuid), uuid]];
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"Found %lu %@ object(s) with %@ %@; returning first object", (unsigned long)foundQuestions.count, NSStringFromClass([PQQuestion class]), stringFromVariable(questionId), questionId]];
     }
     return [foundQuestions firstObject];
 }
 
-+ (NSSet <PQResponse *> *)responsesWithUser:(PQUser *)user {
++ (PQResponse *)getResponseWithId:(NSString *)responseId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
+    __block NSArray *foundResponses;
+    __block NSError *error;
+    [managedObjectContext performBlockAndWait:^{
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:[NSEntityDescription entityForName:NSStringFromClass([PQResponse class]) inManagedObjectContext:managedObjectContext]];
+        [request setPredicate:[NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(responseId)), responseId]];
+        [request setSortDescriptors:[NSArray arrayWithObjects: [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(date)) ascending:YES], nil]];
+        foundResponses = [managedObjectContext executeFetchRequest:request error:&error];
+    }];
+    if (error)
+    {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
+    }
+    if (!foundResponses)
+    {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is nil", stringFromVariable(foundQuestions)]];
+        return nil;
+    }
+    
+    if (foundResponses.count > 1)
+    {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"Found %lu %@ object(s) with %@ %@; returning first object", (unsigned long)foundResponses.count, NSStringFromClass([PQResponse class]), stringFromVariable(responseId), responseId]];
+    }
+    return [foundResponses firstObject];
+}
+
++ (NSSet *)getResponsesWithUser:(PQUser *)user {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
     
     NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
@@ -358,13 +421,40 @@
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
-#pragma mark - // OTHER //
+#pragma mark - // PRIVATE METHODS (Other) //
 
-+ (NSString *)uuidForDate:(NSDate *)date {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
++ (NSString *)uuidWithValidator:(BOOL(^)(NSString *uuid))validationBlock {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_DATA] message:nil];
     
-    NSString *uuid = [NSString stringWithFormat:@"%f", date.timeIntervalSince1970];
-    return [uuid stringByReplacingOccurrencesOfString:@"." withString:@"-"];
+    NSString *uuid;
+    do {
+        uuid = [NSUUID UUID].UUIDString;
+    } while (!validationBlock(uuid));
+    return uuid;
+}
+
++ (NSString *)surveyId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_DATA] message:nil];
+    
+    return [PQCoreDataController uuidWithValidator:^BOOL(NSString *uuid) {
+        return [PQCoreDataController getSurveyWithId:uuid] ? NO : YES;
+    }];
+}
+
++ (NSString *)questionId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_DATA] message:nil];
+    
+    return [PQCoreDataController uuidWithValidator:^BOOL(NSString *uuid) {
+        return [PQCoreDataController getQuestionWithId:uuid] ? NO : YES;
+    }];
+}
+
++ (NSString *)responseId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_DATA] message:nil];
+    
+    return [PQCoreDataController uuidWithValidator:^BOOL(NSString *uuid) {
+        return [PQCoreDataController getResponseWithId:uuid] ? NO : YES;
+    }];
 }
 
 @end

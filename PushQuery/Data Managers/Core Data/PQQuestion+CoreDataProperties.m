@@ -24,9 +24,9 @@
 #pragma mark - // SETTERS AND GETTERS //
 
 @dynamic createdAt;
+@dynamic questionId;
 @dynamic secureValue;
 @dynamic text;
-@dynamic uuid;
 @dynamic responses;
 @dynamic choices;
 @dynamic survey;

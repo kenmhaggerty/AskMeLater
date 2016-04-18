@@ -29,8 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *name;
 @property (nullable, nonatomic, retain) NSNumber *repeatValue;
 @property (nullable, nonatomic, retain) NSNumber *secureValue;
+@property (nullable, nonatomic, retain) NSString *surveyId;
 @property (nullable, nonatomic, retain) NSDate *time;
-@property (nullable, nonatomic, retain) NSString *uuid;
 @property (nullable, nonatomic, retain) NSOrderedSet <PQQuestion *> *questions;
 @property (nullable, nonatomic, retain) PQUser *author;
 

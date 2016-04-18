@@ -175,7 +175,7 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     id <PQChoice> secondaryChoice = [question.choices objectAtIndex:1];
     UIMutableUserNotificationAction *secondaryAction = [PQNotificationsManager notificationActionWithTitle:secondaryChoice.text textInput:secondaryChoice.textInput destructive:NO authentication:survey.secure];
     
-    [PQNotificationsManager setNotificationWithTitle:survey.name body:question.text actions:@[primaryAction, secondaryAction] actionString:PQNotificationActionString uuid:question.uuid fireDate:survey.time repeat:survey.repeat];
+    [PQNotificationsManager setNotificationWithTitle:survey.name body:question.text actions:@[primaryAction, secondaryAction] actionString:PQNotificationActionString uuid:question.questionId fireDate:survey.time repeat:survey.repeat];
 }
 
 #pragma mark - // PRIVATE METHODS (Other) //
@@ -185,7 +185,7 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     
     NSMutableArray *questionIds = [NSMutableArray arrayWithCapacity:survey.questions.count];
     for (id <PQQuestion_PRIVATE> question in survey.questions) {
-        [questionIds addObject: question.uuid];
+        [questionIds addObject: question.questionId];
     }
     
     UIApplication *application = [UIApplication sharedApplication];

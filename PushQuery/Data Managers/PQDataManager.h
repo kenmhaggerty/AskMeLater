@@ -33,13 +33,13 @@
 // SURVEYS //
 
 + (id <PQSurvey_Editable>)survey;
-+ (NSSet *)surveysAuthoredByUser:(id <PQUser>)user;
++ (NSSet *)getSurveysAuthoredByUser:(id <PQUser>)user;
 + (void)deleteSurvey:(id <PQSurvey_Editable>)survey;
 
 // QUESTIONS //
 
-+ (id <PQQuestion>)questionWithId:(NSString *)uuid;
 + (id <PQQuestion_Editable>)questionForSurvey:(id <PQSurvey_Editable>)survey;
++ (id <PQQuestion>)getQuestionWithId:(NSString *)uuid;
 + (void)deleteQuestion:(id <PQQuestion_Editable>)question;
 
 // RESPONSES //

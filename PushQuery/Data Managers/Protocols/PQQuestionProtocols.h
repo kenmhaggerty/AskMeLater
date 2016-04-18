@@ -83,7 +83,7 @@
 
 @protocol PQQuestion_PRIVATE <PQQuestion_Editable>
 
-- (NSString *)uuid;
+- (NSString *)questionId;
 
 - (void)addResponse:(id <PQResponse>)response;
 - (void)removeResponse:(id <PQResponse>)response;

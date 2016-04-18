@@ -38,10 +38,12 @@
 
 // GETTERS //
 
-+ (PQUser *)userWithUserId:(NSString *)userId;
-+ (NSSet <PQSurvey *> *)surveysWithAuthor:(PQUser *)author;
-+ (PQQuestion *)questionWithId:(NSString *)uuid;
-+ (NSSet <PQResponse *> *)responsesWithUser:(PQUser *)user;
++ (PQUser *)getUserWithId:(NSString *)userId;
++ (PQSurvey *)getSurveyWithId:(NSString *)surveyId;
++ (NSSet *)getSurveysWithAuthor:(PQUser *)author;
++ (PQQuestion *)getQuestionWithId:(NSString *)questionId;
++ (PQResponse *)getResponseWithId:(NSString *)responseId;
++ (NSSet *)getResponsesWithUser:(PQUser *)user;
 
 // DELETORS //
 

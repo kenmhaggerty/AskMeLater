@@ -24,8 +24,8 @@
 #pragma mark - // SETTERS AND GETTERS //
 
 @dynamic date;
+@dynamic responseId;
 @dynamic text;
-@dynamic uuid;
 @dynamic user;
 @dynamic question;
 

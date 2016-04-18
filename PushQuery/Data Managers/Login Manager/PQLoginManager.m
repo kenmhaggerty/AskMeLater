@@ -283,7 +283,7 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
         return currentUser;
     }
     
-    currentUser = [PQCoreDataController userWithUserId:userId];
+    currentUser = [PQCoreDataController getUserWithId:userId];
     if (!currentUser) {
         NSString *email = authData[FirebaseAuthKeyEmail];
         currentUser = [PQCoreDataController userWithUserId:userId email:email];

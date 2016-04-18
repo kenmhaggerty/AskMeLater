@@ -112,11 +112,11 @@
     return survey;
 }
 
-+ (NSSet <id <PQSurvey>> *)surveysAuthoredByUser:(id <PQUser>)user {
++ (NSSet *)getSurveysAuthoredByUser:(id <PQUser>)user {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
     
     PQUser *author = [PQDataManager convertUser:user];
-    return (NSSet <id <PQSurvey>> *)[PQCoreDataController surveysWithAuthor:author];
+    return [PQCoreDataController getSurveysWithAuthor:author];
 }
 
 + (void)deleteSurvey:(id <PQSurvey_Editable>)survey {
@@ -127,12 +127,6 @@
 
 #pragma mark - // PUBLIC METHODS (Questions) //
 
-+ (id <PQQuestion>)questionWithId:(NSString *)uuid {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
-    
-    return [PQCoreDataController questionWithId:uuid];
-}
-
 + (id <PQQuestion_Editable>)questionForSurvey:(id <PQSurvey_Editable>)survey {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_DATA] message:nil];
     
@@ -142,6 +136,12 @@
     [survey addQuestion:question];
     [PQCoreDataController save];
     return question;
+}
+
++ (id <PQQuestion>)getQuestionWithId:(NSString *)uuid {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
+    
+    return [PQCoreDataController getQuestionWithId:uuid];
 }
 
 + (void)deleteQuestion:(id <PQQuestion_Editable>)question {
@@ -167,7 +167,7 @@
         for (id <PQChoice> choice in nextQuestion.choices) {
             [actions addObject:[PQNotificationsManager notificationActionWithTitle:choice.text textInput:NO destructive:NO authentication:NO]];
         }
-        [PQNotificationsManager setNotificationWithTitle:survey.name body:nextQuestion.text actions:actions actionString:PQNotificationActionString uuid:nextQuestion.uuid fireDate:nil repeat:NO];
+        [PQNotificationsManager setNotificationWithTitle:survey.name body:nextQuestion.text actions:actions actionString:PQNotificationActionString uuid:nextQuestion.questionId fireDate:nil repeat:NO];
     }
     else if (!survey.repeat) {
         survey.enabled = NO;
@@ -271,12 +271,12 @@
     
     PQUser *user = [PQDataManager convertUser:currentUser];
     
-    NSSet <PQSurvey *> *surveys = [PQCoreDataController surveysWithAuthor:nil];
+    NSSet *surveys = [PQCoreDataController getSurveysWithAuthor:nil];
     for (PQSurvey *survey in surveys) {
         survey.author = user;
     }
     
-    NSSet <PQResponse *> *responses = [PQCoreDataController responsesWithUser:nil];
+    NSSet *responses = [PQCoreDataController getResponsesWithUser:nil];
     for (PQResponse *response in responses) {
         response.user = user;
     }

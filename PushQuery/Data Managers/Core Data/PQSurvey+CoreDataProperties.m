@@ -29,8 +29,8 @@
 @dynamic name;
 @dynamic repeatValue;
 @dynamic secureValue;
+@dynamic surveyId;
 @dynamic time;
-@dynamic uuid;
 @dynamic questions;
 @dynamic author;
 
