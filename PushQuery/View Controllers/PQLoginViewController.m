@@ -272,6 +272,7 @@ NSTimeInterval const AnimationSpeed = 0.18f;
 - (IBAction)cancel:(id)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
+    [self.view.firstResponder resignFirstResponder];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
