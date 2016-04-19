@@ -33,7 +33,7 @@
         return;
     }
     
-    NSDictionary *userInfo = [NSMutableDictionary dictionaryWithObject:user forKey:NOTIFICATION_OBJECT_KEY];
+    NSDictionary *userInfo = [NSMutableDictionary dictionaryWithNullableObject:user forKey:NOTIFICATION_OBJECT_KEY];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(user))];
     [self setPrimitiveValue:user forKey:NSStringFromSelector(@selector(user))];
