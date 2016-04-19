@@ -87,8 +87,8 @@
             userInfo = [NSDictionary dictionaryWithObject:self.textInputValue forKey:NOTIFICATION_OBJECT_KEY];
             [AKGenerics postNotificationName:PQChoiceTextInputDidSaveNotification object:self userInfo:userInfo];
         }
-        [AKGenerics postNotificationName:PQChoiceWasSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
     }
+    [AKGenerics postNotificationName:PQChoiceWasSavedNotification object:self userInfo:[NSDictionary dictionaryWithNullableObject:self.changedKeys forKey:NOTIFICATION_OBJECT_KEY]];
     
     [super didSave];
 }

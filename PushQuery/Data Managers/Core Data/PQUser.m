@@ -110,8 +110,8 @@
             userInfo = [NSDictionary dictionaryWithObject:self.username forKey:NOTIFICATION_OBJECT_KEY];
             [AKGenerics postNotificationName:PQUserUsernameDidSaveNotification object:self userInfo:userInfo];
         }
-        [AKGenerics postNotificationName:PQUserWasSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
     }
+    [AKGenerics postNotificationName:PQUserWasSavedNotification object:self userInfo:[NSDictionary dictionaryWithNullableObject:self.changedKeys forKey:NOTIFICATION_OBJECT_KEY]];
     
     [super didSave];
 }
