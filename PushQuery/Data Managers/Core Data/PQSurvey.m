@@ -233,6 +233,10 @@
             userInfo = [NSDictionary dictionaryWithNullableObject:self.author forKey:NOTIFICATION_OBJECT_KEY];
             [AKGenerics postNotificationName:PQSurveyAuthorDidSaveNotification object:self userInfo:userInfo];
         }
+        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(questions))]) {
+            userInfo = [NSDictionary dictionaryWithObject:self.questions forKey:NOTIFICATION_OBJECT_KEY];
+            [AKGenerics postNotificationName:PQSurveyQuestionsDidSaveNotification object:self userInfo:userInfo];
+        }
     }
     [AKGenerics postNotificationName:PQSurveyWasSavedNotification object:self userInfo:[NSDictionary dictionaryWithNullableObject:self.changedKeys forKey:NOTIFICATION_OBJECT_KEY]];
     
