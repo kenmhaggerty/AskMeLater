@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *email;
 @property (nullable, nonatomic, retain) NSString *userId;
 @property (nullable, nonatomic, retain) NSString *username;
+@property (nullable, nonatomic, retain) NSSet <PQResponse *> *responses;
+@property (nullable, nonatomic, retain) NSSet <PQSurvey *> *surveys;
 
 @end
 

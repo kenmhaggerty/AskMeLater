@@ -28,6 +28,8 @@
 @dynamic email;
 @dynamic userId;
 @dynamic username;
+@dynamic responses;
+@dynamic surveys;
 
 #pragma mark - // INITS AND LOADS //
 
