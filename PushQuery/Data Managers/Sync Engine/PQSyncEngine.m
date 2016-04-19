@@ -878,6 +878,11 @@ NSString * const PQFirebasePathResponseUser = @"user";
         
         [choices addObject:choice];
     }
+    for (choice in question.choices) {
+        if (![choices containsObject:choice]) {
+            [PQCoreDataController deleteObject:choice];
+        }
+    }
     question.choices = choices;
     
     NSDictionary *responseDictionaries = dictionary[PQFirebasePathResponses];
