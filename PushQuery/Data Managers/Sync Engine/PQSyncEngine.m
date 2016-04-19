@@ -372,7 +372,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
     
     PQSurvey *survey = (PQSurvey *)notification.object;
-    if (!survey.inserted && !survey.isDeleted) {
+    if ((!survey.inserted && !survey.isDeleted) || survey.changedKeys) {
         return;
     }
     
