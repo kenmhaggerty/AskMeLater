@@ -29,11 +29,11 @@ NSString * const PQFirebasePathSurveyCreatedAt = @"createdAt";
 NSString * const PQFirebasePathSurveyEditedAt = @"editedAt";
 NSString * const PQFirebasePathSurveyEnabled = @"enabled";
 NSString * const PQFirebasePathSurveyName = @"name";
+NSString * const PQFirebasePathSurveyOrder = @"questionIds";
 NSString * const PQFirebasePathSurveyRepeat = @"repeat";
 NSString * const PQFirebasePathSurveyTime = @"time";
 
 NSString * const PQFirebasePathQuestionCreatedAt = @"createdAt";
-NSString * const PQFirebasePathQuestionIndex = @"index";
 NSString * const PQFirebasePathQuestionSecure = @"secure";
 NSString * const PQFirebasePathQuestionText = @"text";
 
@@ -481,14 +481,26 @@ NSString * const PQFirebasePathResponseUser = @"user";
     
     [PQSyncEngine performBlockForCurrentUser:^(NSString *userId) {
         PQSurvey *survey = (PQSurvey *)notification.object;
-        // $userId/surveys/$surveyId/questions
+        // $userId/surveys/$surveyId/questionIds
         NSString *surveyId = survey.surveyId;
-        NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathQuestions]];
+        NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathSurveyOrder]];
         NSOrderedSet *questions = notification.userInfo[NOTIFICATION_OBJECT_KEY];
-        NSMutableDictionary *convertedQuestions = [NSMutableDictionary dictionary];
-        for (PQQuestion *question in questions) {
+        NSMutableArray *order = [NSMutableArray arrayWithCapacity:questions.count];
+        NSMutableDictionary *convertedQuestions = [NSMutableDictionary dictionaryWithCapacity:questions.count];
+        PQQuestion *question;
+        for (int i = 0; i < questions.count; i++) {
+            question = questions[i];
+            [order addObject:question.questionId];
             convertedQuestions[question.questionId] = [PQSyncEngine convertQuestion:question];
         }
+        [PQFirebaseController saveObject:order toPath:url.relativeString withCompletion:^(BOOL success, NSError *error) {
+            if (error) {
+                [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeDeletor tags:@[AKD_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
+            }
+        }];
+        
+        // $userId/surveys/$surveyId/questions
+        url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathQuestions]];
         [PQFirebaseController saveObject:convertedQuestions toPath:url.relativeString withCompletion:^(BOOL success, NSError *error) {
             if (error) {
                 [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeDeletor tags:@[AKD_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
@@ -684,11 +696,16 @@ NSString * const PQFirebasePathResponseUser = @"user";
     dictionary[PQFirebasePathSurveyRepeat] = survey.repeatValue;
     dictionary[PQFirebasePathSurveyTime] = [PQSyncEngine convertDate:survey.time];
     
-    NSMutableDictionary *convertedQuestions = [NSMutableDictionary dictionary];
-    for (PQQuestion *question in survey.questions) {
+    NSMutableDictionary *convertedQuestions = [NSMutableDictionary dictionaryWithCapacity:survey.questions.count];
+    NSMutableArray *order = [NSMutableArray arrayWithCapacity:survey.questions.count];
+    PQQuestion *question;
+    for (int i = 0; i < survey.questions.count; i++) {
+        question = survey.questions[i];
         convertedQuestions[question.questionId] = [PQSyncEngine convertQuestion:question];
+        [order addObject:question.questionId];
     }
     dictionary[PQFirebasePathQuestions] = convertedQuestions;
+    dictionary[PQFirebasePathSurveyOrder] = order;
     
     return dictionary;
 }
@@ -698,7 +715,6 @@ NSString * const PQFirebasePathResponseUser = @"user";
     
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     dictionary[PQFirebasePathQuestionCreatedAt] = [PQSyncEngine convertDate:question.createdAt];
-    dictionary[PQFirebasePathQuestionIndex] = [NSNumber numberWithInteger:[question.survey.questions indexOfObject:question]];
     dictionary[PQFirebasePathQuestionSecure] = question.secureValue;
     dictionary[PQFirebasePathQuestionText] = question.text;
     
@@ -822,38 +838,29 @@ NSString * const PQFirebasePathResponseUser = @"user";
     survey.repeatValue = (NSNumber *)dictionary[PQFirebasePathSurveyRepeat];
     survey.time = [PQSyncEngine convertDateString:dictionary[PQFirebasePathSurveyTime]];
     
-    NSDictionary *questionDictionaries = dictionary[PQFirebasePathQuestions];
-    if (!questionDictionaries.count) {
-        return;
-    }
-    
-    NSMutableDictionary *indices = [NSMutableDictionary dictionaryWithCapacity:questionDictionaries.count];
-    NSDictionary *questionDictionary;
-    NSString *questionId;
-    NSNumber *index;
-    NSUInteger maxIndex = 0;
-    for (questionId in questionDictionaries.allKeys) {
-        questionDictionary = questionDictionaries[questionId];
-        index = (NSNumber *)questionDictionary[PQFirebasePathQuestionIndex];
-        [indices setObject:@{questionId : questionDictionary} forKey:index];
-        maxIndex = MAX(maxIndex, index.integerValue);
-    }
-    NSMutableOrderedSet *questions = [NSMutableOrderedSet orderedSetWithCapacity:questionDictionaries.count];
-    PQQuestion *question;
-    for (int i = 0 ; i <= maxIndex; i++) {
-        questionDictionary = indices[[NSNumber numberWithInteger:i]];
-        questionId = questionDictionary.allKeys.firstObject;
-        questionDictionary = questionDictionary[questionId];
-        
-        question = [PQCoreDataController getQuestionWithId:questionId];
-        if (!question) {
-            question = [PQCoreDataController questionWithText:nil choices:nil];
-            question.questionId = questionId;
+    NSArray *questionIds = dictionary[PQFirebasePathSurveyOrder];
+    if (questionIds && questionIds.count) {
+        NSDictionary *questionDictionaries = dictionary[PQFirebasePathQuestions];
+        NSDictionary *questionDictionary;
+        PQQuestion *question;
+        NSMutableOrderedSet *questions = [NSMutableOrderedSet orderedSetWithCapacity:questionIds.count];
+        for (NSString *questionId in questionIds) {
+            questionDictionary = questionDictionaries[questionId];
+            question = [PQCoreDataController getQuestionWithId:questionId];
+            if (!question) {
+                question = [PQCoreDataController questionWithText:nil choices:nil];
+                question.questionId = questionId;
+            }
+            [PQSyncEngine overwriteQuestion:question withDictionary:questionDictionary];
+            [questions addObject:question];
         }
-        [PQSyncEngine overwriteQuestion:question withDictionary:questionDictionary];
-        [questions addObject:question];
+        for (question in survey.questions) {
+            if (![questions containsObject:question]) {
+                [PQCoreDataController deleteObject:question];
+            }
+        }
+        survey.questions = questions;
     }
-    survey.questions = questions;
     
     survey.editedAt = [PQSyncEngine convertDateString:dictionary[PQFirebasePathSurveyEditedAt]];
 }
