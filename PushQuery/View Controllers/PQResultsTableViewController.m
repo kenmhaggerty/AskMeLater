@@ -70,6 +70,14 @@
 
 #pragma mark - // INITS AND LOADS //
 
+- (void)viewDidLoad {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    [super viewDidLoad];
+    
+    self.clearsSelectionOnViewWillAppear = NO;
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
     
