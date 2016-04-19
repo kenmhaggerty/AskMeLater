@@ -172,10 +172,16 @@ NSString * const PQFirebasePathResponseUser = @"user";
             
             NSDictionary *dictionary = (NSDictionary *)result;
             NSArray *surveyIds = dictionary.allKeys;
-            NSDictionary *survey;
+            NSDictionary *surveyDictionary;
             for (NSString *surveyId in surveyIds) {
-                survey = dictionary[surveyId];
-                [PQSyncEngine synchronizeSurveyWithId:surveyId authorId:userId dictionary:survey];
+                surveyDictionary = dictionary[surveyId];
+                [PQSyncEngine synchronizeSurveyWithId:surveyId authorId:userId dictionary:surveyDictionary];
+            }
+            PQUser *user = [PQCoreDataController getUserWithId:userId];
+            for (PQSurvey *survey in user.surveys) {
+                if (![surveyIds containsObject:survey.surveyId]) {
+                    [PQCoreDataController deleteObject:survey];
+                }
             }
             [PQCoreDataController save];
             completionBlock(YES);
