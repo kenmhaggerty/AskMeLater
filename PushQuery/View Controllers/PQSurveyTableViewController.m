@@ -232,7 +232,15 @@ NSUInteger const TimingTableViewSection = 2;
         cell.timePicker.alpha = self.survey.enabled ? 0.5f : 1.0f;
         [cell setRepeatSwitch:self.survey.repeat animated:NO];
         [cell setEnabledSwitch:self.survey.enabled animated:NO];
-        cell.separatorInset = UIEdgeInsetsMake(0.f, cell.bounds.size.width, 0.f, 0.f);
+        
+        if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+            [cell setSeparatorInset:UIEdgeInsetsZero];
+        }
+        
+        if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+            [cell setLayoutMargins:UIEdgeInsetsZero];
+        }
+        
         return cell;
     }
     
@@ -280,6 +288,28 @@ NSUInteger const TimingTableViewSection = 2;
 }
 
 #pragma mark - // DELEGATED METHODS (UITableViewDelegate) //
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    if (section == TimingTableViewSection) {
+        return 1.0f/UIScreen.mainScreen.scale;
+    }
+    
+    return UITableViewAutomaticDimension;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    if (section == TimingTableViewSection) {
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, tableView.frame.size.width, 1.0f/UIScreen.mainScreen.scale)];
+        line.backgroundColor = tableView.separatorColor;
+        return line;
+    }
+    
+    return nil;
+}
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
