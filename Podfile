@@ -5,6 +5,7 @@ target "PushQuery" do
   pod 'PNChart'
   pod 'Fabric'
   pod 'Crashlytics'
+  pod 'JDStatusBarNotification'
 end
 
 def test_pods

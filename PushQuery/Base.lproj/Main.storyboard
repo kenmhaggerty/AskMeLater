@@ -429,13 +429,14 @@
                                 <action selector="settings:" destination="Cyk-Tn-HoT" id="SfF-ei-XX2"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="VNf-hg-0SN">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="VNf-hg-0SN">
                             <connections>
-                                <action selector="newSurvey:" destination="Cyk-Tn-HoT" id="jfG-wz-EfV"/>
+                                <action selector="refresh:" destination="Cyk-Tn-HoT" id="VdH-8J-xbX"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="refreshBarButtonItem" destination="VNf-hg-0SN" id="COP-Jq-2QW"/>
                         <segue destination="bef-wX-pn5" kind="show" identifier="segueSurvey" id="gWT-9Z-3eJ"/>
                     </connections>
                 </tableViewController>

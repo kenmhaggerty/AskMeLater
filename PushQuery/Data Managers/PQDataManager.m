@@ -22,7 +22,10 @@
 
 #pragma mark - // DEFINITIONS (Private) //
 
+NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQDataManager_IsSyncingDidChange";
+
 @interface PQDataManager ()
+@property (nonatomic) BOOL isSyncing;
 
 // GENERAL //
 
@@ -54,6 +57,20 @@
 @implementation PQDataManager
 
 #pragma mark - // SETTERS AND GETTERS //
+
+- (void)setIsSyncing:(BOOL)isSyncing {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_DATA] message:nil];
+    
+    if (isSyncing == _isSyncing) {
+        return;
+    }
+    
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:isSyncing] forKey:NOTIFICATION_OBJECT_KEY];
+    
+    _isSyncing = isSyncing;
+    
+    [AKGenerics postNotificationName:PQDataManagerIsSyncingDidChangeNotification object:nil userInfo:userInfo];
+}
 
 #pragma mark - // INITS AND LOADS //
 
@@ -95,6 +112,12 @@
     [PQLoginManager setup];
 }
 
++ (BOOL)isSyncing {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
+    
+    return [PQDataManager sharedManager].isSyncing;
+}
+
 + (void)save {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
     
@@ -123,7 +146,11 @@
 + (void)fetchSurveysWithCompletion:(void(^)(void))completionBlock {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
     
-    [PQSyncEngine fetchSurveysWithCompletion:completionBlock]; // error?
+    [PQDataManager sharedManager].isSyncing = YES;
+    [PQSyncEngine fetchSurveysWithCompletion:^{
+        completionBlock();
+        [PQDataManager sharedManager].isSyncing = NO;
+    }];
 }
 
 + (void)deleteSurvey:(id <PQSurvey_Editable>)survey {
@@ -227,6 +254,8 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:nil];
     
     [super setup];
+    
+    self.isSyncing = NO;
     
     [self addObserversToLoginManager];
 }

@@ -22,6 +22,7 @@
 
 #import "PQSurveyUIProtocol.h"
 #import "UIViewController+Email.h"
+#import "JDStatusBarNotification.h"
 @import SafariServices;
 
 #pragma mark - // DEFINITIONS (Private) //
@@ -33,7 +34,12 @@ NSString * const SURVEY_CELL_REUSE_IDENTIFIER = @"surveyCell";
 NSString * const ADD_CELL_REUSE_IDENTIFIER = @"addCell";
 NSString * const SEGUE_SURVEY = @"segueSurvey";
 
+NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
+
 @interface PQSurveysTableViewController ()
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *refreshBarButtonItem;
+@property (nonatomic, strong) UIBarButtonItem *activityIndicatorButtonItem;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
 @property (nonatomic, strong) NSMutableOrderedSet <id <PQSurvey>> *surveys;
 @property (nonatomic, strong) UIAlertController *alertSettings;
 @property (nonatomic, strong) UIAlertAction *alertActionSignIn;
@@ -48,12 +54,14 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
 // ACTIONS //
 
 - (IBAction)settings:(id)sender;
-- (IBAction)newSurvey:(id)sender;
+- (IBAction)refresh:(id)sender;
 
 // OBSERVERS //
 
 - (void)addObserversToLoginManager;
 - (void)removeObserversFromLoginManager;
+- (void)addObserversToDataManager;
+- (void)removeObserversFromDataManager;
 - (void)addObserversToSurvey:(id <PQSurvey>)survey;
 - (void)removeObserversFromSurvey:(id <PQSurvey>)survey;
 
@@ -61,6 +69,7 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
 
 - (void)currentUserDidChange:(NSNotification *)notification;
 - (void)emailDidChange:(NSNotification *)notification;
+- (void)isSyncingDidChange:(NSNotification *)notification;
 - (void)surveyDidChange:(NSNotification *)notification;
 
 // OTHER //
@@ -74,6 +83,31 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
 @implementation PQSurveysTableViewController
 
 #pragma mark - // SETTERS AND GETTERS //
+
+- (UIBarButtonItem *)activityIndicatorButtonItem {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    if (_activityIndicatorButtonItem) {
+        return _activityIndicatorButtonItem;
+    }
+    
+    _activityIndicatorButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.activityIndicatorView];
+    return _activityIndicatorButtonItem;
+}
+
+- (UIActivityIndicatorView *)activityIndicatorView {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
+    
+    if (_activityIndicatorView) {
+        return _activityIndicatorView;
+    }
+    
+    _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    _activityIndicatorView.tintColor = self.view.tintColor;
+    _activityIndicatorView.hidesWhenStopped = YES;
+    [_activityIndicatorView startAnimating];
+    return _activityIndicatorView;
+}
 
 - (void)setSurveys:(NSMutableOrderedSet <id <PQSurvey>> *)surveys {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:nil message:nil];
@@ -439,12 +473,14 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
     _surveys = [NSMutableOrderedSet orderedSet];
     
     [self addObserversToLoginManager];
+    [self addObserversToDataManager];
 }
 
 - (void)teardown {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
     
     [self removeObserversFromLoginManager];
+    [self removeObserversFromDataManager];
     
     [super teardown];
 }
@@ -476,10 +512,10 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
     [self presentViewController:self.alertSettings animated:YES completion:nil];
 }
 
-- (IBAction)newSurvey:(id)sender {
+- (IBAction)refresh:(id)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
-    [self createNewSurvey];
+    [self fetchSurveys];
 }
 
 #pragma mark - // PRIVATE METHODS (Observers) //
@@ -496,6 +532,18 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQLoginManagerCurrentUserDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQLoginManagerEmailDidChangeNotification object:nil];
+}
+
+- (void)addObserversToDataManager {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(isSyncingDidChange:) name:PQDataManagerIsSyncingDidChangeNotification object:nil];
+}
+
+- (void)removeObserversFromDataManager {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQDataManagerIsSyncingDidChangeNotification object:nil];
 }
 
 - (void)addObserversToSurvey:(id <PQSurvey>)survey {
@@ -532,6 +580,17 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
     self.alertSettings.message = email;
 }
 
+- (void)isSyncingDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    NSNumber *isSyncingValue = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    
+    self.navigationItem.rightBarButtonItem = isSyncingValue.boolValue ? self.activityIndicatorButtonItem : self.refreshBarButtonItem;
+    if (!isSyncingValue.boolValue) {
+        [JDStatusBarNotification showWithStatus:@"Successfully updated surveys!" dismissAfter:StatusBarNotificationDisplayTime styleName:JDStatusBarStyleDark];
+    }
+}
+
 - (void)surveyDidChange:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
     
@@ -559,6 +618,10 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
 
 - (void)fetchSurveys {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
+    
+    if ([PQDataManager isSyncing]) {
+        return;
+    }
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [PQDataManager fetchSurveysWithCompletion:^{

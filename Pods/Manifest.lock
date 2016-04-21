@@ -6,6 +6,7 @@ PODS:
     - Expecta
   - Fabric (1.6.7)
   - Firebase (2.5.1)
+  - JDStatusBarNotification (1.5.3)
   - KIF (3.3.2):
     - KIF/Core (= 3.3.2)
   - KIF/Core (3.3.2)
@@ -23,6 +24,7 @@ DEPENDENCIES:
   - Expecta+Collections
   - Fabric
   - Firebase (>= 2.5.0)
+  - JDStatusBarNotification
   - KIF (~> 3.0)
   - KIFViewControllerActions
   - PNChart
@@ -35,6 +37,7 @@ SPEC CHECKSUMS:
   Expecta+Collections: 6fae193f42cb98dab08fe6a1ef579e97c65aa56a
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   Firebase: 3565ea88b830f28f2c77ecc524622bc71a20d085
+  JDStatusBarNotification: 29413865af11c862c17180610b0f46a21118b412
   KIF: 9de83fa627adaf65d28ace31e40f19d830bc255c
   KIFViewControllerActions: fc3a8e1352a6609624bda1fe6cfad410d0e88552
   PNChart: 25f91e9c4688af49c3647489760624d037f5383f

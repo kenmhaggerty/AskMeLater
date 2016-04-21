@@ -21,6 +21,8 @@
 
 #pragma mark - // DEFINITIONS (Public) //
 
+extern NSString * const PQDataManagerIsSyncingDidChangeNotification;
+
 #import "PQFirebaseNotifications.h"
 
 @interface PQDataManager : NSObject <Firebase>
@@ -28,6 +30,7 @@
 // GENERAL //
 
 + (void)setup;
++ (BOOL)isSyncing;
 + (void)save;
 
 // SURVEYS //
