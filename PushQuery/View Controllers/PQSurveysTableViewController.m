@@ -422,6 +422,7 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     }
     else if (indexPath.section == 1) {
         UITableViewCell *cell = [AKGenerics cellWithReuseIdentifier:ADD_CELL_REUSE_IDENTIFIER class:[UITableViewCell class] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
+        cell.separatorInset = UIEdgeInsetsMake(0.f, cell.bounds.size.width, 0.f, 0.f);
         return cell;
     }
     
@@ -586,9 +587,6 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     NSNumber *isSyncingValue = notification.userInfo[NOTIFICATION_OBJECT_KEY];
     
     self.navigationItem.rightBarButtonItem = isSyncingValue.boolValue ? self.activityIndicatorButtonItem : self.refreshBarButtonItem;
-    if (!isSyncingValue.boolValue) {
-        [JDStatusBarNotification showWithStatus:@"Successfully updated surveys!" dismissAfter:StatusBarNotificationDisplayTime styleName:JDStatusBarStyleDark];
-    }
 }
 
 - (void)surveyDidChange:(NSNotification *)notification {
@@ -624,13 +622,16 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     }
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [PQDataManager fetchSurveysWithCompletion:^{
+        [PQDataManager fetchSurveysWithCompletion:^(BOOL success) {
             id <PQUser> currentUser = [PQLoginManager currentUser];
             NSMutableOrderedSet *surveys = [NSMutableOrderedSet orderedSetWithSet:[PQDataManager getSurveysAuthoredByUser:currentUser]];
             NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(createdAt)) ascending:YES];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [surveys sortUsingDescriptors:@[sortDescriptor]];
                 self.surveys = surveys;
+                if (success) {
+                    [JDStatusBarNotification showWithStatus:@"Successfully updated surveys" dismissAfter:StatusBarNotificationDisplayTime styleName:JDStatusBarStyleDark];
+                }
             });
         }];
     });

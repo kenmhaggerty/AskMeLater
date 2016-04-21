@@ -37,7 +37,7 @@ extern NSString * const PQDataManagerIsSyncingDidChangeNotification;
 
 + (id <PQSurvey_Editable>)survey;
 + (NSSet *)getSurveysAuthoredByUser:(id <PQUser>)user;
-+ (void)fetchSurveysWithCompletion:(void(^)(void))completionBlock;
++ (void)fetchSurveysWithCompletion:(void(^)(BOOL success))completionBlock;
 + (void)deleteSurvey:(id <PQSurvey_Editable>)survey;
 
 // QUESTIONS //

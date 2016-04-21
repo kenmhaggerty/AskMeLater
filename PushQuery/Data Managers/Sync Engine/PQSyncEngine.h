@@ -19,5 +19,5 @@
 
 @interface PQSyncEngine : NSObject
 + (void)setup;
-+ (void)fetchSurveysWithCompletion:(void(^)(void))completionBlock;
++ (void)fetchSurveysWithCompletion:(void(^)(BOOL success))completionBlock;
 @end

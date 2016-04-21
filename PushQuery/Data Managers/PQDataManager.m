@@ -143,13 +143,13 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
     return [PQCoreDataController getSurveysWithAuthor:author];
 }
 
-+ (void)fetchSurveysWithCompletion:(void(^)(void))completionBlock {
++ (void)fetchSurveysWithCompletion:(void(^)(BOOL success))completionBlock {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
     
     [PQDataManager sharedManager].isSyncing = YES;
-    [PQSyncEngine fetchSurveysWithCompletion:^{
-        completionBlock();
+    [PQSyncEngine fetchSurveysWithCompletion:^(BOOL success) {
         [PQDataManager sharedManager].isSyncing = NO;
+        completionBlock(success);
     }];
 }
 
