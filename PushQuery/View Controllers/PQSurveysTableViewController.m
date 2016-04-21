@@ -29,7 +29,8 @@
 NSString * const PQContactUsEmail = @"kenmhaggerty@gmail.com";
 NSString * const PQContactUsSubject = @"PushQuery: Customer Email";
 
-NSString * const REUSE_IDENTIFIER = @"surveyCell";
+NSString * const SURVEY_CELL_REUSE_IDENTIFIER = @"surveyCell";
+NSString * const ADD_CELL_REUSE_IDENTIFIER = @"addCell";
 NSString * const SEGUE_SURVEY = @"segueSurvey";
 
 @interface PQSurveysTableViewController ()
@@ -66,6 +67,7 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
 
 + (NSString *)stringForDate:(NSDate *)date;
 - (void)fetchSurveys;
+- (void)createNewSurvey;
 
 @end
 
@@ -343,6 +345,8 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
     
     [super viewDidLoad];
     
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
     [self fetchSurveys];
 }
 
@@ -355,24 +359,49 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
     
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
     
-    return (self.surveys ? self.surveys.count : 0);
+    if (section == 0) {
+        return (self.surveys ? self.surveys.count : 0);
+    }
+    else if (section == 1) {
+        return 1;
+    }
+    
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
     
-    UITableViewCell *cell = [AKGenerics cellWithReuseIdentifier:REUSE_IDENTIFIER class:[UITableViewCell class] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
-    id <PQSurvey> survey = self.surveys[indexPath.row];
-    cell.textLabel.text = survey.name ?: PQSurveyNamePlaceholder;
-    cell.textLabel.textColor = (survey.name ? [UIColor blackColor] : [UIColor lightGrayColor]);
-//    cell.detailTextLabel.text = [PQSurveysTableViewController stringForDate:survey.editedAt];
-    return cell;
+    if (indexPath.section == 0) {
+        UITableViewCell *cell = [AKGenerics cellWithReuseIdentifier:SURVEY_CELL_REUSE_IDENTIFIER class:[UITableViewCell class] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
+        id <PQSurvey> survey = self.surveys[indexPath.row];
+        cell.textLabel.text = survey.name ?: PQSurveyNamePlaceholder;
+        cell.textLabel.textColor = (survey.name ? [UIColor blackColor] : [UIColor lightGrayColor]);
+//        cell.detailTextLabel.text = [PQSurveysTableViewController stringForDate:survey.editedAt];
+        return cell;
+    }
+    else if (indexPath.section == 1) {
+        UITableViewCell *cell = [AKGenerics cellWithReuseIdentifier:ADD_CELL_REUSE_IDENTIFIER class:[UITableViewCell class] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
+        return cell;
+    }
+    
+    return nil;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeValidator tags:@[AKD_UI] message:nil];
+    
+    if (indexPath.section == 1) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -390,9 +419,14 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
-    id survey = self.surveys[indexPath.row];
-    [self performSegueWithIdentifier:SEGUE_SURVEY sender:survey];
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 0) {
+        id survey = self.surveys[indexPath.row];
+        [self performSegueWithIdentifier:SEGUE_SURVEY sender:survey];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+    else if (indexPath.section == 1) {
+        [self createNewSurvey];
+    }
 }
 
 #pragma mark - // OVERWRITTEN METHODS //
@@ -445,19 +479,7 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
 - (IBAction)newSurvey:(id)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
-    id <PQSurvey> survey = [PQDataManager survey];
-    [self addObserversToSurvey:survey];
-    [self.surveys insertObject:survey atIndex:0];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [CATransaction begin];
-    [self.tableView beginUpdates];
-    [CATransaction setCompletionBlock:^{
-        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    }];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
-    [self.tableView endUpdates];
-    [CATransaction commit];
-//    [self performSegueWithIdentifier:SEGUE_SURVEY sender:survey];
+    [self createNewSurvey];
 }
 
 #pragma mark - // PRIVATE METHODS (Observers) //
@@ -542,13 +564,32 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
         [PQDataManager fetchSurveysWithCompletion:^{
             id <PQUser> currentUser = [PQLoginManager currentUser];
             NSMutableOrderedSet *surveys = [NSMutableOrderedSet orderedSetWithSet:[PQDataManager getSurveysAuthoredByUser:currentUser]];
-            NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(editedAt)) ascending:NO];
+            NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(createdAt)) ascending:YES];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [surveys sortUsingDescriptors:@[sortDescriptor]];
                 self.surveys = surveys;
             });
         }];
     });
+}
+
+- (void)createNewSurvey {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
+    
+    id <PQSurvey> survey = [PQDataManager survey];
+    [self addObserversToSurvey:survey];
+    NSUInteger index = self.surveys.count;
+    [self.surveys insertObject:survey atIndex:index];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    [CATransaction begin];
+    [self.tableView beginUpdates];
+    [CATransaction setCompletionBlock:^{
+        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    }];
+    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+    [self.tableView endUpdates];
+    [CATransaction commit];
+//    [self performSegueWithIdentifier:SEGUE_SURVEY sender:survey];
 }
 
 @end

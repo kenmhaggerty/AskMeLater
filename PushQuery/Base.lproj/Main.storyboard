@@ -397,6 +397,26 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="addCell" id="wvF-Fh-ess">
+                                <rect key="frame" x="0.0" y="116" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wvF-Fh-ess" id="ytO-6V-FiE">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+ Create New Survey" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Uw-oC-s3T">
+                                            <rect key="frame" x="219" y="11" width="162" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="0Uw-oC-s3T" firstAttribute="centerX" secondItem="ytO-6V-FiE" secondAttribute="centerX" id="4jo-kV-k2C"/>
+                                        <constraint firstItem="0Uw-oC-s3T" firstAttribute="centerY" secondItem="ytO-6V-FiE" secondAttribute="centerY" id="bpI-JM-ccF"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="Cyk-Tn-HoT" id="dc4-MS-0ci"/>
@@ -788,8 +808,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="299"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <datePicker contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="cqP-co-JRq">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="216"/>
+                                        <datePicker contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="cqP-co-JRq">
+                                            <rect key="frame" x="140" y="-8" width="320" height="221"/>
                                             <date key="date" timeIntervalSinceReferenceDate="480874342.81187499">
                                                 <!--2016-03-28 16:12:22 +0000-->
                                             </date>
@@ -797,29 +817,29 @@
                                                 <action selector="datePickerDidChange:" destination="3cP-g0-PGa" eventType="valueChanged" id="trU-HA-gRZ"/>
                                             </connections>
                                         </datePicker>
-                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C6M-zQ-yV0">
-                                            <rect key="frame" x="0.0" y="216" width="600" height="83"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C6M-zQ-yV0">
+                                            <rect key="frame" x="140" y="213" width="320" height="86"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ukx-cF-bdB">
-                                                    <rect key="frame" x="8" y="47" width="535" height="28"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ukx-cF-bdB">
+                                                    <rect key="frame" x="8" y="47" width="255" height="28"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Repeat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GSV-Zc-iXr">
-                                                    <rect key="frame" x="8" y="8" width="535" height="31"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repeat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GSV-Zc-iXr">
+                                                    <rect key="frame" x="8" y="8" width="255" height="31"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hDV-54-bi8">
-                                                    <rect key="frame" x="543" y="47" width="51" height="31"/>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hDV-54-bi8">
+                                                    <rect key="frame" x="263" y="47" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="switchDidSwitch:" destination="3cP-g0-PGa" eventType="valueChanged" id="msp-0h-AAJ"/>
                                                     </connections>
                                                 </switch>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="f7Y-PQ-Fte">
-                                                    <rect key="frame" x="543" y="8" width="51" height="28"/>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="f7Y-PQ-Fte">
+                                                    <rect key="frame" x="263" y="8" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="switchDidSwitch:" destination="3cP-g0-PGa" eventType="valueChanged" id="jGL-WF-Zf5"/>
                                                     </connections>
@@ -862,7 +882,7 @@
                                         <constraint firstItem="cqP-co-JRq" firstAttribute="centerX" secondItem="3ID-Gd-tns" secondAttribute="centerX" id="Rf8-hr-jBW"/>
                                         <constraint firstAttribute="bottom" secondItem="C6M-zQ-yV0" secondAttribute="bottom" id="Viw-3J-0o7"/>
                                         <constraint firstItem="C6M-zQ-yV0" firstAttribute="top" secondItem="cqP-co-JRq" secondAttribute="bottom" id="auW-W9-PeQ"/>
-                                        <constraint firstItem="cqP-co-JRq" firstAttribute="top" secondItem="3ID-Gd-tns" secondAttribute="top" id="e7v-OV-nbj"/>
+                                        <constraint firstAttribute="top" secondItem="cqP-co-JRq" secondAttribute="topMargin" id="e7v-OV-nbj"/>
                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" secondItem="C6M-zQ-yV0" secondAttribute="width" id="ft2-cO-r4v"/>
                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" secondItem="cqP-co-JRq" secondAttribute="width" id="iCs-a6-96t"/>
                                         <constraint firstItem="C6M-zQ-yV0" firstAttribute="centerX" secondItem="3ID-Gd-tns" secondAttribute="centerX" id="lwi-Be-GYR"/>
