@@ -120,7 +120,7 @@
     return [PQCoreDataController getSurveysWithAuthor:author];
 }
 
-+ (void)fetchSurveysWithCompletion:(void(^)(BOOL success))completionBlock {
++ (void)fetchSurveysWithCompletion:(void(^)(void))completionBlock {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
     
     [PQSyncEngine fetchSurveysWithCompletion:completionBlock]; // error?

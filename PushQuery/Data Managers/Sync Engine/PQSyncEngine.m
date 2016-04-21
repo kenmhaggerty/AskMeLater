@@ -158,34 +158,33 @@ NSString * const PQFirebasePathResponseUser = @"user";
     }
 }
 
-+ (void)fetchSurveysWithCompletion:(void(^)(BOOL success))completionBlock {
++ (void)fetchSurveysWithCompletion:(void(^)(void))completionBlock {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
     
-    [PQSyncEngine performBlockForCurrentUser:^(NSString *userId) {
-        // $userId/surveys/
-        NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys]];
-        [PQFirebaseController getObjectsAtPath:url.relativeString withQueries:nil andCompletion:^(id result) {
-            if (![result isKindOfClass:[NSDictionary class]]) {
-                completionBlock(NO);
-                return;
+    PQUser *currentUser = (PQUser *)[PQLoginManager currentUser];
+    if (!currentUser) {
+        completionBlock();
+        return;
+    }
+    
+    // $userId/surveys/
+    NSString *userId = currentUser.userId;
+    NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys]];
+    [PQFirebaseController getObjectsAtPath:url.relativeString withQueries:nil andCompletion:^(id result) {
+        NSDictionary *dictionary = (NSDictionary *)result;
+        NSArray *surveyIds = dictionary.allKeys;
+        NSDictionary *surveyDictionary;
+        for (NSString *surveyId in surveyIds) {
+            surveyDictionary = dictionary[surveyId];
+            [PQSyncEngine synchronizeSurveyWithId:surveyId authorId:userId dictionary:surveyDictionary];
+        }
+        for (PQSurvey *survey in currentUser.surveys) {
+            if (![surveyIds containsObject:survey.surveyId]) {
+                [PQCoreDataController deleteObject:survey];
             }
-            
-            NSDictionary *dictionary = (NSDictionary *)result;
-            NSArray *surveyIds = dictionary.allKeys;
-            NSDictionary *surveyDictionary;
-            for (NSString *surveyId in surveyIds) {
-                surveyDictionary = dictionary[surveyId];
-                [PQSyncEngine synchronizeSurveyWithId:surveyId authorId:userId dictionary:surveyDictionary];
-            }
-            PQUser *user = [PQCoreDataController getUserWithId:userId];
-            for (PQSurvey *survey in user.surveys) {
-                if (![surveyIds containsObject:survey.surveyId]) {
-                    [PQCoreDataController deleteObject:survey];
-                }
-            }
-            [PQCoreDataController save];
-            completionBlock(YES);
-        }];
+        }
+        [PQCoreDataController save];
+        completionBlock();
     }];
 }
 

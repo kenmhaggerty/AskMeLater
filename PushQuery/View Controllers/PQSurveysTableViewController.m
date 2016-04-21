@@ -539,15 +539,7 @@ NSString * const SEGUE_SURVEY = @"segueSurvey";
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [PQDataManager fetchSurveysWithCompletion:^(BOOL success) {
-            
-            if (!success) {
-                // dismiss message if present
-            }
-            else {
-                // could not fetch surveys – make sure connected to Internet
-            }
-            
+        [PQDataManager fetchSurveysWithCompletion:^{
             id <PQUser> currentUser = [PQLoginManager currentUser];
             NSMutableOrderedSet *surveys = [NSMutableOrderedSet orderedSetWithSet:[PQDataManager getSurveysAuthoredByUser:currentUser]];
             NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(editedAt)) ascending:NO];
