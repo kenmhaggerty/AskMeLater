@@ -15,7 +15,7 @@
 #import "AKGenerics.h"
 
 #import "PQLoginManager.h"
-#import "PQCoreDataController.h"
+#import "PQCoreDataController+PRIVATE.h"
 #import "PQFirebaseController.h"
 
 #pragma mark - // DEFINITIONS (Private) //

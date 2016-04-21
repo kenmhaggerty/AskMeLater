@@ -10,7 +10,7 @@
 
 #pragma mark - // IMPORTS (Private) //
 
-#import "PQCoreDataController.h"
+#import "PQCoreDataController+PRIVATE.h"
 #import "AKDebugger.h"
 #import "AKGenerics.h"
 #import <CoreData/CoreData.h>
@@ -125,14 +125,8 @@
 + (PQUser *)userWithUserId:(NSString *)userId email:(NSString *)email {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
-    __block PQUser *user;
-    user = [PQCoreDataController getUserWithId:userId];
-    if (user) {
-        user.email = email;
-        return user;
-    }
-    
     NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
+    __block PQUser *user;
     [managedObjectContext performBlockAndWait:^{
         user = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQUser class]) inManagedObjectContext:managedObjectContext];
         user.email = email;
@@ -388,7 +382,59 @@
     }];
 }
 
-#pragma mark - // CATEGORY METHODS //
+#pragma mark - // CATEGORY METHODS (PRIVATE) //
+
++ (PQUser *)userWithUserId:(NSString *)userId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
+    __block PQUser *user;
+    [managedObjectContext performBlockAndWait:^{
+        user = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQUser class]) inManagedObjectContext:managedObjectContext];
+        user.userId = userId;
+    }];
+    
+    return user;
+}
+
++ (PQSurvey *)surveyWithSurveyId:(NSString *)surveyId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
+    __block PQSurvey *survey;
+    [managedObjectContext performBlockAndWait:^{
+        survey = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQSurvey class]) inManagedObjectContext:managedObjectContext];
+        survey.surveyId = surveyId;
+    }];
+    
+    return survey;
+}
+
++ (PQQuestion *)questionWithQuestionId:(NSString *)questionId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
+    __block PQQuestion *question;
+    [managedObjectContext performBlockAndWait:^{
+        question = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQQuestion class]) inManagedObjectContext:managedObjectContext];
+        question.questionId = questionId;
+    }];
+    
+    return question;
+}
+
++ (PQResponse *)responseWithResponseId:(NSString *)responseId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
+    __block PQResponse *response;
+    [managedObjectContext performBlockAndWait:^{
+        response = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQResponse class]) inManagedObjectContext:managedObjectContext];
+        response.responseId = responseId;
+    }];
+    
+    return response;
+}
 
 #pragma mark - // DELEGATED METHODS //
 

@@ -112,6 +112,7 @@
 		7D09C8761CB4185F00962A23 /* syncview_question@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "syncview_question@2x.png"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/Icons/syncview_question@2x.png"; sourceTree = "<group>"; };
 		7D09C8771CB4185F00962A23 /* syncview_x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncview_x.png; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/Icons/syncview_x.png"; sourceTree = "<group>"; };
 		7D09C8781CB4185F00962A23 /* syncview_x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "syncview_x@2x.png"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/Icons/syncview_x@2x.png"; sourceTree = "<group>"; };
+		7D0EDFA81CC8250900ACFE53 /* PQCoreDataController+PRIVATE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PQCoreDataController+PRIVATE.h"; sourceTree = "<group>"; };
 		7D12CAB71C8A30280021519B /* PushQuery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PushQuery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D12CABB1C8A30280021519B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7D12CABD1C8A30280021519B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -557,6 +558,7 @@
 			isa = PBXGroup;
 			children = (
 				7D12CB1D1C8A69F20021519B /* PQCoreDataController.h */,
+				7D0EDFA81CC8250900ACFE53 /* PQCoreDataController+PRIVATE.h */,
 				7D12CB1E1C8A69F20021519B /* PQCoreDataController.m */,
 			);
 			name = PQCoreDataController;
