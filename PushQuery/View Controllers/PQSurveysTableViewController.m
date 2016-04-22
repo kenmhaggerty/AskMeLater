@@ -631,7 +631,10 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
                 [surveys sortUsingDescriptors:@[sortDescriptor]];
                 self.surveys = surveys;
                 if (success) {
-                    [JDStatusBarNotification showWithStatus:@"Successfully updated surveys" dismissAfter:StatusBarNotificationDisplayTime styleName:JDStatusBarStyleDark];
+                    JDStatusBarView *statusBarView = [JDStatusBarNotification showWithStatus:@"Successfully updated surveys" dismissAfter:StatusBarNotificationDisplayTime];
+                    statusBarView.backgroundColor = [UIColor colorWithRed:(247.0f/255.0f) green:(247.0f/255.0f) blue:(247.0f/255.0f) alpha:1.0f];
+                    statusBarView.textLabel.textColor = [UIColor blackColor];
+                    statusBarView.center = CGPointMake(statusBarView.bounds.size.width*0.5f, statusBarView.bounds.size.height*0.5f);
                 }
             });
         }];
