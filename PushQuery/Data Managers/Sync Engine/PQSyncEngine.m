@@ -125,7 +125,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
 
 // SYNC //
 
-+ (void)saveSurveyToRemote:(PQSurvey *)survey withAuthorId:(NSString *)authorId;
++ (void)saveSurveyToRemote:(PQSurvey *)survey;
 + (void)synchronizeSurveyWithId:(NSString *)surveyId authorId:(NSString *)authorId dictionary:(NSDictionary *)dictionary;
 + (void)saveSurveyToLocalWithId:(NSString *)surveyId authorId:(NSString *)authorId dictionary:(NSDictionary *)dictionary;
 + (void)overwriteSurvey:(PQSurvey *)survey withDictionary:(NSDictionary *)dictionary;
@@ -795,7 +795,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     
 //    [PQSyncEngine addFirebaseObserversToSurvey:survey];
     
-    [PQSyncEngine saveSurveyToRemote:survey withAuthorId:survey.author.userId];
+    [PQSyncEngine saveSurveyToRemote:survey];
 }
 
 - (void)surveyEditedAtDidSave:(NSNotification *)notification {
@@ -1219,12 +1219,13 @@ NSString * const PQFirebasePathResponseUser = @"user";
 
 #pragma mark - // PRIVATE METHODS (SYNC) //
 
-+ (void)saveSurveyToRemote:(PQSurvey *)survey withAuthorId:(NSString *)authorId {
++ (void)saveSurveyToRemote:(PQSurvey *)survey {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
     
     // $userId/surveys/$surveyId
+    NSString *userId = survey.author.userId;
     NSString *surveyId = survey.surveyId;
-    NSURL *url = [NSURL fileURLWithPathComponents:@[authorId, PQFirebasePathSurveys, surveyId]];
+    NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId]];
     NSDictionary *convertedSurvey = [PQSyncEngine convertSurvey:survey];
     [PQFirebaseController saveObject:convertedSurvey toPath:url.relativeString withCompletion:^(BOOL success, NSError *error) {
         if (error) {
@@ -1249,7 +1250,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
         [PQSyncEngine overwriteSurvey:survey withDictionary:dictionary];
     }
     else if (comparison == NSOrderedDescending) {
-        [PQSyncEngine saveSurveyToRemote:survey withAuthorId:authorId];
+        [PQSyncEngine saveSurveyToRemote:survey];
     }
 }
 
