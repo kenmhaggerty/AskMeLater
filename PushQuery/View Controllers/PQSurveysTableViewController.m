@@ -472,6 +472,7 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     [super setup];
     
     _surveys = [NSMutableOrderedSet orderedSet];
+    self.navigationItem.rightBarButtonItem = self.refreshBarButtonItem;
     
     [self addObserversToLoginManager];
     [self addObserversToDataManager];
