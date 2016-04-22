@@ -24,10 +24,14 @@
 NSString * const SignIn = @"Sign in";
 NSString * const CreateAccount = @"Create account";
 
+NSString * const SignInSecondaryText = @"Sign in to backup and sync your surveys across devices.";
+NSString * const CreateAccountSecondaryText = @"Create an account to backup and access your surveys across devices.";
+
 NSTimeInterval const AnimationSpeed = 0.18f;
 
 @interface PQLoginViewController () <UITextFieldDelegate, UIKeyboardDelegate>
 @property (nonatomic, strong) IBOutlet UISegmentedControl *segmentedControl;
+@property (nonatomic, strong) IBOutlet UILabel *secondaryText;
 @property (nonatomic, strong) IBOutlet UITextField *textFieldEmail;
 @property (nonatomic, strong) IBOutlet UITextField *textFieldPassword;
 @property (nonatomic, strong) IBOutlet UITextField *textFieldConfirmPassword;
@@ -257,9 +261,12 @@ NSTimeInterval const AnimationSpeed = 0.18f;
 - (IBAction)segmentedControlDidChangeValue:(UISegmentedControl *)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
-    [self setIsCreatingAccount:!self.isCreatingAccount animated:YES];
-    [self showPasswordReset:!self.isCreatingAccount animated:YES];
-    [self enableButton:(self.textFieldEmail.text.isEmail && self.textFieldPassword.text.length && (!self.isCreatingAccount || [self.textFieldConfirmPassword.text isEqualToString:self.textFieldPassword.text]))];
+    BOOL isCreatingAccount = [[sender titleForSegmentAtIndex:sender.selectedSegmentIndex] isEqualToString:CreateAccount];
+    
+    [self setIsCreatingAccount:isCreatingAccount animated:YES];
+    [self showPasswordReset:!isCreatingAccount animated:YES];
+    [self enableButton:(self.textFieldEmail.text.isEmail && self.textFieldPassword.text.length && (!isCreatingAccount || [self.textFieldConfirmPassword.text isEqualToString:self.textFieldPassword.text]))];
+    self.secondaryText.text = isCreatingAccount ? CreateAccountSecondaryText : SignInSecondaryText;
 }
 
 - (IBAction)passwordReset:(id)sender {

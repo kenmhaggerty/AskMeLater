@@ -154,8 +154,8 @@
                                     <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="X9T-2E-WXM" userLabel="Content View">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="540"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xN4-9J-fLB">
-                                                <rect key="frame" x="140" y="91" width="320" height="360"/>
+                                            <view contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="xN4-9J-fLB">
+                                                <rect key="frame" x="140" y="95" width="320" height="351"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="Icon" translatesAutoresizingMaskIntoConstraints="NO" id="ndk-4k-nCf">
                                                         <rect key="frame" x="122" y="8" width="76" height="76"/>
@@ -175,8 +175,14 @@
                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="1000" text="Sign in to backup and sync your surveys across devices." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t5c-oF-ZD0">
+                                                        <rect key="frame" x="12" y="179" width="296" height="14"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FW1-pM-aUk">
-                                                        <rect key="frame" x="86" y="295" width="148" height="0.0"/>
+                                                        <rect key="frame" x="86" y="315" width="148" height="0.0"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" id="Otd-OC-nUP"/>
                                                         </constraints>
@@ -196,7 +202,7 @@
                                                         </connections>
                                                     </button>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="confirm password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gTA-iM-9qG">
-                                                        <rect key="frame" x="8" y="257" width="304" height="30"/>
+                                                        <rect key="frame" x="8" y="277" width="304" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                                                         <connections>
@@ -205,7 +211,7 @@
                                                         </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Eka-gd-Q6y">
-                                                        <rect key="frame" x="8" y="219" width="304" height="30"/>
+                                                        <rect key="frame" x="8" y="239" width="304" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                                                         <connections>
@@ -214,7 +220,7 @@
                                                         </connections>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="afC-Ez-jpv">
-                                                        <rect key="frame" x="8" y="181" width="304" height="30"/>
+                                                        <rect key="frame" x="8" y="201" width="304" height="30"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                                         <connections>
@@ -233,7 +239,7 @@
                                                         </connections>
                                                     </segmentedControl>
                                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n7O-rY-DVg">
-                                                        <rect key="frame" x="82" y="295" width="157" height="28"/>
+                                                        <rect key="frame" x="82" y="315" width="157" height="28"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                         <state key="normal" title="or use without an account">
                                                             <color key="titleColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -245,12 +251,16 @@
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
+                                                    <constraint firstItem="afC-Ez-jpv" firstAttribute="top" secondItem="DJV-kG-zNK" secondAttribute="bottom" priority="750" constant="12" id="1pS-Jk-oSc"/>
                                                     <constraint firstItem="tZy-S4-kqM" firstAttribute="centerX" secondItem="xN4-9J-fLB" secondAttribute="centerX" id="3Tq-Ni-clP"/>
                                                     <constraint firstItem="gTA-iM-9qG" firstAttribute="top" secondItem="Eka-gd-Q6y" secondAttribute="bottom" constant="8" id="3UK-PI-HI6"/>
                                                     <constraint firstAttribute="bottomMargin" secondItem="n7O-rY-DVg" secondAttribute="bottom" id="43C-9D-0jk"/>
                                                     <constraint firstItem="ndk-4k-nCf" firstAttribute="top" secondItem="xN4-9J-fLB" secondAttribute="topMargin" id="5VR-up-Z8Z"/>
+                                                    <constraint firstItem="t5c-oF-ZD0" firstAttribute="centerX" secondItem="xN4-9J-fLB" secondAttribute="centerX" id="7Hs-PM-2aQ"/>
+                                                    <constraint firstItem="t5c-oF-ZD0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xN4-9J-fLB" secondAttribute="leadingMargin" id="7gU-3U-t8i"/>
                                                     <constraint firstItem="afC-Ez-jpv" firstAttribute="top" secondItem="xN4-9J-fLB" secondAttribute="topMargin" priority="250" id="86K-R9-YPF"/>
                                                     <constraint firstAttribute="bottomMargin" secondItem="Eka-gd-Q6y" secondAttribute="bottom" priority="750" id="8S5-eg-rb6"/>
+                                                    <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="t5c-oF-ZD0" secondAttribute="trailing" id="A9f-rC-Z8c"/>
                                                     <constraint firstItem="FW1-pM-aUk" firstAttribute="top" secondItem="Eka-gd-Q6y" secondAttribute="bottom" priority="750" constant="8" id="BEt-Od-WbD"/>
                                                     <constraint firstItem="Eka-gd-Q6y" firstAttribute="leading" secondItem="xN4-9J-fLB" secondAttribute="leadingMargin" id="Ebu-7v-APM"/>
                                                     <constraint firstItem="tZy-S4-kqM" firstAttribute="top" secondItem="ndk-4k-nCf" secondAttribute="bottom" constant="8" id="EhV-6D-Ja3"/>
@@ -264,10 +274,11 @@
                                                     <constraint firstItem="FW1-pM-aUk" firstAttribute="centerX" secondItem="xN4-9J-fLB" secondAttribute="centerX" id="OlL-2x-aJW"/>
                                                     <constraint firstItem="L8J-nS-Mrc" firstAttribute="top" secondItem="tZy-S4-kqM" secondAttribute="bottom" constant="4" id="Pgs-JX-5HN"/>
                                                     <constraint firstAttribute="trailingMargin" secondItem="gTA-iM-9qG" secondAttribute="trailing" id="PrH-pL-SRe"/>
+                                                    <constraint firstItem="t5c-oF-ZD0" firstAttribute="top" secondItem="DJV-kG-zNK" secondAttribute="bottom" constant="10" id="RE0-wM-dBu"/>
                                                     <constraint firstItem="DJV-kG-zNK" firstAttribute="top" secondItem="xN4-9J-fLB" secondAttribute="topMargin" priority="750" id="VLn-Qy-f28"/>
                                                     <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="n7O-rY-DVg" secondAttribute="trailing" id="adp-sx-eKh"/>
                                                     <constraint firstItem="n7O-rY-DVg" firstAttribute="centerX" secondItem="xN4-9J-fLB" secondAttribute="centerX" id="bJ2-jm-Bn1"/>
-                                                    <constraint firstItem="afC-Ez-jpv" firstAttribute="top" secondItem="DJV-kG-zNK" secondAttribute="bottom" constant="12" id="bo6-9z-Wk9"/>
+                                                    <constraint firstItem="afC-Ez-jpv" firstAttribute="top" relation="greaterThanOrEqual" secondItem="DJV-kG-zNK" secondAttribute="bottom" constant="12" id="bo6-9z-Wk9"/>
                                                     <constraint firstItem="DJV-kG-zNK" firstAttribute="centerX" secondItem="xN4-9J-fLB" secondAttribute="centerX" id="byJ-W0-mJC"/>
                                                     <constraint firstAttribute="trailingMargin" secondItem="Eka-gd-Q6y" secondAttribute="trailing" id="ca9-W8-bRu"/>
                                                     <constraint firstItem="FW1-pM-aUk" firstAttribute="top" relation="greaterThanOrEqual" secondItem="gTA-iM-9qG" secondAttribute="bottom" constant="8" id="e8A-cC-fvB"/>
@@ -277,9 +288,11 @@
                                                     <constraint firstItem="L8J-nS-Mrc" firstAttribute="centerX" secondItem="xN4-9J-fLB" secondAttribute="centerX" id="jYx-cs-rH0"/>
                                                     <constraint firstItem="DJV-kG-zNK" firstAttribute="top" secondItem="L8J-nS-Mrc" secondAttribute="bottom" constant="8" id="jho-Fc-gcJ"/>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" secondItem="DJV-kG-zNK" secondAttribute="width" id="pn2-kd-2ic"/>
+                                                    <constraint firstItem="afC-Ez-jpv" firstAttribute="top" secondItem="t5c-oF-ZD0" secondAttribute="bottom" constant="8" id="rLT-I5-vJN"/>
                                                     <constraint firstItem="Eka-gd-Q6y" firstAttribute="top" secondItem="afC-Ez-jpv" secondAttribute="bottom" constant="8" id="rs2-kK-bou"/>
                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="320" id="sT9-Rz-wSs"/>
                                                     <constraint firstAttribute="leadingMargin" secondItem="gTA-iM-9qG" secondAttribute="leading" id="voU-Ao-8ia"/>
+                                                    <constraint firstItem="t5c-oF-ZD0" firstAttribute="width" relation="lessThanOrEqual" secondItem="afC-Ez-jpv" secondAttribute="width" constant="-8" id="ys7-OO-ebz"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -360,6 +373,7 @@
                         <outlet property="constraintShowButton" destination="fQP-Kx-9KC" id="XK0-ik-3oT"/>
                         <outlet property="passwordResetButton" destination="FW1-pM-aUk" id="ZvP-tU-IyQ"/>
                         <outlet property="scrollView" destination="w03-J4-uCZ" id="IsM-0R-kYv"/>
+                        <outlet property="secondaryText" destination="t5c-oF-ZD0" id="fgd-fp-H1l"/>
                         <outlet property="segmentedControl" destination="DJV-kG-zNK" id="pxU-mu-F1d"/>
                         <outlet property="submitButton" destination="Ovl-Ks-cvv" id="wyO-vP-MWy"/>
                         <outlet property="textFieldConfirmPassword" destination="gTA-iM-9qG" id="L8k-rG-FN7"/>
