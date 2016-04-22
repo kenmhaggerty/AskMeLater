@@ -159,7 +159,7 @@
         return;
     }
     
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:author forKey:NOTIFICATION_OBJECT_KEY];
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:author forKey:NOTIFICATION_OBJECT_KEY];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(author))];
     [self setPrimitiveValue:author forKey:NSStringFromSelector(@selector(author))];
