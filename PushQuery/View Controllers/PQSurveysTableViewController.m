@@ -590,6 +590,9 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     NSNumber *isSyncingValue = notification.userInfo[NOTIFICATION_OBJECT_KEY];
     
     self.navigationItem.rightBarButtonItem = isSyncingValue.boolValue ? self.activityIndicatorButtonItem : self.refreshBarButtonItem;
+    if (isSyncingValue.boolValue && [PQLoginManager currentUser]) {
+        [self displayStatusBarNotificationWithMessage:@"Syncing..." dismissAfter:0];
+    }
 }
 
 - (void)surveyDidChange:(NSNotification *)notification {
