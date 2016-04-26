@@ -303,9 +303,9 @@ NSUInteger const TimingTableViewSection = 2;
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
     
     if (section == TimingTableViewSection) {
-        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, tableView.frame.size.width, 1.0f/UIScreen.mainScreen.scale)];
-        line.backgroundColor = tableView.separatorColor;
-        return line;
+        UIView *border = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, tableView.frame.size.width, 1.0f/UIScreen.mainScreen.scale)];
+        border.backgroundColor = tableView.separatorColor;
+        return border;
     }
     
     return nil;
