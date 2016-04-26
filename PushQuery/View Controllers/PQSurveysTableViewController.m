@@ -602,8 +602,11 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
 - (void)surveyWillBeDeleted:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
     
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.surveys indexOfObject:notification.object] inSection:0];
-    [self.surveys removeObject:notification.object];
+    id <PQSurvey> survey = notification.object;
+    
+    [self removeObserversFromSurvey:survey];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.surveys indexOfObject:survey] inSection:0];
+    [self.surveys removeObject:survey];
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
