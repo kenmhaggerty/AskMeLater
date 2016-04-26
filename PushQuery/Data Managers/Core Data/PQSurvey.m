@@ -15,9 +15,14 @@
 #import "AKDebugger.h"
 #import "AKGenerics.h"
 
+#import "PQCoreDataController.h"
+
 #pragma mark - // DEFINITIONS (Private) //
 
+NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey_AuthorIdDidChange";
+
 @interface PQSurvey ()
+@property (nullable, nonatomic, retain, readwrite) PQUser *author;
 
 // OBSERVERS //
 
@@ -33,6 +38,26 @@
 @implementation PQSurvey
 
 #pragma mark - // SETTERS AND GETTERS //
+
+- (void)setAuthorId:(NSString *)authorId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSString *primitiveAuthorId = [self primitiveValueForKey:NSStringFromSelector(@selector(authorId))];
+    
+    if ([AKGenerics object:authorId isEqualToObject:primitiveAuthorId]) {
+        return;
+    }
+    
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:authorId forKey:NOTIFICATION_OBJECT_KEY];
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(authorId))];
+    [self setPrimitiveValue:authorId forKey:NSStringFromSelector(@selector(authorId))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(authorId))];
+    
+    self.author = authorId ? [PQCoreDataController getUserWithId:self.authorId] : nil;
+    
+    [AKGenerics postNotificationName:PQSurveyAuthorIdDidChangeNotification object:self userInfo:userInfo];
+}
 
 - (void)setEditedAt:(NSDate *)editedAt {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
@@ -153,17 +178,23 @@
 - (void)setAuthor:(PQUser *)author {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
     
-    PQUser *primitiveAuthor = [self primitiveValueForKey:NSStringFromSelector(@selector(author))];
+    PQQuestion *primitiveAuthor = [self primitiveValueForKey:NSStringFromSelector(@selector(author))];
     
     if ([AKGenerics object:author isEqualToObject:primitiveAuthor]) {
         return;
     }
+    
+    BOOL authorIsDeleted = primitiveAuthor.isDeleted;
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:author forKey:NOTIFICATION_OBJECT_KEY];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(author))];
     [self setPrimitiveValue:author forKey:NSStringFromSelector(@selector(author))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(author))];
+    
+    if (!self.isDeleted && !authorIsDeleted) {
+        self.authorId = author.userId;
+    }
     
     [AKGenerics postNotificationName:PQSurveyAuthorDidChangeNotification object:self userInfo:userInfo];
 }
@@ -248,7 +279,7 @@
     
     [super prepareForDeletion];
     
-    [AKGenerics postNotificationName:PQUserWillBeDeletedNotification object:self userInfo:nil];
+    [AKGenerics postNotificationName:PQSurveyWillBeDeletedNotification object:self userInfo:nil];
 }
 
 #pragma mark - // PUBLIC METHODS //

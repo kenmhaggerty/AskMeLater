@@ -19,8 +19,8 @@
 @interface PQCoreDataController (PRIVATE)
 
 + (PQUser *)userWithUserId:(NSString *)userId;
-+ (PQSurvey *)surveyWithSurveyId:(NSString *)surveyId;
-+ (PQQuestion *)questionWithQuestionId:(NSString *)questionId;
-+ (PQResponse *)responseWithResponseId:(NSString *)responseId;
++ (PQSurvey *)surveyWithSurveyId:(NSString *)surveyId authorId:(NSString *)authorId;
++ (PQQuestion *)questionWithQuestionId:(NSString *)questionId surveyId:(NSString *)surveyId;
++ (PQResponse *)responseWithResponseId:(NSString *)responseId questionId:(NSString *)questionId;
 
 @end

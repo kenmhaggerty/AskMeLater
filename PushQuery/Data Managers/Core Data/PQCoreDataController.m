@@ -137,7 +137,7 @@
     return user;
 }
 
-+ (PQSurvey *)surveyWithName:(NSString *)name author:(PQUser *)author {
++ (PQSurvey *)surveyWithName:(NSString *)name authorId:(NSString *)authorId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
     NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
@@ -145,10 +145,10 @@
     [managedObjectContext performBlockAndWait:^{
         survey = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQSurvey class]) inManagedObjectContext:managedObjectContext];
         survey.name = name;
-        survey.author = author;
         survey.createdAt = [NSDate date];
         survey.editedAt = survey.createdAt;
         survey.surveyId = [PQCoreDataController surveyId];
+        survey.authorId = authorId;
     }];
     
     return survey;
@@ -183,7 +183,7 @@
     return choice;
 }
 
-+ (PQResponse *)responseWithText:(NSString *)text user:(PQUser *)user date:(NSDate *)date {
++ (PQResponse *)responseWithText:(NSString *)text userId:(NSString *)userId date:(NSDate *)date {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
     NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
@@ -191,7 +191,7 @@
     [managedObjectContext performBlockAndWait:^{
         response = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQResponse class]) inManagedObjectContext:managedObjectContext];
         response.text = text;
-        response.user = user;
+        response.userId = userId;
         response.date = date;
         response.responseId = [PQCoreDataController responseId];
     }];
@@ -261,7 +261,7 @@
     return [foundSurveys firstObject];
 }
 
-+ (NSSet *)getSurveysWithAuthor:(PQUser *)author {
++ (NSSet *)getSurveysWithAuthorId:(NSString *)authorId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
     
     NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
@@ -270,7 +270,7 @@
     [managedObjectContext performBlockAndWait:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         [request setEntity:[NSEntityDescription entityForName:NSStringFromClass([PQSurvey class]) inManagedObjectContext:managedObjectContext]];
-        [request setPredicate:[NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(author)), author]];
+        [request setPredicate:[NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(authorId)), authorId]];
         foundSurveys = [managedObjectContext executeFetchRequest:request error:&error];
     }];
     if (error)
@@ -346,7 +346,7 @@
     return [foundResponses firstObject];
 }
 
-+ (NSSet *)getResponsesWithUser:(PQUser *)user {
++ (NSSet *)getResponsesWithUserId:(NSString *)userId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
     
     NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
@@ -355,7 +355,7 @@
     [managedObjectContext performBlockAndWait:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         [request setEntity:[NSEntityDescription entityForName:NSStringFromClass([PQResponse class]) inManagedObjectContext:managedObjectContext]];
-        [request setPredicate:[NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(user)), user]];
+        [request setPredicate:[NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(userId)), userId]];
         foundResponses = [managedObjectContext executeFetchRequest:request error:&error];
     }];
     if (error)
@@ -397,7 +397,7 @@
     return user;
 }
 
-+ (PQSurvey *)surveyWithSurveyId:(NSString *)surveyId {
++ (PQSurvey *)surveyWithSurveyId:(NSString *)surveyId authorId:(NSString *)authorId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
     NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
@@ -405,12 +405,13 @@
     [managedObjectContext performBlockAndWait:^{
         survey = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQSurvey class]) inManagedObjectContext:managedObjectContext];
         survey.surveyId = surveyId;
+        survey.authorId = authorId;
     }];
     
     return survey;
 }
 
-+ (PQQuestion *)questionWithQuestionId:(NSString *)questionId {
++ (PQQuestion *)questionWithQuestionId:(NSString *)questionId surveyId:(NSString *)surveyId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
     NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
@@ -418,12 +419,13 @@
     [managedObjectContext performBlockAndWait:^{
         question = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQQuestion class]) inManagedObjectContext:managedObjectContext];
         question.questionId = questionId;
+        question.surveyId = surveyId;
     }];
     
     return question;
 }
 
-+ (PQResponse *)responseWithResponseId:(NSString *)responseId {
++ (PQResponse *)responseWithResponseId:(NSString *)responseId questionId:(NSString *)questionId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
     NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
@@ -431,6 +433,7 @@
     [managedObjectContext performBlockAndWait:^{
         response = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQResponse class]) inManagedObjectContext:managedObjectContext];
         response.responseId = responseId;
+        response.questionId = questionId;
     }];
     
     return response;

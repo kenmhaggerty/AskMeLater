@@ -31,19 +31,19 @@
 // INITIALIZERS //
 
 + (PQUser *)userWithUserId:(NSString *)userId email:(NSString *)email;
-+ (PQSurvey *)surveyWithName:(NSString *)name author:(PQUser *)author;
++ (PQSurvey *)surveyWithName:(NSString *)name authorId:(NSString *)authorId;
 + (PQQuestion *)questionWithText:(NSString *)text choices:(NSOrderedSet <PQChoice *> *)choices;
 + (PQChoice *)choiceWithText:(NSString *)text;
-+ (PQResponse *)responseWithText:(NSString *)text user:(PQUser *)user date:(NSDate *)date;
++ (PQResponse *)responseWithText:(NSString *)text userId:(NSString *)userId date:(NSDate *)date;
 
 // GETTERS //
 
 + (PQUser *)getUserWithId:(NSString *)userId;
 + (PQSurvey *)getSurveyWithId:(NSString *)surveyId;
-+ (NSSet *)getSurveysWithAuthor:(PQUser *)author;
++ (NSSet *)getSurveysWithAuthorId:(NSString *)authorId;
 + (PQQuestion *)getQuestionWithId:(NSString *)questionId;
 + (PQResponse *)getResponseWithId:(NSString *)responseId;
-+ (NSSet *)getResponsesWithUser:(PQUser *)user;
++ (NSSet *)getResponsesWithUserId:(NSString *)userId;
 
 // DELETORS //
 

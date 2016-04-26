@@ -130,8 +130,8 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_DATA] message:nil];
     
     NSString *name = nil;
-    PQUser *author = [PQDataManager convertUser:[PQLoginManager currentUser]];
-    id <PQSurvey_Editable> survey = [PQCoreDataController surveyWithName:name author:author];
+    id <PQUser_PRIVATE> author = (id <PQUser_PRIVATE>)[PQLoginManager currentUser];
+    id <PQSurvey_Editable> survey = [PQCoreDataController surveyWithName:name authorId:author.userId];
     [PQCoreDataController save];
     return survey;
 }
@@ -139,8 +139,8 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
 + (NSSet *)getSurveysAuthoredByUser:(id <PQUser>)user {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
     
-    PQUser *author = [PQDataManager convertUser:user];
-    return [PQCoreDataController getSurveysWithAuthor:author];
+    id <PQUser_PRIVATE> author = (id <PQUser_PRIVATE>)user;
+    return [PQCoreDataController getSurveysWithAuthorId:author.userId];
 }
 
 + (void)fetchSurveysWithCompletion:(void(^)(BOOL success))completionBlock {
@@ -190,8 +190,8 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
 + (void)addResponse:(NSString *)text forQuestion:(id <PQQuestion>)question {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
     
-    id <PQUser> currentUser = [PQLoginManager currentUser];
-    PQResponse *response = [PQCoreDataController responseWithText:text user:[PQDataManager convertUser:currentUser] date:[NSDate date]];
+    id <PQUser_PRIVATE> currentUser = (id <PQUser_PRIVATE>)[PQLoginManager currentUser];
+    PQResponse *response = [PQCoreDataController responseWithText:text userId:currentUser.userId date:[NSDate date]];
     [(id <PQQuestion_PRIVATE>)question addResponse:response];
     
     id <PQSurvey_Editable> survey = (id <PQSurvey_Editable>)[PQDataManager surveyForQuestion:question];
@@ -300,21 +300,19 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
 - (void)currentUserDidChange:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_ACCOUNTS] message:nil];
     
-    id <PQUser> currentUser = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    id <PQUser_PRIVATE> currentUser = notification.userInfo[NOTIFICATION_OBJECT_KEY];
     if (!currentUser) {
         return;
     }
     
-    PQUser *user = [PQDataManager convertUser:currentUser];
-    
-    NSSet *surveys = [PQCoreDataController getSurveysWithAuthor:nil];
+    NSSet *surveys = [PQCoreDataController getSurveysWithAuthorId:nil];
     for (PQSurvey *survey in surveys) {
-        survey.author = user;
+        survey.authorId = currentUser.userId;
     }
     
-    NSSet *responses = [PQCoreDataController getResponsesWithUser:nil];
+    NSSet *responses = [PQCoreDataController getResponsesWithUserId:nil];
     for (PQResponse *response in responses) {
-        response.user = user;
+        response.userId = currentUser.userId;
     }
     
     [PQDataManager save];

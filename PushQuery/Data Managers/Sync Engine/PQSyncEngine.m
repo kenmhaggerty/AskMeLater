@@ -398,9 +398,10 @@ NSString * const PQFirebasePathResponseUser = @"user";
         return;
     }
     
-    // $userId/surveys/$surveyId/createdAt
     NSString *userId = survey.author.userId;
     NSString *surveyId = survey.surveyId;
+    
+    // $userId/surveys/$surveyId/createdAt
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathSurveyCreatedAt]];
     [PQFirebaseController observeValueChangedAtPath:url.relativeString withBlock:^(id value) {
         NSString *dateString = (NSString *)value;
@@ -464,7 +465,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
                 NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathQuestions, questionId]];
                 [PQFirebaseController getObjectAtPath:url.relativeString withCompletion:^(id object) {
                     NSDictionary *questionDictionary = (NSDictionary *)object;
-                    question = [PQCoreDataController questionWithQuestionId:questionId];
+                    question = [PQCoreDataController questionWithQuestionId:questionId surveyId:surveyId];
                     [PQSyncEngine overwriteQuestion:question withDictionary:questionDictionary];
                 }];
             }
@@ -730,8 +731,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathQuestions, questionId, PQFirebasePathResponses, responseId, PQFirebasePathResponseUser]];
     [PQFirebaseController observeValueChangedAtPath:url.relativeString withBlock:^(id value) {
         NSString *userId = (NSString *)value;
-        PQUser *user = [PQSyncEngine userWithId:userId];
-        response.user = user;
+        response.userId = userId;
         [PQCoreDataController save];
     }];
 }
@@ -804,7 +804,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     PQSurvey *survey = (PQSurvey *)notification.object;
     
     // $userId/surveys/$surveyId/editedAt
-    NSString *userId = survey.author.userId;
+    NSString *userId = survey.authorId;
     NSString *surveyId = survey.surveyId;
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathSurveyEditedAt]];
     NSDate *editedAt = notification.userInfo[NOTIFICATION_OBJECT_KEY];
@@ -822,7 +822,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     PQSurvey *survey = (PQSurvey *)notification.object;
     
     // $userId/surveys/$surveyId/enabled
-    NSString *userId = survey.author.userId;
+    NSString *userId = survey.authorId;
     NSString *surveyId = survey.surveyId;
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathSurveyEnabled]];
     NSNumber *enabledValue = notification.userInfo[NOTIFICATION_OBJECT_KEY];
@@ -839,7 +839,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     PQSurvey *survey = (PQSurvey *)notification.object;
     
     // $userId/surveys/$surveyId/name
-    NSString *userId = survey.author.userId;
+    NSString *userId = survey.authorId;
     NSString *surveyId = survey.surveyId;
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathSurveyName]];
     NSString *name = notification.userInfo[NOTIFICATION_OBJECT_KEY];
@@ -857,7 +857,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     PQSurvey *survey = (PQSurvey *)notification.object;
     
     // $userId/surveys/$surveyId/repeat
-    NSString *userId = survey.author.userId;
+    NSString *userId = survey.authorId;
     NSString *surveyId = survey.surveyId;
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathSurveyRepeat]];
     NSNumber *repeatValue = notification.userInfo[NOTIFICATION_OBJECT_KEY];
@@ -874,7 +874,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     PQSurvey *survey = (PQSurvey *)notification.object;
     
     // $userId/surveys/$surveyId/time
-    NSString *userId = survey.author.userId;
+    NSString *userId = survey.authorId;
     NSString *surveyId = survey.surveyId;
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathSurveyTime]];
     NSDate *time = notification.userInfo[NOTIFICATION_OBJECT_KEY];
@@ -892,7 +892,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     PQSurvey *survey = (PQSurvey *)notification.object;
     
     // $userId/surveys/$surveyId/questionIds
-    NSString *userId = survey.author.userId;
+    NSString *userId = survey.authorId;
     NSString *surveyId = survey.surveyId;
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathSurveyOrder]];
     NSOrderedSet *questions = notification.userInfo[NOTIFICATION_OBJECT_KEY];
@@ -928,7 +928,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     }
     
     // $userId/surveys/$surveyId
-    NSString *userId = survey.author.userId;
+    NSString *userId = survey.authorId;
     NSString *surveyId = survey.surveyId;
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId]];
     NSDictionary *convertedSurvey = [PQSyncEngine convertSurvey:survey];
@@ -956,8 +956,8 @@ NSString * const PQFirebasePathResponseUser = @"user";
     PQQuestion *question = (PQQuestion *)notification.object;
     
     // $userId/surveys/$surveyId/questions/$questionId/secure
-    NSString *userId = question.survey.author.userId;
-    NSString *surveyId = question.survey.surveyId;
+    NSString *userId = question.authorId;
+    NSString *surveyId = question.surveyId;
     NSString *questionId = question.questionId;
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathQuestions, questionId, PQFirebasePathQuestionSecure]];
     NSNumber *secureValue = notification.userInfo[NOTIFICATION_OBJECT_KEY];
@@ -974,8 +974,8 @@ NSString * const PQFirebasePathResponseUser = @"user";
     PQQuestion *question = (PQQuestion *)notification.object;
     
     // $userId/surveys/$surveyId/questions/$questionId/text
-    NSString *userId = question.survey.author.userId;
-    NSString *surveyId = question.survey.surveyId;
+    NSString *userId = question.authorId;
+    NSString *surveyId = question.surveyId;
     NSString *questionId = question.questionId;
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathQuestions, questionId, PQFirebasePathQuestionText]];
     NSString *text = notification.userInfo[NOTIFICATION_OBJECT_KEY];
@@ -993,8 +993,8 @@ NSString * const PQFirebasePathResponseUser = @"user";
     PQQuestion *question = (PQQuestion *)notification.object;
     
     // $userId/surveys/$surveyId/questions/$questionId/choices
-    NSString *userId = question.survey.author.userId;
-    NSString *surveyId = question.survey.surveyId;
+    NSString *userId = question.authorId;
+    NSString *surveyId = question.surveyId;
     NSString *questionId = question.questionId;
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathQuestions, questionId, PQFirebasePathChoices]];
     NSOrderedSet *choices = notification.userInfo[NOTIFICATION_OBJECT_KEY];
@@ -1019,8 +1019,8 @@ NSString * const PQFirebasePathResponseUser = @"user";
     PQQuestion *question = (PQQuestion *)notification.object;
     
     // $userId/surveys/$surveyId/questions/$questionId/responses
-    NSString *userId = question.survey.author.userId;
-    NSString *surveyId = question.survey.surveyId;
+    NSString *userId = question.authorId;
+    NSString *surveyId = question.surveyId;
     NSString *questionId = question.questionId;
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathQuestions, questionId, PQFirebasePathResponses]];
     NSSet *responses = notification.userInfo[NOTIFICATION_OBJECT_KEY];
@@ -1052,9 +1052,9 @@ NSString * const PQFirebasePathResponseUser = @"user";
     PQChoice *choice = (PQChoice *)notification.object;
     
     // $userId/surveys/$surveyId/questions/$questionId/choices/$index/text
-    NSString *userId = choice.question.survey.author.userId;
-    NSString *surveyId = choice.question.survey.surveyId;
-    NSString *questionId = choice.question.questionId;
+    NSString *userId = choice.authorId;
+    NSString *surveyId = choice.surveyId;
+    NSString *questionId = choice.questionId;
     NSUInteger index = [choice.question.choices indexOfObject:choice];
     NSString *indexString = [PQSyncEngine convertInteger:index];
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathQuestions, questionId, PQFirebasePathChoices, indexString, PQFirebasePathChoiceText]];
@@ -1073,9 +1073,9 @@ NSString * const PQFirebasePathResponseUser = @"user";
     PQChoice *choice = (PQChoice *)notification.object;
     
     // $userId/surveys/$surveyId/questions/$questionId/choices/$index/textInput
-    NSString *userId = choice.question.survey.author.userId;
-    NSString *surveyId = choice.question.survey.surveyId;
-    NSString *questionId = choice.question.questionId;
+    NSString *userId = choice.authorId;
+    NSString *surveyId = choice.surveyId;
+    NSString *questionId = choice.questionId;
     NSUInteger index = [choice.question.choices indexOfObject:choice];
     NSString *indexString = [PQSyncEngine convertInteger:index];
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathQuestions, questionId, PQFirebasePathChoices, indexString, PQFirebasePathChoiceTextInput]];
@@ -1104,9 +1104,9 @@ NSString * const PQFirebasePathResponseUser = @"user";
     }
     
     // $userId/surveys/$surveyId/questions/$questionId/responses/$responseId
-    NSString *userId = response.question.survey.author.userId;
-    NSString *surveyId = response.question.survey.surveyId;
-    NSString *questionId = response.question.questionId;
+    NSString *userId = response.authorId;
+    NSString *surveyId = response.surveyId;
+    NSString *questionId = response.questionId;
     NSString *responseId = response.responseId;
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathQuestions, questionId, PQFirebasePathResponses, responseId]];
     NSDictionary *convertedResponse = [PQSyncEngine convertResponse:response];
@@ -1223,7 +1223,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
     
     // $userId/surveys/$surveyId
-    NSString *userId = survey.author.userId;
+    NSString *userId = survey.authorId;
     NSString *surveyId = survey.surveyId;
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId]];
     NSDictionary *convertedSurvey = [PQSyncEngine convertSurvey:survey];
@@ -1257,9 +1257,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
 + (void)saveSurveyToLocalWithId:(NSString *)surveyId authorId:(NSString *)authorId dictionary:(NSDictionary *)dictionary {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
     
-    PQSurvey *survey = [PQCoreDataController surveyWithSurveyId:surveyId];
-    PQUser *author = [PQSyncEngine userWithId:authorId];
-    survey.author = author;
+    PQSurvey *survey = [PQCoreDataController surveyWithSurveyId:surveyId authorId:authorId];
     [PQSyncEngine overwriteSurvey:survey withDictionary:dictionary];
 }
 
@@ -1282,8 +1280,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
             questionDictionary = questionDictionaries[questionId];
             question = [PQCoreDataController getQuestionWithId:questionId];
             if (!question) {
-                question = [PQCoreDataController questionWithText:nil choices:nil];
-                question.questionId = questionId;
+                question = [PQCoreDataController questionWithQuestionId:questionId surveyId:survey.surveyId];
             }
             [PQSyncEngine overwriteQuestion:question withDictionary:questionDictionary];
             [questions addObject:question];
@@ -1355,9 +1352,8 @@ NSString * const PQFirebasePathResponseUser = @"user";
     
     NSString *text = [dictionary[PQFirebasePathResponseText] decryptUsingKey:question.survey.author.userId];
     NSString *userId = dictionary[PQFirebasePathResponseUser];
-    PQUser *user = [PQSyncEngine userWithId:userId];
     NSDate *responseDate = [PQSyncEngine convertDateString:dictionary[PQFirebasePathResponseDate]];
-    PQResponse *response = [PQCoreDataController responseWithText:text user:user date:responseDate];
+    PQResponse *response = [PQCoreDataController responseWithText:text userId:userId date:responseDate];
     [question addResponse:response];
 }
 

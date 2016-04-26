@@ -23,11 +23,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PQResponse (CoreDataProperties)
 
+@property (nullable, nonatomic, retain, readonly) NSString *authorId;
 @property (nullable, nonatomic, retain) NSDate *date;
+@property (nullable, nonatomic, retain) NSString *questionId;
 @property (nullable, nonatomic, retain) NSString *responseId;
+@property (nullable, nonatomic, retain, readonly) NSString *surveyId;
 @property (nullable, nonatomic, retain) NSString *text;
-@property (nullable, nonatomic, retain) PQUser *user;
-@property (nullable, nonatomic, retain) PQQuestion *question;
+@property (nullable, nonatomic, retain) NSString *userId;
+@property (nullable, nonatomic, retain, readonly) PQQuestion *question;
+@property (nullable, nonatomic, retain, readonly) PQUser *user;
 
 @end
 

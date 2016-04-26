@@ -23,6 +23,8 @@
 
 #pragma mark - // DEFINITIONS (Public) //
 
+extern NSString * const PQSurveyAuthorIdDidChangeNotification;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PQSurvey : PQManagedObject <PQSurvey_Editable>

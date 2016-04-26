@@ -16,9 +16,16 @@
 #import "AKDebugger.h"
 #import "AKGenerics.h"
 
+#import "PQCoreDataController.h"
+
 #pragma mark - // DEFINITIONS (Private) //
 
+NSString * const PQQuestionAuthorIdDidChangeNotification = @"kNotificationPQQuestion_AuthorIdDidChange";
+NSString * const PQQuestionSurveyIdDidChangeNotification = @"kNotificationPQQuestion_SurveyIdDidChange";
+
 @interface PQQuestion ()
+@property (nullable, nonatomic, retain, readwrite) NSString *authorId;
+@property (nullable, nonatomic, retain, readwrite) PQSurvey *survey;
 
 // OBSERVERS //
 
@@ -26,11 +33,14 @@
 - (void)removeObserversFromChoice:(PQChoice *)choice;
 - (void)addObserversToResponse:(PQResponse *)response;
 - (void)removeObserversFromResponse:(PQResponse *)response;
+- (void)addObserversToSurvey:(PQSurvey *)survey;
+- (void)removeObserversFromSurvey:(PQSurvey *)survey;
 
 // RESPONDERS //
 
 - (void)choiceWillBeDeleted:(NSNotification *)notification;
 - (void)responseWillBeDeleted:(NSNotification *)notification;
+- (void)surveyAuthorIdDidChange:(NSNotification *)notification;
 
 @end
 
@@ -38,22 +48,22 @@
 
 #pragma mark - // SETTERS AND GETTERS //
 
-- (void)setText:(NSString *)text {
+- (void)setAuthorId:(NSString *)authorId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
     
-    NSString *primitiveText = [self primitiveValueForKey:NSStringFromSelector(@selector(text))];
+    NSString *primitiveAuthorId = [self primitiveValueForKey:NSStringFromSelector(@selector(authorId))];
     
-    if ([AKGenerics object:text isEqualToObject:primitiveText]) {
+    if ([AKGenerics object:authorId isEqualToObject:primitiveAuthorId]) {
         return;
     }
     
-    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:text forKey:NOTIFICATION_OBJECT_KEY];
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:authorId forKey:NOTIFICATION_OBJECT_KEY];
     
-    [self willChangeValueForKey:NSStringFromSelector(@selector(text))];
-    [self setPrimitiveValue:text forKey:NSStringFromSelector(@selector(text))];
-    [self didChangeValueForKey:NSStringFromSelector(@selector(text))];
+    [self willChangeValueForKey:NSStringFromSelector(@selector(authorId))];
+    [self setPrimitiveValue:authorId forKey:NSStringFromSelector(@selector(authorId))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(authorId))];
     
-    [AKGenerics postNotificationName:PQQuestionTextDidChangeNotification object:self userInfo:userInfo];
+    [AKGenerics postNotificationName:PQQuestionAuthorIdDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setSecureValue:(NSNumber *)secureValue {
@@ -72,6 +82,44 @@
     [self didChangeValueForKey:NSStringFromSelector(@selector(secureValue))];
     
     [AKGenerics postNotificationName:PQQuestionSecureDidChangeNotification object:self userInfo:userInfo];
+}
+
+- (void)setSurveyId:(NSString *)surveyId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSString *primitiveSurveyId = [self primitiveValueForKey:NSStringFromSelector(@selector(surveyId))];
+    
+    if ([AKGenerics object:surveyId isEqualToObject:primitiveSurveyId]) {
+        return;
+    }
+    
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:surveyId forKey:NOTIFICATION_OBJECT_KEY];
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(surveyId))];
+    [self setPrimitiveValue:surveyId forKey:NSStringFromSelector(@selector(surveyId))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(surveyId))];
+    
+    self.survey = surveyId ? [PQCoreDataController getSurveyWithId:self.surveyId] : nil;
+    
+    [AKGenerics postNotificationName:PQQuestionSurveyIdDidChangeNotification object:self userInfo:userInfo];
+}
+
+- (void)setText:(NSString *)text {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSString *primitiveText = [self primitiveValueForKey:NSStringFromSelector(@selector(text))];
+    
+    if ([AKGenerics object:text isEqualToObject:primitiveText]) {
+        return;
+    }
+    
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:text forKey:NOTIFICATION_OBJECT_KEY];
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(text))];
+    [self setPrimitiveValue:text forKey:NSStringFromSelector(@selector(text))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(text))];
+    
+    [AKGenerics postNotificationName:PQQuestionTextDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setChoices:(NSOrderedSet <PQChoice *> *)choices {
@@ -124,6 +172,35 @@
     }
     
     [AKGenerics postNotificationName:PQQuestionResponsesDidChangeNotification object:self userInfo:userInfo];
+}
+
+- (void)setSurvey:(PQSurvey *)survey {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    PQQuestion *primitiveSurvey = [self primitiveValueForKey:NSStringFromSelector(@selector(survey))];
+    
+    if ([AKGenerics object:survey isEqualToObject:primitiveSurvey]) {
+        return;
+    }
+    
+    BOOL surveyIsDeleted = primitiveSurvey.isDeleted;
+    
+    if (primitiveSurvey) {
+        [self removeObserversFromSurvey:survey];
+    }
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(survey))];
+    [self setPrimitiveValue:survey forKey:NSStringFromSelector(@selector(survey))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(survey))];
+    
+    if (survey) {
+        [self addObserversToSurvey:survey];
+    }
+    
+    if (!self.isDeleted && !surveyIsDeleted) {
+        self.surveyId = survey.surveyId;
+        self.authorId = survey ? survey.authorId : nil;
+    }
 }
 
 #pragma mark - // INITS AND LOADS //
@@ -421,6 +498,19 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQResponseWillBeDeletedNotification object:response];
 }
 
+
+- (void)addObserversToSurvey:(PQSurvey *)survey {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyAuthorIdDidChange:) name:PQSurveyAuthorIdDidChangeNotification object:survey];
+}
+
+- (void)removeObserversFromSurvey:(PQSurvey *)survey {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyAuthorIdDidChangeNotification object:survey];
+}
+
 #pragma mark - // PRIVATE METHODS (Responders) //
 
 - (void)choiceWillBeDeleted:(NSNotification *)notification {
@@ -437,6 +527,14 @@
     PQResponse *response = notification.object;
     
     [self removeResponse:response];
+}
+
+- (void)surveyAuthorIdDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    NSString *authorId = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    
+    self.authorId = authorId;
 }
 
 @end

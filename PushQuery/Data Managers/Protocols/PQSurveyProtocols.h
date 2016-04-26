@@ -89,6 +89,6 @@
 
 @protocol PQSurvey_Init <NSObject>
 
-+ (id <PQSurvey_Editable>)surveyWithName:(NSString *)name author:(id <PQUser>)author;
++ (id <PQSurvey_Editable>)surveyWithName:(NSString *)name authorId:(NSString *)authorId;
 
 @end

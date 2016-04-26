@@ -23,9 +23,13 @@
 
 #pragma mark - // SETTERS AND GETTERS //
 
+@dynamic authorId;
 @dynamic date;
+@dynamic questionId;
 @dynamic responseId;
+@dynamic surveyId;
 @dynamic text;
+@dynamic userId;
 @dynamic user;
 @dynamic question;
 

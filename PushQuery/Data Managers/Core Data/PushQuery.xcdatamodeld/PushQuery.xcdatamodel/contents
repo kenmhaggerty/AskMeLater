@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="1.0" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15E65" minimumToolsVersion="Automatic">
     <entity name="PQChoice" representedClassName="PQChoice" parentEntity="PQManagedObject" syncable="YES">
+        <attribute name="authorId" attributeType="String" syncable="YES"/>
+        <attribute name="questionId" attributeType="String" syncable="YES"/>
+        <attribute name="surveyId" attributeType="String" syncable="YES"/>
         <attribute name="text" attributeType="String" syncable="YES"/>
         <attribute name="textInputValue" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <relationship name="question" maxCount="1" deletionRule="Nullify" destinationEntity="PQQuestion" inverseName="choices" inverseEntity="PQQuestion" syncable="YES"/>
     </entity>
     <entity name="PQManagedObject" representedClassName="PQManagedObject" isAbstract="YES" syncable="YES"/>
     <entity name="PQQuestion" representedClassName="PQQuestion" parentEntity="PQManagedObject" syncable="YES">
+        <attribute name="authorId" attributeType="String" syncable="YES"/>
         <attribute name="createdAt" attributeType="Date" syncable="YES"/>
         <attribute name="questionId" attributeType="String" syncable="YES"/>
         <attribute name="secureValue" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="surveyId" attributeType="String" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="choices" optional="YES" toMany="YES" maxCount="2" deletionRule="Cascade" ordered="YES" destinationEntity="PQChoice" inverseName="question" inverseEntity="PQChoice" syncable="YES"/>
         <relationship name="responses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PQResponse" inverseName="question" inverseEntity="PQResponse" syncable="YES"/>
         <relationship name="survey" maxCount="1" deletionRule="Nullify" destinationEntity="PQSurvey" inverseName="questions" inverseEntity="PQSurvey" syncable="YES"/>
     </entity>
     <entity name="PQResponse" representedClassName="PQResponse" parentEntity="PQManagedObject" syncable="YES">
+        <attribute name="authorId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="date" attributeType="Date" syncable="YES"/>
+        <attribute name="questionId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="responseId" attributeType="String" syncable="YES"/>
+        <attribute name="surveyId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="text" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="question" maxCount="1" deletionRule="Nullify" destinationEntity="PQQuestion" inverseName="responses" inverseEntity="PQQuestion" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PQUser" inverseName="responses" inverseEntity="PQUser" syncable="YES"/>
     </entity>
     <entity name="PQSurvey" representedClassName="PQSurvey" parentEntity="PQManagedObject" syncable="YES">
+        <attribute name="authorId" attributeType="String" syncable="YES"/>
         <attribute name="createdAt" attributeType="Date" syncable="YES"/>
         <attribute name="editedAt" attributeType="Date" syncable="YES"/>
         <attribute name="enabledValue" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
@@ -39,15 +49,15 @@
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userId" attributeType="String" syncable="YES"/>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="responses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PQResponse" inverseName="user" inverseEntity="PQResponse" syncable="YES"/>
+        <relationship name="responses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PQResponse" inverseName="user" inverseEntity="PQResponse" syncable="YES"/>
         <relationship name="surveys" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PQSurvey" inverseName="author" inverseEntity="PQSurvey" syncable="YES"/>
     </entity>
     <elements>
-        <element name="PQChoice" positionX="216" positionY="216" width="128" height="88"/>
+        <element name="PQChoice" positionX="216" positionY="216" width="128" height="133"/>
         <element name="PQManagedObject" positionX="-216" positionY="-214" width="128" height="43"/>
-        <element name="PQQuestion" positionX="216" positionY="0" width="128" height="148"/>
-        <element name="PQResponse" positionX="-2" positionY="216" width="128" height="118"/>
-        <element name="PQSurvey" positionX="0" positionY="0" width="128" height="178"/>
+        <element name="PQQuestion" positionX="216" positionY="0" width="128" height="178"/>
+        <element name="PQResponse" positionX="-2" positionY="216" width="128" height="178"/>
+        <element name="PQSurvey" positionX="0" positionY="0" width="128" height="193"/>
         <element name="PQUser" positionX="-216" positionY="0" width="128" height="148"/>
     </elements>
 </model>

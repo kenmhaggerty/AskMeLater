@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PQSurvey (CoreDataProperties)
 
+@property (nullable, nonatomic, retain) NSString *authorId;
 @property (nullable, nonatomic, retain) NSDate *createdAt;
 @property (nullable, nonatomic, retain) NSDate *editedAt;
 @property (nullable, nonatomic, retain) NSNumber *enabledValue;
@@ -31,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *surveyId;
 @property (nullable, nonatomic, retain) NSDate *time;
 @property (nullable, nonatomic, retain) NSOrderedSet <PQQuestion *> *questions;
-@property (nullable, nonatomic, retain) PQUser *author;
+@property (nullable, nonatomic, retain, readonly) PQUser *author;
 
 @end
 

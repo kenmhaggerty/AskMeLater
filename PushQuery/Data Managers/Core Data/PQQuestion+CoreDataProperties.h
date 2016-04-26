@@ -23,22 +23,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PQQuestion (CoreDataProperties)
 
+@property (nullable, nonatomic, retain, readonly) NSString *authorId;
 @property (nullable, nonatomic, retain) NSDate *createdAt;
 @property (nullable, nonatomic, retain) NSString *questionId;
 @property (nullable, nonatomic, retain) NSNumber *secureValue;
+@property (nullable, nonatomic, retain) NSString *surveyId;
 @property (nullable, nonatomic, retain) NSString *text;
-@property (nullable, nonatomic, retain) NSSet <PQResponse *> *responses;
 @property (nullable, nonatomic, retain) NSOrderedSet <PQChoice *> *choices;
-@property (nullable, nonatomic, retain) PQSurvey *survey;
+@property (nullable, nonatomic, retain) NSSet <PQResponse *> *responses;
+@property (nullable, nonatomic, retain, readonly) PQSurvey *survey;
 
 @end
 
 @interface PQQuestion (CoreDataGeneratedAccessors)
-
-- (void)addResponsesObject:(PQResponse *)value;
-- (void)removeResponsesObject:(PQResponse *)value;
-- (void)addResponses:(NSSet <PQResponse *> *)values;
-- (void)removeResponses:(NSSet <PQResponse *> *)values;
 
 - (void)insertObject:(PQChoice *)value inChoicesAtIndex:(NSUInteger)idx;
 - (void)removeObjectFromChoicesAtIndex:(NSUInteger)idx;
@@ -50,6 +47,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeChoicesObject:(PQChoice *)value;
 - (void)addChoices:(NSOrderedSet <PQChoice *> *)values;
 - (void)removeChoices:(NSOrderedSet <PQChoice *> *)values;
+
+- (void)addResponsesObject:(PQResponse *)value;
+- (void)removeResponsesObject:(PQResponse *)value;
+- (void)addResponses:(NSSet <PQResponse *> *)values;
+- (void)removeResponses:(NSSet <PQResponse *> *)values;
 
 @end
 

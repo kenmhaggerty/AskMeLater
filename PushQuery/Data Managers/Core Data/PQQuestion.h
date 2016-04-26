@@ -23,6 +23,9 @@
 
 #pragma mark - // DEFINITIONS (Public) //
 
+extern NSString * const PQQuestionAuthorIdDidChangeNotification;
+extern NSString * const PQQuestionSurveyIdDidChangeNotification;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PQQuestion : PQManagedObject <PQQuestion_PRIVATE>

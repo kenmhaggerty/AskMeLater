@@ -52,6 +52,6 @@
 
 @protocol PQResponse_Init <NSObject>
 
-+ (id <PQResponse_Editable>)responseWithText:(NSString *)text user:(id <PQUser>)user date:(NSDate *)date;
++ (id <PQResponse_Editable>)responseWithText:(NSString *)text userId:(NSString *)userId date:(NSDate *)date;
 
 @end

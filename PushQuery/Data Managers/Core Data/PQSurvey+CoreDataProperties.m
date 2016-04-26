@@ -23,6 +23,7 @@
 
 #pragma mark - // SETTERS AND GETTERS //
 
+@dynamic authorId;
 @dynamic createdAt;
 @dynamic editedAt;
 @dynamic enabledValue;
