@@ -1197,7 +1197,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
 + (NSString *)convertInteger:(NSUInteger)integer {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
     
-    return [NSString stringWithFormat:@"%lu", integer];
+    return [NSString stringWithFormat:@"%lu", (unsigned long)integer];
 }
 
 + (NSString *)convertDate:(NSDate *)date {
