@@ -455,10 +455,11 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if (indexPath.section == 0) {
         id survey = self.surveys[indexPath.row];
         [self performSegueWithIdentifier:SEGUE_SURVEY sender:survey];
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     else if (indexPath.section == 1) {
         [self createNewSurvey];
