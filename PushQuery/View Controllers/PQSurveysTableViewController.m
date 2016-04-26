@@ -77,6 +77,7 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
 + (NSString *)stringForDate:(NSDate *)date;
 - (void)fetchSurveys;
 - (void)createNewSurvey;
+- (void)displayStatusBarNotificationWithMessage:(NSString *)message dismissAfter:(NSTimeInterval)timeInterval;
 
 @end
 
@@ -631,10 +632,7 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
                 [surveys sortUsingDescriptors:@[sortDescriptor]];
                 self.surveys = surveys;
                 if (success) {
-                    JDStatusBarView *statusBarView = [JDStatusBarNotification showWithStatus:@"Successfully updated surveys" dismissAfter:StatusBarNotificationDisplayTime];
-                    statusBarView.backgroundColor = [UIColor colorWithRed:(247.0f/255.0f) green:(247.0f/255.0f) blue:(247.0f/255.0f) alpha:1.0f];
-                    statusBarView.textLabel.textColor = [UIColor blackColor];
-                    statusBarView.center = CGPointMake(statusBarView.bounds.size.width*0.5f, statusBarView.bounds.size.height*0.5f);
+                    [self displayStatusBarNotificationWithMessage:@"Successfully updated surveys" dismissAfter:StatusBarNotificationDisplayTime];
                 }
             });
         }];
@@ -658,6 +656,21 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     [self.tableView endUpdates];
     [CATransaction commit];
 //    [self performSegueWithIdentifier:SEGUE_SURVEY sender:survey];
+}
+
+- (void)displayStatusBarNotificationWithMessage:(NSString *)message dismissAfter:(NSTimeInterval)timeInterval {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
+    
+    JDStatusBarView *statusBarView;
+    if (timeInterval) {
+        statusBarView = [JDStatusBarNotification showWithStatus:message dismissAfter:timeInterval];
+    }
+    else  {
+        statusBarView = [JDStatusBarNotification showWithStatus:message];
+    }
+    statusBarView.backgroundColor = [UIColor colorWithRed:(247.0f/255.0f) green:(247.0f/255.0f) blue:(247.0f/255.0f) alpha:1.0f];
+    statusBarView.textLabel.textColor = [UIColor blackColor];
+    statusBarView.center = CGPointMake(statusBarView.bounds.size.width*0.5f, statusBarView.bounds.size.height*0.5f);
 }
 
 @end
