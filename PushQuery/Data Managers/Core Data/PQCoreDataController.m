@@ -129,9 +129,9 @@
     __block PQUser *user;
     [managedObjectContext performBlockAndWait:^{
         user = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQUser class]) inManagedObjectContext:managedObjectContext];
-        user.email = email;
-        user.userId = userId;
         user.createdAt = [NSDate date];
+        user.userId = userId;
+        user.email = email;
     }];
     
     return user;
@@ -144,10 +144,10 @@
     __block PQSurvey *survey;
     [managedObjectContext performBlockAndWait:^{
         survey = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQSurvey class]) inManagedObjectContext:managedObjectContext];
-        survey.name = name;
+        survey.surveyId = [PQCoreDataController surveyId];
         survey.createdAt = [NSDate date];
         survey.editedAt = survey.createdAt;
-        survey.surveyId = [PQCoreDataController surveyId];
+        survey.name = name;
         survey.authorId = authorId;
     }];
     
@@ -161,10 +161,10 @@
     __block PQQuestion *question;
     [managedObjectContext performBlockAndWait:^{
         question = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQQuestion class]) inManagedObjectContext:managedObjectContext];
+        question.questionId = [PQCoreDataController questionId];
+        question.createdAt = [NSDate date];
         question.text = text;
         question.choices = choices;
-        question.createdAt = [NSDate date];
-        question.questionId = [PQCoreDataController questionId];
     }];
     
     return question;
@@ -190,10 +190,10 @@
     __block PQResponse *response;
     [managedObjectContext performBlockAndWait:^{
         response = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQResponse class]) inManagedObjectContext:managedObjectContext];
+        response.responseId = [PQCoreDataController responseId];
         response.text = text;
         response.userId = userId;
         response.date = date;
-        response.responseId = [PQCoreDataController responseId];
     }];
     
     return response;
