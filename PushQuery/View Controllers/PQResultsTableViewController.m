@@ -15,6 +15,7 @@
 #import "AKGenerics.h"
 
 #import "PQQuestionUIProtocol.h"
+#import <QuartzCore/QuartzCore.h>
 
 #pragma mark - // DEFINITIONS (Private) //
 
@@ -76,6 +77,14 @@
     [super viewDidLoad];
     
     self.clearsSelectionOnViewWillAppear = NO;
+    
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    UIView *topBorder = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, navigationBar.frame.size.width, 1.0f/UIScreen.mainScreen.scale)];
+    topBorder.backgroundColor = self.tableView.separatorColor;
+    [navigationBar addSubview:topBorder];
+    [navigationBar addConstraint:[NSLayoutConstraint constraintWithItem:topBorder attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:navigationBar attribute:NSLayoutAttributeTop multiplier:1.0f constant:0.0f]];
+    [navigationBar addConstraint:[NSLayoutConstraint constraintWithItem:topBorder attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:navigationBar attribute:NSLayoutAttributeCenterX multiplier:1.0f constant:0.0f]];
+    [navigationBar addConstraint:[NSLayoutConstraint constraintWithItem:topBorder attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:navigationBar attribute:NSLayoutAttributeWidth multiplier:1.0f constant:0.0f]];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
