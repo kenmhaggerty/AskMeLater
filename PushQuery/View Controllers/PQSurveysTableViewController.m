@@ -78,6 +78,7 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
 - (void)fetchSurveys;
 - (void)createNewSurvey;
 - (void)displayStatusBarNotificationWithMessage:(NSString *)message dismissAfter:(NSTimeInterval)timeInterval;
+- (void)updateRightBarButtonItem;
 
 @end
 
@@ -474,7 +475,7 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     [super setup];
     
     self.surveys = [NSMutableOrderedSet orderedSet];
-    self.navigationItem.rightBarButtonItem = self.refreshBarButtonItem;
+    self.navigationItem.rightBarButtonItem = nil;
     
     [self addObserversToLoginManager];
     [self addObserversToDataManager];
@@ -572,8 +573,9 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_ACCOUNTS] message:nil];
     
     self.surveys = nil;
-    [self fetchSurveys];
     self.alertSettings = nil;
+    [self updateRightBarButtonItem];
+    [self fetchSurveys];
 }
 
 - (void)emailDidChange:(NSNotification *)notification {
@@ -588,9 +590,10 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
     NSNumber *isSyncingValue = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    id <PQUser> currentUser = [PQLoginManager currentUser];
     
-    self.navigationItem.rightBarButtonItem = isSyncingValue.boolValue ? self.activityIndicatorButtonItem : self.refreshBarButtonItem;
-    if (isSyncingValue.boolValue && [PQLoginManager currentUser]) {
+    [self updateRightBarButtonItem];
+    if (isSyncingValue.boolValue && currentUser) {
         [self displayStatusBarNotificationWithMessage:@"Syncing..." dismissAfter:0];
     }
 }
@@ -681,6 +684,20 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     statusBarView.backgroundColor = [UIColor colorWithRed:(247.0f/255.0f) green:(247.0f/255.0f) blue:(247.0f/255.0f) alpha:1.0f];
     statusBarView.textLabel.textColor = [UIColor blackColor];
     statusBarView.center = CGPointMake(statusBarView.bounds.size.width*0.5f, statusBarView.bounds.size.height*0.5f);
+}
+
+- (void)updateRightBarButtonItem {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
+    
+    if ([PQDataManager isSyncing]) {
+        self.navigationItem.rightBarButtonItem = self.activityIndicatorButtonItem;
+    }
+    else if ([PQLoginManager currentUser]) {
+        self.navigationItem.rightBarButtonItem = self.refreshBarButtonItem;
+    }
+    else {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
 }
 
 @end

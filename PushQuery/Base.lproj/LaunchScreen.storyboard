@@ -49,7 +49,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="3OC-Er-H1d">
                         <barButtonItem key="leftBarButtonItem" title="Settings" id="btg-zO-ajg"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="T6P-pz-194"/>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tKN-Pt-V9F" userLabel="First Responder" sceneMemberID="firstResponder"/>
