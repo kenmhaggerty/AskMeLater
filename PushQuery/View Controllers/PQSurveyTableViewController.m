@@ -606,6 +606,7 @@ NSUInteger const TimingTableViewSection = 2;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionWasReordered:) name:PQSurveyQuestionWasReorderedNotification object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionAtIndexWasRemoved:) name:PQSurveyQuestionAtIndexWasRemovedNotification object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionsCountDidChange:) name:PQSurveyQuestionsCountDidChangeNotification object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyWillBeDeleted:) name:PQSurveyWillBeDeletedNotification object:survey];
 }
 
 - (void)removeObserversFromSurvey:(id <PQSurvey>)survey {
@@ -620,6 +621,7 @@ NSUInteger const TimingTableViewSection = 2;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionWasReorderedNotification object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionAtIndexWasRemovedNotification object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionsCountDidChangeNotification object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyWillBeDeletedNotification object:survey];
 }
 
 #pragma mark - // PRIVATE METHODS (Responders) //
