@@ -118,7 +118,8 @@
     
     UITableViewCell *cell = [AKGenerics cellWithReuseIdentifier:@"questionCell" class:[UITableViewCell class] style:UITableViewCellStyleValue1 tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
     id <PQQuestion> question = [self.survey.questions objectAtIndex:indexPath.row];
-    cell.textLabel.text = question.text;
+    cell.textLabel.text = question.text ?: @"(blank)";
+    cell.textLabel.textColor = question.text ? [UIColor blackColor] : [UIColor lightGrayColor];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu %@", (unsigned long)question.responses.count, [AKGenerics pluralizationForCount:question.responses.count singular:@"response" plural:@"responses"]];
     return cell;
 }
