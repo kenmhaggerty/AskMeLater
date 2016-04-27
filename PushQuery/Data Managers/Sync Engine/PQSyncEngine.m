@@ -812,6 +812,16 @@ NSString * const PQFirebasePathResponseUser = @"user";
 //#warning OK – TO DO – Add and remove Firebase observers for user
 //}
 
+- (void)surveyFirebasePathWillChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    PQSurvey *survey = (PQSurvey *)notification.object;
+    
+    if (survey.authorId && survey.surveyId) {
+        [self removeFirebaseObserversFromSurvey:survey];
+    }
+}
+
 - (void)surveyFirebasePathDidChange:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
@@ -819,6 +829,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     
     if (survey.authorId && survey.surveyId) {
         [self addObserversToSurvey:survey];
+        [self addFirebaseObserversToSurvey:survey];
     }
     else {
         [self removeObserversFromSurvey:survey];
