@@ -1269,7 +1269,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     dictionary[PQFirebasePathResponseDate] = [PQSyncEngine convertDate:response.date];
     dictionary[PQFirebasePathResponseText] = [response.text encryptWithKey:response.question.survey.author.userId];
-    dictionary[PQFirebasePathResponseUser] = response.user.userId;
+    dictionary[PQFirebasePathResponseUser] = response.userId;
     return dictionary;
 }
 
