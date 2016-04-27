@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PQChoice (CoreDataProperties)
 
 @property (nullable, nonatomic, retain, readonly) NSString *authorId;
+@property (nullable, nonatomic, retain) NSNumber *indexValue;
 @property (nullable, nonatomic, retain) NSString *questionId;
 @property (nullable, nonatomic, retain, readonly) NSString *surveyId;
 @property (nullable, nonatomic, retain) NSString *text;

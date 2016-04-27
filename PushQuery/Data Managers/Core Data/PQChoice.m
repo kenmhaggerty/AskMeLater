@@ -19,6 +19,11 @@
 
 #pragma mark - // DEFINITIONS (Private) //
 
+NSString * const PQChoiceIndexDidChangeNotification = @"kNotificationPQChoice_IndexDidChange";
+NSString * const PQChoiceAuthorIdDidChangeNotification = @"kNotificationPQChoice_AuthorIdDidChange";
+NSString * const PQChoiceSurveyIdDidChangeNotification = @"kNotificationPQChoice_SurveyIdDidChange";
+NSString * const PQChoiceQuestionIdDidChangeNotification = @"kNotificationPQChoice_QuestionIdDidChange";
+
 @interface PQChoice ()
 @property (nullable, nonatomic, retain, readwrite) NSString *authorId;
 @property (nullable, nonatomic, retain, readwrite) NSString *surveyId;
@@ -40,6 +45,42 @@
 
 #pragma mark - // SETTERS AND GETTERS //
 
+- (void)setAuthorId:(NSString *)authorId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSString *primitiveAuthorId = [self primitiveValueForKey:NSStringFromSelector(@selector(authorId))];
+    
+    if ([AKGenerics object:authorId isEqualToObject:primitiveAuthorId]) {
+        return;
+    }
+    
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:authorId forKey:NOTIFICATION_OBJECT_KEY];
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(authorId))];
+    [self setPrimitiveValue:authorId forKey:NSStringFromSelector(@selector(authorId))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(authorId))];
+    
+    [AKGenerics postNotificationName:PQChoiceAuthorIdDidChangeNotification object:self userInfo:userInfo];
+}
+
+- (void)setIndexValue:(NSNumber *)indexValue {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSNumber *primitiveIndexValue = [self primitiveValueForKey:NSStringFromSelector(@selector(indexValue))];
+    
+    if ([AKGenerics object:indexValue isEqualToObject:primitiveIndexValue]) {
+        return;
+    }
+    
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:indexValue forKey:NOTIFICATION_OBJECT_KEY];
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(indexValue))];
+    [self setPrimitiveValue:indexValue forKey:NSStringFromSelector(@selector(indexValue))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(indexValue))];
+    
+    [AKGenerics postNotificationName:PQChoiceIndexDidChangeNotification object:self userInfo:userInfo];
+}
+
 - (void)setQuestionId:(NSString *)questionId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
     
@@ -49,11 +90,33 @@
         return;
     }
     
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:questionId forKey:NOTIFICATION_OBJECT_KEY];
+    
     [self willChangeValueForKey:NSStringFromSelector(@selector(questionId))];
     [self setPrimitiveValue:questionId forKey:NSStringFromSelector(@selector(questionId))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(questionId))];
     
     self.question = questionId ? [PQCoreDataController getQuestionWithId:self.questionId] : nil;
+    
+    [AKGenerics postNotificationName:PQChoiceQuestionIdDidChangeNotification object:self userInfo:userInfo];
+}
+
+- (void)setSurveyId:(NSString *)surveyId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSString *primitiveSurveyId = [self primitiveValueForKey:NSStringFromSelector(@selector(surveyId))];
+    
+    if ([AKGenerics object:surveyId isEqualToObject:primitiveSurveyId]) {
+        return;
+    }
+    
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:surveyId forKey:NOTIFICATION_OBJECT_KEY];
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(surveyId))];
+    [self setPrimitiveValue:surveyId forKey:NSStringFromSelector(@selector(surveyId))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(surveyId))];
+    
+    [AKGenerics postNotificationName:PQChoiceSurveyIdDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setText:(NSString *)text {

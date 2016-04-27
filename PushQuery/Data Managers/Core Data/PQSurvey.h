@@ -23,6 +23,7 @@
 
 #pragma mark - // DEFINITIONS (Public) //
 
+extern NSString * const PQSurveyIdDidChangeNotification;
 extern NSString * const PQSurveyAuthorIdDidChangeNotification;
 
 NS_ASSUME_NONNULL_BEGIN

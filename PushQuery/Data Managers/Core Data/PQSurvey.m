@@ -19,6 +19,7 @@
 
 #pragma mark - // DEFINITIONS (Private) //
 
+NSString * const PQSurveyIdDidChangeNotification = @"kNotificationPQSurvey_SurveyIdDidChange";
 NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey_AuthorIdDidChange";
 
 @interface PQSurvey ()
@@ -129,6 +130,24 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
     [self didChangeValueForKey:NSStringFromSelector(@selector(repeatValue))];
     
     [AKGenerics postNotificationName:PQSurveyRepeatDidChangeNotification object:self userInfo:userInfo];
+}
+
+- (void)setSurveyId:(NSString *)surveyId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSString *primitiveSurveyId = [self primitiveValueForKey:NSStringFromSelector(@selector(surveyId))];
+    
+    if ([AKGenerics object:surveyId isEqualToObject:primitiveSurveyId]) {
+        return;
+    }
+    
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:surveyId forKey:NOTIFICATION_OBJECT_KEY];
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(surveyId))];
+    [self setPrimitiveValue:surveyId forKey:NSStringFromSelector(@selector(surveyId))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(surveyId))];
+    
+    [AKGenerics postNotificationName:PQSurveyIdDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setTime:(NSDate *)time {

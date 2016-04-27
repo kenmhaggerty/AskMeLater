@@ -20,6 +20,7 @@
 
 #pragma mark - // DEFINITIONS (Private) //
 
+NSString * const PQQuestionIdDidChangeNotification = @"kNotificationPQQuestion_QuestionIdDidChange";
 NSString * const PQQuestionAuthorIdDidChangeNotification = @"kNotificationPQQuestion_AuthorIdDidChange";
 NSString * const PQQuestionSurveyIdDidChangeNotification = @"kNotificationPQQuestion_SurveyIdDidChange";
 
@@ -64,6 +65,24 @@ NSString * const PQQuestionSurveyIdDidChangeNotification = @"kNotificationPQQues
     [self didChangeValueForKey:NSStringFromSelector(@selector(authorId))];
     
     [AKGenerics postNotificationName:PQQuestionAuthorIdDidChangeNotification object:self userInfo:userInfo];
+}
+
+- (void)setQuestionId:(NSString *)questionId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSString *primitiveQuestionId = [self primitiveValueForKey:NSStringFromSelector(@selector(questionId))];
+    
+    if ([AKGenerics object:questionId isEqualToObject:primitiveQuestionId]) {
+        return;
+    }
+    
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:questionId forKey:NOTIFICATION_OBJECT_KEY];
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(questionId))];
+    [self setPrimitiveValue:questionId forKey:NSStringFromSelector(@selector(questionId))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(questionId))];
+    
+    [AKGenerics postNotificationName:PQQuestionIdDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setSecureValue:(NSNumber *)secureValue {
@@ -142,6 +161,7 @@ NSString * const PQQuestionSurveyIdDidChangeNotification = @"kNotificationPQQues
     [self didChangeValueForKey:NSStringFromSelector(@selector(choices))];
     
     for (PQChoice *choice in choices) {
+        choice.indexValue = [NSNumber numberWithInteger:[choices indexOfObject:choice]];
         [self addObserversToChoice:choice];
     }
     
@@ -296,6 +316,8 @@ NSString * const PQQuestionSurveyIdDidChangeNotification = @"kNotificationPQQues
     
     [self addChoicesObject:choice];
     
+    choice.indexValue = [NSNumber numberWithInteger:[self.choices indexOfObject:choice]];
+    
     [self addObserversToChoice:choice];
     
     [AKGenerics postNotificationName:PQQuestionChoiceWasAddedNotification object:self userInfo:userInfo];
@@ -308,6 +330,8 @@ NSString * const PQQuestionSurveyIdDidChangeNotification = @"kNotificationPQQues
     userInfo[NOTIFICATION_OBJECT_KEY] = choice;
     
     [self insertObject:choice inChoicesAtIndex:index];
+    
+    choice.indexValue = [NSNumber numberWithInteger:index];
     
     [self addObserversToChoice:choice];
     
@@ -334,6 +358,8 @@ NSString * const PQQuestionSurveyIdDidChangeNotification = @"kNotificationPQQues
     [self removeChoicesObject:choice];
     [self insertObject:choice inChoicesAtIndex:index];
     
+    choice.indexValue = [NSNumber numberWithInteger:index];
+    
     [AKGenerics postNotificationName:PQQuestionChoiceWasReorderedNotification object:self userInfo:userInfo];
 }
 
@@ -354,6 +380,8 @@ NSString * const PQQuestionSurveyIdDidChangeNotification = @"kNotificationPQQues
     [self removeChoicesObject:choice];
     [self insertObject:choice inChoicesAtIndex:toIndex];
     
+    choice.indexValue = [NSNumber numberWithInteger:toIndex];
+    
     [AKGenerics postNotificationName:PQQuestionChoiceWasReorderedNotification object:self userInfo:userInfo];
 }
 
@@ -371,6 +399,9 @@ NSString * const PQQuestionSurveyIdDidChangeNotification = @"kNotificationPQQues
     
     [self replaceObjectInChoicesAtIndex:index withObject:choice];
     
+    primitiveChoice.indexValue = nil;
+    choice.indexValue = [NSNumber numberWithInteger:index];
+    
     [AKGenerics postNotificationName:PQQuestionChoiceAtIndexWasReplaced object:self userInfo:userInfo];
 }
 
@@ -380,6 +411,8 @@ NSString * const PQQuestionSurveyIdDidChangeNotification = @"kNotificationPQQues
     PQChoice *choice = [self.choices objectAtIndex:index];
     
     [self removeChoice:choice];
+    
+    choice.indexValue = nil;
 }
 
 - (void)removeChoice:(PQChoice *)choice {
@@ -397,6 +430,8 @@ NSString * const PQQuestionSurveyIdDidChangeNotification = @"kNotificationPQQues
     userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithInteger:[self.choices indexOfObject:choice]];
     
     [self removeChoicesObject:choice];
+    
+    choice.indexValue = nil;
     
     [AKGenerics postNotificationName:PQQuestionChoiceAtIndexWasRemovedNotification object:self userInfo:userInfo];
 }

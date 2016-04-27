@@ -22,6 +22,12 @@
 
 #pragma mark - // DEFINITIONS (Public) //
 
+extern NSString * const PQResponseIdDidChangeNotification;
+extern NSString * const PQResponseAuthorIdDidChangeNotification;
+extern NSString * const PQResponseSurveyIdDidChangeNotification;
+extern NSString * const PQResponseQuestionIdDidChangeNotification;
+extern NSString * const PQResponseUserIdDidChangeNotification;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PQResponse : PQManagedObject <PQResponse_Editable>

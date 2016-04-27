@@ -23,6 +23,7 @@
 
 #pragma mark - // DEFINITIONS (Public) //
 
+extern NSString * const PQQuestionIdDidChangeNotification;
 extern NSString * const PQQuestionAuthorIdDidChangeNotification;
 extern NSString * const PQQuestionSurveyIdDidChangeNotification;
 
