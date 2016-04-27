@@ -32,6 +32,7 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
 
 // RESPONDERS //
 
+- (void)questionSurveyDidChange:(NSNotification *)notification;
 - (void)questionWillBeDeleted:(NSNotification *)notification;
 
 @end
@@ -467,16 +468,29 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
 - (void)addObserversToQuestion:(PQQuestion *)question {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionSurveyDidChange:) name:PQQuestionSurveyDidChangeNotification object:question];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionWillBeDeleted:) name:PQQuestionWillBeDeletedNotification object:question];
 }
 
 - (void)removeObserversFromQuestion:(PQQuestion *)question {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionSurveyDidChangeNotification object:question];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionWillBeDeletedNotification object:question];
 }
 
 #pragma mark - // PRIVATE METHODS (Responders) //
+
+- (void)questionSurveyDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    PQQuestion *question = notification.object;
+    if ([question.survey isEqual:self]) {
+        return;
+    }
+    
+    [self removeObserversFromQuestion:question];
+}
 
 - (void)questionWillBeDeleted:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];

@@ -23,6 +23,7 @@
 NSString * const PQQuestionIdDidChangeNotification = @"kNotificationPQQuestion_QuestionIdDidChange";
 NSString * const PQQuestionAuthorIdDidChangeNotification = @"kNotificationPQQuestion_AuthorIdDidChange";
 NSString * const PQQuestionSurveyIdDidChangeNotification = @"kNotificationPQQuestion_SurveyIdDidChange";
+NSString * const PQQuestionSurveyDidChangeNotification = @"kNotificationPQQuestion_SurveyDidChange";
 
 @interface PQQuestion ()
 @property (nullable, nonatomic, retain, readwrite) NSString *authorId;
@@ -221,6 +222,10 @@ NSString * const PQQuestionSurveyIdDidChangeNotification = @"kNotificationPQQues
         self.surveyId = survey.surveyId;
         self.authorId = survey ? survey.authorId : nil;
     }
+    
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:survey forKey:NOTIFICATION_OBJECT_KEY];
+    
+    [AKGenerics postNotificationName:PQQuestionSurveyDidChangeNotification object:self userInfo:userInfo];
 }
 
 #pragma mark - // INITS AND LOADS //

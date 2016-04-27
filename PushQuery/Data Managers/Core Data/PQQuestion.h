@@ -26,6 +26,7 @@
 extern NSString * const PQQuestionIdDidChangeNotification;
 extern NSString * const PQQuestionAuthorIdDidChangeNotification;
 extern NSString * const PQQuestionSurveyIdDidChangeNotification;
+extern NSString * const PQQuestionSurveyDidChangeNotification;
 
 NS_ASSUME_NONNULL_BEGIN
 
