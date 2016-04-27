@@ -87,10 +87,21 @@
     [navigationBar addConstraint:[NSLayoutConstraint constraintWithItem:topBorder attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:navigationBar attribute:NSLayoutAttributeWidth multiplier:1.0f constant:0.0f]];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    [super viewWillAppear:animated];
+    
+    [self.tableView setShowsVerticalScrollIndicator:NO];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
     
     [super viewDidAppear:animated];
+    
+    self.tableView.contentInset = UIEdgeInsetsMake(self.tableView.contentInset.top, self.tableView.contentInset.left, 0.0f, self.tableView.contentInset.right);
+    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.tableView.scrollIndicatorInsets.top, self.tableView.scrollIndicatorInsets.left, 0.0f, self.tableView.scrollIndicatorInsets.right);
     
     [self.tableView flashScrollIndicators];
 }
