@@ -417,7 +417,6 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
     userInfo[NOTIFICATION_OBJECT_KEY] = question;
     
-//    [AKGenerics postNotificationName:PQSurveyQuestionWillBeRemoved object:self userInfo:userInfo];
     [AKGenerics postNotificationName:PQQuestionWillBeRemovedNotification object:question userInfo:nil];
     
     userInfo = [NSMutableDictionary dictionary];
