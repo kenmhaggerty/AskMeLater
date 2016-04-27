@@ -190,8 +190,6 @@ NSUInteger const TimingTableViewSection = 2;
     [super viewDidLoad];
     
     self.navigationItem.rightBarButtonItem = self.editButton;
-    self.tableView.contentInset = UIEdgeInsetsMake(self.tableView.contentInset.top, self.tableView.contentInset.left, self.tabBarController.tabBar.frame.size.height, self.tableView.contentInset.right);
-    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.tableView.scrollIndicatorInsets.top, self.tableView.scrollIndicatorInsets.left, self.tabBarController.tabBar.frame.size.height, self.tableView.scrollIndicatorInsets.right);
     
     self.surveyCanBeEnabled = (self.survey && self.survey.questions.count);
 }
@@ -204,6 +202,9 @@ NSUInteger const TimingTableViewSection = 2;
     self.title = self.survey.name;
     self.tabBarController.navigationItem.rightBarButtonItems = self.navigationItem.rightBarButtonItems;
     self.tabBarController.navigationItem.hidesBackButton = NO;
+    
+    self.tableView.contentInset = UIEdgeInsetsMake(self.tableView.contentInset.top, self.tableView.contentInset.left, self.tabBarController.tabBar.frame.size.height, self.tableView.contentInset.right);
+    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.tableView.scrollIndicatorInsets.top, self.tableView.scrollIndicatorInsets.left, self.tabBarController.tabBar.frame.size.height, self.tableView.scrollIndicatorInsets.right);
 }
 
 #pragma mark - // PUBLIC METHODS //
