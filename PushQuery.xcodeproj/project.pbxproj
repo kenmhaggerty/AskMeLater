@@ -24,7 +24,6 @@
 		7D09C8801CB4185F00962A23 /* syncview_x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D09C8781CB4185F00962A23 /* syncview_x@2x.png */; };
 		7D12CABC1C8A30280021519B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CABB1C8A30280021519B /* main.m */; };
 		7D12CABF1C8A30280021519B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CABE1C8A30280021519B /* AppDelegate.m */; };
-		7D12CAC21C8A30280021519B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CAC11C8A30280021519B /* ViewController.m */; };
 		7D12CAC51C8A30280021519B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D12CAC31C8A30280021519B /* Main.storyboard */; };
 		7D12CAC81C8A30280021519B /* PushQuery.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CAC61C8A30280021519B /* PushQuery.xcdatamodeld */; };
 		7D12CACA1C8A30280021519B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D12CAC91C8A30280021519B /* Assets.xcassets */; };
@@ -119,8 +118,6 @@
 		7D12CABB1C8A30280021519B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7D12CABD1C8A30280021519B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7D12CABE1C8A30280021519B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		7D12CAC01C8A30280021519B /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		7D12CAC11C8A30280021519B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		7D12CAC41C8A30280021519B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7D12CAC71C8A30280021519B /* PushQuery.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PushQuery.xcdatamodel; sourceTree = "<group>"; };
 		7D12CAC91C8A30280021519B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -405,8 +402,6 @@
 		7D12CAF01C8A47CD0021519B /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				7D12CAC01C8A30280021519B /* ViewController.h */,
-				7D12CAC11C8A30280021519B /* ViewController.m */,
 				7DE38D861C9B11CE000A02F0 /* Protocols */,
 				7D50AB401CBEDBE00086DAF1 /* PQRootViewController */,
 				7D5A655E1CA0718500D7AE8D /* PQLoginViewController */,
@@ -1188,7 +1183,6 @@
 				7DE38D8B1C9C5EF4000A02F0 /* UITableView+Extras.m in Sources */,
 				7D12CAC81C8A30280021519B /* PushQuery.xcdatamodeld in Sources */,
 				7D12CB0C1C8A4B4F0021519B /* PQPrivateInfo.m in Sources */,
-				7D12CAC21C8A30280021519B /* ViewController.m in Sources */,
 				7D12CB1B1C8A69610021519B /* PQUser.m in Sources */,
 				7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */,
 				7D5A65611CA0719900D7AE8D /* PQLoginViewController.m in Sources */,
