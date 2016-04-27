@@ -638,8 +638,11 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [surveys sortUsingDescriptors:@[sortDescriptor]];
                 self.surveys = surveys;
-                if (success) {
+                if (currentUser && success) {
                     [self displayStatusBarNotificationWithMessage:@"Successfully updated surveys" dismissAfter:StatusBarNotificationDisplayTime];
+                }
+                else {
+                    [JDStatusBarNotification dismiss];
                 }
             });
         }];
