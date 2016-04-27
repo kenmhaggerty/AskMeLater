@@ -34,6 +34,7 @@
 #define PQSurveyAuthorDidSaveNotification @"kNotificationPQSurvey_AuthorDidSave"
 
 #define PQSurveyQuestionsDidChangeNotification @"kNotificationPQSurvey_QuestionsDidChange"
+#define PQSurveyQuestionsCountDidChangeNotification @"kNotificationPQSurvey_QuestionsCountDidChange"
 #define PQSurveyQuestionWasAddedNotification @"kNotificationPQSurvey_QuestionWasAdded"
 #define PQSurveyQuestionWasReorderedNotification @"kNotificationPQSurvey_QuestionWasReordered"
 //#define PQSurveyQuestionWillBeRemoved @"kNotificationPQSurvey_QuestionWillBeRemoved"

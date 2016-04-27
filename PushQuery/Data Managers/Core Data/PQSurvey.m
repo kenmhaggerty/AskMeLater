@@ -178,6 +178,10 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
     }
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:questions forKey:NOTIFICATION_OBJECT_KEY];
+    NSNumber *count;
+    if (questions.count != primitiveQuestions.count) {
+        count = [NSNumber numberWithInteger:questions.count];
+    }
     
     for (PQQuestion *question in primitiveQuestions) {
         [self removeObserversFromQuestion:question];
@@ -192,6 +196,10 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
     }
     
     [AKGenerics postNotificationName:PQSurveyQuestionsDidChangeNotification object:self userInfo:userInfo];
+    
+    if (count) {
+        [AKGenerics postNotificationName:PQSurveyQuestionsCountDidChangeNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : count}];
+    }
 }
 
 - (void)setAuthor:(PQUser *)author {
@@ -338,6 +346,8 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
     [self addObserversToQuestion:question];
     
     [AKGenerics postNotificationName:PQSurveyQuestionWasAddedNotification object:self userInfo:userInfo];
+    
+    [AKGenerics postNotificationName:PQSurveyQuestionsCountDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)insertQuestion:(PQQuestion *)question atIndex:(NSUInteger)index {
@@ -351,6 +361,8 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
     [self addObserversToQuestion:question];
     
     [AKGenerics postNotificationName:PQSurveyQuestionWasAddedNotification object:self userInfo:userInfo];
+    
+    [AKGenerics postNotificationName:PQSurveyQuestionsCountDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)moveQuestion:(PQQuestion *)question toIndex:(NSUInteger)index {
@@ -413,6 +425,8 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
     [self removeQuestionsObject:question];
     
     [AKGenerics postNotificationName:PQSurveyQuestionAtIndexWasRemovedNotification object:self userInfo:userInfo];
+    
+    [AKGenerics postNotificationName:PQSurveyQuestionsCountDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)removeQuestionAtIndex:(NSUInteger)index {

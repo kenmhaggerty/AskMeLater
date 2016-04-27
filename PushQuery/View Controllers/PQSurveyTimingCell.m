@@ -18,7 +18,6 @@
 
 @interface PQSurveyTimingCell ()
 @property (nonatomic, strong) IBOutlet UISwitch *repeatSwitch;
-@property (nonatomic, strong) IBOutlet UISwitch *enabledSwitch;
 
 // ACTIONS //
 

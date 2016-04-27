@@ -28,6 +28,8 @@
 
 @interface PQSurveyTimingCell : UITableViewCell
 @property (nonatomic, strong) IBOutlet UIDatePicker *timePicker;
+@property (nonatomic, strong) IBOutlet UILabel *enabledLabel;
+@property (nonatomic, strong) IBOutlet UISwitch *enabledSwitch;
 @property (nonatomic, strong) id <PQSurveyTimingCellDelegate> delegate;
 + (NSString *)reuseIdentifier;
 - (void)setRepeatSwitch:(BOOL)on animated:(BOOL)animated;

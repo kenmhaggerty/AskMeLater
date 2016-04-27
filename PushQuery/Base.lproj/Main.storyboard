@@ -906,6 +906,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="enabledLabel" destination="Ukx-cF-bdB" id="QVW-5h-eJA"/>
                                     <outlet property="enabledSwitch" destination="hDV-54-bi8" id="xzC-gW-qc9"/>
                                     <outlet property="repeatSwitch" destination="f7Y-PQ-Fte" id="wb7-rD-njM"/>
                                     <outlet property="timePicker" destination="cqP-co-JRq" id="3Jl-ja-tpV"/>

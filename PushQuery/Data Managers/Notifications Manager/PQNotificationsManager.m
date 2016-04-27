@@ -14,8 +14,6 @@
 #import "AKDebugger.h"
 #import "AKGenerics.h"
 
-#import "PQSurveyProtocols.h"
-
 #pragma mark - // DEFINITIONS (Private) //
 
 NSString * const PQNotificationActionString = @"respond";
@@ -30,10 +28,6 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
 // RESPONDERS //
 
 - (void)surveyEnabledDidChange:(NSNotification *)notification;
-
-// OTHER //
-
-- (void)cancelNotificationsForSurvey:(id <PQSurvey>)survey;
 
 @end
 
@@ -120,6 +114,28 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 }
 
++ (void)cancelNotificationsForSurvey:(id<PQSurvey>)survey {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
+    
+    NSMutableArray *questionIds = [NSMutableArray arrayWithCapacity:survey.questions.count];
+    for (id <PQQuestion_PRIVATE> question in survey.questions) {
+        [questionIds addObject: question.questionId];
+    }
+    
+    UIApplication *application = [UIApplication sharedApplication];
+    NSArray <UILocalNotification *> *scheduledNotifications = [application scheduledLocalNotifications];
+    UILocalNotification *localNotification;
+    NSString *notificationId;
+    for (int i = 0; i < scheduledNotifications.count; i++)
+    {
+        localNotification = scheduledNotifications[i];
+        notificationId = localNotification.userInfo[NOTIFICATION_OBJECT_KEY];
+        if ([questionIds containsObject:notificationId]) {
+            [application cancelLocalNotification:localNotification];
+        }
+    }
+}
+
 #pragma mark - // CATEGORY METHODS //
 
 #pragma mark - // DELEGATED METHODS //
@@ -163,7 +179,7 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     BOOL enabled = ((NSNumber *)notification.userInfo[NOTIFICATION_OBJECT_KEY]).boolValue;
     
     if (!enabled) {
-        [self cancelNotificationsForSurvey:survey];
+        [PQNotificationsManager cancelNotificationsForSurvey:survey];
         return;
     }
     
@@ -176,30 +192,6 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     UIMutableUserNotificationAction *secondaryAction = [PQNotificationsManager notificationActionWithTitle:secondaryChoice.text textInput:secondaryChoice.textInput destructive:NO authentication:question.secure];
     
     [PQNotificationsManager setNotificationWithTitle:survey.name body:question.text actions:@[primaryAction, secondaryAction] actionString:PQNotificationActionString uuid:question.questionId fireDate:survey.time repeat:survey.repeat];
-}
-
-#pragma mark - // PRIVATE METHODS (Other) //
-
-- (void)cancelNotificationsForSurvey:(id<PQSurvey>)survey {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
-    
-    NSMutableArray *questionIds = [NSMutableArray arrayWithCapacity:survey.questions.count];
-    for (id <PQQuestion_PRIVATE> question in survey.questions) {
-        [questionIds addObject: question.questionId];
-    }
-    
-    UIApplication *application = [UIApplication sharedApplication];
-    NSArray <UILocalNotification *> *scheduledNotifications = [application scheduledLocalNotifications];
-    UILocalNotification *localNotification;
-    NSString *notificationId;
-    for (int i = 0; i < scheduledNotifications.count; i++)
-    {
-        localNotification = scheduledNotifications[i];
-        notificationId = localNotification.userInfo[NOTIFICATION_OBJECT_KEY];
-        if ([questionIds containsObject:notificationId]) {
-            [application cancelLocalNotification:localNotification];
-        }
-    }
 }
 
 @end
