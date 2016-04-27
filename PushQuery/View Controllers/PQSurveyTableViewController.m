@@ -441,7 +441,12 @@ NSUInteger const TimingTableViewSection = 2;
     
     id <PQQuestion_Editable> question = (id <PQQuestion_Editable>)[self.survey.questions objectAtIndex:indexPath.row];
     NSString *text = sender.textView.text;
-    question.text = (text && text.length) ? text : nil;
+    if (!text || !text.length) {
+        [PQDataManager deleteQuestion:question];
+        return;
+    }
+    
+    question.text = text;
     [PQDataManager save];
     
     PQSurveyTimingCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:TimingTableViewSection]];
