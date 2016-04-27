@@ -174,7 +174,6 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
     NSOrderedSet <PQChoice *> *choices = [PQDataManager choices];
     id <PQQuestion_Editable> question = [PQCoreDataController questionWithText:text choices:choices];
     [survey addQuestion:question];
-    [PQCoreDataController save];
     return question;
 }
 
