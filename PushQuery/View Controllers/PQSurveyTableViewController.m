@@ -627,13 +627,13 @@ NSUInteger const TimingTableViewSection = 2;
 #pragma mark - // PRIVATE METHODS (Responders) //
 
 - (void)surveyNameDidChange:(NSNotification *)notification {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_UI] message:nil];
     
     self.title = self.survey.name;
 }
 
 - (void)surveyTimeDidChange:(NSNotification *)notification {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_UI] message:nil];
     
     NSDate *time = notification.userInfo[NOTIFICATION_OBJECT_KEY];
     if (!time) {
@@ -645,7 +645,7 @@ NSUInteger const TimingTableViewSection = 2;
 }
 
 - (void)surveyRepeatDidChange:(NSNotification *)notification {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_UI] message:nil];
     
     BOOL repeat = ((NSNumber *)notification.userInfo[NOTIFICATION_OBJECT_KEY]).boolValue;
     
@@ -654,7 +654,7 @@ NSUInteger const TimingTableViewSection = 2;
 }
 
 - (void)surveyEnabledDidChange:(NSNotification *)notification {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_UI] message:nil];
     
     BOOL enabled = ((NSNumber *)notification.userInfo[NOTIFICATION_OBJECT_KEY]).boolValue;
     
@@ -663,13 +663,13 @@ NSUInteger const TimingTableViewSection = 2;
 }
 
 - (void)surveyQuestionsDidChange:(NSNotification *)notification {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_UI] message:nil];
     
     [self.tableView reloadData];
 }
 
 - (void)surveyQuestionWasAdded:(NSNotification *)notification {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_UI] message:nil];
     
     id <PQQuestion> question = notification.userInfo[NOTIFICATION_OBJECT_KEY];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.survey.questions indexOfObject:question] inSection:QuestionsTableViewSection];
@@ -677,7 +677,7 @@ NSUInteger const TimingTableViewSection = 2;
 }
 
 - (void)surveyQuestionWasReordered:(NSNotification *)notification {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_UI] message:nil];
     
     id <PQQuestion> question = notification.userInfo[NOTIFICATION_OBJECT_KEY];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.survey.questions indexOfObject:question] inSection:QuestionsTableViewSection];
@@ -687,7 +687,7 @@ NSUInteger const TimingTableViewSection = 2;
 }
 
 - (void)surveyQuestionAtIndexWasRemoved:(NSNotification *)notification {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_UI] message:nil];
     
     NSNumber *index = notification.userInfo[NOTIFICATION_OBJECT_KEY];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index.integerValue inSection:QuestionsTableViewSection];
@@ -703,7 +703,7 @@ NSUInteger const TimingTableViewSection = 2;
 }
 
 - (void)surveyWillBeDeleted:(NSNotification *)notification {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_UI] message:nil];
     
     [self.tabBarController.navigationController popViewControllerAnimated:YES];
 }
