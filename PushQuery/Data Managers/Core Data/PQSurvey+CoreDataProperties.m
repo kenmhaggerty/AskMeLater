@@ -24,7 +24,6 @@
 #pragma mark - // SETTERS AND GETTERS //
 
 @dynamic authorId;
-@dynamic canBeEnabledValue;
 @dynamic createdAt;
 @dynamic editedAt;
 @dynamic enabledValue;
