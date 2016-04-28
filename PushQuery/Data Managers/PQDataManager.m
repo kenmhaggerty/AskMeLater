@@ -132,6 +132,7 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
     NSString *name = nil;
     id <PQUser_PRIVATE> author = (id <PQUser_PRIVATE>)[PQLoginManager currentUser];
     id <PQSurvey_Editable> survey = [PQCoreDataController surveyWithName:name authorId:author.userId];
+    survey.time = [NSDate date];
     [PQCoreDataController save];
     return survey;
 }
