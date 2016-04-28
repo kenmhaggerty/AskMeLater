@@ -417,7 +417,7 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     if (indexPath.section == 0) {
         UITableViewCell *cell = [AKGenerics cellWithReuseIdentifier:SURVEY_CELL_REUSE_IDENTIFIER class:[UITableViewCell class] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
         id <PQSurvey> survey = self.surveys[indexPath.row];
-        cell.textLabel.text = survey.name ?: PQSurveyNamePlaceholder;
+        cell.textLabel.text = survey.name ?: @"unnamed survey";
         cell.textLabel.textColor = (survey.name ? [UIColor blackColor] : [UIColor lightGrayColor]);
 //        cell.detailTextLabel.text = [PQSurveysTableViewController stringForDate:survey.editedAt];
         return cell;

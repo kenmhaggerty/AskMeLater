@@ -16,7 +16,6 @@
 
 #pragma mark - // DEFINITIONS //
 
-#define PQSurveyNamePlaceholder @"unnamed survey"
 
 #define PQSurveyEditedAtDidChangeNotification @"kNotificationPQSurvey_EditedAtDidChange"
 #define PQSurveyEnabledDidChangeNotification @"kNotificationPQSurvey_EnabledDidChange"
