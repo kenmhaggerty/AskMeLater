@@ -34,6 +34,7 @@
     </entity>
     <entity name="PQSurvey" representedClassName="PQSurvey" parentEntity="PQManagedObject" syncable="YES">
         <attribute name="authorId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="canBeEnabledValue" transient="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="createdAt" attributeType="Date" syncable="YES"/>
         <attribute name="editedAt" attributeType="Date" syncable="YES"/>
         <attribute name="enabledValue" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
@@ -53,12 +54,16 @@
         <relationship name="responses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PQResponse" inverseName="user" inverseEntity="PQResponse" syncable="YES"/>
         <relationship name="surveys" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PQSurvey" inverseName="author" inverseEntity="PQSurvey" syncable="YES"/>
     </entity>
+    <entity name="TestObject" representedClassName="TestObject" syncable="YES">
+        <attribute name="transientAttribute" transient="YES" attributeType="Boolean" syncable="YES"/>
+    </entity>
     <elements>
         <element name="PQChoice" positionX="216" positionY="216" width="128" height="148"/>
         <element name="PQManagedObject" positionX="-216" positionY="-214" width="128" height="43"/>
         <element name="PQQuestion" positionX="216" positionY="0" width="128" height="178"/>
         <element name="PQResponse" positionX="-2" positionY="216" width="128" height="178"/>
-        <element name="PQSurvey" positionX="0" positionY="0" width="128" height="193"/>
+        <element name="PQSurvey" positionX="0" positionY="0" width="128" height="208"/>
         <element name="PQUser" positionX="-216" positionY="0" width="128" height="148"/>
+        <element name="TestObject" positionX="205" positionY="-198" width="128" height="58"/>
     </elements>
 </model>

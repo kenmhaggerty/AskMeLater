@@ -23,6 +23,7 @@ NSString * const PQSurveyIdDidChangeNotification = @"kNotificationPQSurvey_Surve
 NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey_AuthorIdDidChange";
 
 @interface PQSurvey ()
+@property (nullable, nonatomic, retain, readwrite) NSNumber *canBeEnabledValue;
 @property (nullable, nonatomic, retain, readwrite) PQUser *author;
 
 // OBSERVERS //
@@ -32,6 +33,8 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
 
 // RESPONDERS //
 
+- (void)questionIdDidChange:(NSNotification *)notification;
+- (void)questionTextDidChange:(NSNotification *)notification;
 - (void)questionSurveyDidChange:(NSNotification *)notification;
 - (void)questionWillBeDeleted:(NSNotification *)notification;
 
@@ -59,6 +62,36 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
     self.author = authorId ? [PQCoreDataController getUserWithId:self.authorId] : nil;
     
     [AKGenerics postNotificationName:PQSurveyAuthorIdDidChangeNotification object:self userInfo:userInfo];
+}
+
+- (void)setCanBeEnabledValue:(NSNumber *)canBeEnabledValue {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_DATA] message:nil];
+    
+    NSNumber *primitiveCanBeEnabledValue = [self primitiveValueForKey:NSStringFromSelector(@selector(canBeEnabledValue))];
+    
+    if ([AKGenerics object:canBeEnabledValue isEqualToObject:primitiveCanBeEnabledValue]) {
+        return;
+    }
+    
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:canBeEnabledValue forKey:NOTIFICATION_OBJECT_KEY];
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(canBeEnabledValue))];
+    [self setPrimitiveValue:canBeEnabledValue forKey:NSStringFromSelector(@selector(canBeEnabledValue))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(canBeEnabledValue))];
+    
+    if (!canBeEnabledValue.boolValue) {
+        self.enabledValue = @NO;
+    }
+    
+    [AKGenerics postNotificationName:PQSurveyCanBeEnabledDidChangeNotification object:self userInfo:userInfo];
+}
+
+- (NSNumber *)canBeEnabledValue {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
+    
+    NSNumber *canBeEnabledValue = [self primitiveValueForKey:NSStringFromSelector(@selector(canBeEnabledValue))];
+    
+    return canBeEnabledValue ?: [NSNumber numberWithBool:self.canBeEnabled];
 }
 
 - (void)setEditedAt:(NSDate *)editedAt {
@@ -149,6 +182,8 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
     [self didChangeValueForKey:NSStringFromSelector(@selector(surveyId))];
     
     [AKGenerics postNotificationName:PQSurveyIdDidChangeNotification object:self userInfo:userInfo];
+    
+    self.canBeEnabledValue = [NSNumber numberWithBool:self.canBeEnabled];
 }
 
 - (void)setTime:(NSDate *)time {
@@ -167,6 +202,8 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
     [self didChangeValueForKey:NSStringFromSelector(@selector(time))];
     
     [AKGenerics postNotificationName:PQSurveyTimeDidChangeNotification object:self userInfo:userInfo];
+    
+    self.canBeEnabledValue = [NSNumber numberWithBool:self.canBeEnabled];
 }
 
 - (void)setQuestions:(NSOrderedSet <PQQuestion *> *)questions {
@@ -201,6 +238,8 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
     if (count) {
         [AKGenerics postNotificationName:PQSurveyQuestionsCountDidChangeNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : count}];
     }
+    
+    self.canBeEnabledValue = [NSNumber numberWithBool:self.canBeEnabled];
 }
 
 - (void)setAuthor:(PQUser *)author {
@@ -312,6 +351,22 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
 
 #pragma mark - // PUBLIC METHODS //
 
+- (BOOL)canBeEnabled {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
+    
+    if (!self.surveyId || !self.time || !self.questions || !self.questions.count) {
+        return NO;
+    }
+    
+    for (PQQuestion *question in self.questions) {
+        if (!question.questionId || !question.text || !question.text.length) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
 - (BOOL)enabled {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
     
@@ -349,6 +404,8 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
     [AKGenerics postNotificationName:PQSurveyQuestionWasAddedNotification object:self userInfo:userInfo];
     
     [AKGenerics postNotificationName:PQSurveyQuestionsCountDidChangeNotification object:self userInfo:userInfo];
+    
+    self.canBeEnabledValue = [NSNumber numberWithBool:self.canBeEnabled];
 }
 
 - (void)insertQuestion:(PQQuestion *)question atIndex:(NSUInteger)index {
@@ -364,6 +421,8 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
     [AKGenerics postNotificationName:PQSurveyQuestionWasAddedNotification object:self userInfo:userInfo];
     
     [AKGenerics postNotificationName:PQSurveyQuestionsCountDidChangeNotification object:self userInfo:userInfo];
+    
+    self.canBeEnabledValue = [NSNumber numberWithBool:self.canBeEnabled];
 }
 
 - (void)moveQuestion:(PQQuestion *)question toIndex:(NSUInteger)index {
@@ -427,6 +486,8 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
     [AKGenerics postNotificationName:PQSurveyQuestionAtIndexWasRemovedNotification object:self userInfo:userInfo];
     
     [AKGenerics postNotificationName:PQSurveyQuestionsCountDidChangeNotification object:self userInfo:userInfo];
+    
+    self.canBeEnabledValue = [NSNumber numberWithBool:self.canBeEnabled];
 }
 
 - (void)removeQuestionAtIndex:(NSUInteger)index {
@@ -467,6 +528,8 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
 - (void)addObserversToQuestion:(PQQuestion *)question {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionIdDidChange:) name:PQQuestionIdDidChangeNotification object:question];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionTextDidChange:) name:PQQuestionTextDidChangeNotification object:question];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionSurveyDidChange:) name:PQQuestionSurveyDidChangeNotification object:question];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionWillBeDeleted:) name:PQQuestionWillBeDeletedNotification object:question];
 }
@@ -474,11 +537,25 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
 - (void)removeObserversFromQuestion:(PQQuestion *)question {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionIdDidChangeNotification object:question];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionTextDidChangeNotification object:question];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionSurveyDidChangeNotification object:question];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionWillBeDeletedNotification object:question];
 }
 
 #pragma mark - // PRIVATE METHODS (Responders) //
+
+- (void)questionIdDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    self.canBeEnabledValue = [NSNumber numberWithBool:self.canBeEnabled];
+}
+
+- (void)questionTextDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    self.canBeEnabledValue = [NSNumber numberWithBool:self.canBeEnabled];
+}
 
 - (void)questionSurveyDidChange:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];

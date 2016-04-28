@@ -36,7 +36,6 @@ NSUInteger const TimingTableViewSection = 2;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *doneButton;
 @property (nonatomic, strong) UIAlertController *alertRenameSurvey;
 @property (nonatomic, strong) UIAlertController *alertEditChoice;
-@property (nonatomic) BOOL surveyCanBeEnabled;
 
 // ACTIONS //
 
@@ -60,12 +59,8 @@ NSUInteger const TimingTableViewSection = 2;
 - (void)surveyQuestionWasAdded:(NSNotification *)notification;
 - (void)surveyQuestionWasReordered:(NSNotification *)notification;
 - (void)surveyQuestionAtIndexWasRemoved:(NSNotification *)notification;
-- (void)surveyQuestionsCountDidChange:(NSNotification *)notification;
+- (void)surveyCanBeEnabledDidChange:(NSNotification *)notification;
 - (void)surveyWillBeDeleted:(NSNotification *)notification;
-
-// OTHER //
-
-- (void)surveyCanBeEnabled:(BOOL)enable;
 
 @end
 
@@ -142,21 +137,6 @@ NSUInteger const TimingTableViewSection = 2;
     return _alertEditChoice;
 }
 
-- (void)setSurveyCanBeEnabled:(BOOL)surveyCanBeEnabled {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_UI] message:nil];
-    
-    _surveyCanBeEnabled = surveyCanBeEnabled;
-    
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:TimingTableViewSection];
-    PQSurveyTimingCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    
-    cell.enabledLabel.textColor = surveyCanBeEnabled ? [UIColor blackColor] : [UIColor lightGrayColor];
-    cell.enabledSwitch.userInteractionEnabled = surveyCanBeEnabled;
-    if (!surveyCanBeEnabled) {
-        [PQDataManager cancelSurvey:self.survey];
-    }
-}
-
 #pragma mark - // INITS AND LOADS //
 
 - (void)dealloc {
@@ -190,8 +170,6 @@ NSUInteger const TimingTableViewSection = 2;
     [super viewDidLoad];
     
     self.navigationItem.rightBarButtonItem = self.editButton;
-    
-    self.surveyCanBeEnabled = (self.survey && self.survey.questions.count);
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -255,8 +233,8 @@ NSUInteger const TimingTableViewSection = 2;
         cell.timePicker.userInteractionEnabled = !self.survey.enabled;
         cell.timePicker.alpha = self.survey.enabled ? 0.5f : 1.0f;
         [cell setRepeatSwitch:self.survey.repeat animated:NO];
-        cell.enabledLabel.textColor = self.surveyCanBeEnabled ? [UIColor blackColor] : [UIColor lightGrayColor];
-        cell.enabledSwitch.userInteractionEnabled = self.surveyCanBeEnabled;
+        cell.enabledLabel.textColor = self.survey.canBeEnabled ? [UIColor blackColor] : [UIColor lightGrayColor];
+        cell.enabledSwitch.userInteractionEnabled = self.survey.canBeEnabled;
         [cell setEnabledSwitch:self.survey.enabled animated:NO];
         
         if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
@@ -611,7 +589,7 @@ NSUInteger const TimingTableViewSection = 2;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionWasAdded:) name:PQSurveyQuestionWasAddedNotification object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionWasReordered:) name:PQSurveyQuestionWasReorderedNotification object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionAtIndexWasRemoved:) name:PQSurveyQuestionAtIndexWasRemovedNotification object:survey];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionsCountDidChange:) name:PQSurveyQuestionsCountDidChangeNotification object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyCanBeEnabledDidChange:) name:PQSurveyCanBeEnabledDidChangeNotification object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyWillBeDeleted:) name:PQSurveyWillBeDeletedNotification object:survey];
 }
 
@@ -626,7 +604,7 @@ NSUInteger const TimingTableViewSection = 2;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionWasAddedNotification object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionWasReorderedNotification object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionAtIndexWasRemovedNotification object:survey];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionsCountDidChangeNotification object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyCanBeEnabledDidChangeNotification object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyWillBeDeletedNotification object:survey];
 }
 
@@ -700,12 +678,16 @@ NSUInteger const TimingTableViewSection = 2;
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
-- (void)surveyQuestionsCountDidChange:(NSNotification *)notification {
+- (void)surveyCanBeEnabledDidChange:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_UI] message:nil];
     
-    BOOL enable = self.survey.questions.count;
+    NSNumber *canBeEnabledValue = notification.userInfo[NOTIFICATION_OBJECT_KEY];
     
-    self.surveyCanBeEnabled = enable;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:TimingTableViewSection];
+    PQSurveyTimingCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    
+    cell.enabledLabel.textColor = canBeEnabledValue.boolValue ? [UIColor blackColor] : [UIColor lightGrayColor];
+    cell.enabledSwitch.userInteractionEnabled = canBeEnabledValue.boolValue;
 }
 
 - (void)surveyWillBeDeleted:(NSNotification *)notification {

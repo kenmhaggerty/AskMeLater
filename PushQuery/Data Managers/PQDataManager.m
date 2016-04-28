@@ -154,12 +154,6 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
     }];
 }
 
-+ (void)cancelSurvey:(id <PQSurvey>)survey {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
-    
-    [PQNotificationsManager cancelNotificationsForSurvey:survey];
-}
-
 + (void)deleteSurvey:(id <PQSurvey_Editable>)survey {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeDeletor tags:@[AKD_DATA] message:nil];
     

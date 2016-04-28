@@ -16,6 +16,7 @@
 
 #pragma mark - // DEFINITIONS //
 
+#define PQSurveyCanBeEnabledDidChangeNotification @"kNotificationPQSurvey_CanBeEnabledDidChange"
 
 #define PQSurveyEditedAtDidChangeNotification @"kNotificationPQSurvey_EditedAtDidChange"
 #define PQSurveyEnabledDidChangeNotification @"kNotificationPQSurvey_EnabledDidChange"
@@ -47,6 +48,7 @@
 
 @protocol PQSurvey <NSObject>
 
+- (BOOL)canBeEnabled;
 - (NSDate *)createdAt;
 - (NSDate *)editedAt;
 - (BOOL)enabled;
