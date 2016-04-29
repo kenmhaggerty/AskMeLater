@@ -451,7 +451,10 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
     NSMutableOrderedSet *questions = [NSMutableOrderedSet orderedSetWithOrderedSet:self.questions];
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:fromIndex];
     [questions moveObjectsAtIndexes:indexSet toIndex:toIndex];
-    self.questions = [NSOrderedSet orderedSetWithOrderedSet:questions];
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(questions))];
+    [self setPrimitiveValue:questions forKey:NSStringFromSelector(@selector(questions))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(questions))];
     
     [AKGenerics postNotificationName:PQSurveyQuestionWasReorderedNotification object:self userInfo:userInfo];
 }

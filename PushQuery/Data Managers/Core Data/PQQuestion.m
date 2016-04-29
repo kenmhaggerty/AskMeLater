@@ -351,21 +351,7 @@ NSString * const PQQuestionSurveyDidChangeNotification = @"kNotificationPQQuesti
         return;
     }
     
-    if (index == [self.choices indexOfObject:choice]) {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is alread at index %lu", stringFromVariable(choice), (unsigned long)index]];
-        return;
-    }
-    
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OBJECT_KEY] = choice;
-    userInfo[NOTIFICATION_SECONDARY_KEY] = [NSNumber numberWithInteger:[self.choices indexOfObject:choice]];
-    
-    [self removeChoicesObject:choice];
-    [self insertObject:choice inChoicesAtIndex:index];
-    
-    choice.indexValue = [NSNumber numberWithInteger:index];
-    
-    [AKGenerics postNotificationName:PQQuestionChoiceWasReorderedNotification object:self userInfo:userInfo];
+    [self moveChoiceAtIndex:[self.choices indexOfObject:choice] toIndex:index];
 }
 
 - (void)moveChoiceAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex {
@@ -382,8 +368,13 @@ NSString * const PQQuestionSurveyDidChangeNotification = @"kNotificationPQQuesti
     userInfo[NOTIFICATION_OBJECT_KEY] = choice;
     userInfo[NOTIFICATION_SECONDARY_KEY] = [NSNumber numberWithInteger:[self.choices indexOfObject:choice]];
     
-    [self removeChoicesObject:choice];
-    [self insertObject:choice inChoicesAtIndex:toIndex];
+    NSMutableOrderedSet *choices = [NSMutableOrderedSet orderedSetWithOrderedSet:self.choices];
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:fromIndex];
+    [choices moveObjectsAtIndexes:indexSet toIndex:toIndex];
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(choices))];
+    [self setPrimitiveValue:choices forKey:NSStringFromSelector(@selector(choices))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(choices))];
     
     choice.indexValue = [NSNumber numberWithInteger:toIndex];
     
