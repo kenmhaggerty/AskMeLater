@@ -431,19 +431,7 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
         return;
     }
     
-    if (index == [self.questions indexOfObject:question]) {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is alread at index %lu", stringFromVariable(question), (unsigned long)index]];
-        return;
-    }
-    
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OBJECT_KEY] = question;
-    userInfo[NOTIFICATION_SECONDARY_KEY] = [NSNumber numberWithInteger:[self.questions indexOfObject:question]];
-    
-    [self removeQuestionsObject:question];
-    [self insertObject:question inQuestionsAtIndex:index];
-    
-    [AKGenerics postNotificationName:PQSurveyQuestionWasReorderedNotification object:self userInfo:userInfo];
+    [self moveQuestionAtIndex:[self.questions indexOfObject:question] toIndex:index];
 }
 
 - (void)moveQuestionAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex {
@@ -460,8 +448,10 @@ NSString * const PQSurveyAuthorIdDidChangeNotification = @"kNotificationPQSurvey
     userInfo[NOTIFICATION_OBJECT_KEY] = question;
     userInfo[NOTIFICATION_SECONDARY_KEY] = [NSNumber numberWithInteger:[self.questions indexOfObject:question]];
     
-    [self removeQuestionsObject:question];
-    [self insertObject:question inQuestionsAtIndex:toIndex];
+    NSMutableOrderedSet *questions = [NSMutableOrderedSet orderedSetWithOrderedSet:self.questions];
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:fromIndex];
+    [questions moveObjectsAtIndexes:indexSet toIndex:toIndex];
+    self.questions = [NSOrderedSet orderedSetWithOrderedSet:questions];
     
     [AKGenerics postNotificationName:PQSurveyQuestionWasReorderedNotification object:self userInfo:userInfo];
 }
