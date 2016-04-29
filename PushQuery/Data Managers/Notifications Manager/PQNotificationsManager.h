@@ -26,5 +26,4 @@ extern NSString * const PQNotificationActionString;
 + (void)setup;
 + (UIMutableUserNotificationAction *)notificationActionWithTitle:(NSString *)title textInput:(BOOL)textInput destructive:(BOOL)destructive authentication:(BOOL)authentication;
 + (void)setNotificationWithTitle:(NSString *)title body:(NSString *)body actions:(NSArray <UIMutableUserNotificationAction *> *)actions actionString:(NSString *)actionString uuid:(NSString *)uuid fireDate:(NSDate *)fireDate repeat:(BOOL)repeat;
-+ (void)cancelNotificationsForSurvey:(id <PQSurvey>)survey;
 @end
