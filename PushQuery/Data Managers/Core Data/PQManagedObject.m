@@ -19,8 +19,7 @@
 NSString * const PQManagedObjectWillBeDeallocatedNotification = @"kNotificationPQManagedObject_WillBeDeallocated";
 NSString * const PQManagedObjectWasCreatedNotification = @"kNotificationPQManagedObject_WasCreated";
 NSString * const PQManagedObjectWasFetchedNotification = @"kNotificationPQManagedObject_WasFetched";
-NSString * const PQManagedObjectWillBeSavedNotification = @"kNotificationPQManagedObject_WillBeSaved";
-NSString * const PQManagedObjectWasSavedNotification = @"kNotificationPQManagedObject_WasSaved";
+NSString * const PQManagedObjectDidSaveNotification = @"kNotificationPQManagedObject_DidSave";
 NSString * const PQManagedObjectWillBeDeletedNotification = @"kNotificationPQManagedObject_WillBeDeleted";
 
 @interface PQManagedObject ()
@@ -61,15 +60,9 @@ NSString * const PQManagedObjectWillBeDeletedNotification = @"kNotificationPQMan
     
     [super willSave];
     
-    if (!self.updated) {
-        return;
-    }
-    
-    if (!self.inserted) {
+    if (!self.updated && !self.inserted) {
         self.changedKeys = [NSMutableSet setWithArray:self.changedValues.allKeys];
     }
-    
-    [AKGenerics postNotificationName:PQManagedObjectWillBeSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
 }
 
 - (void)didSave {
@@ -78,7 +71,7 @@ NSString * const PQManagedObjectWillBeDeletedNotification = @"kNotificationPQMan
     [super didSave];
     
     if (self.changedKeys) {
-        [AKGenerics postNotificationName:PQManagedObjectWasSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
+        [AKGenerics postNotificationName:PQManagedObjectDidSaveNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
         self.changedKeys = nil;
     }
 }

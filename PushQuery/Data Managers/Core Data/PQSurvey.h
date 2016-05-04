@@ -19,16 +19,13 @@
 
 #pragma mark - // PROTOCOLS //
 
-#import "PQSurveyProtocols.h"
+#import "PQSurveyProtocols+Firebase.h"
 
 #pragma mark - // DEFINITIONS (Public) //
 
-extern NSString * const PQSurveyIdDidChangeNotification;
-extern NSString * const PQSurveyAuthorIdDidChangeNotification;
-
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PQSurvey : PQManagedObject <PQSurvey_Editable>
+@interface PQSurvey : PQManagedObject <PQSurvey_PRIVATE, PQSurvey_Firebase>
 
 - (BOOL)canBeEnabled;
 - (BOOL)enabled;

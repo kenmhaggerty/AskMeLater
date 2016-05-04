@@ -1,8 +1,8 @@
 //
-//  PQSyncEngine.h
+//  PQSyncEngine+Notifications.h
 //  PushQuery
 //
-//  Created by Ken M. Haggerty on 4/8/16.
+//  Created by Ken M. Haggerty on 5/2/16.
 //  Copyright © 2016 Flatiron School. All rights reserved.
 //
 
@@ -19,8 +19,14 @@
 
 #pragma mark - // DEFINITIONS (Public) //
 
-@interface PQSyncEngine : NSObject
+@interface PQNotificationsSyncEngine : NSObject
+
+// SETUP //
+
 + (void)setup;
-+ (void)fetchSurveysWithCompletion:(void(^)(BOOL success))completionBlock;
+
+// GENERAL //
+
 + (void)didRespondToQuestion:(id <PQQuestion>)question;
+
 @end

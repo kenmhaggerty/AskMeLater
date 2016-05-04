@@ -40,7 +40,6 @@
 		7D12CB1A1C8A69610021519B /* PQUser+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB171C8A69610021519B /* PQUser+CoreDataProperties.m */; };
 		7D12CB1B1C8A69610021519B /* PQUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB191C8A69610021519B /* PQUser.m */; };
 		7D12CB1F1C8A69F20021519B /* PQCoreDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB1E1C8A69F20021519B /* PQCoreDataController.m */; };
-		7D43DDBB1CB83ED600FEA394 /* PQSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D43DDBA1CB83ED600FEA394 /* PQSyncEngine.m */; };
 		7D43DDC51CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D43DDC21CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.m */; };
 		7D43DDC61CBE911B00FEA394 /* PQManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D43DDC41CBE911B00FEA394 /* PQManagedObject.m */; };
 		7D50AB431CBEDBF70086DAF1 /* PQRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D50AB421CBEDBF70086DAF1 /* PQRootViewController.m */; };
@@ -57,6 +56,9 @@
 		7DBB1F2B1CAAF52700C7C403 /* PQResponsesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB1F2A1CAAF52700C7C403 /* PQResponsesTableViewController.m */; };
 		7DBB1F2E1CAAF53B00C7C403 /* PQResultsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB1F2D1CAAF53B00C7C403 /* PQResultsTableViewController.m */; };
 		7DBB1F311CAAF55000C7C403 /* PQGraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB1F301CAAF55000C7C403 /* PQGraphViewController.m */; };
+		7DC0A2EE1CD3B48D0057886C /* PQSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC0A2ED1CD3B48D0057886C /* PQSyncEngine.m */; };
+		7DC0A2F11CD3B4A40057886C /* PQFirebaseSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC0A2F01CD3B4A40057886C /* PQFirebaseSyncEngine.m */; };
+		7DC0A3011CD811F40057886C /* PQNotificationsSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC0A3001CD811F40057886C /* PQNotificationsSyncEngine.m */; };
 		7DDE78531C93234D00241A80 /* PQFirebaseQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDE78521C93234D00241A80 /* PQFirebaseQuery.m */; };
 		7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D511C936775000A02F0 /* NSArray+Extras.m */; };
 		7DE38D671C99D6EB000A02F0 /* PQSurvey+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D581C99D6EB000A02F0 /* PQSurvey+CoreDataProperties.m */; };
@@ -151,9 +153,6 @@
 		7D12CB191C8A69610021519B /* PQUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQUser.m; sourceTree = "<group>"; };
 		7D12CB1D1C8A69F20021519B /* PQCoreDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQCoreDataController.h; sourceTree = "<group>"; };
 		7D12CB1E1C8A69F20021519B /* PQCoreDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQCoreDataController.m; sourceTree = "<group>"; };
-		7D19E2821C8E1CA700020305 /* PQFirebaseProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQFirebaseProtocols.h; path = Firebase/PQFirebaseProtocols.h; sourceTree = "<group>"; };
-		7D43DDB91CB83ED600FEA394 /* PQSyncEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQSyncEngine.h; path = "Sync Engine/PQSyncEngine.h"; sourceTree = "<group>"; };
-		7D43DDBA1CB83ED600FEA394 /* PQSyncEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PQSyncEngine.m; path = "Sync Engine/PQSyncEngine.m"; sourceTree = "<group>"; };
 		7D43DDC11CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PQManagedObject+CoreDataProperties.h"; sourceTree = "<group>"; };
 		7D43DDC21CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PQManagedObject+CoreDataProperties.m"; sourceTree = "<group>"; };
 		7D43DDC31CBE911B00FEA394 /* PQManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQManagedObject.h; sourceTree = "<group>"; };
@@ -186,6 +185,16 @@
 		7DBB1F2F1CAAF55000C7C403 /* PQGraphViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQGraphViewController.h; path = "PushQuery/View Controllers/PQGraphViewController.h"; sourceTree = SOURCE_ROOT; };
 		7DBB1F301CAAF55000C7C403 /* PQGraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PQGraphViewController.m; path = "PushQuery/View Controllers/PQGraphViewController.m"; sourceTree = SOURCE_ROOT; };
 		7DBB1F321CAAFAB000C7C403 /* PQQuestionUIProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PQQuestionUIProtocol.h; path = Protocols/PQQuestionUIProtocol.h; sourceTree = "<group>"; };
+		7DC0A2EC1CD3B48D0057886C /* PQSyncEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQSyncEngine.h; path = "Sync Engine/PQSyncEngine.h"; sourceTree = "<group>"; };
+		7DC0A2ED1CD3B48D0057886C /* PQSyncEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PQSyncEngine.m; path = "Sync Engine/PQSyncEngine.m"; sourceTree = "<group>"; };
+		7DC0A2EF1CD3B4A40057886C /* PQFirebaseSyncEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQFirebaseSyncEngine.h; path = "Sync Engine/PQFirebaseSyncEngine.h"; sourceTree = "<group>"; };
+		7DC0A2F01CD3B4A40057886C /* PQFirebaseSyncEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PQFirebaseSyncEngine.m; path = "Sync Engine/PQFirebaseSyncEngine.m"; sourceTree = "<group>"; };
+		7DC0A2FA1CD693480057886C /* PQSurveyProtocols+Firebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PQSurveyProtocols+Firebase.h"; path = "Protocols/PQSurveyProtocols+Firebase.h"; sourceTree = "<group>"; };
+		7DC0A2FB1CD694450057886C /* PQQuestionProtocols+Firebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PQQuestionProtocols+Firebase.h"; path = "Protocols/PQQuestionProtocols+Firebase.h"; sourceTree = "<group>"; };
+		7DC0A2FC1CD695240057886C /* PQChoiceProtocols+Firebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PQChoiceProtocols+Firebase.h"; path = "Protocols/PQChoiceProtocols+Firebase.h"; sourceTree = "<group>"; };
+		7DC0A2FD1CD6961E0057886C /* PQResponseProtocols+Firebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PQResponseProtocols+Firebase.h"; path = "Protocols/PQResponseProtocols+Firebase.h"; sourceTree = "<group>"; };
+		7DC0A2FF1CD811F40057886C /* PQNotificationsSyncEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQNotificationsSyncEngine.h; path = "Sync Engine/PQNotificationsSyncEngine.h"; sourceTree = "<group>"; };
+		7DC0A3001CD811F40057886C /* PQNotificationsSyncEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PQNotificationsSyncEngine.m; path = "Sync Engine/PQNotificationsSyncEngine.m"; sourceTree = "<group>"; };
 		7DDE78511C93234D00241A80 /* PQFirebaseQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQFirebaseQuery.h; sourceTree = "<group>"; };
 		7DDE78521C93234D00241A80 /* PQFirebaseQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQFirebaseQuery.m; sourceTree = "<group>"; };
 		7DDE78541C9328FC00241A80 /* PQFirebaseQuery+FQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PQFirebaseQuery+FQuery.h"; sourceTree = "<group>"; };
@@ -453,7 +462,6 @@
 		7D12CAF41C8A48910021519B /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				7D19E2821C8E1CA700020305 /* PQFirebaseProtocols.h */,
 				7D7DE7F41C8E1A3600FFA637 /* PQFirebaseNotifications.h */,
 				7D12CAF51C8A48D10021519B /* PQFirebaseController.h */,
 				7D12CB131C8A51C40021519B /* PQFirebaseController+Auth.h */,
@@ -537,11 +545,11 @@
 		7D12CB111C8A4F860021519B /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				7D12CB121C8A4F9E0021519B /* PQUserProtocols.h */,
-				7DE38D531C99BA32000A02F0 /* PQSurveyProtocols.h */,
-				7DE38D541C99BA88000A02F0 /* PQQuestionProtocols.h */,
-				7DE38D561C99BC67000A02F0 /* PQChoiceProtocols.h */,
-				7DE38D551C99BAB3000A02F0 /* PQResponseProtocols.h */,
+				7DC0A2F31CD691360057886C /* PQUser */,
+				7DC0A2F41CD6913B0057886C /* PQSurvey */,
+				7DC0A2F51CD691410057886C /* PQQuestion */,
+				7DC0A2F61CD691480057886C /* PQChoice */,
+				7DC0A2F71CD6914C0057886C /* PQResponse */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -578,8 +586,10 @@
 		7D43DDB81CB83EB100FEA394 /* Sync Engine */ = {
 			isa = PBXGroup;
 			children = (
-				7D43DDB91CB83ED600FEA394 /* PQSyncEngine.h */,
-				7D43DDBA1CB83ED600FEA394 /* PQSyncEngine.m */,
+				7DC0A2EC1CD3B48D0057886C /* PQSyncEngine.h */,
+				7DC0A2ED1CD3B48D0057886C /* PQSyncEngine.m */,
+				7DC0A2F21CD3B4AA0057886C /* PQFirebaseSyncEngine */,
+				7DC0A2FE1CD811C30057886C /* PQNotificationsSyncEngine */,
 			);
 			name = "Sync Engine";
 			sourceTree = "<group>";
@@ -738,6 +748,68 @@
 				7DBB1F2A1CAAF52700C7C403 /* PQResponsesTableViewController.m */,
 			);
 			name = PQResponsesTableViewController;
+			sourceTree = "<group>";
+		};
+		7DC0A2F21CD3B4AA0057886C /* PQFirebaseSyncEngine */ = {
+			isa = PBXGroup;
+			children = (
+				7DC0A2EF1CD3B4A40057886C /* PQFirebaseSyncEngine.h */,
+				7DC0A2F01CD3B4A40057886C /* PQFirebaseSyncEngine.m */,
+			);
+			name = PQFirebaseSyncEngine;
+			sourceTree = "<group>";
+		};
+		7DC0A2F31CD691360057886C /* PQUser */ = {
+			isa = PBXGroup;
+			children = (
+				7D12CB121C8A4F9E0021519B /* PQUserProtocols.h */,
+			);
+			name = PQUser;
+			sourceTree = "<group>";
+		};
+		7DC0A2F41CD6913B0057886C /* PQSurvey */ = {
+			isa = PBXGroup;
+			children = (
+				7DE38D531C99BA32000A02F0 /* PQSurveyProtocols.h */,
+				7DC0A2FA1CD693480057886C /* PQSurveyProtocols+Firebase.h */,
+			);
+			name = PQSurvey;
+			sourceTree = "<group>";
+		};
+		7DC0A2F51CD691410057886C /* PQQuestion */ = {
+			isa = PBXGroup;
+			children = (
+				7DE38D541C99BA88000A02F0 /* PQQuestionProtocols.h */,
+				7DC0A2FB1CD694450057886C /* PQQuestionProtocols+Firebase.h */,
+			);
+			name = PQQuestion;
+			sourceTree = "<group>";
+		};
+		7DC0A2F61CD691480057886C /* PQChoice */ = {
+			isa = PBXGroup;
+			children = (
+				7DE38D561C99BC67000A02F0 /* PQChoiceProtocols.h */,
+				7DC0A2FC1CD695240057886C /* PQChoiceProtocols+Firebase.h */,
+			);
+			name = PQChoice;
+			sourceTree = "<group>";
+		};
+		7DC0A2F71CD6914C0057886C /* PQResponse */ = {
+			isa = PBXGroup;
+			children = (
+				7DE38D551C99BAB3000A02F0 /* PQResponseProtocols.h */,
+				7DC0A2FD1CD6961E0057886C /* PQResponseProtocols+Firebase.h */,
+			);
+			name = PQResponse;
+			sourceTree = "<group>";
+		};
+		7DC0A2FE1CD811C30057886C /* PQNotificationsSyncEngine */ = {
+			isa = PBXGroup;
+			children = (
+				7DC0A2FF1CD811F40057886C /* PQNotificationsSyncEngine.h */,
+				7DC0A3001CD811F40057886C /* PQNotificationsSyncEngine.m */,
+			);
+			name = PQNotificationsSyncEngine;
 			sourceTree = "<group>";
 		};
 		7DDE78571C93290900241A80 /* AMLFirebaseQuery */ = {
@@ -1189,7 +1261,6 @@
 				7D12CAF71C8A48D10021519B /* PQFirebaseController.m in Sources */,
 				7DE38D821C9A0C37000A02F0 /* PQSurveyTableViewCell.m in Sources */,
 				7D43DDC61CBE911B00FEA394 /* PQManagedObject.m in Sources */,
-				7D43DDBB1CB83ED600FEA394 /* PQSyncEngine.m in Sources */,
 				7DE38D7C1C9A0C18000A02F0 /* PQSurveysTableViewController.m in Sources */,
 				7DBB1F1A1CA98FBA00C7C403 /* PQSurveyTimingCell.m in Sources */,
 				7D50AB431CBEDBF70086DAF1 /* PQRootViewController.m in Sources */,
@@ -1202,6 +1273,7 @@
 				7DBB1F1E1CA9B16200C7C403 /* PQNotificationsManager.m in Sources */,
 				7DE38D6D1C99D6EB000A02F0 /* PQChoice+CoreDataProperties.m in Sources */,
 				7DBB1F2B1CAAF52700C7C403 /* PQResponsesTableViewController.m in Sources */,
+				7DC0A3011CD811F40057886C /* PQNotificationsSyncEngine.m in Sources */,
 				7D12CB081C8A4A7D0021519B /* NSObject+Basics.m in Sources */,
 				7DE38D851C9A0C45000A02F0 /* PQResultsViewController.m in Sources */,
 				7DE38D7F1C9A0C21000A02F0 /* PQSurveyTableViewController.m in Sources */,
@@ -1209,9 +1281,11 @@
 				7DE38D941C9D924C000A02F0 /* UIAlertController+Info.m in Sources */,
 				7D5A65651CA0799800D7AE8D /* UIViewController+Keyboard.m in Sources */,
 				7D12CB1A1C8A69610021519B /* PQUser+CoreDataProperties.m in Sources */,
+				7DC0A2F11CD3B4A40057886C /* PQFirebaseSyncEngine.m in Sources */,
 				7DDE78531C93234D00241A80 /* PQFirebaseQuery.m in Sources */,
 				7DE38D6A1C99D6EB000A02F0 /* PQResponse.m in Sources */,
 				7D12CB1F1C8A69F20021519B /* PQCoreDataController.m in Sources */,
+				7DC0A2EE1CD3B48D0057886C /* PQSyncEngine.m in Sources */,
 				7DBB1F2E1CAAF53B00C7C403 /* PQResultsTableViewController.m in Sources */,
 				7DFEDD121CB7447700166383 /* PQTableViewCell.m in Sources */,
 			);

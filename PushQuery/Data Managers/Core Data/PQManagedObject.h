@@ -20,8 +20,7 @@
 extern NSString * const _Nullable PQManagedObjectWillBeDeallocatedNotification;
 extern NSString * const _Nullable PQManagedObjectWasCreatedNotification;
 extern NSString * const _Nullable PQManagedObjectWasFetchedNotification;
-extern NSString * const _Nullable PQManagedObjectWillBeSavedNotification;
-extern NSString * const _Nullable PQManagedObjectWasSavedNotification;
+extern NSString * const _Nullable PQManagedObjectDidSaveNotification;
 extern NSString * const _Nullable PQManagedObjectWillBeDeletedNotification;
 
 NS_ASSUME_NONNULL_BEGIN

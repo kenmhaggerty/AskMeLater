@@ -16,8 +16,6 @@
 
 #import "PQLoginManager.h"
 #import "PQCoreDataController.h"
-#import "PQFirebaseController.h" // temp
-#import "PQNotificationsManager.h"
 #import "PQSyncEngine.h"
 
 #pragma mark - // DEFINITIONS (Private) //
@@ -106,9 +104,8 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
     if (![PQDataManager sharedManager]) {
         [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeWarning methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:[NSString stringWithFormat:@"Could not initialize %@", NSStringFromClass([PQDataManager class])]];
     }
-    [PQFirebaseController setup];
+    
     [PQSyncEngine setup];
-    [PQNotificationsManager setup];
     [PQLoginManager setup];
 }
 
@@ -190,22 +187,11 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
 + (void)addResponse:(NSString *)text forQuestion:(id <PQQuestion>)question {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
     
-    id <PQUser_PRIVATE> currentUser = (id <PQUser_PRIVATE>)[PQLoginManager currentUser];
+    id <PQUser> currentUser = [PQLoginManager currentUser];
     PQResponse *response = [PQCoreDataController responseWithText:text userId:currentUser.userId date:[NSDate date]];
     [(id <PQQuestion_PRIVATE>)question addResponse:response];
     
-    id <PQSurvey_Editable> survey = (id <PQSurvey_Editable>)[PQDataManager surveyForQuestion:question];
-    if (![survey.questions.lastObject isEqual:question]) {
-        id <PQQuestion_PRIVATE> nextQuestion = (id <PQQuestion_PRIVATE>)[survey.questions objectAtIndex:[survey.questions indexOfObject:question]+1];
-        NSMutableArray <UIMutableUserNotificationAction *> *actions = [NSMutableArray arrayWithCapacity:nextQuestion.choices.count];
-        for (id <PQChoice> choice in nextQuestion.choices) {
-            [actions addObject:[PQNotificationsManager notificationActionWithTitle:choice.text textInput:NO destructive:NO authentication:NO]];
-        }
-        [PQNotificationsManager setNotificationWithTitle:survey.name body:nextQuestion.text actions:actions actionString:PQNotificationActionString uuid:nextQuestion.questionId fireDate:nil repeat:NO];
-    }
-    else if (!survey.repeat) {
-        survey.enabled = NO;
-    }
+    [PQSyncEngine didRespondToQuestion:question];
     [PQDataManager save];
 }
 
@@ -213,37 +199,6 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeDeletor tags:@[AKD_DATA] message:nil];
     
     [PQCoreDataController deleteObject:[PQDataManager convertResponse:response]];
-}
-
-#pragma mark - // PUBLIC METHODS (Debugging) //
-
-+ (void)test {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
-    
-    PQFirebaseQuery *query = [PQFirebaseQuery queryWithKey:@"hidden" relation:PQKeyIsEqualTo value:@NO];
-    [PQFirebaseController getObjectsAtPath:@"users" withQueries:@[query] andCompletion:^(id result) {
-        //
-    }];
-}
-
-#pragma mark - // CATEGORY METHODS (Firebase) //
-
-+ (BOOL)isConnectedToFirebase {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeValidator tags:nil message:nil];
-    
-    return [PQFirebaseController isConnected];
-}
-
-+ (void)connectToFirebase {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
-    
-    [PQFirebaseController connect];
-}
-
-+ (void)disconnectFromFirebase {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
-    
-    [PQFirebaseController disconnect];
 }
 
 #pragma mark - // DELEGATED METHODS //

@@ -15,7 +15,6 @@
 
 #pragma mark - // PROTOCOLS //
 
-#import "PQFirebaseProtocols.h"
 #import "PQUserProtocols.h"
 #import "PQSurveyProtocols.h"
 
@@ -25,7 +24,7 @@ extern NSString * const PQDataManagerIsSyncingDidChangeNotification;
 
 #import "PQFirebaseNotifications.h"
 
-@interface PQDataManager : NSObject <Firebase>
+@interface PQDataManager : NSObject // <Firebase>
 
 // GENERAL //
 
@@ -50,9 +49,5 @@ extern NSString * const PQDataManagerIsSyncingDidChangeNotification;
 
 + (void)addResponse:(NSString *)text forQuestion:(id <PQQuestion>)question;
 + (void)deleteResponse:(id <PQResponse>)response;
-
-// DEBUGGING //
-
-+ (void)test;
 
 @end

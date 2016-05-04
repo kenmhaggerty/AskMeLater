@@ -81,37 +81,29 @@
 
 #pragma mark - // INITS AND LOADS //
 
-- (void)willSave {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
-    
-    [super willSave];
-    
-    if (!self.updated) {
-        return;
-    }
-    
-    [AKGenerics postNotificationName:PQUserWillBeSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
-}
-
 - (void)didSave {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
     
-    if (self.changedKeys) {
-        NSDictionary *userInfo;
-        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(avatarData))]) {
-            userInfo = [NSDictionary dictionaryWithNullableObject:self.avatar forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQUserAvatarDidSaveNotification object:self userInfo:userInfo];
-        }
-        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(email))]) {
-            userInfo = [NSDictionary dictionaryWithNullableObject:self.email forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQUserEmailDidSaveNotification object:self userInfo:userInfo];
-        }
-        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(username))]) {
-            userInfo = [NSDictionary dictionaryWithObject:self.username forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQUserUsernameDidSaveNotification object:self userInfo:userInfo];
+    if (!self.isDeleted && !self.inserted) {
+        
+        [AKGenerics postNotificationName:PQUserDidSaveNotification object:self userInfo:[NSDictionary dictionaryWithNullableObject:self.changedKeys forKey:NOTIFICATION_OBJECT_KEY]];
+        
+        if (self.changedKeys) {
+            NSDictionary *userInfo;
+            if ([self.changedKeys containsObject:NSStringFromSelector(@selector(avatarData))]) {
+                userInfo = [NSDictionary dictionaryWithNullableObject:self.avatar forKey:NOTIFICATION_OBJECT_KEY];
+                [AKGenerics postNotificationName:PQUserAvatarDidSaveNotification object:self userInfo:userInfo];
+            }
+            if ([self.changedKeys containsObject:NSStringFromSelector(@selector(email))]) {
+                userInfo = [NSDictionary dictionaryWithNullableObject:self.email forKey:NOTIFICATION_OBJECT_KEY];
+                [AKGenerics postNotificationName:PQUserEmailDidSaveNotification object:self userInfo:userInfo];
+            }
+            if ([self.changedKeys containsObject:NSStringFromSelector(@selector(username))]) {
+                userInfo = [NSDictionary dictionaryWithObject:self.username forKey:NOTIFICATION_OBJECT_KEY];
+                [AKGenerics postNotificationName:PQUserUsernameDidSaveNotification object:self userInfo:userInfo];
+            }
         }
     }
-    [AKGenerics postNotificationName:PQUserWasSavedNotification object:self userInfo:[NSDictionary dictionaryWithNullableObject:self.changedKeys forKey:NOTIFICATION_OBJECT_KEY]];
     
     [super didSave];
 }

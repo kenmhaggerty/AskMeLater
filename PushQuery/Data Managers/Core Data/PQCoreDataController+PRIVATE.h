@@ -16,7 +16,7 @@
 
 #pragma mark - // DEFINITIONS //
 
-@interface PQCoreDataController (PRIVATE)
+@interface PQCoreDataController (PRIVATE) <PQUser_Init_PRIVATE, PQSurvey_Init_PRIVATE, PQQuestion_Init_PRIVATE, PQChoice_Init_PRIVATE, PQResponse_Init_PRIVATE>
 
 + (PQUser *)userWithUserId:(NSString *)userId;
 + (PQSurvey *)surveyWithSurveyId:(NSString *)surveyId authorId:(NSString *)authorId;

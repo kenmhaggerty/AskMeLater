@@ -40,8 +40,7 @@
 #define PQSurveyQuestionAtIndexWasRemovedNotification @"kNotificationPQSurvey_QuestionAtIndexWasRemoved"
 #define PQSurveyQuestionsDidSaveNotification @"kNotificationPQSurvey_QuestionsDidSave"
 
-#define PQSurveyWillBeSavedNotification @"kNotificationPQSurvey_WillBeSaved"
-#define PQSurveyWasSavedNotification @"kNotificationPQSurvey_WasSaved"
+#define PQSurveyDidSaveNotification @"kNotificationPQSurvey_DidSave"
 #define PQSurveyWillBeDeletedNotification @"kNotificationPQSurvey_WillBeDeleted"
 
 #pragma mark - // PROTOCOL (PQSurvey) //
@@ -53,6 +52,7 @@
 - (NSDate *)editedAt;
 - (BOOL)enabled;
 - (NSString *)name;
+- (NSString *)surveyId;
 - (BOOL)repeat;
 - (NSDate *)time;
 - (NSOrderedSet <id <PQQuestion>> *)questions;
@@ -86,10 +86,26 @@
 
 @end
 
+#pragma mark - // PROTOCOL (PQSurvey_PRIVATE) //
+
+@protocol PQSurvey_PRIVATE <PQSurvey_Editable>
+
+- (void)setCreatedAt:(NSDate *)createdAt;
+
+@end
+
 #pragma mark - // PROTOCOL (PQSurvey_Init) //
 
 @protocol PQSurvey_Init <NSObject>
 
 + (id <PQSurvey_Editable>)surveyWithName:(NSString *)name authorId:(NSString *)authorId;
+
+@end
+
+#pragma mark - // PROTOCOL (PQSurvey_Init_PRIVATE) //
+
+@protocol PQSurvey_Init_PRIVATE <PQSurvey_Init>
+
++ (id <PQSurvey_Editable>)surveyWithSurveyId:(NSString *)surveyId authorId:(NSString *)authorId;
 
 @end

@@ -19,18 +19,13 @@
 
 #pragma mark - // PROTOCOLS //
 
-#import "PQQuestionProtocols.h"
+#import "PQQuestionProtocols+Firebase.h"
 
 #pragma mark - // DEFINITIONS (Public) //
 
-extern NSString * const PQQuestionIdDidChangeNotification;
-extern NSString * const PQQuestionAuthorIdDidChangeNotification;
-extern NSString * const PQQuestionSurveyIdDidChangeNotification;
-extern NSString * const PQQuestionSurveyDidChangeNotification;
-
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PQQuestion : PQManagedObject <PQQuestion_PRIVATE>
+@interface PQQuestion : PQManagedObject <PQQuestion_PRIVATE, PQQuestion_Firebase>
 
 - (BOOL)secure;
 - (void)setSecure:(BOOL)secure;

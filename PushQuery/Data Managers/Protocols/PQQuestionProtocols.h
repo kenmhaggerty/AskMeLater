@@ -25,7 +25,7 @@
 #define PQQuestionChoicesDidChangeNotification @"kNotificationPQQuestion_ChoicesDidChange"
 #define PQQuestionChoiceWasAddedNotification @"kNotificationPQQuestion_ChoiceWasAdded"
 #define PQQuestionChoiceWasReorderedNotification @"kNotificationPQQuestion_ChoiceWasReordered"
-#define PQQuestionChoiceAtIndexWasReplaced @"kNotificationPQQuestion_ChoiceAtIndexWasReplaced"
+#define PQQuestionChoiceAtIndexWasReplacedNotification @"kNotificationPQQuestion_ChoiceAtIndexWasReplaced"
 #define PQQuestionChoiceAtIndexWasRemovedNotification @"kNotificationPQQuestion_ChoiceAtIndexWasRemoved"
 
 #define PQQuestionChoicesDidSaveNotification @"kNotificationPQQuestion_ChoicesDidSave"
@@ -37,8 +37,7 @@
 
 #define PQQuestionResponsesDidSaveNotification @"kNotificationPQQuestion_ResponsesDidSave"
 
-#define PQQuestionWillBeSavedNotification @"kNotificationPQQuestion_WillBeSaved"
-#define PQQuestionWasSavedNotification @"kNotificationPQQuestion_WasSaved"
+#define PQQuestionDidSaveNotification @"kNotificationPQQuestion_DidSave"
 #define PQQuestionWillBeRemovedNotification @"kNotificationPQQuestion_WillBeRemoved"
 #define PQQuestionWillBeDeletedNotification @"kNotificationPQQuestion_WillBeDeleted"
 
@@ -46,6 +45,8 @@
 
 @protocol PQQuestion <NSObject>
 
+- (NSDate *)createdAt;
+- (NSString *)questionId;
 - (NSString *)text;
 - (BOOL)secure;
 - (NSOrderedSet <id <PQChoice>> *)choices;
@@ -81,7 +82,7 @@
 
 @protocol PQQuestion_PRIVATE <PQQuestion_Editable>
 
-- (NSString *)questionId;
+- (void)setCreatedAt:(NSDate *)createdAt;
 
 - (void)addResponse:(id <PQResponse>)response;
 - (void)removeResponse:(id <PQResponse>)response;
@@ -93,5 +94,13 @@
 @protocol PQQuestion_Init <NSObject>
 
 + (id <PQQuestion_Editable>)questionWithText:(NSString *)text choices:(NSOrderedSet <id <PQChoice>> *)choices;
+
+@end
+
+#pragma mark - // PROTOCOL (PQQuestion_Init_PRIVATE) //
+
+@protocol PQQuestion_Init_PRIVATE <PQQuestion_Init>
+
++ (id <PQQuestion_Editable>)questionWithQuestionId:(NSString *)questionId surveyId:(NSString *)surveyId;
 
 @end

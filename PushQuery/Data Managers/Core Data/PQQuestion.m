@@ -20,11 +20,6 @@
 
 #pragma mark - // DEFINITIONS (Private) //
 
-NSString * const PQQuestionIdDidChangeNotification = @"kNotificationPQQuestion_QuestionIdDidChange";
-NSString * const PQQuestionAuthorIdDidChangeNotification = @"kNotificationPQQuestion_AuthorIdDidChange";
-NSString * const PQQuestionSurveyIdDidChangeNotification = @"kNotificationPQQuestion_SurveyIdDidChange";
-NSString * const PQQuestionSurveyDidChangeNotification = @"kNotificationPQQuestion_SurveyDidChange";
-
 @interface PQQuestion ()
 @property (nullable, nonatomic, retain, readwrite) NSString *authorId;
 @property (nullable, nonatomic, retain, readwrite) PQSurvey *survey;
@@ -61,6 +56,8 @@ NSString * const PQQuestionSurveyDidChangeNotification = @"kNotificationPQQuesti
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:authorId forKey:NOTIFICATION_OBJECT_KEY];
     
+    [AKGenerics postNotificationName:PQQuestionAuthorIdWillChangeNotification object:self userInfo:userInfo];
+    
     [self willChangeValueForKey:NSStringFromSelector(@selector(authorId))];
     [self setPrimitiveValue:authorId forKey:NSStringFromSelector(@selector(authorId))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(authorId))];
@@ -78,6 +75,8 @@ NSString * const PQQuestionSurveyDidChangeNotification = @"kNotificationPQQuesti
     }
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:questionId forKey:NOTIFICATION_OBJECT_KEY];
+    
+    [AKGenerics postNotificationName:PQQuestionIdWillChangeNotification object:self userInfo:userInfo];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(questionId))];
     [self setPrimitiveValue:questionId forKey:NSStringFromSelector(@selector(questionId))];
@@ -114,6 +113,8 @@ NSString * const PQQuestionSurveyDidChangeNotification = @"kNotificationPQQuesti
     }
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:surveyId forKey:NOTIFICATION_OBJECT_KEY];
+    
+    [AKGenerics postNotificationName:PQQuestionSurveyIdWillChangeNotification object:self userInfo:userInfo];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(surveyId))];
     [self setPrimitiveValue:surveyId forKey:NSStringFromSelector(@selector(surveyId))];
@@ -166,7 +167,9 @@ NSString * const PQQuestionSurveyDidChangeNotification = @"kNotificationPQQuesti
         [self addObserversToChoice:choice];
     }
     
-    [AKGenerics postNotificationName:PQQuestionChoicesDidChangeNotification object:self userInfo:userInfo];
+    if (![choices.set isEqual:primitiveChoices.set]) {
+        [AKGenerics postNotificationName:PQQuestionChoicesDidChangeNotification object:self userInfo:userInfo];
+    }
 }
 
 - (void)setResponses:(NSSet <PQResponse *> *)responses {
@@ -223,9 +226,8 @@ NSString * const PQQuestionSurveyDidChangeNotification = @"kNotificationPQQuesti
         self.authorId = survey ? survey.authorId : nil;
     }
     
-    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:survey forKey:NOTIFICATION_OBJECT_KEY];
-    
-    [AKGenerics postNotificationName:PQQuestionSurveyDidChangeNotification object:self userInfo:userInfo];
+//    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:survey forKey:NOTIFICATION_OBJECT_KEY];
+//    [AKGenerics postNotificationName:PQQuestionSurveyDidChangeNotification object:self userInfo:userInfo];
 }
 
 #pragma mark - // INITS AND LOADS //
@@ -252,41 +254,32 @@ NSString * const PQQuestionSurveyDidChangeNotification = @"kNotificationPQQuesti
     [self setup];
 }
 
-- (void)willSave {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
-    
-    [super willSave];
-    
-    if (!self.updated) {
-        return;
-    }
-    
-    [AKGenerics postNotificationName:PQQuestionWillBeSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
-}
-
 - (void)didSave {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
-    if (self.changedKeys) {
-        NSDictionary *userInfo;
-        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(text))]) {
-            userInfo = [NSDictionary dictionaryWithNullableObject:self.text forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQQuestionTextDidSaveNotification object:self userInfo:userInfo];
-        }
-        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(secureValue))]) {
-            userInfo = [NSDictionary dictionaryWithObject:self.secureValue forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQQuestionSecureDidSaveNotification object:self userInfo:userInfo];
-        }
-        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(choices))]) {
-            userInfo = [NSDictionary dictionaryWithNullableObject:self.choices forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQQuestionChoicesDidSaveNotification object:self userInfo:userInfo];
-        }
-        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(responses))]) {
-            userInfo = [NSDictionary dictionaryWithNullableObject:self.responses forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQQuestionResponsesDidSaveNotification object:self userInfo:userInfo];
+    if (!self.isDeleted && !self.inserted) {
+        [AKGenerics postNotificationName:PQQuestionDidSaveNotification object:self userInfo:[NSDictionary dictionaryWithNullableObject:self.changedKeys forKey:NOTIFICATION_OBJECT_KEY]];
+        
+        if (self.changedKeys) {
+            NSDictionary *userInfo;
+            if ([self.changedKeys containsObject:NSStringFromSelector(@selector(text))]) {
+                userInfo = [NSDictionary dictionaryWithNullableObject:self.text forKey:NOTIFICATION_OBJECT_KEY];
+                [AKGenerics postNotificationName:PQQuestionTextDidSaveNotification object:self userInfo:userInfo];
+            }
+            if ([self.changedKeys containsObject:NSStringFromSelector(@selector(secureValue))]) {
+                userInfo = [NSDictionary dictionaryWithObject:self.secureValue forKey:NOTIFICATION_OBJECT_KEY];
+                [AKGenerics postNotificationName:PQQuestionSecureDidSaveNotification object:self userInfo:userInfo];
+            }
+            if ([self.changedKeys containsObject:NSStringFromSelector(@selector(choices))]) {
+                userInfo = [NSDictionary dictionaryWithNullableObject:self.choices forKey:NOTIFICATION_OBJECT_KEY];
+                [AKGenerics postNotificationName:PQQuestionChoicesDidSaveNotification object:self userInfo:userInfo];
+            }
+            if ([self.changedKeys containsObject:NSStringFromSelector(@selector(responses))]) {
+                userInfo = [NSDictionary dictionaryWithNullableObject:self.responses forKey:NOTIFICATION_OBJECT_KEY];
+                [AKGenerics postNotificationName:PQQuestionResponsesDidSaveNotification object:self userInfo:userInfo];
+            }
         }
     }
-    [AKGenerics postNotificationName:PQQuestionWasSavedNotification object:self userInfo:[NSDictionary dictionaryWithNullableObject:self.changedKeys forKey:NOTIFICATION_OBJECT_KEY]];
     
     [super didSave];
 }
@@ -407,7 +400,7 @@ NSString * const PQQuestionSurveyDidChangeNotification = @"kNotificationPQQuesti
     primitiveChoice.indexValue = nil;
     choice.indexValue = [NSNumber numberWithInteger:index];
     
-    [AKGenerics postNotificationName:PQQuestionChoiceAtIndexWasReplaced object:self userInfo:userInfo];
+    [AKGenerics postNotificationName:PQQuestionChoiceAtIndexWasReplacedNotification object:self userInfo:userInfo];
 }
 
 - (void)removeChoiceAtIndex:(NSUInteger)index {

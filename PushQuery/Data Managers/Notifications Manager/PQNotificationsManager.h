@@ -14,8 +14,6 @@
 #import <UIKit/UIKit.h>
 #import "NSObject+Basics.h"
 
-#import "PQSurveyProtocols.h"
-
 #pragma mark - // PROTOCOLS //
 
 #pragma mark - // DEFINITIONS (Public) //
@@ -24,6 +22,12 @@ extern NSString * const PQNotificationActionString;
 
 @interface PQNotificationsManager : NSObject
 + (void)setup;
++ (void)scheduleNotificationWithTitle:(NSString *)title body:(NSString *)body badge:(NSNumber *)badge actionString:(NSString *)actionString userInfo:(NSDictionary *)userInfo notificationId:(NSString *)notificationId fireDate:(NSDate *)fireDate interval:(NSCalendarUnit)interval;
 + (UIMutableUserNotificationAction *)notificationActionWithTitle:(NSString *)title textInput:(BOOL)textInput destructive:(BOOL)destructive authentication:(BOOL)authentication;
-+ (void)setNotificationWithTitle:(NSString *)title body:(NSString *)body actions:(NSArray <UIMutableUserNotificationAction *> *)actions actionString:(NSString *)actionString uuid:(NSString *)uuid fireDate:(NSDate *)fireDate repeat:(BOOL)repeat;
++ (void)cancelNotificationWithId:(NSString *)notificationId;
+
++ (void)setTitle:(NSString *)title forNotificationWithId:(NSString *)notificationId;
++ (void)setText:(NSString *)text forNotificationWithId:(NSString *)notificationId;
++ (void)setActions:(NSArray <UIMutableUserNotificationAction *> *)actions forNotificationWithId:(NSString *)notificationId;
+
 @end

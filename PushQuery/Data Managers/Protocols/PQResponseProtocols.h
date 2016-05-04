@@ -18,8 +18,7 @@
 #define PQResponseUserDidChangeNotification @"kNotificationPQResponse_UserDidChange"
 #define PQResponseUserDidSaveNotification @"kNotificationPQResponse_UserDidSave"
 
-#define PQResponseWillBeSavedNotification @"kNotificationPQResponse_WillBeSaved"
-#define PQResponseWasSavedNotification @"kNotificationPQResponse_WasSaved"
+#define PQResponseDidSaveNotification @"kNotificationPQResponse_DidSave"
 #define PQResponseWillBeRemovedNotification @"kNotificationPQResponse_WillBeRemoved"
 #define PQResponseWillBeDeletedNotification @"kNotificationPQResponse_WillBeDeleted"
 
@@ -27,8 +26,10 @@
 
 @protocol PQResponse <NSObject>
 
+- (NSString *)responseId;
 - (NSString *)text;
 - (id <PQUser>)user;
+- (NSString *)userId;
 - (NSDate *)date;
 
 @end
@@ -48,10 +49,23 @@
 
 @end
 
+#pragma mark - // PROTOCOL (PQResponse_PRIVATE) //
+
+@protocol PQResponse_PRIVATE <PQResponse_Editable>
+@end
+
 #pragma mark - // PROTOCOL (PQResponse_Init) //
 
 @protocol PQResponse_Init <NSObject>
 
 + (id <PQResponse_Editable>)responseWithText:(NSString *)text userId:(NSString *)userId date:(NSDate *)date;
+
+@end
+
+#pragma mark - // PROTOCOL (PQResponse_Init_PRIVATE) //
+
+@protocol PQResponse_Init_PRIVATE <PQResponse_Init>
+
++ (id <PQResponse_Editable>)responseWithResponseId:(NSString *)responseId questionId:(NSString *)questionId;
 
 @end
