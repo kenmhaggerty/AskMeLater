@@ -132,6 +132,9 @@
     cell.textLabel.text = question.text ?: @"(blank)";
     cell.textLabel.textColor = question.text ? [UIColor blackColor] : [UIColor lightGrayColor];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu %@", (unsigned long)question.responses.count, [AKGenerics pluralizationForCount:question.responses.count singular:@"response" plural:@"responses"]];
+    UIView *backgroundView = [[UIView alloc] initWithFrame:cell.bounds];
+    backgroundView.backgroundColor = [UIColor colorWithRed:0.91f green:0.91f blue:0.925f alpha:1.0f];
+    cell.selectedBackgroundView = backgroundView;
     return cell;
 }
 
