@@ -16,14 +16,14 @@
 
 // RULES (General) //
 
-#define MASTER_ON NO
+#define MASTER_ON YES
 
 #define PRINT_CLASS_METHODS YES
 #define PRINT_INSTANCE_METHODS YES
 
 // RULES (AKLogType) //
 
-#define PRINT_METHOD_NAMES YES
+#define PRINT_METHOD_NAMES NO
 #define PRINT_INFOS YES
 #define PRINT_DEBUGS YES
 #define PRINT_NOTICES YES
