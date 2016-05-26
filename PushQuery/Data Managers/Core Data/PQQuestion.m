@@ -423,12 +423,7 @@
 - (void)moveChoice:(PQChoice *)choice toIndex:(NSUInteger)index {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
-    if (![self.choices containsObject:choice]) {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is not in self.%@", stringFromVariable(choice), NSStringFromSelector(@selector(choices))]];
-        return;
-    }
-    
-    [self moveChoiceAtIndex:[self.choices indexOfObject:choice] toIndex:index];
+    [self moveChoiceAtIndex:[self.choiceIndices indexOfObject:choice.choiceIndex] toIndex:index];
 }
 
 - (void)moveChoiceAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex {
@@ -439,19 +434,10 @@
         return;
     }
     
-    PQChoice *choice = self.choices[fromIndex];
-    
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OBJECT_KEY] = choice;
-    userInfo[NOTIFICATION_SECONDARY_KEY] = [NSNumber numberWithInteger:[self.choices indexOfObject:choice]];
-    
-    NSMutableOrderedSet *choices = [NSMutableOrderedSet orderedSetWithOrderedSet:self.choices];
+    NSMutableOrderedSet *choiceIndices = [NSMutableOrderedSet orderedSetWithOrderedSet:self.choiceIndices];
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:fromIndex];
-    [choices moveObjectsAtIndexes:indexSet toIndex:toIndex];
-    
-    [self willChangeValueForKey:NSStringFromSelector(@selector(choices))];
-    [self setPrimitiveValue:choices forKey:NSStringFromSelector(@selector(choices))];
-    [self didChangeValueForKey:NSStringFromSelector(@selector(choices))];
+    [choiceIndices moveObjectsAtIndexes:indexSet toIndex:toIndex];
+    self.choiceIndices = [NSOrderedSet orderedSetWithOrderedSet:choiceIndices];
     
     self.editedAt = [NSDate date];
 }

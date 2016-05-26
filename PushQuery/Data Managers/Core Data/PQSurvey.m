@@ -495,11 +495,8 @@
     
     NSMutableOrderedSet *questionIndices = [NSMutableOrderedSet orderedSetWithOrderedSet:self.questionIndices];
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:fromIndex];
-    [questions moveObjectsAtIndexes:indexSet toIndex:toIndex];
-    
-    [self willChangeValueForKey:NSStringFromSelector(@selector(questions))];
-    [self setPrimitiveValue:questions forKey:NSStringFromSelector(@selector(questions))];
-    [self didChangeValueForKey:NSStringFromSelector(@selector(questions))];
+    [questionIndices moveObjectsAtIndexes:indexSet toIndex:toIndex];
+    self.questionIndices = [NSOrderedSet orderedSetWithOrderedSet:questionIndices];
     
     self.editedAt = [NSDate date];
 }
