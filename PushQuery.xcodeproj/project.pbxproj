@@ -105,6 +105,7 @@
 		5AF441454C44F3B849711C64 /* libPods-PushQueryTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PushQueryTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		633209C070509B74DE7F7BD9 /* Pods-PushQueryUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PushQueryUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PushQueryUITests/Pods-PushQueryUITests.release.xcconfig"; sourceTree = "<group>"; };
 		6737F2639D4B2D4F6D793D28 /* libPods-PushQuery.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PushQuery.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D028D611CF73F0300CF02B6 /* PushQuery_1.1.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PushQuery_1.1.2.xcdatamodel; sourceTree = "<group>"; };
 		7D09C8561CB3193600962A23 /* UIViewController+Email.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Email.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Email/UIViewController+Email/UIViewController+Email.h"; sourceTree = "<group>"; };
 		7D09C8571CB3193600962A23 /* UIViewController+Email.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Email.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Email/UIViewController+Email/UIViewController+Email.m"; sourceTree = "<group>"; };
 		7D09C8681CB4153C00962A23 /* SyncViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SyncViewController.h; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/SyncViewController.h"; sourceTree = "<group>"; };
@@ -1599,6 +1600,7 @@
 		7D12CAC61C8A30280021519B /* PushQuery.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				7D028D611CF73F0300CF02B6 /* PushQuery_1.1.2.xcdatamodel */,
 				7D12CAC71C8A30280021519B /* PushQuery.xcdatamodel */,
 			);
 			currentVersion = 7D12CAC71C8A30280021519B /* PushQuery.xcdatamodel */;
