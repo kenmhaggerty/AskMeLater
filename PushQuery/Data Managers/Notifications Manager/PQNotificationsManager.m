@@ -93,7 +93,9 @@
     [notificationAction setIdentifier:title];
     [notificationAction setDestructive:destructive];
     [notificationAction setAuthenticationRequired:authentication];
-    [notificationAction setBehavior:(textInput ? UIUserNotificationActionBehaviorTextInput : UIUserNotificationActionBehaviorDefault)];
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0f) {
+        [notificationAction setBehavior:(textInput ? UIUserNotificationActionBehaviorTextInput : UIUserNotificationActionBehaviorDefault)];
+    }
     return notificationAction;
 }
 
