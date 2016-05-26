@@ -29,6 +29,8 @@
 + (NSURL *)applicationDocumentsDirectory;
 
 // OTHER //
++ (NSManagedObject *)fetchObjectWithClass:(Class)class predicate:(NSPredicate *)predicate sortDescriptors:(NSArray <NSSortDescriptor *> *)sortDescriptors;
++ (NSArray <NSManagedObject *> *)fetchObjectsWithClass:(Class)class predicate:(NSPredicate *)predicate sortDescriptors:(NSArray <NSSortDescriptor *> *)sortDescriptors;
 
 + (NSString *)uuidWithValidator:(BOOL(^)(NSString *uuid))validationBlock;
 + (NSString *)surveyId;
@@ -204,171 +206,53 @@
 + (PQUser *)getUserWithId:(NSString *)userId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
     
-    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
-    __block NSArray *foundUsers;
-    __block NSError *error;
-    [managedObjectContext performBlockAndWait:^{
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        [request setEntity:[NSEntityDescription entityForName:NSStringFromClass([PQUser class]) inManagedObjectContext:managedObjectContext]];
-        [request setPredicate:[NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(userId)), userId]];
-        [request setSortDescriptors:[NSArray arrayWithObjects: [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(createdAt)) ascending:YES], nil]];
-        foundUsers = [managedObjectContext executeFetchRequest:request error:&error];
-    }];
-    if (error)
-    {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
-    }
-    if (!foundUsers)
-    {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is nil", stringFromVariable(foundUsers)]];
-        return nil;
-    }
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(userId)), userId];
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(createdAt)) ascending:YES];
     
-    if (foundUsers.count > 1)
-    {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"Found %lu %@ object(s) with %@ %@; returning first object", (unsigned long)foundUsers.count, NSStringFromClass([PQUser class]), stringFromVariable(userId), userId]];
-    }
-    return [foundUsers firstObject];
+    return (PQUser *)[PQCoreDataController fetchObjectWithClass:[PQUser class] predicate:predicate sortDescriptors:@[sortDescriptor]];
 }
 
 + (PQSurvey *)getSurveyWithId:(NSString *)surveyId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
     
-    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
-    __block NSArray *foundSurveys;
-    __block NSError *error;
-    [managedObjectContext performBlockAndWait:^{
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        [request setEntity:[NSEntityDescription entityForName:NSStringFromClass([PQSurvey class]) inManagedObjectContext:managedObjectContext]];
-        [request setPredicate:[NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(surveyId)), surveyId]];
-        [request setSortDescriptors:[NSArray arrayWithObjects: [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(createdAt)) ascending:YES], nil]];
-        foundSurveys = [managedObjectContext executeFetchRequest:request error:&error];
-    }];
-    if (error)
-    {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
-    }
-    if (!foundSurveys)
-    {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is nil", stringFromVariable(foundUsers)]];
-        return nil;
-    }
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(surveyId)), surveyId];
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(createdAt)) ascending:YES];
     
-    if (foundSurveys.count > 1)
-    {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"Found %lu %@ object(s) with %@ %@; returning first object", (unsigned long)foundSurveys.count, NSStringFromClass([PQSurvey class]), stringFromVariable(surveyId), surveyId]];
-    }
-    return [foundSurveys firstObject];
+    return (PQSurvey *)[PQCoreDataController fetchObjectWithClass:[PQSurvey class] predicate:predicate sortDescriptors:@[sortDescriptor]];
 }
 
 + (NSSet *)getSurveysWithAuthorId:(NSString *)authorId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
     
-    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
-    __block NSArray *foundSurveys;
-    __block NSError *error;
-    [managedObjectContext performBlockAndWait:^{
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        [request setEntity:[NSEntityDescription entityForName:NSStringFromClass([PQSurvey class]) inManagedObjectContext:managedObjectContext]];
-        [request setPredicate:[NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(authorId)), authorId]];
-        foundSurveys = [managedObjectContext executeFetchRequest:request error:&error];
-    }];
-    if (error)
-    {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
-    }
-    if (!foundSurveys)
-    {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is nil", stringFromVariable(foundUsers)]];
-        return nil;
-    }
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(authorId)), authorId];
     
-    return [NSSet setWithArray:foundSurveys];
+    return [NSSet setWithArray:[PQCoreDataController fetchObjectsWithClass:[PQSurvey class] predicate:predicate sortDescriptors:nil]];
 }
 
 + (PQQuestion *)getQuestionWithId:(NSString *)questionId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
     
-    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
-    __block NSArray *foundQuestions;
-    __block NSError *error;
-    [managedObjectContext performBlockAndWait:^{
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        [request setEntity:[NSEntityDescription entityForName:NSStringFromClass([PQQuestion class]) inManagedObjectContext:managedObjectContext]];
-        [request setPredicate:[NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(questionId)), questionId]];
-        [request setSortDescriptors:[NSArray arrayWithObjects: [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(createdAt)) ascending:YES], nil]];
-        foundQuestions = [managedObjectContext executeFetchRequest:request error:&error];
-    }];
-    if (error)
-    {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
-    }
-    if (!foundQuestions)
-    {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is nil", stringFromVariable(foundQuestions)]];
-        return nil;
-    }
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(questionId)), questionId];
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(createdAt)) ascending:YES];
     
-    if (foundQuestions.count > 1)
-    {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"Found %lu %@ object(s) with %@ %@; returning first object", (unsigned long)foundQuestions.count, NSStringFromClass([PQQuestion class]), stringFromVariable(questionId), questionId]];
-    }
-    return [foundQuestions firstObject];
+    return (PQQuestion *)[PQCoreDataController fetchObjectWithClass:[PQQuestion class] predicate:predicate sortDescriptors:@[sortDescriptor]];
 }
 
 + (PQResponse *)getResponseWithId:(NSString *)responseId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
     
-    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
-    __block NSArray *foundResponses;
-    __block NSError *error;
-    [managedObjectContext performBlockAndWait:^{
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        [request setEntity:[NSEntityDescription entityForName:NSStringFromClass([PQResponse class]) inManagedObjectContext:managedObjectContext]];
-        [request setPredicate:[NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(responseId)), responseId]];
-        [request setSortDescriptors:[NSArray arrayWithObjects: [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(date)) ascending:YES], nil]];
-        foundResponses = [managedObjectContext executeFetchRequest:request error:&error];
-    }];
-    if (error)
-    {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
-    }
-    if (!foundResponses)
-    {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is nil", stringFromVariable(foundQuestions)]];
-        return nil;
-    }
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(responseId)), responseId];
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(date)) ascending:YES];
     
-    if (foundResponses.count > 1)
-    {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"Found %lu %@ object(s) with %@ %@; returning first object", (unsigned long)foundResponses.count, NSStringFromClass([PQResponse class]), stringFromVariable(responseId), responseId]];
-    }
-    return [foundResponses firstObject];
+    return (PQResponse *)[PQCoreDataController fetchObjectWithClass:[PQResponse class] predicate:predicate sortDescriptors:@[sortDescriptor]];
 }
 
 + (NSSet *)getResponsesWithUserId:(NSString *)userId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
     
-    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
-    __block NSArray *foundResponses;
-    __block NSError *error;
-    [managedObjectContext performBlockAndWait:^{
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        [request setEntity:[NSEntityDescription entityForName:NSStringFromClass([PQResponse class]) inManagedObjectContext:managedObjectContext]];
-        [request setPredicate:[NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(userId)), userId]];
-        foundResponses = [managedObjectContext executeFetchRequest:request error:&error];
-    }];
-    if (error)
-    {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
-    }
-    if (!foundResponses)
-    {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is nil", stringFromVariable(foundResponses)]];
-        return nil;
-    }
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(userId)), userId];
     
-    return [NSSet setWithArray:foundResponses];
+    return [NSSet setWithArray:[PQCoreDataController fetchObjectsWithClass:[PQResponse class] predicate:predicate sortDescriptors:nil]];
 }
 
 #pragma mark - // PUBLIC METHODS (Deletors) //
@@ -471,6 +355,44 @@
 }
 
 #pragma mark - // PRIVATE METHODS (Other) //
+
++ (NSManagedObject *)fetchObjectWithClass:(Class)class predicate:(NSPredicate *)predicate sortDescriptors:(NSArray <NSSortDescriptor *> *)sortDescriptors {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSArray *foundObjects = [PQCoreDataController fetchObjectsWithClass:class predicate:predicate sortDescriptors:sortDescriptors];
+    
+    if (foundObjects.count > 1)
+    {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"Found %lu objects with class %@ and given %@; returning first object", (unsigned long)foundObjects.count, NSStringFromClass(class), stringFromVariable(predicate)]];
+    }
+    return [foundObjects firstObject];
+}
+
++ (NSArray <NSManagedObject *> *)fetchObjectsWithClass:(Class)class predicate:(NSPredicate *)predicate sortDescriptors:(NSArray <NSSortDescriptor *> *)sortDescriptors {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
+    __block NSArray *foundObjects;
+    __block NSError *error;
+    [managedObjectContext performBlockAndWait:^{
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        request.entity = [NSEntityDescription entityForName:NSStringFromClass(class) inManagedObjectContext:managedObjectContext];
+        request.predicate = predicate;
+        request.sortDescriptors = sortDescriptors;
+        foundObjects = [managedObjectContext executeFetchRequest:request error:&error];
+    }];
+    if (error)
+    {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
+    }
+    if (!foundObjects)
+    {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is nil", stringFromVariable(foundResponses)]];
+        return nil;
+    }
+    
+    return foundObjects;
+}
 
 + (NSString *)uuidWithValidator:(BOOL(^)(NSString *uuid))validationBlock {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_DATA] message:nil];
