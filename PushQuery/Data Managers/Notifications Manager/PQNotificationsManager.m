@@ -103,6 +103,10 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
     UILocalNotification *notification = [PQNotificationsManager getNotificationWithId:notificationId];
+    if (!notification) {
+        return;
+    }
+    
     [[UIApplication sharedApplication] cancelLocalNotification:notification];
 }
 
