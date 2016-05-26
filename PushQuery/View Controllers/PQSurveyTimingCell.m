@@ -25,6 +25,14 @@
 
 @end
 
+@implementation UIDatePicker (Extras)
+
+- (void)setFrame:(CGRect)frame {
+    [super setFrame:frame];
+}
+
+@end
+
 @implementation PQSurveyTimingCell
 
 #pragma mark - // SETTERS AND GETTERS //
