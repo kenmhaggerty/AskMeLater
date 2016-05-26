@@ -24,12 +24,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PQQuestion (CoreDataProperties)
 
 @property (nullable, nonatomic, retain, readonly) NSString *authorId;
-@property (nullable, nonatomic, retain) NSDate *createdAt;
 @property (nullable, nonatomic, retain) NSString *questionId;
-@property (nullable, nonatomic, retain) NSNumber *secureValue;
-@property (nullable, nonatomic, retain) NSString *surveyId;
+@property (nullable, nonatomic, retain, readonly) NSNumber *secureValue;
+@property (nullable, nonatomic, retain, readonly) NSString *surveyId;
 @property (nullable, nonatomic, retain) NSString *text;
-@property (nullable, nonatomic, retain) NSOrderedSet <PQChoice *> *choices;
+@property (nullable, nonatomic, retain, readonly) NSOrderedSet <PQChoiceIndex *> *choiceIndices;
+@property (nullable, nonatomic, retain, readonly) NSSet <PQChoice *> *choiceObjects;
+@property (nullable, nonatomic, retain) PQQuestionIndex *questionIndex;
 @property (nullable, nonatomic, retain) NSSet <PQResponse *> *responses;
 @property (nullable, nonatomic, retain, readonly) PQSurvey *survey;
 
@@ -37,16 +38,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PQQuestion (CoreDataGeneratedAccessors)
 
-- (void)insertObject:(PQChoice *)value inChoicesAtIndex:(NSUInteger)idx;
-- (void)removeObjectFromChoicesAtIndex:(NSUInteger)idx;
-- (void)insertChoices:(NSArray <PQChoice *> *)value atIndexes:(NSIndexSet *)indexes;
-- (void)removeChoicesAtIndexes:(NSIndexSet *)indexes;
-- (void)replaceObjectInChoicesAtIndex:(NSUInteger)idx withObject:(PQChoice *)value;
-- (void)replaceChoicesAtIndexes:(NSIndexSet *)indexes withChoices:(NSArray <PQChoice *> *)values;
-- (void)addChoicesObject:(PQChoice *)value;
-- (void)removeChoicesObject:(PQChoice *)value;
-- (void)addChoices:(NSOrderedSet <PQChoice *> *)values;
-- (void)removeChoices:(NSOrderedSet <PQChoice *> *)values;
+- (void)insertObject:(PQChoiceIndex *)value inChoiceIndicesAtIndex:(NSUInteger)idx;
+- (void)removeObjectFromChoiceIndicesAtIndex:(NSUInteger)idx;
+- (void)insertChoiceIndices:(NSArray <PQChoiceIndex *> *)value atIndexes:(NSIndexSet *)indexes;
+- (void)removeChoiceIndicesAtIndexes:(NSIndexSet *)indexes;
+- (void)replaceObjectInChoiceIndicesAtIndex:(NSUInteger)idx withObject:(PQChoiceIndex *)value;
+- (void)replaceChoiceIndicesAtIndexes:(NSIndexSet *)indexes withChoiceIndices:(NSArray <PQChoiceIndex *> *)values;
+- (void)addChoiceIndicesObject:(PQChoiceIndex *)value;
+- (void)removeChoiceIndicesObject:(PQChoiceIndex *)value;
+- (void)addChoiceIndices:(NSOrderedSet <PQChoiceIndex *> *)values;
+- (void)removeChoiceIndices:(NSOrderedSet <PQChoiceIndex *> *)values;
+
+- (void)addChoiceObjectsObject:(PQChoice *)value;
+- (void)removeChoiceObjectsObject:(PQChoice *)value;
+- (void)addChoiceObjects:(NSSet <PQChoice *> *)values;
+- (void)removeChoiceObjects:(NSSet <PQChoice *> *)values;
 
 - (void)addResponsesObject:(PQResponse *)value;
 - (void)removeResponsesObject:(PQResponse *)value;

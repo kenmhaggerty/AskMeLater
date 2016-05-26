@@ -11,6 +11,7 @@
 #pragma mark - // IMPORTS //
 
 #import "PQQuestionProtocols.h"
+#import "PQFirebaseObjectProtocols.h"
 
 #pragma mark - // DEFINITIONS //
 
@@ -24,9 +25,8 @@
 
 #pragma mark - // PROTOCOL (PQQuestion_Firebase) //
 
-@protocol PQQuestion_Firebase <PQQuestion>
+@protocol PQQuestion_Firebase <PQQuestion, PQFirebaseObject>
 
-- (BOOL)isDeleted;
 - (NSString *)authorId;
 - (NSString *)surveyId;
 

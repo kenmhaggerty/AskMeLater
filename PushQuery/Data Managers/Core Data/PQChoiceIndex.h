@@ -1,8 +1,8 @@
 //
-//  PQResponse.h
+//  PQChoiceIndex.h
 //  PushQuery
 //
-//  Created by Ken M. Haggerty on 3/16/16.
+//  Created by Ken M. Haggerty on 5/18/16.
 //  Copyright © 2016 Flatiron School. All rights reserved.
 //
 
@@ -12,21 +12,23 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "PQSyncedObject.h"
 
-@class PQQuestion, PQUser;
+@class PQChoice, PQQuestion;
 
 #pragma mark - // PROTOCOLS //
-
-#import "PQResponseProtocols+Firebase.h"
 
 #pragma mark - // DEFINITIONS (Public) //
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PQResponse : PQSyncedObject <PQResponse_PRIVATE, PQResponse_Firebase>
+@interface PQChoiceIndex : NSManagedObject
+
+// SETTERS //
+
+- (void)setIndex:(NSUInteger)index;
+
 @end
 
 NS_ASSUME_NONNULL_END
 
-#import "PQResponse+CoreDataProperties.h"
+#import "PQChoiceIndex+CoreDataProperties.h"

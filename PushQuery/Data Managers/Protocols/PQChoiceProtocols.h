@@ -20,6 +20,7 @@
 #define PQChoiceTextDidSaveNotification @"kNotificationPQChoice_TextDidSaveNotification"
 #define PQChoiceTextInputDidSaveNotification @"kNotificationPQChoice_TextInputDidSaveNotification"
 
+//#define PQChoiceWillSaveNotification @"kNotificationPQChoice_WillSave"
 #define PQChoiceDidSaveNotification @"kNotificationPQChoice_DidSave"
 #define PQChoiceWillBeRemovedNotification @"kNotificationPQChoice_WillBeRemoved"
 #define PQChoiceWillBeDeletedNotification @"kNotificationPQChoice_WillBeDeleted"
@@ -41,16 +42,22 @@
 
 //- (id)initWithText:(NSString *)text;
 
-// SETTERS //
+// UPDATE //
 
-- (void)setText:(NSString *)text;
-- (void)setTextInput:(BOOL)textInput;
+- (void)updateText:(NSString *)text;
+- (void)updateTextInput:(BOOL)textInput;
 
 @end
 
 #pragma mark - // PROTOCOL (PQChoice_PRIVATE) //
 
 @protocol PQChoice_PRIVATE <PQChoice_Editable>
+
+// SETTERS //
+
+- (void)setText:(NSString *)text;
+- (void)setTextInput:(BOOL)textInput;
+
 @end
 
 #pragma mark - // PROTOCOL (PQChoice_Init) //

@@ -23,20 +23,22 @@
 #define PQQuestionSecureDidSaveNotification @"kNotificationPQQuestion_SecureDidSave"
 
 #define PQQuestionChoicesDidChangeNotification @"kNotificationPQQuestion_ChoicesDidChange"
-#define PQQuestionChoiceWasAddedNotification @"kNotificationPQQuestion_ChoiceWasAdded"
-#define PQQuestionChoiceWasReorderedNotification @"kNotificationPQQuestion_ChoiceWasReordered"
-#define PQQuestionChoiceAtIndexWasReplacedNotification @"kNotificationPQQuestion_ChoiceAtIndexWasReplaced"
-#define PQQuestionChoiceAtIndexWasRemovedNotification @"kNotificationPQQuestion_ChoiceAtIndexWasRemoved"
+#define PQQuestionChoicesCountDidChangeNotification @"kNotificationPQQuestion_ChoicesCountDidChange"
+#define PQQuestionChoicesWereAddedNotification @"kNotificationPQQuestion_ChoicesWereAdded"
+#define PQQuestionChoicesWereReorderedNotification @"kNotificationPQQuestion_ChoicesWereReordered"
+#define PQQuestionChoicesWereRemovedNotification @"kNotificationPQQuestion_ChoicesWereRemoved"
 
 #define PQQuestionChoicesDidSaveNotification @"kNotificationPQQuestion_ChoicesDidSave"
+#define PQQuestionChoicesOrderDidSaveNotification @"kNotificationPQQuestion_ChoicesOrderDidSave"
 
 #define PQQuestionResponsesDidChangeNotification @"kNotificationPQQuestion_ResponsesDidChange"
-#define PQQuestionResponseWasAddedNotification @"kNotificationPQQuestion_ResponseWasAdded"
-#define PQQuestionResponseWasRemovedNotification @"kNotificationPQQuestion_ResponseWasRemoved"
 #define PQQuestionResponsesCountDidChangeNotification @"kNotificationPQQuestion_ResponsesCountDidChange"
+#define PQQuestionResponsesWereAddedNotification @"kNotificationPQQuestion_ResponsesWereAdded"
+#define PQQuestionResponsesWereRemovedNotification @"kNotificationPQQuestion_ResponsesWereRemoved"
 
 #define PQQuestionResponsesDidSaveNotification @"kNotificationPQQuestion_ResponsesDidSave"
 
+//#define PQQuestionWillSaveNotification @"kNotificationPQQuestion_WillSave"
 #define PQQuestionDidSaveNotification @"kNotificationPQQuestion_DidSave"
 #define PQQuestionWillBeRemovedNotification @"kNotificationPQQuestion_WillBeRemoved"
 #define PQQuestionWillBeDeletedNotification @"kNotificationPQQuestion_WillBeDeleted"
@@ -46,6 +48,7 @@
 @protocol PQQuestion <NSObject>
 
 - (NSDate *)createdAt;
+- (NSDate *)editedAt;
 - (NSString *)questionId;
 - (NSString *)text;
 - (BOOL)secure;
@@ -62,17 +65,15 @@
 
 //- (id)initWithText:(NSString *)text choices:(NSArray <id <PQChoice>> *)choices;
 
-// SETTERS //
+// UPDATE //
 
-- (void)setText:(NSString *)text;
-- (void)setSecure:(BOOL)secure;
-- (void)setChoices:(NSOrderedSet <id <PQChoice>> *)choices;
+- (void)updateText:(NSString *)text;
+- (void)updateSecure:(BOOL)secure;
 
 - (void)addChoice:(id <PQChoice>)choice;
 - (void)insertChoice:(id <PQChoice>)choice atIndex:(NSUInteger)index;
 - (void)moveChoice:(id <PQChoice>)choice toIndex:(NSUInteger)index;
 - (void)moveChoiceAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
-- (void)replaceChoiceAtIndex:(NSUInteger)index withChoice:(id <PQChoice>)choice;
 - (void)removeChoice:(id <PQChoice>)choice;
 - (void)removeChoiceAtIndex:(NSUInteger)index;
 
@@ -82,7 +83,12 @@
 
 @protocol PQQuestion_PRIVATE <PQQuestion_Editable>
 
+// SETTERS //
+
 - (void)setCreatedAt:(NSDate *)createdAt;
+- (void)setText:(NSString *)text;
+- (void)setSecure:(BOOL)secure;
+- (void)setChoices:(NSOrderedSet <id <PQChoice>> *)choices;
 
 - (void)addResponse:(id <PQResponse>)response;
 - (void)removeResponse:(id <PQResponse>)response;
@@ -101,6 +107,6 @@
 
 @protocol PQQuestion_Init_PRIVATE <PQQuestion_Init>
 
-+ (id <PQQuestion_Editable>)questionWithQuestionId:(NSString *)questionId surveyId:(NSString *)surveyId;
++ (id <PQQuestion_Editable>)questionWithQuestionId:(NSString *)questionId;
 
 @end

@@ -11,10 +11,14 @@
 #pragma mark - // IMPORTS (Private) //
 
 #import "PQQuestion.h"
-#import "PQResponse.h"
-#import "PQSurvey.h"
 #import "AKDebugger.h"
 #import "AKGenerics.h"
+
+#import "PQChoiceIndex.h"
+#import "PQChoice.h"
+#import "PQQuestionIndex.h"
+#import "PQResponse.h"
+#import "PQSurvey.h"
 
 #import "PQCoreDataController.h"
 
@@ -22,28 +26,54 @@
 
 @interface PQQuestion ()
 @property (nullable, nonatomic, retain, readwrite) NSString *authorId;
+@property (nullable, nonatomic, retain, readwrite) NSNumber *secureValue;
+@property (nullable, nonatomic, retain, readwrite) NSString *surveyId;
+@property (nonatomic, readwrite) BOOL willBeDeleted;
+@property (nonatomic, readwrite) BOOL wasDeleted;
+
+@property (nullable, nonatomic, retain, readwrite) NSOrderedSet <PQChoiceIndex *> *choiceIndices;
+@property (nullable, nonatomic, retain, readwrite) NSSet <PQChoice *> *choiceObjects;
 @property (nullable, nonatomic, retain, readwrite) PQSurvey *survey;
 
 // OBSERVERS //
 
+- (void)addObserversToSurvey:(PQSurvey *)survey;
+- (void)removeObserversFromSurvey:(PQSurvey *)survey;
 - (void)addObserversToChoice:(PQChoice *)choice;
 - (void)removeObserversFromChoice:(PQChoice *)choice;
 - (void)addObserversToResponse:(PQResponse *)response;
 - (void)removeObserversFromResponse:(PQResponse *)response;
-- (void)addObserversToSurvey:(PQSurvey *)survey;
-- (void)removeObserversFromSurvey:(PQSurvey *)survey;
 
 // RESPONDERS //
 
+- (void)surveyIdDidChange:(NSNotification *)notification;
+- (void)surveyAuthorIdDidChange:(NSNotification *)notification;
 - (void)choiceWillBeDeleted:(NSNotification *)notification;
 - (void)responseWillBeDeleted:(NSNotification *)notification;
-- (void)surveyAuthorIdDidChange:(NSNotification *)notification;
+
+// SETTERS //
+
+- (void)setSecure:(BOOL)secure;;
+
+// OTHER //
+
+- (void)updateChoiceIndices;
 
 @end
 
 @implementation PQQuestion
 
 #pragma mark - // SETTERS AND GETTERS //
+
+@dynamic authorId;
+@dynamic secureValue;
+@dynamic surveyId;
+@dynamic willBeDeleted;
+@dynamic wasDeleted;
+
+@dynamic choiceIndices;
+@dynamic choiceObjects;
+@dynamic survey;
 
 - (void)setAuthorId:(NSString *)authorId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
@@ -54,7 +84,7 @@
         return;
     }
     
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:authorId forKey:NOTIFICATION_OBJECT_KEY];
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:authorId forKey:NOTIFICATION_OBJECT_KEY];
     
     [AKGenerics postNotificationName:PQQuestionAuthorIdWillChangeNotification object:self userInfo:userInfo];
     
@@ -112,15 +142,13 @@
         return;
     }
     
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:surveyId forKey:NOTIFICATION_OBJECT_KEY];
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:surveyId forKey:NOTIFICATION_OBJECT_KEY];
     
     [AKGenerics postNotificationName:PQQuestionSurveyIdWillChangeNotification object:self userInfo:userInfo];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(surveyId))];
     [self setPrimitiveValue:surveyId forKey:NSStringFromSelector(@selector(surveyId))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(surveyId))];
-    
-    self.survey = surveyId ? [PQCoreDataController getSurveyWithId:self.surveyId] : nil;
     
     [AKGenerics postNotificationName:PQQuestionSurveyIdDidChangeNotification object:self userInfo:userInfo];
 }
@@ -143,32 +171,61 @@
     [AKGenerics postNotificationName:PQQuestionTextDidChangeNotification object:self userInfo:userInfo];
 }
 
-- (void)setChoices:(NSOrderedSet <PQChoice *> *)choices {
+- (void)setChoiceIndices:(NSOrderedSet <PQChoiceIndex *> *)choiceIndices {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
     
-    NSOrderedSet <PQChoice *> *primitiveChoices = [self primitiveValueForKey:NSStringFromSelector(@selector(choices))];
+    NSOrderedSet *primitiveChoiceIndices = [self primitiveValueForKey:NSStringFromSelector(@selector(choiceIndices))];
     
-    if ([AKGenerics object:choices isEqualToObject:primitiveChoices]) {
+    if ([AKGenerics object:choiceIndices isEqualToObject:primitiveChoiceIndices]) {
         return;
     }
     
-    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:choices forKey:NOTIFICATION_OBJECT_KEY];
+    NSOrderedSet *primitiveChoices = self.choices;
     
-    for (PQChoice *choice in primitiveChoices) {
+    [self willChangeValueForKey:NSStringFromSelector(@selector(choiceIndices))];
+    [self setPrimitiveValue:choiceIndices forKey:NSStringFromSelector(@selector(choiceIndices))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(choiceIndices))];
+    
+    [self updateChoiceIndices];
+    
+    NSSet *primitiveSet = primitiveChoiceIndices ? primitiveChoiceIndices.set : nil;
+    NSSet *set = choiceIndices ? choiceIndices.set : nil;
+    if (![AKGenerics object:set isEqualToObject:primitiveSet]) {
+        return;
+    }
+    
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:@[self.choices, primitiveChoices] forKeys:@[NOTIFICATION_OBJECT_KEY, NOTIFICATION_OLD_KEY]];
+    [AKGenerics postNotificationName:PQQuestionChoicesWereReorderedNotification object:self userInfo:userInfo];
+}
+
+- (void)setChoiceObjects:(NSSet <PQChoice *> *)choiceObjects {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSSet <PQChoice *> *primitiveChoiceObjects = [self primitiveValueForKey:NSStringFromSelector(@selector(choiceObjects))];
+    
+    if ([AKGenerics object:choiceObjects isEqualToObject:primitiveChoiceObjects]) {
+        return;
+    }
+    
+    for (PQChoice *choice in primitiveChoiceObjects) {
         [self removeObserversFromChoice:choice];
     }
     
-    [self willChangeValueForKey:NSStringFromSelector(@selector(choices))];
-    [self setPrimitiveValue:choices forKey:NSStringFromSelector(@selector(choices))];
-    [self didChangeValueForKey:NSStringFromSelector(@selector(choices))];
+    [self willChangeValueForKey:NSStringFromSelector(@selector(choiceObjects))];
+    [self setPrimitiveValue:choiceObjects forKey:NSStringFromSelector(@selector(choiceObjects))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(choiceObjects))];
     
-    for (PQChoice *choice in choices) {
-        choice.indexValue = [NSNumber numberWithInteger:[choices indexOfObject:choice]];
+    for (PQChoice *choice in choiceObjects) {
         [self addObserversToChoice:choice];
     }
     
-    if (![choices.set isEqual:primitiveChoices.set]) {
-        [AKGenerics postNotificationName:PQQuestionChoicesDidChangeNotification object:self userInfo:userInfo];
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:self.choices forKey:NOTIFICATION_OBJECT_KEY];
+    [AKGenerics postNotificationName:PQQuestionChoicesDidChangeNotification object:self userInfo:userInfo];
+    
+    if (choiceObjects.count != primitiveChoiceObjects.count) {
+        NSNumber *countValue = [NSNumber numberWithInteger:choiceObjects.count];
+        userInfo = [NSDictionary dictionaryWithObject:countValue forKey:NOTIFICATION_OBJECT_KEY];
+        [AKGenerics postNotificationName:PQQuestionChoicesCountDidChangeNotification object:self userInfo:userInfo];
     }
 }
 
@@ -196,12 +253,18 @@
     }
     
     [AKGenerics postNotificationName:PQQuestionResponsesDidChangeNotification object:self userInfo:userInfo];
+    
+    if (responses.count != primitiveResponses.count) {
+        NSNumber *countValue = [NSNumber numberWithInteger:responses.count];
+        userInfo = [NSDictionary dictionaryWithObject:countValue forKey:NOTIFICATION_OBJECT_KEY];
+        [AKGenerics postNotificationName:PQQuestionResponsesCountDidChangeNotification object:self userInfo:userInfo];
+    }
 }
 
 - (void)setSurvey:(PQSurvey *)survey {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
     
-    PQQuestion *primitiveSurvey = [self primitiveValueForKey:NSStringFromSelector(@selector(survey))];
+    PQSurvey *primitiveSurvey = [self primitiveValueForKey:NSStringFromSelector(@selector(survey))];
     
     if ([AKGenerics object:survey isEqualToObject:primitiveSurvey]) {
         return;
@@ -210,7 +273,7 @@
     BOOL surveyIsDeleted = primitiveSurvey.isDeleted;
     
     if (primitiveSurvey) {
-        [self removeObserversFromSurvey:survey];
+        [self removeObserversFromSurvey:primitiveSurvey];
     }
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(survey))];
@@ -222,12 +285,9 @@
     }
     
     if (!self.isDeleted && !surveyIsDeleted) {
-        self.surveyId = survey.surveyId;
         self.authorId = survey ? survey.authorId : nil;
+        self.surveyId = survey ? survey.surveyId : nil;
     }
-    
-//    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:survey forKey:NOTIFICATION_OBJECT_KEY];
-//    [AKGenerics postNotificationName:PQQuestionSurveyDidChangeNotification object:self userInfo:userInfo];
 }
 
 #pragma mark - // INITS AND LOADS //
@@ -257,27 +317,36 @@
 - (void)didSave {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
-    if (!self.isDeleted && !self.inserted) {
+    if (self.willBeDeleted) {
+        self.willBeDeleted = NO;
+        self.wasDeleted = YES;
+    }
+    
+    if (!self.changedKeys || self.isDeleted) {
         [AKGenerics postNotificationName:PQQuestionDidSaveNotification object:self userInfo:[NSDictionary dictionaryWithNullableObject:self.changedKeys forKey:NOTIFICATION_OBJECT_KEY]];
-        
-        if (self.changedKeys) {
-            NSDictionary *userInfo;
-            if ([self.changedKeys containsObject:NSStringFromSelector(@selector(text))]) {
-                userInfo = [NSDictionary dictionaryWithNullableObject:self.text forKey:NOTIFICATION_OBJECT_KEY];
-                [AKGenerics postNotificationName:PQQuestionTextDidSaveNotification object:self userInfo:userInfo];
-            }
-            if ([self.changedKeys containsObject:NSStringFromSelector(@selector(secureValue))]) {
-                userInfo = [NSDictionary dictionaryWithObject:self.secureValue forKey:NOTIFICATION_OBJECT_KEY];
-                [AKGenerics postNotificationName:PQQuestionSecureDidSaveNotification object:self userInfo:userInfo];
-            }
-            if ([self.changedKeys containsObject:NSStringFromSelector(@selector(choices))]) {
-                userInfo = [NSDictionary dictionaryWithNullableObject:self.choices forKey:NOTIFICATION_OBJECT_KEY];
-                [AKGenerics postNotificationName:PQQuestionChoicesDidSaveNotification object:self userInfo:userInfo];
-            }
-            if ([self.changedKeys containsObject:NSStringFromSelector(@selector(responses))]) {
-                userInfo = [NSDictionary dictionaryWithNullableObject:self.responses forKey:NOTIFICATION_OBJECT_KEY];
-                [AKGenerics postNotificationName:PQQuestionResponsesDidSaveNotification object:self userInfo:userInfo];
-            }
+    }
+    
+    if (self.changedKeys && !self.inserted) {
+        NSDictionary *userInfo;
+        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(text))]) {
+            userInfo = [NSDictionary dictionaryWithNullableObject:self.text forKey:NOTIFICATION_OBJECT_KEY];
+            [AKGenerics postNotificationName:PQQuestionTextDidSaveNotification object:self userInfo:userInfo];
+        }
+        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(secureValue))]) {
+            userInfo = [NSDictionary dictionaryWithObject:self.secureValue forKey:NOTIFICATION_OBJECT_KEY];
+            [AKGenerics postNotificationName:PQQuestionSecureDidSaveNotification object:self userInfo:userInfo];
+        }
+        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(choiceIndices))]) {
+            userInfo = [NSDictionary dictionaryWithNullableObject:self.choices forKey:NOTIFICATION_OBJECT_KEY];
+            [AKGenerics postNotificationName:PQQuestionChoicesOrderDidSaveNotification object:self userInfo:userInfo];
+        }
+        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(choiceObjects))]) {
+            userInfo = [NSDictionary dictionaryWithNullableObject:self.choices forKey:NOTIFICATION_OBJECT_KEY];
+            [AKGenerics postNotificationName:PQQuestionChoicesDidSaveNotification object:self userInfo:userInfo];
+        }
+        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(responses))]) {
+            userInfo = [NSDictionary dictionaryWithNullableObject:self.responses forKey:NOTIFICATION_OBJECT_KEY];
+            [AKGenerics postNotificationName:PQQuestionResponsesDidSaveNotification object:self userInfo:userInfo];
         }
     }
     
@@ -287,78 +356,74 @@
 - (void)prepareForDeletion {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
     
-    [super prepareForDeletion];
+    for (PQChoice *choice in self.choiceObjects) {
+        choice.parentIsDeleted = YES;
+    }
+    for (PQResponse *response in self.responses) {
+        response.parentIsDeleted = YES;
+    }
     
     [AKGenerics postNotificationName:PQQuestionWillBeDeletedNotification object:self userInfo:nil];
+
+    [super prepareForDeletion];
 }
 
-#pragma mark - // PUBLIC METHODS //
+#pragma mark - // PUBLIC METHODS (Update) //
 
-- (BOOL)secure {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
-    
-    return self.secureValue.boolValue;
-}
-
-- (void)setSecure:(BOOL)secure {
+- (void)updateText:(NSString *)text {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
     
-    self.secureValue = [NSNumber numberWithBool:secure];
+    if ([AKGenerics object:text isEqualToObject:self.text]) {
+        return;
+    }
+    
+    self.text = text;
+    self.editedAt = [NSDate date];
+}
+
+- (void)updateSecure:(BOOL)secure {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    if (secure == self.secure) {
+        return;
+    }
+    
+    self.secure = secure;
+    self.editedAt = [NSDate date];
 }
 
 - (void)addChoice:(PQChoice *)choice {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OBJECT_KEY] = choice;
-    
-    [self addChoicesObject:choice];
-    
-    choice.indexValue = [NSNumber numberWithInteger:[self.choices indexOfObject:choice]];
-    
-    [self addObserversToChoice:choice];
-    
-    [AKGenerics postNotificationName:PQQuestionChoiceWasAddedNotification object:self userInfo:userInfo];
+    [self insertChoice:choice atIndex:self.choiceObjects.count];
 }
 
 - (void)insertChoice:(PQChoice *)choice atIndex:(NSUInteger)index {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OBJECT_KEY] = choice;
+    NSOrderedSet *primitiveChoices = self.choices;
     
-    [self insertObject:choice inChoicesAtIndex:index];
+    [self addChoiceObjectsObject:choice];
+    [self insertObject:choice.choiceIndex inChoiceIndicesAtIndex:index];
     
-    choice.indexValue = [NSNumber numberWithInteger:index];
+    [self updateChoiceIndices];
     
     [self addObserversToChoice:choice];
     
-    [AKGenerics postNotificationName:PQQuestionChoiceWasAddedNotification object:self userInfo:userInfo];
+    self.editedAt = [NSDate date];
+    
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:@[self.choices, primitiveChoices] forKeys:@[NOTIFICATION_OBJECT_KEY, NOTIFICATION_OLD_KEY]];
+    [AKGenerics postNotificationName:PQQuestionChoicesWereAddedNotification object:self userInfo:userInfo];
+    
+    NSNumber *count = [NSNumber numberWithInteger:self.choiceObjects.count];
+    userInfo = [NSDictionary dictionaryWithObject:count forKey:NOTIFICATION_OBJECT_KEY];
+    [AKGenerics postNotificationName:PQQuestionChoicesCountDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)moveChoice:(PQChoice *)choice toIndex:(NSUInteger)index {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
-    if (![self.choices containsObject:choice]) {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is not in self.%@", stringFromVariable(choice), NSStringFromSelector(@selector(choices))]];
-        return;
-    }
-    
-    if (index == [self.choices indexOfObject:choice]) {
-        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ is alread at index %lu", stringFromVariable(choice), (unsigned long)index]];
-        return;
-    }
-    
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OBJECT_KEY] = choice;
-    userInfo[NOTIFICATION_SECONDARY_KEY] = [NSNumber numberWithInteger:[self.choices indexOfObject:choice]];
-    
-    [self removeChoicesObject:choice];
-    [self insertObject:choice inChoicesAtIndex:index];
-    
-    choice.indexValue = [NSNumber numberWithInteger:index];
-    
-    [AKGenerics postNotificationName:PQQuestionChoiceWasReorderedNotification object:self userInfo:userInfo];
+    [self moveChoiceAtIndex:[self.choiceIndices indexOfObject:choice.choiceIndex] toIndex:index];
 }
 
 - (void)moveChoiceAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex {
@@ -369,107 +434,125 @@
         return;
     }
     
-    PQChoice *choice = self.choices[fromIndex];
+    NSMutableOrderedSet *choiceIndices = [NSMutableOrderedSet orderedSetWithOrderedSet:self.choiceIndices];
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:fromIndex];
+    [choiceIndices moveObjectsAtIndexes:indexSet toIndex:toIndex];
+    self.choiceIndices = [NSOrderedSet orderedSetWithOrderedSet:choiceIndices];
     
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OBJECT_KEY] = choice;
-    userInfo[NOTIFICATION_SECONDARY_KEY] = [NSNumber numberWithInteger:[self.choices indexOfObject:choice]];
-    
-    [self removeChoicesObject:choice];
-    [self insertObject:choice inChoicesAtIndex:toIndex];
-    
-    choice.indexValue = [NSNumber numberWithInteger:toIndex];
-    
-    [AKGenerics postNotificationName:PQQuestionChoiceWasReorderedNotification object:self userInfo:userInfo];
-}
-
-- (void)replaceChoiceAtIndex:(NSUInteger)index withChoice:(PQChoice *)choice {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
-    
-    PQChoice *primitiveChoice = [self.choices objectAtIndex:index];
-    
-    if ([AKGenerics object:choice isEqualToObject:primitiveChoice]) {
-        return;
-    }
-    
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithInteger:index];
-    
-    [self replaceObjectInChoicesAtIndex:index withObject:choice];
-    
-    primitiveChoice.indexValue = nil;
-    choice.indexValue = [NSNumber numberWithInteger:index];
-    
-    [AKGenerics postNotificationName:PQQuestionChoiceAtIndexWasReplacedNotification object:self userInfo:userInfo];
-}
-
-- (void)removeChoiceAtIndex:(NSUInteger)index {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
-    
-    PQChoice *choice = [self.choices objectAtIndex:index];
-    
-    [self removeChoice:choice];
-    
-    choice.indexValue = nil;
+    self.editedAt = [NSDate date];
 }
 
 - (void)removeChoice:(PQChoice *)choice {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
-    [self removeObserversFromChoice:choice];
-    
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OBJECT_KEY] = choice;
-    
-//    [AKGenerics postNotificationName:PQQuestionChoiceWillBeRemoved object:self userInfo:userInfo];
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:choice forKey:NOTIFICATION_OBJECT_KEY];
     [AKGenerics postNotificationName:PQChoiceWillBeRemovedNotification object:choice userInfo:nil];
     
-    userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithInteger:[self.choices indexOfObject:choice]];
+    NSOrderedSet *primitiveChoices = [NSOrderedSet orderedSetWithOrderedSet:self.choices];
     
-    [self removeChoicesObject:choice];
+    [self removeObserversFromChoice:choice];
     
-    choice.indexValue = nil;
+    [self removeChoiceObjectsObject:choice];
+    [self removeChoiceIndicesObject:choice.choiceIndex];
     
-    [AKGenerics postNotificationName:PQQuestionChoiceAtIndexWasRemovedNotification object:self userInfo:userInfo];
+    [self updateChoiceIndices];
+    
+    self.editedAt = [NSDate date];
+    
+    userInfo = [NSDictionary dictionaryWithObjects:@[self.choices, primitiveChoices] forKeys:@[NOTIFICATION_OBJECT_KEY, NOTIFICATION_OLD_KEY]];
+    [AKGenerics postNotificationName:PQQuestionChoicesWereRemovedNotification object:self userInfo:userInfo];
+    
+    NSNumber *countValue = [NSNumber numberWithInteger:self.choices.count];
+    userInfo = [NSDictionary dictionaryWithObject:countValue forKey:NOTIFICATION_OBJECT_KEY];
+    [AKGenerics postNotificationName:PQQuestionChoicesCountDidChangeNotification object:self userInfo:userInfo];
+}
+
+- (void)removeChoiceAtIndex:(NSUInteger)index {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    PQChoiceIndex *choiceIndex = [self.choiceIndices objectAtIndex:index];
+    
+    [self removeChoice:choiceIndex.choice];
+}
+
+#pragma mark - // PUBLIC METHODS (Getters) //
+
+- (BOOL)secure {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    return self.secureValue.boolValue;
+}
+
+- (NSOrderedSet <PQChoice *> *)choices {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSMutableOrderedSet *choices = [NSMutableOrderedSet orderedSetWithCapacity:self.choiceIndices.count];
+    PQChoiceIndex *choiceIndex;
+    PQChoice *choice;
+    for (int i = 0; i < self.choiceIndices.count; i++) {
+        choiceIndex = self.choiceIndices[i];
+        choice = choiceIndex.choice;
+        [choices addObject:choice];
+    }
+    return [NSOrderedSet orderedSetWithOrderedSet:choices];
+}
+
+#pragma mark - // PUBLIC METHODS (Setters) //
+
+- (void)setSecure:(BOOL)secure {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    self.secureValue = [NSNumber numberWithBool:secure];
+}
+
+- (void)setChoices:(NSOrderedSet <PQChoice *> *)choices {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSMutableOrderedSet *choiceIndices = [NSMutableOrderedSet orderedSetWithCapacity:choices.count];
+    PQChoice *choice;
+    PQChoiceIndex *choiceIndex;
+    for (int i = 0; i < choices.count; i++) {
+        choice = choices[i];
+        choiceIndex = choice.choiceIndex;
+        [choiceIndices addObject:choiceIndex];
+    }
+    self.choiceObjects = choices.set;
+    self.choiceIndices = [NSOrderedSet orderedSetWithOrderedSet:choiceIndices];
 }
 
 - (void)addResponse:(PQResponse *)response {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OBJECT_KEY] = response;
+    NSSet *primitiveResponses = self.responses;
     
     [self addResponsesObject:response];
     
     [self addObserversToResponse:response];
     
-    [AKGenerics postNotificationName:PQQuestionResponseWasAddedNotification object:self userInfo:userInfo];
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:@[self.responses, primitiveResponses] forKeys:@[NOTIFICATION_OBJECT_KEY, NOTIFICATION_OLD_KEY]];
+    [AKGenerics postNotificationName:PQQuestionResponsesWereAddedNotification object:self userInfo:userInfo];
     
-    userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithInteger:self.responses.count];
-    
+    NSNumber *countValue = [NSNumber numberWithInteger:self.responses.count];
+    userInfo = [NSDictionary dictionaryWithObject:countValue forKey:NOTIFICATION_OBJECT_KEY];
     [AKGenerics postNotificationName:PQQuestionResponsesCountDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)removeResponse:(PQResponse *)response {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
-    [self removeObserversFromResponse:response];
+    NSSet *primitiveResponses = [NSSet setWithSet:self.responses];
     
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OBJECT_KEY] = response;
-    
-//    [AKGenerics postNotificationName:PQQuestionResponseWillBeRemovedNotification object:self userInfo:userInfo];
     [AKGenerics postNotificationName:PQResponseWillBeRemovedNotification object:response userInfo:nil];
+    
+    [self removeObserversFromResponse:response];
     
     [self removeResponsesObject:response];
     
-    [AKGenerics postNotificationName:PQQuestionResponseWasRemovedNotification object:self userInfo:userInfo];
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:@[self.responses, primitiveResponses] forKeys:@[NOTIFICATION_OBJECT_KEY, NOTIFICATION_OLD_KEY]];
+    [AKGenerics postNotificationName:PQQuestionResponsesWereRemovedNotification object:self userInfo:userInfo];
     
-    userInfo = [NSMutableDictionary dictionary];
-    userInfo[NOTIFICATION_OBJECT_KEY] = [NSNumber numberWithInteger:self.responses.count];
-    
+    NSNumber *countValue = [NSNumber numberWithInteger:self.responses.count];
+    userInfo = [NSDictionary dictionaryWithObject:countValue forKey:NOTIFICATION_OBJECT_KEY];
     [AKGenerics postNotificationName:PQQuestionResponsesCountDidChangeNotification object:self userInfo:userInfo];
 }
 
@@ -484,7 +567,7 @@
     
     [super setup];
     
-    for (PQChoice *choice in self.choices) {
+    for (PQChoice *choice in self.choiceObjects) {
         [self addObserversToChoice:choice];
     }
     for (PQResponse *response in self.responses) {
@@ -495,7 +578,7 @@
 - (void)teardown {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
     
-    for (PQChoice *choice in self.choices) {
+    for (PQChoice *choice in self.choiceObjects) {
         [self removeObserversFromChoice:choice];
     }
     for (PQResponse *response in self.responses) {
@@ -506,6 +589,20 @@
 }
 
 #pragma mark - // PRIVATE METHODS (Observers) //
+
+- (void)addObserversToSurvey:(PQSurvey *)survey {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyIdDidChange:) name:PQSurveyIdDidChangeNotification object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyAuthorIdDidChange:) name:PQSurveyAuthorIdDidChangeNotification object:survey];
+}
+
+- (void)removeObserversFromSurvey:(PQSurvey *)survey {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyIdDidChangeNotification object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyAuthorIdDidChangeNotification object:survey];
+}
 
 - (void)addObserversToChoice:(PQChoice *)choice {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
@@ -531,20 +628,23 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQResponseWillBeDeletedNotification object:response];
 }
 
-
-- (void)addObserversToSurvey:(PQSurvey *)survey {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyAuthorIdDidChange:) name:PQSurveyAuthorIdDidChangeNotification object:survey];
-}
-
-- (void)removeObserversFromSurvey:(PQSurvey *)survey {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyAuthorIdDidChangeNotification object:survey];
-}
-
 #pragma mark - // PRIVATE METHODS (Responders) //
+
+- (void)surveyIdDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    NSString *surveyId = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    
+    self.surveyId = surveyId;
+}
+
+- (void)surveyAuthorIdDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    NSString *authorId = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    
+    self.authorId = authorId;
+}
 
 - (void)choiceWillBeDeleted:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
@@ -562,12 +662,14 @@
     [self removeResponse:response];
 }
 
-- (void)surveyAuthorIdDidChange:(NSNotification *)notification {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+#pragma mark - // PRIVATE METHODS (Other) //
+
+- (void)updateChoiceIndices {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
     
-    NSString *authorId = notification.userInfo[NOTIFICATION_OBJECT_KEY];
-    
-    self.authorId = authorId;
+    for (PQChoiceIndex *choiceIndex in self.choiceIndices) {
+        choiceIndex.index = [self.choiceIndices indexOfObject:choiceIndex];
+    }
 }
 
 @end

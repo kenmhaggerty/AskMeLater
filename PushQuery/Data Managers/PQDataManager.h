@@ -11,7 +11,6 @@
 #pragma mark - // IMPORTS (Public) //
 
 #import <Foundation/Foundation.h>
-#import "NSObject+Basics.h"
 
 #pragma mark - // PROTOCOLS //
 
@@ -22,7 +21,7 @@
 
 extern NSString * const PQDataManagerIsSyncingDidChangeNotification;
 
-#import "PQFirebaseNotifications.h"
+#import "FirebaseNotifications.h"
 
 @interface PQDataManager : NSObject // <Firebase>
 
@@ -36,7 +35,7 @@ extern NSString * const PQDataManagerIsSyncingDidChangeNotification;
 
 + (id <PQSurvey_Editable>)survey;
 + (NSSet *)getSurveysAuthoredByUser:(id <PQUser>)user;
-+ (void)fetchSurveysWithCompletion:(void(^)(BOOL success))completionBlock;
++ (void)fetchSurveysWithCompletion:(void(^)(BOOL fetched))completionBlock;
 + (void)deleteSurvey:(id <PQSurvey_Editable>)survey;
 
 // QUESTIONS //

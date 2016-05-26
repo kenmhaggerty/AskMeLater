@@ -23,13 +23,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PQUser (CoreDataProperties)
 
-@property (nullable, nonatomic, retain) NSData *avatarData;
-@property (nullable, nonatomic, retain) NSDate *createdAt;
+@property (nullable, nonatomic, retain, readonly) NSData *avatarData;
 @property (nullable, nonatomic, retain) NSString *email;
 @property (nullable, nonatomic, retain) NSString *userId;
 @property (nullable, nonatomic, retain) NSString *username;
-@property (nullable, nonatomic, retain) NSSet <PQResponse *> *responses;
-@property (nullable, nonatomic, retain) NSSet <PQSurvey *> *surveys;
+@property (nullable, nonatomic, retain, readonly) NSSet <PQResponse *> *responses;
+@property (nullable, nonatomic, retain, readonly) NSSet <PQSurvey *> *surveys;
 
 @end
 

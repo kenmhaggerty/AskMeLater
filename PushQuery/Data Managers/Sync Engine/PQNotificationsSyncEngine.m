@@ -134,7 +134,7 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     for (NSString *surveyId in surveyIds) {
         survey = sharedEngine.observedSurveys[surveyId];
         if ([question isEqual:survey.questions.lastObject]) {
-            survey.enabled = survey.repeat;
+            [survey updateEnabled:survey.repeat];
             return;
         }
         
@@ -188,8 +188,8 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyNameDidChange:) name:PQSurveyNameDidChangeNotification object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionsDidChange:) name:PQSurveyQuestionsDidChangeNotification object:survey];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionsDidChange:) name:PQSurveyQuestionWasAddedNotification object:survey];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionsDidChange:) name:PQSurveyQuestionWasReorderedNotification object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionsDidChange:) name:PQSurveyQuestionsWereAddedNotification object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionsDidChange:) name:PQSurveyQuestionsWereReorderedNotification object:survey];
 }
 
 - (void)removeObserversFromSurvey:(id <PQSurvey>)survey {
@@ -197,8 +197,8 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyNameDidChangeNotification object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionsDidChangeNotification object:survey];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionWasAddedNotification object:survey];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionWasReorderedNotification object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionsWereAddedNotification object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionsWereReorderedNotification object:survey];
 }
 
 - (void)addObserversToQuestion:(id <PQQuestion>)question {
@@ -206,10 +206,9 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionTextDidChange:) name:PQQuestionTextDidChangeNotification object:question];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionChoicesDidChange:) name:PQQuestionChoicesDidChangeNotification object:question];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionChoicesDidChange:) name:PQQuestionChoiceWasAddedNotification object:question];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionChoicesDidChange:) name:PQQuestionChoiceWasReorderedNotification object:question];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionChoicesDidChange:) name:PQQuestionChoiceAtIndexWasReplacedNotification object:question];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionChoicesDidChange:) name:PQQuestionChoiceAtIndexWasRemovedNotification object:question];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionChoicesDidChange:) name:PQQuestionChoicesWereAddedNotification object:question];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionChoicesDidChange:) name:PQQuestionChoicesWereReorderedNotification object:question];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionChoicesDidChange:) name:PQQuestionChoicesWereRemovedNotification object:question];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionWillBeRemoved:) name:PQQuestionWillBeRemovedNotification object:question];
 }
 
@@ -218,10 +217,9 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionTextDidChangeNotification object:question];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionChoicesDidChangeNotification object:question];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionChoiceWasAddedNotification object:question];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionChoiceWasReorderedNotification object:question];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionChoiceAtIndexWasReplacedNotification object:question];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionChoiceAtIndexWasRemovedNotification object:question];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionChoicesWereAddedNotification object:question];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionChoicesWereReorderedNotification object:question];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionChoicesWereRemovedNotification object:question];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionWillBeRemovedNotification object:question];
 }
 

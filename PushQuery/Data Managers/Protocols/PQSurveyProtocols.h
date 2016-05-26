@@ -35,11 +35,14 @@
 
 #define PQSurveyQuestionsDidChangeNotification @"kNotificationPQSurvey_QuestionsDidChange"
 #define PQSurveyQuestionsCountDidChangeNotification @"kNotificationPQSurvey_QuestionsCountDidChange"
-#define PQSurveyQuestionWasAddedNotification @"kNotificationPQSurvey_QuestionWasAdded"
-#define PQSurveyQuestionWasReorderedNotification @"kNotificationPQSurvey_QuestionWasReordered"
-#define PQSurveyQuestionAtIndexWasRemovedNotification @"kNotificationPQSurvey_QuestionAtIndexWasRemoved"
-#define PQSurveyQuestionsDidSaveNotification @"kNotificationPQSurvey_QuestionsDidSave"
+#define PQSurveyQuestionsWereAddedNotification @"kNotificationPQSurvey_QuestionsWereAdded"
+#define PQSurveyQuestionsWereReorderedNotification @"kNotificationPQSurvey_QuestionsWereReordered"
+#define PQSurveyQuestionsWereRemovedNotification @"kNotificationPQSurvey_QuestionsWereRemoved"
 
+#define PQSurveyQuestionsDidSaveNotification @"kNotificationPQSurvey_QuestionsDidSave"
+#define PQSurveyQuestionsOrderDidSaveNotification @"kNotificationPQSurvey_QuestionsOrderDidSave"
+
+//#define PQSurveyWillSaveNotification @"kNotificationPQSurvey_WillSave"
 #define PQSurveyDidSaveNotification @"kNotificationPQSurvey_DidSave"
 #define PQSurveyWillBeDeletedNotification @"kNotificationPQSurvey_WillBeDeleted"
 
@@ -68,14 +71,12 @@
 
 //- (id)initWithName:(NSString *)name author:(id <PQUser>)author;
 
-// SETTERS //
+// UPDATE //
 
-- (void)setEditedAt:(NSDate *)editedAt;
-- (void)setEnabled:(BOOL)enabled;
-- (void)setName:(NSString *)name;
-- (void)setRepeat:(BOOL)repeat;
-- (void)setTime:(NSDate *)time;
-- (void)setQuestions:(NSOrderedSet <id <PQQuestion>> *)questions;
+- (void)updateEnabled:(BOOL)enabled;
+- (void)updateName:(NSString *)name;
+- (void)updateRepeat:(BOOL)repeat;
+- (void)updateTime:(NSDate *)time;
 
 - (void)addQuestion:(id <PQQuestion>)question;
 - (void)insertQuestion:(id <PQQuestion>)question atIndex:(NSUInteger)index;
@@ -90,7 +91,15 @@
 
 @protocol PQSurvey_PRIVATE <PQSurvey_Editable>
 
+// SETTERS //
+
 - (void)setCreatedAt:(NSDate *)createdAt;
+- (void)setEditedAt:(NSDate *)editedAt;
+- (void)setEnabled:(BOOL)enabled;
+- (void)setName:(NSString *)name;
+- (void)setRepeat:(BOOL)repeat;
+- (void)setTime:(NSDate *)time;
+- (void)setQuestions:(NSOrderedSet <id <PQQuestion>> *)questions;
 
 @end
 
@@ -106,6 +115,6 @@
 
 @protocol PQSurvey_Init_PRIVATE <PQSurvey_Init>
 
-+ (id <PQSurvey_Editable>)surveyWithSurveyId:(NSString *)surveyId authorId:(NSString *)authorId;
++ (id <PQSurvey_Editable>)surveyWithSurveyId:(NSString *)surveyId authorId:(NSString *)authorId createdAt:(NSDate *)createdAt;
 
 @end

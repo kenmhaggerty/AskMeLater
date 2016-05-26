@@ -1,8 +1,8 @@
 //
-//  PQChoice+CoreDataProperties.m
+//  PQSyncedObject+CoreDataProperties.m
 //  PushQuery
 //
-//  Created by Ken M. Haggerty on 3/16/16.
+//  Created by Ken M. Haggerty on 5/9/16.
 //  Copyright © 2016 Flatiron School. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -13,25 +13,17 @@
 
 #pragma mark - // IMPORTS (Private) //
 
-#import "PQChoice+CoreDataProperties.h"
+#import "PQSyncedObject+CoreDataProperties.h"
 #import "AKDebugger.h"
 #import "AKGenerics.h"
 
 #pragma mark - // DEFINITIONS (Private) //
 
-@implementation PQChoice (CoreDataProperties)
+@implementation PQSyncedObject (CoreDataProperties)
 
 #pragma mark - // SETTERS AND GETTERS //
 
-@dynamic authorId;
-@dynamic indexValue;
-@dynamic questionId;
-@dynamic surveyId;
-@dynamic text;
-@dynamic textInputValue;
-
-@dynamic choiceIndex;
-@dynamic question;
+@dynamic isUploadedValue;
 
 #pragma mark - // INITS AND LOADS //
 

@@ -27,6 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PQManagedObject : NSManagedObject
 @property (nonatomic, strong, nullable) NSSet *changedKeys;
+@property (nonatomic, readonly) BOOL isSaving;
+@property (nonatomic, readonly) BOOL willBeDeleted;
+@property (nonatomic, readonly) BOOL wasDeleted;
+@property (nonatomic) BOOL parentIsDeleted;
 @end
 
 NS_ASSUME_NONNULL_END

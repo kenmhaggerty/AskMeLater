@@ -11,7 +11,6 @@
 #pragma mark - // IMPORTS (Public) //
 
 #import <Foundation/Foundation.h>
-#import "NSObject+Basics.h"
 
 #import "PQUserProtocols.h"
 
@@ -24,7 +23,7 @@ extern NSString * const PQLoginManagerEmailDidChangeNotification;
 
 @interface PQLoginManager : NSObject
 + (void)setup;
-+ (id <PQUser_Editable>)currentUser;
++ (id <PQUser_PRIVATE>)currentUser;
 + (void)signUpWithEmail:(NSString *)email password:(NSString *)password success:(void (^)(id <PQUser_Editable>))successBlock failure:(void (^)(NSError *))failureBlock;
 + (void)loginWithEmail:(NSString *)email password:(NSString *)password success:(void (^)(id <PQUser_Editable>))successBlock failure:(void (^)(NSError *))failureBlock;
 + (void)resetPasswordForEmail:(NSString *)email success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock;

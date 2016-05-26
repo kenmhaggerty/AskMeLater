@@ -11,7 +11,6 @@
 #pragma mark - // IMPORTS (Public) //
 
 #import <Foundation/Foundation.h>
-#import "NSObject+Basics.h"
 
 #import "PQSurveyProtocols+Firebase.h"
 #import "PQQuestionProtocols+Firebase.h"
@@ -22,7 +21,7 @@
 
 @protocol FirebaseSyncDelegate <NSObject>
 
-+ (void)saveSurveyToLocalWithDictionary:(NSDictionary *)dictionary;
++ (void)synchronizeSurveyWithDictionary:(NSDictionary *)dictionary;
 + (void)saveCreatedAt:(NSDate *)createdAt toLocalSurveyWithId:(NSString *)surveyId;
 + (void)saveEditedAt:(NSDate *)editedAt toLocalSurveyWithId:(NSString *)surveyId;
 + (void)saveEnabled:(BOOL)enabled toLocalSurveyWithId:(NSString *)surveyId;
@@ -34,12 +33,14 @@
 + (void)saveOrder:(NSOrderedSet *)questionIds forLocalSurveyWithId:(NSString *)surveyId;
 + (void)deleteSurveyFromLocalWithId:(NSString *)surveyId;
 
++ (void)synchronizeQuestionWithDictionary:(NSDictionary *)dictionary;
 + (void)saveCreatedAt:(NSDate *)createdAt toLocalQuestionWithId:(NSString *)questionId;
 + (void)saveSecure:(BOOL)secure toLocalQuestionWithId:(NSString *)questionId;
 + (void)saveText:(NSString *)text toLocalQuestionWithId:(NSString *)questionId;
 + (void)saveChoices:(NSOrderedSet *)choiceDictionaries toLocalQuestionWithId:(NSString *)questionId;
-+ (void)insertChoice:(NSDictionary *)choiceDictionary atIndex:(NSUInteger)index forLocalQuestionWithId:(NSString *)questionId;
-+ (void)saveResponse:(NSDictionary *)responseDictionary toLocalQuestionWithId:(NSString *)questionId;
+//+ (void)insertChoice:(NSDictionary *)choiceDictionary atIndex:(NSUInteger)index forLocalQuestionWithId:(NSString *)questionId;
+//+ (void)saveResponse:(NSDictionary *)responseDictionary toLocalQuestionWithId:(NSString *)questionId;
++ (void)saveResponses:(NSSet *)responseDictionaries toLocalQuestionWithId:(NSString *)questionId;
 + (void)deleteQuestionFromLocalWithId:(NSString *)questionId;
 
 + (void)saveText:(NSString *)text toLocalChoiceWithIndex:(NSUInteger)index questionId:(NSString *)questionId;
@@ -61,10 +62,23 @@
 
 + (void)setupWithDelegate:(Class <FirebaseSyncDelegate>)delegate;
 
-// GENERAL //
+// EXISTS //
 
-+ (void)fetchSurveysFromFirebaseWithAuthorId:(NSString *)authorId synchronization:(void(^)(NSDictionary *surveyDictionary))synchronizationBlock completion:(void(^)(BOOL success))completionBlock;
-+ (void)saveSurveyToFirebase:(id <PQSurvey>)survey withAuthorId:(NSString *)authorId;
++ (void)firebaseObjectExistsForSurvey:(id <PQSurvey_Firebase>)survey withCompletion:(void(^)(BOOL exists))completionBlock;
++ (void)firebaseObjectExistsForQuestion:(id <PQQuestion_Firebase>)question withCompletion:(void(^)(BOOL exists))completionBlock;
++ (void)firebaseObjectExistsForChoice:(id <PQChoice_Firebase>)choice withCompletion:(void(^)(BOOL exists))completionBlock;
++ (void)firebaseObjectExistsForResponse:(id <PQResponse_Firebase>)response withCompletion:(void(^)(BOOL exists))completionBlock;
+
+// FETCH //
+
++ (void)fetchSurveysFromFirebaseWithAuthorId:(NSString *)authorId synchronization:(void(^)(NSDictionary *surveyDictionary))synchronizationBlock completion:(void(^)(BOOL fetched))completionBlock;
+
+// SAVE //
+
++ (void)saveSurveyToFirebase:(id <PQSurvey_Firebase>)survey;
++ (void)saveQuestionToFirebase:(id <PQQuestion_Firebase>)question;
++ (void)saveChoiceToFirebase:(id <PQChoice_Firebase>)choice;
++ (void)saveResponseToFirebase:(id <PQResponse_Firebase>)response;
 
 // OBSERVERS //
 

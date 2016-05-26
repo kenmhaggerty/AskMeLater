@@ -34,6 +34,8 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
 + (NSManagedObject *)fetchObjectWithClass:(Class)class predicate:(NSPredicate *)predicate sortDescriptors:(NSArray <NSSortDescriptor *> *)sortDescriptors;
 + (NSArray <NSManagedObject *> *)fetchObjectsWithClass:(Class)class predicate:(NSPredicate *)predicate sortDescriptors:(NSArray <NSSortDescriptor *> *)sortDescriptors;
 
+// UUID //
+
 + (NSString *)uuidWithValidator:(BOOL(^)(NSString *uuid))validationBlock;
 + (NSString *)surveyId;
 + (NSString *)questionId;
@@ -137,6 +139,8 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
     [managedObjectContext performBlockAndWait:^{
         user = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQUser class]) inManagedObjectContext:managedObjectContext];
         user.createdAt = [NSDate date];
+        user.editedAt = user.createdAt;
+        user.updatedAt = user.editedAt;
         user.userId = userId;
         user.email = email;
     }];
@@ -151,11 +155,12 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
     __block PQSurvey *survey;
     [managedObjectContext performBlockAndWait:^{
         survey = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQSurvey class]) inManagedObjectContext:managedObjectContext];
-        survey.surveyId = [PQCoreDataController surveyId];
         survey.createdAt = [NSDate date];
         survey.editedAt = survey.createdAt;
-        survey.name = name;
+        survey.updatedAt = survey.editedAt;
+        survey.surveyId = [PQCoreDataController surveyId];
         survey.authorId = authorId;
+        survey.name = name;
     }];
     
     return survey;
@@ -168,10 +173,13 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
     __block PQQuestion *question;
     [managedObjectContext performBlockAndWait:^{
         question = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQQuestion class]) inManagedObjectContext:managedObjectContext];
-        question.questionId = [PQCoreDataController questionId];
         question.createdAt = [NSDate date];
+        question.editedAt = question.createdAt;
+        question.updatedAt = question.editedAt;
+        question.questionId = [PQCoreDataController questionId];
         question.text = text;
         question.choices = choices;
+        question.questionIndex = [PQCoreDataController questionIndex];
     }];
     
     return question;
@@ -185,6 +193,7 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
     [managedObjectContext performBlockAndWait:^{
         choice = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQChoice class]) inManagedObjectContext:managedObjectContext];
         choice.text = text;
+        choice.choiceIndex = [PQCoreDataController choiceIndex];
     }];
     
     return choice;
@@ -312,13 +321,14 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
     return user;
 }
 
-+ (PQSurvey *)surveyWithSurveyId:(NSString *)surveyId authorId:(NSString *)authorId {
++ (PQSurvey *)surveyWithSurveyId:(NSString *)surveyId authorId:(NSString *)authorId createdAt:(NSDate *)createdAt {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
     NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
     __block PQSurvey *survey;
     [managedObjectContext performBlockAndWait:^{
         survey = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQSurvey class]) inManagedObjectContext:managedObjectContext];
+        survey.createdAt = createdAt;
         survey.surveyId = surveyId;
         survey.authorId = authorId;
     }];
@@ -326,7 +336,7 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
     return survey;
 }
 
-+ (PQQuestion *)questionWithQuestionId:(NSString *)questionId surveyId:(NSString *)surveyId {
++ (PQQuestion *)questionWithQuestionId:(NSString *)questionId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
     NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
@@ -334,13 +344,13 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
     [managedObjectContext performBlockAndWait:^{
         question = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQQuestion class]) inManagedObjectContext:managedObjectContext];
         question.questionId = questionId;
-        question.surveyId = surveyId;
+        question.questionIndex = [PQCoreDataController questionIndex];
     }];
     
     return question;
 }
 
-+ (PQResponse *)responseWithResponseId:(NSString *)responseId questionId:(NSString *)questionId {
++ (PQResponse *)responseWithResponseId:(NSString *)responseId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
     NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
@@ -348,10 +358,33 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
     [managedObjectContext performBlockAndWait:^{
         response = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQResponse class]) inManagedObjectContext:managedObjectContext];
         response.responseId = responseId;
-        response.questionId = questionId;
     }];
     
     return response;
+}
+
++ (PQQuestionIndex *)questionIndex {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
+    __block PQQuestionIndex *questionIndex;
+    [managedObjectContext performBlockAndWait:^{
+        questionIndex = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQQuestionIndex class]) inManagedObjectContext:managedObjectContext];
+    }];
+    
+    return questionIndex;
+}
+
++ (PQChoiceIndex *)choiceIndex {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
+    __block PQChoiceIndex *choiceIndex;
+    [managedObjectContext performBlockAndWait:^{
+        choiceIndex = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQChoiceIndex class]) inManagedObjectContext:managedObjectContext];
+    }];
+    
+    return choiceIndex;
 }
 
 #pragma mark - // DELEGATED METHODS //
@@ -446,6 +479,8 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
     
     return foundObjects;
 }
+
+#pragma mark - // PRIVATE METHODS (UUID) //
 
 + (NSString *)uuidWithValidator:(BOOL(^)(NSString *uuid))validationBlock {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_DATA] message:nil];

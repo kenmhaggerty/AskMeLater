@@ -18,6 +18,7 @@
 #define PQResponseUserDidChangeNotification @"kNotificationPQResponse_UserDidChange"
 #define PQResponseUserDidSaveNotification @"kNotificationPQResponse_UserDidSave"
 
+//#define PQResponseWillSaveNotification @"kNotificationPQResponse_WillSave"
 #define PQResponseDidSaveNotification @"kNotificationPQResponse_DidSave"
 #define PQResponseWillBeRemovedNotification @"kNotificationPQResponse_WillBeRemoved"
 #define PQResponseWillBeDeletedNotification @"kNotificationPQResponse_WillBeDeleted"
@@ -66,6 +67,6 @@
 
 @protocol PQResponse_Init_PRIVATE <PQResponse_Init>
 
-+ (id <PQResponse_Editable>)responseWithResponseId:(NSString *)responseId questionId:(NSString *)questionId;
++ (id <PQResponse_Editable>)responseWithResponseId:(NSString *)responseId;
 
 @end

@@ -11,9 +11,11 @@
 #pragma mark - // IMPORTS (Private) //
 
 #import "PQResponse.h"
-#import "PQUser.h"
 #import "AKDebugger.h"
 #import "AKGenerics.h"
+
+#import "PQQuestion.h"
+#import "PQUser.h"
 
 #import "PQCoreDataController.h"
 
@@ -22,8 +24,11 @@
 @interface PQResponse ()
 @property (nullable, nonatomic, retain, readwrite) NSString *authorId;
 @property (nullable, nonatomic, retain, readwrite) NSString *surveyId;
-@property (nullable, nonatomic, retain, readwrite) PQUser *user;
+@property (nonatomic, readwrite) BOOL willBeDeleted;
+@property (nonatomic, readwrite) BOOL wasDeleted;
+
 @property (nullable, nonatomic, retain, readwrite) PQQuestion *question;
+@property (nullable, nonatomic, retain, readwrite) PQUser *user;
 
 // OBSERVERS //
 
@@ -40,6 +45,14 @@
 @implementation PQResponse
 
 #pragma mark - // SETTERS AND GETTERS //
+
+@dynamic authorId;
+@dynamic surveyId;
+@dynamic willBeDeleted;
+@dynamic wasDeleted;
+
+@dynamic question;
+@dynamic user;
 
 - (void)setAuthorId:(NSString *)authorId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
@@ -61,6 +74,22 @@
     [AKGenerics postNotificationName:PQResponseAuthorIdDidChangeNotification object:self userInfo:userInfo];
 }
 
+- (void)setDate:(NSDate *)date {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSDate *roundedDate = [date dateRoundedToPrecision:6];
+    
+    NSDate *primitiveDate = [self primitiveValueForKey:NSStringFromSelector(@selector(date))];
+    
+    if ([AKGenerics object:roundedDate isEqualToObject:primitiveDate]) {
+        return;
+    }
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(date))];
+    [self setPrimitiveValue:roundedDate forKey:NSStringFromSelector(@selector(date))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(date))];
+}
+
 - (void)setQuestionId:(NSString *)questionId {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
     
@@ -78,9 +107,9 @@
     [self setPrimitiveValue:questionId forKey:NSStringFromSelector(@selector(questionId))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(questionId))];
     
-    self.question = questionId ? [PQCoreDataController getQuestionWithId:self.questionId] : nil;
-    
     [AKGenerics postNotificationName:PQResponseQuestionIdDidChangeNotification object:self userInfo:userInfo];
+    
+    self.question = questionId ? [PQCoreDataController getQuestionWithId:self.questionId] : nil;
 }
 
 - (void)setResponseId:(NSString *)responseId {
@@ -220,16 +249,20 @@
 - (void)didSave {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
-    if (!self.isDeleted && !self.inserted) {
-        
+    if (self.willBeDeleted) {
+        self.willBeDeleted = NO;
+        self.wasDeleted = YES;
+    }
+    
+    if (!self.changedKeys || self.isDeleted) {
         [AKGenerics postNotificationName:PQResponseDidSaveNotification object:self userInfo:[NSDictionary dictionaryWithNullableObject:self.changedKeys forKey:NOTIFICATION_OBJECT_KEY]];
-        
-        if (self.changedKeys) {
-            NSDictionary *userInfo;
-            if ([self.changedKeys containsObject:NSStringFromSelector(@selector(user))]) {
-                userInfo = [NSDictionary dictionaryWithNullableObject:self.user forKey:NOTIFICATION_OBJECT_KEY];
-                [AKGenerics postNotificationName:PQResponseUserDidSaveNotification object:self userInfo:userInfo];
-            }
+    }
+    
+    if (self.changedKeys && !self.inserted) {
+        NSDictionary *userInfo;
+        if ([self.changedKeys containsObject:NSStringFromSelector(@selector(user))]) {
+            userInfo = [NSDictionary dictionaryWithNullableObject:self.user forKey:NOTIFICATION_OBJECT_KEY];
+            [AKGenerics postNotificationName:PQResponseUserDidSaveNotification object:self userInfo:userInfo];
         }
     }
     
@@ -239,9 +272,9 @@
 - (void)prepareForDeletion {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
     
-    [super prepareForDeletion];
-    
     [AKGenerics postNotificationName:PQResponseWillBeDeletedNotification object:self userInfo:nil];
+    
+    [super prepareForDeletion];
 }
 
 #pragma mark - // PUBLIC METHODS //

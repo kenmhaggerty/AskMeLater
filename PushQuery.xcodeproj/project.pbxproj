@@ -30,7 +30,7 @@
 		7D12CACD1C8A30280021519B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D12CACB1C8A30280021519B /* LaunchScreen.storyboard */; };
 		7D12CAD81C8A30280021519B /* PushQueryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CAD71C8A30280021519B /* PushQueryTests.m */; };
 		7D12CAE31C8A30280021519B /* PushQueryUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CAE21C8A30280021519B /* PushQueryUITests.m */; };
-		7D12CAF71C8A48D10021519B /* PQFirebaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CAF61C8A48D10021519B /* PQFirebaseController.m */; };
+		7D12CAF71C8A48D10021519B /* FirebaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CAF61C8A48D10021519B /* FirebaseController.m */; };
 		7D12CAFE1C8A49560021519B /* AKDebugger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CAFD1C8A49560021519B /* AKDebugger.m */; };
 		7D12CB011C8A49660021519B /* AKGenerics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB001C8A49660021519B /* AKGenerics.m */; };
 		7D12CB041C8A49760021519B /* AKDebuggerRules.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB031C8A49760021519B /* AKDebuggerRules.m */; };
@@ -39,6 +39,9 @@
 		7D12CB1A1C8A69610021519B /* PQUser+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB171C8A69610021519B /* PQUser+CoreDataProperties.m */; };
 		7D12CB1B1C8A69610021519B /* PQUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB191C8A69610021519B /* PQUser.m */; };
 		7D12CB1F1C8A69F20021519B /* PQCoreDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB1E1C8A69F20021519B /* PQCoreDataController.m */; };
+		7D2021251CE11E75008D9F5D /* FirebaseQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2021241CE11E75008D9F5D /* FirebaseQuery.m */; };
+		7D20212A1CE13DAD008D9F5D /* PQSyncedObject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2021271CE13DAD008D9F5D /* PQSyncedObject+CoreDataProperties.m */; };
+		7D20212B1CE13DAD008D9F5D /* PQSyncedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2021291CE13DAD008D9F5D /* PQSyncedObject.m */; };
 		7D43DDC51CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D43DDC21CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.m */; };
 		7D43DDC61CBE911B00FEA394 /* PQManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D43DDC41CBE911B00FEA394 /* PQManagedObject.m */; };
 		7D50AB431CBEDBF70086DAF1 /* PQRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D50AB421CBEDBF70086DAF1 /* PQRootViewController.m */; };
@@ -58,7 +61,6 @@
 		7DC0A2EE1CD3B48D0057886C /* PQSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC0A2ED1CD3B48D0057886C /* PQSyncEngine.m */; };
 		7DC0A2F11CD3B4A40057886C /* PQFirebaseSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC0A2F01CD3B4A40057886C /* PQFirebaseSyncEngine.m */; };
 		7DC0A3011CD811F40057886C /* PQNotificationsSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC0A3001CD811F40057886C /* PQNotificationsSyncEngine.m */; };
-		7DDE78531C93234D00241A80 /* PQFirebaseQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDE78521C93234D00241A80 /* PQFirebaseQuery.m */; };
 		7DE38D671C99D6EB000A02F0 /* PQSurvey+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D581C99D6EB000A02F0 /* PQSurvey+CoreDataProperties.m */; };
 		7DE38D691C99D6EB000A02F0 /* PQResponse+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D5C1C99D6EB000A02F0 /* PQResponse+CoreDataProperties.m */; };
 		7DE38D6A1C99D6EB000A02F0 /* PQResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D5E1C99D6EB000A02F0 /* PQResponse.m */; };
@@ -74,6 +76,12 @@
 		7DF930BA1CC931D100B01FD1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF930B91CC931D100B01FD1 /* Security.framework */; };
 		7DFEDD0E1CB6F81500166383 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFEDD0D1CB6F81500166383 /* SafariServices.framework */; };
 		7DFEDD121CB7447700166383 /* PQTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFEDD111CB7447700166383 /* PQTableViewCell.m */; };
+		7DFFC6591CEB5263001EBFD2 /* PQEditableObject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFFC6561CEB5263001EBFD2 /* PQEditableObject+CoreDataProperties.m */; };
+		7DFFC65A1CEB5263001EBFD2 /* PQEditableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFFC6581CEB5263001EBFD2 /* PQEditableObject.m */; };
+		7DFFC6631CECA681001EBFD2 /* PQQuestionIndex+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFFC65C1CECA681001EBFD2 /* PQQuestionIndex+CoreDataProperties.m */; };
+		7DFFC6641CECA681001EBFD2 /* PQQuestionIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFFC65E1CECA681001EBFD2 /* PQQuestionIndex.m */; };
+		7DFFC6651CECA681001EBFD2 /* PQChoiceIndex+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFFC6601CECA681001EBFD2 /* PQChoiceIndex+CoreDataProperties.m */; };
+		7DFFC6661CECA681001EBFD2 /* PQChoiceIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFFC6621CECA681001EBFD2 /* PQChoiceIndex.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,8 +136,8 @@
 		7D12CADE1C8A30280021519B /* PushQuery.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PushQuery.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D12CAE21C8A30280021519B /* PushQueryUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PushQueryUITests.m; sourceTree = "<group>"; };
 		7D12CAE41C8A30280021519B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7D12CAF51C8A48D10021519B /* PQFirebaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQFirebaseController.h; path = Firebase/PQFirebaseController.h; sourceTree = "<group>"; };
-		7D12CAF61C8A48D10021519B /* PQFirebaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PQFirebaseController.m; path = Firebase/PQFirebaseController.m; sourceTree = "<group>"; };
+		7D12CAF51C8A48D10021519B /* FirebaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirebaseController.h; sourceTree = "<group>"; };
+		7D12CAF61C8A48D10021519B /* FirebaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirebaseController.m; sourceTree = "<group>"; };
 		7D12CAFC1C8A49560021519B /* AKDebugger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AKDebugger.h; path = ../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/AKDebugger/AKDebugger.h; sourceTree = "<group>"; };
 		7D12CAFD1C8A49560021519B /* AKDebugger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AKDebugger.m; path = ../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/AKDebugger/AKDebugger.m; sourceTree = "<group>"; };
 		7D12CAFF1C8A49660021519B /* AKGenerics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AKGenerics.h; path = ../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/AKGenerics/AKGenerics.h; sourceTree = "<group>"; };
@@ -141,13 +149,19 @@
 		7D12CB0E1C8A4EBA0021519B /* PQLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQLoginManager.h; path = "Login Manager/PQLoginManager.h"; sourceTree = "<group>"; };
 		7D12CB0F1C8A4EBA0021519B /* PQLoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PQLoginManager.m; path = "Login Manager/PQLoginManager.m"; sourceTree = "<group>"; };
 		7D12CB121C8A4F9E0021519B /* PQUserProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQUserProtocols.h; path = Protocols/PQUserProtocols.h; sourceTree = "<group>"; };
-		7D12CB131C8A51C40021519B /* PQFirebaseController+Auth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PQFirebaseController+Auth.h"; path = "Firebase/PQFirebaseController+Auth.h"; sourceTree = "<group>"; };
+		7D12CB131C8A51C40021519B /* FirebaseController+Auth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FirebaseController+Auth.h"; sourceTree = "<group>"; };
 		7D12CB161C8A69610021519B /* PQUser+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PQUser+CoreDataProperties.h"; sourceTree = "<group>"; };
 		7D12CB171C8A69610021519B /* PQUser+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PQUser+CoreDataProperties.m"; sourceTree = "<group>"; };
 		7D12CB181C8A69610021519B /* PQUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQUser.h; sourceTree = "<group>"; };
 		7D12CB191C8A69610021519B /* PQUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQUser.m; sourceTree = "<group>"; };
 		7D12CB1D1C8A69F20021519B /* PQCoreDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQCoreDataController.h; sourceTree = "<group>"; };
 		7D12CB1E1C8A69F20021519B /* PQCoreDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQCoreDataController.m; sourceTree = "<group>"; };
+		7D2021211CE11B9B008D9F5D /* FirebaseQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirebaseQuery.h; sourceTree = "<group>"; };
+		7D2021241CE11E75008D9F5D /* FirebaseQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirebaseQuery.m; sourceTree = "<group>"; };
+		7D2021261CE13DAD008D9F5D /* PQSyncedObject+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PQSyncedObject+CoreDataProperties.h"; sourceTree = "<group>"; };
+		7D2021271CE13DAD008D9F5D /* PQSyncedObject+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PQSyncedObject+CoreDataProperties.m"; sourceTree = "<group>"; };
+		7D2021281CE13DAD008D9F5D /* PQSyncedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQSyncedObject.h; sourceTree = "<group>"; };
+		7D2021291CE13DAD008D9F5D /* PQSyncedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQSyncedObject.m; sourceTree = "<group>"; };
 		7D43DDC11CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PQManagedObject+CoreDataProperties.h"; sourceTree = "<group>"; };
 		7D43DDC21CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PQManagedObject+CoreDataProperties.m"; sourceTree = "<group>"; };
 		7D43DDC31CBE911B00FEA394 /* PQManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQManagedObject.h; sourceTree = "<group>"; };
@@ -166,7 +180,8 @@
 		7D5A65641CA0799800D7AE8D /* UIViewController+Keyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Keyboard.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Keyboard/UIViewController+Keyboard.m"; sourceTree = "<group>"; };
 		7D7DE7EF1C8B6D8100FFA637 /* PQDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQDataManager.h; sourceTree = "<group>"; };
 		7D7DE7F01C8B6D8100FFA637 /* PQDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQDataManager.m; sourceTree = "<group>"; };
-		7D7DE7F41C8E1A3600FFA637 /* PQFirebaseNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQFirebaseNotifications.h; path = Firebase/PQFirebaseNotifications.h; sourceTree = "<group>"; };
+		7D7DE7F41C8E1A3600FFA637 /* FirebaseNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirebaseNotifications.h; sourceTree = "<group>"; };
+		7D8809991CE73F5400A2B8F8 /* PQFirebaseObjectProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQFirebaseObjectProtocols.h; path = Protocols/PQFirebaseObjectProtocols.h; sourceTree = "<group>"; };
 		7DB436691CAD7C2C00501D60 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		7DB4366B1CAD7C3500501D60 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		7DBB1F181CA98FBA00C7C403 /* PQSurveyTimingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQSurveyTimingCell.h; path = "PushQuery/View Controllers/PQSurveyTimingCell.h"; sourceTree = SOURCE_ROOT; };
@@ -190,9 +205,7 @@
 		7DC0A2FD1CD6961E0057886C /* PQResponseProtocols+Firebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PQResponseProtocols+Firebase.h"; path = "Protocols/PQResponseProtocols+Firebase.h"; sourceTree = "<group>"; };
 		7DC0A2FF1CD811F40057886C /* PQNotificationsSyncEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQNotificationsSyncEngine.h; path = "Sync Engine/PQNotificationsSyncEngine.h"; sourceTree = "<group>"; };
 		7DC0A3001CD811F40057886C /* PQNotificationsSyncEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PQNotificationsSyncEngine.m; path = "Sync Engine/PQNotificationsSyncEngine.m"; sourceTree = "<group>"; };
-		7DDE78511C93234D00241A80 /* PQFirebaseQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQFirebaseQuery.h; sourceTree = "<group>"; };
-		7DDE78521C93234D00241A80 /* PQFirebaseQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQFirebaseQuery.m; sourceTree = "<group>"; };
-		7DDE78541C9328FC00241A80 /* PQFirebaseQuery+FQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PQFirebaseQuery+FQuery.h"; sourceTree = "<group>"; };
+		7DDE78541C9328FC00241A80 /* FirebaseQuery+FQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FirebaseQuery+FQuery.h"; sourceTree = "<group>"; };
 		7DE38D531C99BA32000A02F0 /* PQSurveyProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQSurveyProtocols.h; path = Protocols/PQSurveyProtocols.h; sourceTree = "<group>"; };
 		7DE38D541C99BA88000A02F0 /* PQQuestionProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQQuestionProtocols.h; path = Protocols/PQQuestionProtocols.h; sourceTree = "<group>"; };
 		7DE38D551C99BAB3000A02F0 /* PQResponseProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQResponseProtocols.h; path = Protocols/PQResponseProtocols.h; sourceTree = "<group>"; };
@@ -232,6 +245,18 @@
 		7DFEDD0D1CB6F81500166383 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		7DFEDD101CB7447700166383 /* PQTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQTableViewCell.h; path = "PushQuery/View Controllers/PQTableViewCell.h"; sourceTree = SOURCE_ROOT; };
 		7DFEDD111CB7447700166383 /* PQTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PQTableViewCell.m; path = "PushQuery/View Controllers/PQTableViewCell.m"; sourceTree = SOURCE_ROOT; };
+		7DFFC6551CEB5263001EBFD2 /* PQEditableObject+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PQEditableObject+CoreDataProperties.h"; sourceTree = "<group>"; };
+		7DFFC6561CEB5263001EBFD2 /* PQEditableObject+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PQEditableObject+CoreDataProperties.m"; sourceTree = "<group>"; };
+		7DFFC6571CEB5263001EBFD2 /* PQEditableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQEditableObject.h; sourceTree = "<group>"; };
+		7DFFC6581CEB5263001EBFD2 /* PQEditableObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQEditableObject.m; sourceTree = "<group>"; };
+		7DFFC65B1CECA681001EBFD2 /* PQQuestionIndex+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PQQuestionIndex+CoreDataProperties.h"; sourceTree = "<group>"; };
+		7DFFC65C1CECA681001EBFD2 /* PQQuestionIndex+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PQQuestionIndex+CoreDataProperties.m"; sourceTree = "<group>"; };
+		7DFFC65D1CECA681001EBFD2 /* PQQuestionIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQQuestionIndex.h; sourceTree = "<group>"; };
+		7DFFC65E1CECA681001EBFD2 /* PQQuestionIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQQuestionIndex.m; sourceTree = "<group>"; };
+		7DFFC65F1CECA681001EBFD2 /* PQChoiceIndex+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PQChoiceIndex+CoreDataProperties.h"; sourceTree = "<group>"; };
+		7DFFC6601CECA681001EBFD2 /* PQChoiceIndex+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PQChoiceIndex+CoreDataProperties.m"; sourceTree = "<group>"; };
+		7DFFC6611CECA681001EBFD2 /* PQChoiceIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQChoiceIndex.h; sourceTree = "<group>"; };
+		7DFFC6621CECA681001EBFD2 /* PQChoiceIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQChoiceIndex.m; sourceTree = "<group>"; };
 		8C4E311519C9FFB36B6EB68D /* Pods-PushQuery.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PushQuery.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PushQuery/Pods-PushQuery.debug.xcconfig"; sourceTree = "<group>"; };
 		C934212345A9EA6CF9FDB64C /* libPods-PushQueryUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PushQueryUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D633F574BB4EE9131BFA53D4 /* Pods-PushQueryTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PushQueryTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PushQueryTests/Pods-PushQueryTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -428,7 +453,6 @@
 				7DBB1F161CA44A2600C7C403 /* Data Manager */,
 				7D12CB0D1C8A4EA30021519B /* Login Manager */,
 				7DBB1F1B1CA9B13800C7C403 /* Notifications Manager */,
-				7D12CAF41C8A48910021519B /* Firebase */,
 				7D43DDB81CB83EB100FEA394 /* Sync Engine */,
 				7D12CAF31C8A48310021519B /* Core Data */,
 			);
@@ -440,12 +464,16 @@
 			children = (
 				7D12CAC61C8A30280021519B /* PushQuery.xcdatamodeld */,
 				7D12CB201C8A69FC0021519B /* PQCoreDataController */,
+				7DFFC6671CECA687001EBFD2 /* PQQuestionIndex */,
+				7DFFC6681CECA68E001EBFD2 /* PQChoiceIndex */,
 				7D43DDC01CBE8F0400FEA394 /* PQManagedObject */,
+				7D20212C1CE13DB1008D9F5D /* PQSyncedObject */,
+				7DE38D721C99D73C000A02F0 /* PQChoice */,
+				7DE38D701C99D72E000A02F0 /* PQResponse */,
+				7DFFC6541CEB51A6001EBFD2 /* PQEditableObject */,
 				7D12CB1C1C8A69660021519B /* PQUser */,
 				7DE38D6F1C99D728000A02F0 /* PQSurvey */,
 				7DE38D711C99D734000A02F0 /* PQQuestion */,
-				7DE38D721C99D73C000A02F0 /* PQChoice */,
-				7DE38D701C99D72E000A02F0 /* PQResponse */,
 			);
 			path = "Core Data";
 			sourceTree = "<group>";
@@ -453,13 +481,14 @@
 		7D12CAF41C8A48910021519B /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				7D7DE7F41C8E1A3600FFA637 /* PQFirebaseNotifications.h */,
-				7D12CAF51C8A48D10021519B /* PQFirebaseController.h */,
-				7D12CB131C8A51C40021519B /* PQFirebaseController+Auth.h */,
-				7D12CAF61C8A48D10021519B /* PQFirebaseController.m */,
-				7DDE78571C93290900241A80 /* AMLFirebaseQuery */,
+				7D7DE7F41C8E1A3600FFA637 /* FirebaseNotifications.h */,
+				7D12CAF51C8A48D10021519B /* FirebaseController.h */,
+				7D12CB131C8A51C40021519B /* FirebaseController+Auth.h */,
+				7D12CAF61C8A48D10021519B /* FirebaseController.m */,
+				7DDE78571C93290900241A80 /* FirebaseQuery */,
 			);
 			name = Firebase;
+			path = ../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/FirebaseController;
 			sourceTree = "<group>";
 		};
 		7D12CAF81C8A49260021519B /* IMPORTS */ = {
@@ -467,6 +496,7 @@
 			children = (
 				7D12CAF91C8A492B0021519B /* AKDebugger */,
 				7D12CAFA1C8A49310021519B /* AKGenerics */,
+				7D12CAF41C8A48910021519B /* Firebase */,
 				7DE38D911C9D9239000A02F0 /* UIAlertController+Info */,
 				7DE38D881C9C5ED5000A02F0 /* UITableView+Extras */,
 				7D09C8551CB3191200962A23 /* UIViewController+Email */,
@@ -524,6 +554,7 @@
 		7D12CB111C8A4F860021519B /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				7D8809981CE73F2600A2B8F8 /* PQFirebaseObjectProtocols */,
 				7DC0A2F31CD691360057886C /* PQUser */,
 				7DC0A2F41CD6913B0057886C /* PQSurvey */,
 				7DC0A2F51CD691410057886C /* PQQuestion */,
@@ -560,6 +591,17 @@
 				7DE38D8C1C9D8A37000A02F0 /* Mock Data */,
 			);
 			name = UNUSED;
+			sourceTree = "<group>";
+		};
+		7D20212C1CE13DB1008D9F5D /* PQSyncedObject */ = {
+			isa = PBXGroup;
+			children = (
+				7D2021281CE13DAD008D9F5D /* PQSyncedObject.h */,
+				7D2021291CE13DAD008D9F5D /* PQSyncedObject.m */,
+				7D2021261CE13DAD008D9F5D /* PQSyncedObject+CoreDataProperties.h */,
+				7D2021271CE13DAD008D9F5D /* PQSyncedObject+CoreDataProperties.m */,
+			);
+			name = PQSyncedObject;
 			sourceTree = "<group>";
 		};
 		7D43DDB81CB83EB100FEA394 /* Sync Engine */ = {
@@ -628,6 +670,14 @@
 				7D5A65641CA0799800D7AE8D /* UIViewController+Keyboard.m */,
 			);
 			name = "UIViewController+Keyboard";
+			sourceTree = "<group>";
+		};
+		7D8809981CE73F2600A2B8F8 /* PQFirebaseObjectProtocols */ = {
+			isa = PBXGroup;
+			children = (
+				7D8809991CE73F5400A2B8F8 /* PQFirebaseObjectProtocols.h */,
+			);
+			name = PQFirebaseObjectProtocols;
 			sourceTree = "<group>";
 		};
 		7DBB1F101CA4333800C7C403 /* PQSurveysTableViewController */ = {
@@ -791,24 +841,14 @@
 			name = PQNotificationsSyncEngine;
 			sourceTree = "<group>";
 		};
-		7DDE78571C93290900241A80 /* AMLFirebaseQuery */ = {
+		7DDE78571C93290900241A80 /* FirebaseQuery */ = {
 			isa = PBXGroup;
 			children = (
-				7DDE78511C93234D00241A80 /* PQFirebaseQuery.h */,
-				7DDE78541C9328FC00241A80 /* PQFirebaseQuery+FQuery.h */,
-				7DDE78521C93234D00241A80 /* PQFirebaseQuery.m */,
+				7D2021211CE11B9B008D9F5D /* FirebaseQuery.h */,
+				7DDE78541C9328FC00241A80 /* FirebaseQuery+FQuery.h */,
+				7D2021241CE11E75008D9F5D /* FirebaseQuery.m */,
 			);
-			name = AMLFirebaseQuery;
-			path = Firebase/AMLFirebaseQuery;
-			sourceTree = "<group>";
-		};
-		7DE38D4F1C936756000A02F0 /* NSArray+Extras */ = {
-			isa = PBXGroup;
-			children = (
-				7DE38D501C936775000A02F0 /* NSArray+Extras.h */,
-				7DE38D511C936775000A02F0 /* NSArray+Extras.m */,
-			);
-			name = "NSArray+Extras";
+			path = FirebaseQuery;
 			sourceTree = "<group>";
 		};
 		7DE38D6F1C99D728000A02F0 /* PQSurvey */ = {
@@ -902,15 +942,6 @@
 			name = "UIAlertController+Info";
 			sourceTree = "<group>";
 		};
-		7DF930BB1CC9330800B01FD1 /* NSData+Encryption */ = {
-			isa = PBXGroup;
-			children = (
-				7DF930BC1CC9332700B01FD1 /* NSData+Encryption.h */,
-				7DF930BD1CC9332700B01FD1 /* NSData+Encryption.m */,
-			);
-			name = "NSData+Encryption";
-			sourceTree = "<group>";
-		};
 		7DFEDD0F1CB7445700166383 /* PQTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -918,6 +949,39 @@
 				7DFEDD111CB7447700166383 /* PQTableViewCell.m */,
 			);
 			name = PQTableViewCell;
+			sourceTree = "<group>";
+		};
+		7DFFC6541CEB51A6001EBFD2 /* PQEditableObject */ = {
+			isa = PBXGroup;
+			children = (
+				7DFFC6571CEB5263001EBFD2 /* PQEditableObject.h */,
+				7DFFC6581CEB5263001EBFD2 /* PQEditableObject.m */,
+				7DFFC6551CEB5263001EBFD2 /* PQEditableObject+CoreDataProperties.h */,
+				7DFFC6561CEB5263001EBFD2 /* PQEditableObject+CoreDataProperties.m */,
+			);
+			name = PQEditableObject;
+			sourceTree = "<group>";
+		};
+		7DFFC6671CECA687001EBFD2 /* PQQuestionIndex */ = {
+			isa = PBXGroup;
+			children = (
+				7DFFC65D1CECA681001EBFD2 /* PQQuestionIndex.h */,
+				7DFFC65E1CECA681001EBFD2 /* PQQuestionIndex.m */,
+				7DFFC65B1CECA681001EBFD2 /* PQQuestionIndex+CoreDataProperties.h */,
+				7DFFC65C1CECA681001EBFD2 /* PQQuestionIndex+CoreDataProperties.m */,
+			);
+			name = PQQuestionIndex;
+			sourceTree = "<group>";
+		};
+		7DFFC6681CECA68E001EBFD2 /* PQChoiceIndex */ = {
+			isa = PBXGroup;
+			children = (
+				7DFFC6611CECA681001EBFD2 /* PQChoiceIndex.h */,
+				7DFFC6621CECA681001EBFD2 /* PQChoiceIndex.m */,
+				7DFFC65F1CECA681001EBFD2 /* PQChoiceIndex+CoreDataProperties.h */,
+				7DFFC6601CECA681001EBFD2 /* PQChoiceIndex+CoreDataProperties.m */,
+			);
+			name = PQChoiceIndex;
 			sourceTree = "<group>";
 		};
 		8BF08E050897CED8111F48A2 /* Pods */ = {
@@ -1225,6 +1289,7 @@
 				7D12CB041C8A49760021519B /* AKDebuggerRules.m in Sources */,
 				7D12CAFE1C8A49560021519B /* AKDebugger.m in Sources */,
 				7DE38D691C99D6EB000A02F0 /* PQResponse+CoreDataProperties.m in Sources */,
+				7DFFC6661CECA681001EBFD2 /* PQChoiceIndex.m in Sources */,
 				7D09C8581CB3193600962A23 /* UIViewController+Email.m in Sources */,
 				7DBB1F311CAAF55000C7C403 /* PQGraphViewController.m in Sources */,
 				7D12CB101C8A4EBA0021519B /* PQLoginManager.m in Sources */,
@@ -1232,17 +1297,24 @@
 				7D09C86F1CB4153C00962A23 /* UIViewController+Syncing.m in Sources */,
 				7D09C86D1CB4153C00962A23 /* SyncViewController.m in Sources */,
 				7DE38D8B1C9C5EF4000A02F0 /* UITableView+Extras.m in Sources */,
+				7DFFC6651CECA681001EBFD2 /* PQChoiceIndex+CoreDataProperties.m in Sources */,
+				7DFFC6641CECA681001EBFD2 /* PQQuestionIndex.m in Sources */,
+				7D20212A1CE13DAD008D9F5D /* PQSyncedObject+CoreDataProperties.m in Sources */,
 				7D12CAC81C8A30280021519B /* PushQuery.xcdatamodeld in Sources */,
 				7D12CB0C1C8A4B4F0021519B /* PQPrivateInfo.m in Sources */,
 				7D12CB1B1C8A69610021519B /* PQUser.m in Sources */,
+				7DFFC6591CEB5263001EBFD2 /* PQEditableObject+CoreDataProperties.m in Sources */,
 				7D5A65611CA0719900D7AE8D /* PQLoginViewController.m in Sources */,
-				7D12CAF71C8A48D10021519B /* PQFirebaseController.m in Sources */,
+				7D12CAF71C8A48D10021519B /* FirebaseController.m in Sources */,
 				7DE38D821C9A0C37000A02F0 /* PQSurveyTableViewCell.m in Sources */,
 				7D43DDC61CBE911B00FEA394 /* PQManagedObject.m in Sources */,
+				7DFFC65A1CEB5263001EBFD2 /* PQEditableObject.m in Sources */,
 				7DE38D7C1C9A0C18000A02F0 /* PQSurveysTableViewController.m in Sources */,
 				7DBB1F1A1CA98FBA00C7C403 /* PQSurveyTimingCell.m in Sources */,
+				7DFFC6631CECA681001EBFD2 /* PQQuestionIndex+CoreDataProperties.m in Sources */,
 				7D50AB431CBEDBF70086DAF1 /* PQRootViewController.m in Sources */,
 				7D12CABF1C8A30280021519B /* AppDelegate.m in Sources */,
+				7D2021251CE11E75008D9F5D /* FirebaseQuery.m in Sources */,
 				7D7DE7F11C8B6D8100FFA637 /* PQDataManager.m in Sources */,
 				7DE38D6B1C99D6EB000A02F0 /* PQQuestion+CoreDataProperties.m in Sources */,
 				7DE38D671C99D6EB000A02F0 /* PQSurvey+CoreDataProperties.m in Sources */,
@@ -1253,12 +1325,12 @@
 				7DC0A3011CD811F40057886C /* PQNotificationsSyncEngine.m in Sources */,
 				7DE38D851C9A0C45000A02F0 /* PQResultsViewController.m in Sources */,
 				7DE38D7F1C9A0C21000A02F0 /* PQSurveyTableViewController.m in Sources */,
+				7D20212B1CE13DAD008D9F5D /* PQSyncedObject.m in Sources */,
 				7D12CABC1C8A30280021519B /* main.m in Sources */,
 				7DE38D941C9D924C000A02F0 /* UIAlertController+Info.m in Sources */,
 				7D5A65651CA0799800D7AE8D /* UIViewController+Keyboard.m in Sources */,
 				7D12CB1A1C8A69610021519B /* PQUser+CoreDataProperties.m in Sources */,
 				7DC0A2F11CD3B4A40057886C /* PQFirebaseSyncEngine.m in Sources */,
-				7DDE78531C93234D00241A80 /* PQFirebaseQuery.m in Sources */,
 				7DE38D6A1C99D6EB000A02F0 /* PQResponse.m in Sources */,
 				7D12CB1F1C8A69F20021519B /* PQCoreDataController.m in Sources */,
 				7DC0A2EE1CD3B48D0057886C /* PQSyncEngine.m in Sources */,

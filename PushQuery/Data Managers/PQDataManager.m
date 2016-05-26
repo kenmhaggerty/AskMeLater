@@ -29,15 +29,6 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
 
 + (instancetype)sharedManager;
 
-// OBSERVERS //
-
-- (void)addObserversToLoginManager;
-- (void)removeObserversFromLoginManager;
-
-// RESPONDERS //
-
-- (void)currentUserDidChange:(NSNotification *)notification;
-
 // CONVERTERS //
 
 + (PQUser *)convertUser:(id <PQUser>)user;
@@ -71,12 +62,6 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
 }
 
 #pragma mark - // INITS AND LOADS //
-
-- (void)dealloc {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:nil];
-    
-    [self teardown];
-}
 
 - (id)init {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:nil];
@@ -129,7 +114,6 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
     NSString *name = nil;
     id <PQUser_PRIVATE> author = (id <PQUser_PRIVATE>)[PQLoginManager currentUser];
     id <PQSurvey_Editable> survey = [PQCoreDataController surveyWithName:name authorId:author.userId];
-    survey.time = [NSDate date];
     [PQCoreDataController save];
     return survey;
 }
@@ -141,13 +125,13 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
     return [PQCoreDataController getSurveysWithAuthorId:author.userId];
 }
 
-+ (void)fetchSurveysWithCompletion:(void(^)(BOOL success))completionBlock {
++ (void)fetchSurveysWithCompletion:(void(^)(BOOL fetched))completionBlock {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
     
     [PQDataManager sharedManager].isSyncing = YES;
-    [PQSyncEngine fetchSurveysWithCompletion:^(BOOL success) {
+    [PQSyncEngine fetchSurveysWithCompletion:^(BOOL fetched){
         [PQDataManager sharedManager].isSyncing = NO;
-        completionBlock(success);
+        completionBlock(fetched);
     }];
 }
 
@@ -211,16 +195,6 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
     [super setup];
     
     self.isSyncing = NO;
-    
-    [self addObserversToLoginManager];
-}
-
-- (void)teardown {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
-    
-    [self removeObserversFromLoginManager];
-    
-    [super teardown];
 }
 
 #pragma mark - // PRIVATE METHODS (General) //
@@ -234,43 +208,6 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
         _sharedManager = [[PQDataManager alloc] init];
     });
     return _sharedManager;
-}
-
-#pragma mark - // PRIVATE METHODS (Observers) //
-
-- (void)addObserversToLoginManager {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChange:) name:PQLoginManagerCurrentUserDidChangeNotification object:nil];
-}
-
-- (void)removeObserversFromLoginManager {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQLoginManagerCurrentUserDidChangeNotification object:nil];
-}
-
-#pragma mark - // PRIVATE METHODS (Responders) //
-
-- (void)currentUserDidChange:(NSNotification *)notification {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_ACCOUNTS] message:nil];
-    
-    id <PQUser_PRIVATE> currentUser = notification.userInfo[NOTIFICATION_OBJECT_KEY];
-    if (!currentUser) {
-        return;
-    }
-    
-    NSSet *surveys = [PQCoreDataController getSurveysWithAuthorId:nil];
-    for (PQSurvey *survey in surveys) {
-        survey.authorId = currentUser.userId;
-    }
-    
-    NSSet *responses = [PQCoreDataController getResponsesWithUserId:nil];
-    for (PQResponse *response in responses) {
-        response.userId = currentUser.userId;
-    }
-    
-    [PQDataManager save];
 }
 
 #pragma mark - // PRIVATE METHODS (Converters) //

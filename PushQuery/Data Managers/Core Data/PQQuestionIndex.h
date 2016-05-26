@@ -1,8 +1,8 @@
 //
-//  PQSyncEngine.h
+//  PQQuestionIndex.h
 //  PushQuery
 //
-//  Created by Ken M. Haggerty on 4/8/16.
+//  Created by Ken M. Haggerty on 5/18/16.
 //  Copyright © 2016 Flatiron School. All rights reserved.
 //
 
@@ -11,15 +11,19 @@
 #pragma mark - // IMPORTS (Public) //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
-#import "PQQuestionProtocols.h"
+@class PQQuestion, PQSurvey;
 
 #pragma mark - // PROTOCOLS //
 
 #pragma mark - // DEFINITIONS (Public) //
 
-@interface PQSyncEngine : NSObject
-+ (void)setup;
-+ (void)fetchSurveysWithCompletion:(void(^)(BOOL fetched))completionBlock;
-+ (void)didRespondToQuestion:(id <PQQuestion>)question;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface PQQuestionIndex : NSManagedObject
 @end
+
+NS_ASSUME_NONNULL_END
+
+#import "PQQuestionIndex+CoreDataProperties.h"

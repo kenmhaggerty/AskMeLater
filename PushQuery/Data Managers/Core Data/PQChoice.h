@@ -12,9 +12,9 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "PQManagedObject.h"
+#import "PQSyncedObject.h"
 
-@class PQQuestion;
+@class PQChoiceIndex, PQQuestion;
 
 #pragma mark - // PROTOCOLS //
 
@@ -24,10 +24,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PQChoice : PQManagedObject <PQChoice_PRIVATE, PQChoice_Firebase>
+@interface PQChoice : PQSyncedObject <PQChoice_PRIVATE, PQChoice_Firebase>
 
-- (void)setTextInput:(BOOL)textInput;
+// UPDATE //
+
+- (void)updateText:(NSString *)text;
+- (void)updateTextInput:(BOOL)textInput;
+
+// GETTERS //
+
+- (NSUInteger)index;
 - (BOOL)textInput;
+
+// SETTERS //
+
+- (void)setIndex:(NSUInteger)index;
+- (void)setTextInput:(BOOL)textInput;
 
 @end
 
