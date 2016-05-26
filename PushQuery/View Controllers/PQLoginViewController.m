@@ -272,21 +272,21 @@ NSTimeInterval const AnimationSpeed = 0.18f;
 - (IBAction)passwordReset:(id)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
-    [self.view.firstResponder resignFirstResponder];
+    [self.view endEditing:NO];
     [self resetPassword];
 }
 
 - (IBAction)cancel:(id)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
-    [self.view.firstResponder resignFirstResponder];
+    [self.view endEditing:NO];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)submit:(id)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
-    [self.view.firstResponder resignFirstResponder];
+    [self.view endEditing:NO];
     
     if (self.isCreatingAccount) {
         [self createAccount];

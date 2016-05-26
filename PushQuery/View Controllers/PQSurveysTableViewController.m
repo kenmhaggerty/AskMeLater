@@ -40,7 +40,7 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *refreshBarButtonItem;
 @property (nonatomic, strong) UIBarButtonItem *activityIndicatorButtonItem;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
-@property (nonatomic, strong) NSMutableOrderedSet <id <PQSurvey>> *surveys;
+@property (nonatomic, strong) NSOrderedSet <id <PQSurvey>> *surveys;
 @property (nonatomic, strong) UIAlertController *alertSettings;
 @property (nonatomic, strong) UIAlertAction *alertActionSignIn;
 @property (nonatomic, strong) UIAlertAction *alertActionSignOut;
@@ -60,6 +60,8 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
 
 - (void)addObserversToLoginManager;
 - (void)removeObserversFromLoginManager;
+- (void)addObserversToUser:(id <PQUser>)user;
+- (void)removeObserversFromUser:(id <PQUser>)user;
 - (void)addObserversToDataManager;
 - (void)removeObserversFromDataManager;
 - (void)addObserversToSurvey:(id <PQSurvey>)survey;
@@ -69,6 +71,9 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
 
 - (void)currentUserDidChange:(NSNotification *)notification;
 - (void)emailDidChange:(NSNotification *)notification;
+- (void)userSurveysDidChange:(NSNotification *)notification;
+- (void)userSurveysWereAdded:(NSNotification *)notification;
+- (void)userSurveysWereRemoved:(NSNotification *)notification;
 - (void)isSyncingDidChange:(NSNotification *)notification;
 - (void)surveyDidChange:(NSNotification *)notification;
 
@@ -76,9 +81,11 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
 
 + (NSString *)stringForDate:(NSDate *)date;
 - (void)fetchSurveys;
+- (void)loadSurveysWithCompletion:(void(^)(void))completionBlock;
 - (void)createNewSurvey;
 - (void)displayStatusBarNotificationWithMessage:(NSString *)message dismissAfter:(NSTimeInterval)timeInterval;
 - (void)updateRightBarButtonItem;
++ (void)sortSurveys:(NSMutableOrderedSet *)surveys;
 
 @end
 
@@ -111,7 +118,7 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     return _activityIndicatorView;
 }
 
-- (void)setSurveys:(NSMutableOrderedSet <id <PQSurvey>> *)surveys {
+- (void)setSurveys:(NSOrderedSet <id <PQSurvey>> *)surveys {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:nil message:nil];
     
     if ([AKGenerics object:surveys isEqualToObject:_surveys]) {
@@ -127,8 +134,6 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     for (id <PQSurvey> survey in surveys) {
         [self addObserversToSurvey:survey];
     }
-    
-    [self.tableView reloadData];
 }
 
 - (UIAlertController *)alertSettings {
@@ -153,7 +158,9 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     }
     else {
         [alertSettings addAction:self.alertActionSignIn];
-        alertSettings.preferredAction = self.alertActionSignIn;
+        if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0f) {
+            alertSettings.preferredAction = self.alertActionSignIn;
+        }
     }
     [alertSettings addAction:[UIAlertAction actionWithTitle:@"Contact Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSString *suffix = @"";
@@ -214,10 +221,10 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
             if (success) {
                 id <PQUser> currentUser = [PQLoginManager currentUser];
                 NSSet *surveys = [PQDataManager getSurveysAuthoredByUser:currentUser];
-                for (id <PQSurvey_Editable> survey in surveys) {
+                [PQLoginManager logout];
+                for (id <PQSurvey_PRIVATE> survey in surveys) {
                     survey.enabled = NO;
                 }
-                [PQLoginManager logout];
                 [PQDataManager save];
                 [PQCentralDispatch requestLoginWithCompletion:nil];
             }
@@ -239,11 +246,15 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
         NSString *password = _alertUpdateEmail.textFields[1].text;
         
         [PQLoginManager updateEmail:email password:password withSuccess:^{
-            [self presentViewController:self.alertEmailUpdated animated:YES completion:[AKGenerics clearTextFields:_alertUpdateEmail]];
+            [self presentViewController:self.alertEmailUpdated animated:YES completion:^{
+                [_alertUpdateEmail clearTextFields];
+            }];
             
         } failure:^(NSError *error) {
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Couldn't Update Email" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert actions:nil preferredAction:nil dismissalText:@"Cancel" completion:nil];
-            [self presentViewController:alertController animated:YES completion:[AKGenerics clearTextFields:_alertUpdateEmail]];
+            [self presentViewController:alertController animated:YES completion:^{
+                [_alertUpdateEmail clearTextFields];
+            }];
         }];
     }];
     [_alertUpdateEmail addTextFieldWithConfigurationHandler:^(UITextField *textField) {
@@ -281,21 +292,29 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
         NSString *newPasswordConfirm = _alertUpdatePassword.textFields[2].text;
         
         if (![AKGenerics object:newPassword isEqualToObject:newPasswordConfirm]) {
-            [self presentViewController:self.alertMismatchedPasswords animated:YES completion:[AKGenerics clearTextFields:_alertUpdatePassword]];
+            [self presentViewController:self.alertMismatchedPasswords animated:YES completion:^{
+                [_alertUpdatePassword clearTextFields];
+            }];
             return;
         }
         
         if (![PQPrivateInfo validPassword:newPassword]) {
-            [self presentViewController:self.alertInvalidPassword animated:YES completion:[AKGenerics clearTextFields:_alertUpdatePassword]];
+            [self presentViewController:self.alertInvalidPassword animated:YES completion:^{
+                [_alertUpdatePassword clearTextFields];
+            }];
             return;
         }
         
         [PQLoginManager updatePassword:oldPassword toPassword:newPassword withSuccess:^{
-            [self presentViewController:self.alertPasswordUpdated animated:YES completion:[AKGenerics clearTextFields:_alertUpdatePassword]];
+            [self presentViewController:self.alertPasswordUpdated animated:YES completion:^{
+                [_alertUpdatePassword clearTextFields];
+            }];
             
         } failure:^(NSError *error) {
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Couldn't Update Password" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert actions:nil preferredAction:nil dismissalText:@"Dismiss" completion:nil];
-            [self presentViewController:alertController animated:YES completion:[AKGenerics clearTextFields:_alertUpdatePassword]];
+            [self presentViewController:alertController animated:YES completion:^{
+                [_alertUpdatePassword clearTextFields];
+            }];
         }];
     }];
     [_alertUpdatePassword addTextFieldWithConfigurationHandler:^(UITextField *textField) {
@@ -383,6 +402,11 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
+    id <PQUser> currentUser = [PQLoginManager currentUser];
+    if (currentUser) {
+        [self addObserversToUser:currentUser];
+    }
+    
     [self fetchSurveys];
 }
 
@@ -415,7 +439,7 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
     
     if (indexPath.section == 0) {
-        UITableViewCell *cell = [AKGenerics cellWithReuseIdentifier:SURVEY_CELL_REUSE_IDENTIFIER class:[UITableViewCell class] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
+        UITableViewCell *cell = [UITableViewCell cellWithReuseIdentifier:SURVEY_CELL_REUSE_IDENTIFIER style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
         id <PQSurvey> survey = self.surveys[indexPath.row];
         cell.textLabel.text = survey.name ?: @"unnamed survey";
         cell.textLabel.textColor = (survey.name ? [UIColor blackColor] : [UIColor lightGrayColor]);
@@ -423,7 +447,7 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
         return cell;
     }
     else if (indexPath.section == 1) {
-        UITableViewCell *cell = [AKGenerics cellWithReuseIdentifier:ADD_CELL_REUSE_IDENTIFIER class:[UITableViewCell class] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
+        UITableViewCell *cell = [UITableViewCell cellWithReuseIdentifier:ADD_CELL_REUSE_IDENTIFIER style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
         cell.separatorInset = UIEdgeInsetsMake(0.f, cell.bounds.size.width, 0.f, 0.f);
         return cell;
     }
@@ -448,6 +472,16 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
         id <PQSurvey_Editable> survey = (id <PQSurvey_Editable>)self.surveys[indexPath.row];
         [PQDataManager deleteSurvey:survey];
         [PQDataManager save];
+        
+        if (![PQLoginManager currentUser]) {
+            NSUInteger index = [self.surveys indexOfObject:survey];
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+            NSMutableOrderedSet *surveys = [NSMutableOrderedSet orderedSetWithOrderedSet:self.surveys];
+            [surveys removeObject:survey];
+            self.surveys = surveys;
+            
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        }
     }
 }
 
@@ -474,7 +508,7 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     
     [super setup];
     
-    self.surveys = [NSMutableOrderedSet orderedSet];
+    self.surveys = [NSOrderedSet orderedSet];
     self.navigationItem.rightBarButtonItem = nil;
     
     [self addObserversToLoginManager];
@@ -483,6 +517,11 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
 
 - (void)teardown {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
+    
+    id <PQUser> currentUser = [PQLoginManager currentUser];
+    if (currentUser) {
+        [self removeObserversFromUser:currentUser];
+    }
     
     [self removeObserversFromLoginManager];
     [self removeObserversFromDataManager];
@@ -514,6 +553,7 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
 - (IBAction)settings:(id)sender {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeAction tags:@[AKD_UI] message:nil];
     
+    self.alertSettings = nil;
     [self presentViewController:self.alertSettings animated:YES completion:nil];
 }
 
@@ -539,6 +579,22 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQLoginManagerEmailDidChangeNotification object:nil];
 }
 
+- (void)addObserversToUser:(id <PQUser>)user {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userSurveysDidChange:) name:PQUserSurveysDidChangeNotification object:user];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userSurveysWereAdded:) name:PQUserSurveysWereAddedNotification object:user];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userSurveysWereRemoved:) name:PQUserSurveysWereRemovedNotification object:user];
+}
+
+- (void)removeObserversFromUser:(id <PQUser>)user {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQUserSurveysDidChangeNotification object:user];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQUserSurveysWereAddedNotification object:user];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQUserSurveysWereRemovedNotification object:user];
+}
+
 - (void)addObserversToDataManager {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
@@ -556,7 +612,7 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyDidChange:) name:PQSurveyNameDidChangeNotification object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyDidChange:) name:PQSurveyEditedAtDidChangeNotification object:survey];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyWillBeDeleted:) name:PQSurveyWillBeDeletedNotification object:survey];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyWillBeDeleted:) name:PQSurveyWillBeDeletedNotification object:survey];
 }
 
 - (void)removeObserversFromSurvey:(id <PQSurvey>)survey {
@@ -564,7 +620,7 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyNameDidChangeNotification object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyEditedAtDidChangeNotification object:survey];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyWillBeDeletedNotification object:survey];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyWillBeDeletedNotification object:survey];
 }
 
 #pragma mark - // PRIVATE METHODS (Responders) //
@@ -572,7 +628,17 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
 - (void)currentUserDidChange:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_ACCOUNTS] message:nil];
     
-    self.surveys = nil;
+    id <PQUser> currentUser = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    id <PQUser> previousUser = notification.userInfo[NOTIFICATION_OLD_KEY];
+    
+    if (previousUser) {
+        [self removeObserversFromUser:previousUser];
+    }
+    if (currentUser) {
+        [self addObserversToUser:currentUser];
+    }
+    
+//    self.surveys = nil;
     self.alertSettings = nil;
     [self updateRightBarButtonItem];
     [self fetchSurveys];
@@ -586,8 +652,75 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     self.alertSettings.message = email;
 }
 
-- (void)isSyncingDidChange:(NSNotification *)notification {
+- (void)userSurveysDidChange:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    NSSet *newSurveys = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    
+    NSMutableOrderedSet *surveys = [NSMutableOrderedSet orderedSetWithOrderedSet:self.surveys];
+    [surveys unionSet:newSurveys];
+    [PQSurveysTableViewController sortSurveys:surveys];
+    self.surveys = surveys;
+    
+    [self.tableView reloadData];
+}
+
+- (void)userSurveysWereAdded:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    NSSet *addedSurveys = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    
+    NSMutableOrderedSet *surveys = [NSMutableOrderedSet orderedSetWithOrderedSet:self.surveys];
+    [surveys unionSet:addedSurveys];
+    [PQSurveysTableViewController sortSurveys:surveys];
+    
+    NSUInteger index;
+    NSIndexPath *indexPath;
+    NSMutableArray *indexPaths = [NSMutableArray arrayWithCapacity:addedSurveys.count];
+    for (id <PQSurvey> survey in addedSurveys) {
+        if (![self.surveys containsObject:survey]) {
+            index = [surveys indexOfObject:survey];
+            indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+            [indexPaths addObject:indexPath];
+        }
+    }
+    if (!indexPaths.count) {
+        return;
+    }
+    
+    self.surveys = surveys;
+    
+    [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+}
+
+- (void)userSurveysWereRemoved:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
+    
+    NSSet *removedSurveys = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    
+    NSUInteger index;
+    NSIndexPath *indexPath;
+    NSMutableArray *indexPaths = [NSMutableArray array];
+    for (id <PQSurvey> survey in removedSurveys) {
+        if ([self.surveys containsObject:survey]) {
+            index = [self.surveys indexOfObject:survey];
+            indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+            [indexPaths addObject:indexPath];
+        }
+    }
+    if (!indexPaths.count) {
+        return;
+    }
+    
+    NSMutableOrderedSet *surveys = [NSMutableOrderedSet orderedSetWithOrderedSet:self.surveys];
+    [surveys minusSet:removedSurveys];
+    self.surveys = surveys;
+    
+    [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+}
+
+- (void)isSyncingDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_UI] message:nil];
     
     NSNumber *isSyncingValue = notification.userInfo[NOTIFICATION_OBJECT_KEY];
     id <PQUser> currentUser = [PQLoginManager currentUser];
@@ -599,21 +732,10 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
 }
 
 - (void)surveyDidChange:(NSNotification *)notification {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_UI] message:nil];
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.surveys indexOfObject:notification.object] inSection:0];
     [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-}
-
-- (void)surveyWillBeDeleted:(NSNotification *)notification {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_DATA, AKD_UI] message:nil];
-    
-    id <PQSurvey> survey = notification.object;
-    
-    [self removeObserversFromSurvey:survey];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.surveys indexOfObject:survey] inSection:0];
-    [self.surveys removeObject:survey];
-    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - // PRIVATE METHODS (Other) //
@@ -629,26 +751,36 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
 - (void)fetchSurveys {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
     
-    if ([PQDataManager isSyncing]) {
-        return;
-    }
+//    if ([PQDataManager isSyncing]) {
+//        return;
+//    }\
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [PQDataManager fetchSurveysWithCompletion:^(BOOL success) {
-            id <PQUser> currentUser = [PQLoginManager currentUser];
-            NSMutableOrderedSet *surveys = [NSMutableOrderedSet orderedSetWithSet:[PQDataManager getSurveysAuthoredByUser:currentUser]];
-            NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(createdAt)) ascending:YES];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [surveys sortUsingDescriptors:@[sortDescriptor]];
-                self.surveys = surveys;
-                if (currentUser && success) {
+        [PQDataManager fetchSurveysWithCompletion:^(BOOL fetched){
+            [self loadSurveysWithCompletion:^{
+                if (fetched) {
                     [self displayStatusBarNotificationWithMessage:@"Successfully updated surveys" dismissAfter:StatusBarNotificationDisplayTime];
                 }
                 else {
                     [JDStatusBarNotification dismiss];
                 }
-            });
+            }];
         }];
+    });
+}
+
+- (void)loadSurveysWithCompletion:(void(^)(void))completionBlock {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        id <PQUser> currentUser = [PQLoginManager currentUser];
+        NSMutableOrderedSet *surveys = [NSMutableOrderedSet orderedSetWithSet:[PQDataManager getSurveysAuthoredByUser:currentUser]];
+        [PQSurveysTableViewController sortSurveys:surveys];
+        self.surveys = surveys;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+            completionBlock();
+        });
     });
 }
 
@@ -656,19 +788,19 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
     
     id <PQSurvey> survey = [PQDataManager survey];
-    [self addObserversToSurvey:survey];
-    NSUInteger index = self.surveys.count;
-    [self.surveys insertObject:survey atIndex:index];
+    if (![PQLoginManager currentUser]) {
+        NSMutableOrderedSet *surveys = [NSMutableOrderedSet orderedSetWithOrderedSet:self.surveys];
+        [surveys addObject:survey];
+        [PQSurveysTableViewController sortSurveys:surveys];
+        self.surveys = surveys;
+        
+        NSUInteger index = [self.surveys indexOfObject:survey];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+        [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+    }
+    NSUInteger index = [self.surveys indexOfObject:survey];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-    [CATransaction begin];
-    [self.tableView beginUpdates];
-    [CATransaction setCompletionBlock:^{
-        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    }];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
-    [self.tableView endUpdates];
-    [CATransaction commit];
-//    [self performSegueWithIdentifier:SEGUE_SURVEY sender:survey];
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
 - (void)displayStatusBarNotificationWithMessage:(NSString *)message dismissAfter:(NSTimeInterval)timeInterval {
@@ -683,7 +815,7 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     }
     statusBarView.backgroundColor = [UIColor colorWithRed:(247.0f/255.0f) green:(247.0f/255.0f) blue:(247.0f/255.0f) alpha:1.0f];
     statusBarView.textLabel.textColor = [UIColor blackColor];
-    statusBarView.center = CGPointMake(statusBarView.bounds.size.width*0.5f, statusBarView.bounds.size.height*0.5f);
+    statusBarView.textLabel.center = CGPointMake(statusBarView.bounds.size.width*0.5f, statusBarView.bounds.size.height*0.5f);
 }
 
 - (void)updateRightBarButtonItem {
@@ -698,6 +830,13 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     else {
         self.navigationItem.rightBarButtonItem = nil;
     }
+}
+
++ (void)sortSurveys:(NSMutableOrderedSet *)surveys {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
+    
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(createdAt)) ascending:YES];
+    [surveys sortUsingDescriptors:@[sortDescriptor]];
 }
 
 @end

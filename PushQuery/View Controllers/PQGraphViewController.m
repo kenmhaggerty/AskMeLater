@@ -90,16 +90,16 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionResponsesDidChange:) name:PQQuestionResponsesDidChangeNotification object:question];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionResponsesDidChange:) name:PQQuestionResponseWasAddedNotification object:question];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionResponsesDidChange:) name:PQQuestionResponseWasRemovedNotification object:question];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionResponsesDidChange:) name:PQQuestionResponsesWereAddedNotification object:question];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionResponsesDidChange:) name:PQQuestionResponsesWereRemovedNotification object:question];
 }
 
 - (void)removeObserversFromQuestion:(id<PQQuestion>)question {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_UI] message:nil];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionResponsesDidChangeNotification object:question];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionResponseWasAddedNotification object:question];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionResponseWasRemovedNotification object:question];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionResponsesWereAddedNotification object:question];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionResponsesWereRemovedNotification object:question];
 }
 
 #pragma mark - // PRIVATE METHODS (Responders) //

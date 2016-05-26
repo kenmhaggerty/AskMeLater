@@ -31,9 +31,9 @@
 // RESPONDERS //
 
 - (void)surveyQuestionsDidChange:(NSNotification *)notification;
-- (void)surveyQuestionWasAdded:(NSNotification *)notification;
-- (void)surveyQuestionWasReordered:(NSNotification *)notification;
-- (void)surveyQuestionAtIndexWasRemoved:(NSNotification *)notification;
+- (void)surveyQuestionsWereAdded:(NSNotification *)notification;
+- (void)surveyQuestionsWereReordered:(NSNotification *)notification;
+- (void)surveyQuestionsWereRemoved:(NSNotification *)notification;
 - (void)surveyWillBeDeleted:(NSNotification *)notification;
 - (void)questionWasUpdated:(NSNotification *)notification;
 
@@ -127,7 +127,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
     
-    UITableViewCell *cell = [AKGenerics cellWithReuseIdentifier:@"questionCell" class:[UITableViewCell class] style:UITableViewCellStyleValue1 tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
+    UITableViewCell *cell = [UITableViewCell cellWithReuseIdentifier:@"questionCell" style:UITableViewCellStyleValue1 tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
     id <PQQuestion> question = [self.survey.questions objectAtIndex:indexPath.row];
     cell.textLabel.text = question.text ?: @"(blank)";
     cell.textLabel.textColor = question.text ? [UIColor blackColor] : [UIColor lightGrayColor];
@@ -170,9 +170,9 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionsDidChange:) name:PQSurveyQuestionsDidChangeNotification object:survey];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionWasAdded:) name:PQSurveyQuestionWasAddedNotification object:survey];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionWasReordered:) name:PQSurveyQuestionWasReorderedNotification object:survey];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionAtIndexWasRemoved:) name:PQSurveyQuestionAtIndexWasRemovedNotification object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionsWereAdded:) name:PQSurveyQuestionsWereAddedNotification object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionsWereReordered:) name:PQSurveyQuestionsWereReorderedNotification object:survey];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyQuestionsWereRemoved:) name:PQSurveyQuestionsWereRemovedNotification object:survey];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyWillBeDeleted:) name:PQSurveyWillBeDeletedNotification object:survey];
     
 }
@@ -181,9 +181,9 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionsDidChangeNotification object:survey];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionWasAddedNotification object:survey];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionWasReorderedNotification object:survey];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionAtIndexWasRemovedNotification object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionsWereAddedNotification object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionsWereReorderedNotification object:survey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyQuestionsWereRemovedNotification object:survey];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyWillBeDeletedNotification object:survey];
 }
 
@@ -209,34 +209,52 @@
     [self.tableView reloadData];
 }
 
-- (void)surveyQuestionWasAdded:(NSNotification *)notification {
+- (void)surveyQuestionsWereAdded:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    id <PQQuestion> question = notification.userInfo[NOTIFICATION_OBJECT_KEY];
-    [self addObserversToQuestion:question];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.survey.questions indexOfObject:question] inSection:0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    NSOrderedSet <id <PQQuestion>> *questions = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    NSOrderedSet <id <PQQuestion>> *primitiveQuestions = notification.userInfo[NOTIFICATION_OLD_KEY];
+    
+    NSArray *indexPaths;
+    [AKGenerics compareArray:primitiveQuestions.array toArray:questions.array andGenerateIndexPathsToInsert:&indexPaths withSection:0];
+    
+    id <PQQuestion> question;
+    for (NSIndexPath *indexPath in indexPaths) {
+        question = questions[indexPath.row];
+        [self addObserversToQuestion:question];
+    }
+    
+    [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
-- (void)surveyQuestionWasReordered:(NSNotification *)notification {
+- (void)surveyQuestionsWereReordered:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    id <PQQuestion> question = notification.userInfo[NOTIFICATION_OBJECT_KEY];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.survey.questions indexOfObject:question] inSection:0];
-    NSNumber *oldIndex = notification.userInfo[NOTIFICATION_SECONDARY_KEY];
-    NSIndexPath *fromIndexPath = [NSIndexPath indexPathForRow:oldIndex.integerValue inSection:0];
-    [self.tableView moveRowAtIndexPath:fromIndexPath toIndexPath:indexPath];
+    NSOrderedSet <id <PQQuestion>> *questions = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    NSOrderedSet <id <PQQuestion>> *primitiveQuestions = notification.userInfo[NOTIFICATION_OLD_KEY];
+    
+    NSArray *indexPaths, *newIndexPaths;
+    [AKGenerics compareArray:primitiveQuestions.array toArray:questions.array andGenerateIndexPaths:&indexPaths toMoveToIndexPaths:&newIndexPaths withSection:0];
+    
+    [self.tableView moveRowsAtIndexPaths:indexPaths toIndexPaths:newIndexPaths];
 }
 
-- (void)surveyQuestionAtIndexWasRemoved:(NSNotification *)notification {
+- (void)surveyQuestionsWereRemoved:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    id <PQQuestion> question = notification.object;
-    [self removeObserversFromQuestion:question];
+    NSOrderedSet <id <PQQuestion>> *questions = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    NSOrderedSet <id <PQQuestion>> *primitiveQuestions = notification.userInfo[NOTIFICATION_OLD_KEY];
     
-    NSNumber *index = notification.userInfo[NOTIFICATION_OBJECT_KEY];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index.integerValue inSection:0];
-    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    NSArray *indexPaths;
+    [AKGenerics compareArray:primitiveQuestions.array toArray:questions.array andGenerateIndexPathsToDelete:&indexPaths withSection:0];
+    
+    id <PQQuestion> question;
+    for (NSIndexPath *indexPath in indexPaths) {
+        question = primitiveQuestions[indexPath.row];
+        [self removeObserversFromQuestion:question];
+    }
+    
+    [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void)surveyWillBeDeleted:(NSNotification *)notification {
