@@ -28,7 +28,7 @@
 + (NSManagedObjectContext *)managedObjectContext;
 + (NSURL *)applicationDocumentsDirectory;
 
-// OTHER //
++ (BOOL)objectExistsWithClass:(Class)class predicate:(NSPredicate *)predicate;
 + (NSManagedObject *)fetchObjectWithClass:(Class)class predicate:(NSPredicate *)predicate sortDescriptors:(NSArray <NSSortDescriptor *> *)sortDescriptors;
 + (NSArray <NSManagedObject *> *)fetchObjectsWithClass:(Class)class predicate:(NSPredicate *)predicate sortDescriptors:(NSArray <NSSortDescriptor *> *)sortDescriptors;
 
@@ -201,6 +201,32 @@
     return response;
 }
 
+#pragma mark - // PUBLIC METHODS (Exists) //
+
++ (BOOL)surveyExistsWithId:(NSString *)surveyId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeValidator tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(surveyId)), surveyId];
+    
+    return [PQCoreDataController objectExistsWithClass:[PQSurvey class] predicate:predicate];
+}
+
++ (BOOL)questionExistsWithId:(NSString *)questionId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeValidator tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(questionId)), questionId];
+    
+    return [PQCoreDataController objectExistsWithClass:[PQQuestion class] predicate:predicate];
+}
+
++ (BOOL)responseExistsWithId:(NSString *)responseId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeValidator tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%K == %@)", NSStringFromSelector(@selector(responseId)), responseId];
+    
+    return [PQCoreDataController objectExistsWithClass:[PQResponse class] predicate:predicate];
+}
+
 #pragma mark - // PUBLIC METHODS (Getters) //
 
 + (PQUser *)getUserWithId:(NSString *)userId {
@@ -354,7 +380,29 @@
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
-#pragma mark - // PRIVATE METHODS (Other) //
++ (BOOL)objectExistsWithClass:(Class)class predicate:(NSPredicate *)predicate {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeValidator tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
+    __block NSUInteger count;
+    __block NSError *error;
+    [managedObjectContext performBlockAndWait:^{
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        request.entity = [NSEntityDescription entityForName:NSStringFromClass(class) inManagedObjectContext:managedObjectContext];
+        request.predicate = predicate;
+        count = [managedObjectContext countForFetchRequest:request error:&error];
+    }];
+    if (error)
+    {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
+    }
+    
+    if (count > 1)
+    {
+        [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeNotice methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"Found %lu %@ object(s) with given predicate", (unsigned long)count, NSStringFromClass(class)]];
+    }
+    return (count > 0);
+}
 
 + (NSManagedObject *)fetchObjectWithClass:(Class)class predicate:(NSPredicate *)predicate sortDescriptors:(NSArray <NSSortDescriptor *> *)sortDescriptors {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];

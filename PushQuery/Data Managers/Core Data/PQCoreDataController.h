@@ -36,6 +36,12 @@
 + (PQChoice *)choiceWithText:(NSString *)text;
 + (PQResponse *)responseWithText:(NSString *)text userId:(NSString *)userId date:(NSDate *)date;
 
+// EXISTS //
+
++ (BOOL)surveyExistsWithId:(NSString *)surveyId;
++ (BOOL)questionExistsWithId:(NSString *)questionId;
++ (BOOL)responseExistsWithId:(NSString *)responseId;
+
 // GETTERS //
 
 + (PQUser *)getUserWithId:(NSString *)userId;
