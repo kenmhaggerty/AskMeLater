@@ -34,7 +34,6 @@
 		7D12CAFE1C8A49560021519B /* AKDebugger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CAFD1C8A49560021519B /* AKDebugger.m */; };
 		7D12CB011C8A49660021519B /* AKGenerics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB001C8A49660021519B /* AKGenerics.m */; };
 		7D12CB041C8A49760021519B /* AKDebuggerRules.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB031C8A49760021519B /* AKDebuggerRules.m */; };
-		7D12CB081C8A4A7D0021519B /* NSObject+Basics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB071C8A4A7D0021519B /* NSObject+Basics.m */; };
 		7D12CB0C1C8A4B4F0021519B /* PQPrivateInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB0B1C8A4B4F0021519B /* PQPrivateInfo.m */; };
 		7D12CB101C8A4EBA0021519B /* PQLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB0F1C8A4EBA0021519B /* PQLoginManager.m */; };
 		7D12CB1A1C8A69610021519B /* PQUser+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB171C8A69610021519B /* PQUser+CoreDataProperties.m */; };
@@ -60,7 +59,6 @@
 		7DC0A2F11CD3B4A40057886C /* PQFirebaseSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC0A2F01CD3B4A40057886C /* PQFirebaseSyncEngine.m */; };
 		7DC0A3011CD811F40057886C /* PQNotificationsSyncEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC0A3001CD811F40057886C /* PQNotificationsSyncEngine.m */; };
 		7DDE78531C93234D00241A80 /* PQFirebaseQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDE78521C93234D00241A80 /* PQFirebaseQuery.m */; };
-		7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D511C936775000A02F0 /* NSArray+Extras.m */; };
 		7DE38D671C99D6EB000A02F0 /* PQSurvey+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D581C99D6EB000A02F0 /* PQSurvey+CoreDataProperties.m */; };
 		7DE38D691C99D6EB000A02F0 /* PQResponse+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D5C1C99D6EB000A02F0 /* PQResponse+CoreDataProperties.m */; };
 		7DE38D6A1C99D6EB000A02F0 /* PQResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D5E1C99D6EB000A02F0 /* PQResponse.m */; };
@@ -74,7 +72,6 @@
 		7DE38D8B1C9C5EF4000A02F0 /* UITableView+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D8A1C9C5EF4000A02F0 /* UITableView+Extras.m */; };
 		7DE38D941C9D924C000A02F0 /* UIAlertController+Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D931C9D924C000A02F0 /* UIAlertController+Info.m */; };
 		7DF930BA1CC931D100B01FD1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF930B91CC931D100B01FD1 /* Security.framework */; };
-		7DF930BE1CC9332700B01FD1 /* NSData+Encryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF930BD1CC9332700B01FD1 /* NSData+Encryption.m */; };
 		7DFEDD0E1CB6F81500166383 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFEDD0D1CB6F81500166383 /* SafariServices.framework */; };
 		7DFEDD121CB7447700166383 /* PQTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFEDD111CB7447700166383 /* PQTableViewCell.m */; };
 /* End PBXBuildFile section */
@@ -139,8 +136,6 @@
 		7D12CB001C8A49660021519B /* AKGenerics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AKGenerics.m; path = ../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/AKGenerics/AKGenerics.m; sourceTree = "<group>"; };
 		7D12CB021C8A49760021519B /* AKDebuggerRules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AKDebuggerRules.h; sourceTree = "<group>"; };
 		7D12CB031C8A49760021519B /* AKDebuggerRules.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AKDebuggerRules.m; sourceTree = "<group>"; };
-		7D12CB061C8A4A7D0021519B /* NSObject+Basics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+Basics.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/NSObject+Basics/NSObject+Basics.h"; sourceTree = "<group>"; };
-		7D12CB071C8A4A7D0021519B /* NSObject+Basics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+Basics.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/NSObject+Basics/NSObject+Basics.m"; sourceTree = "<group>"; };
 		7D12CB0A1C8A4B4F0021519B /* PQPrivateInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQPrivateInfo.h; sourceTree = "<group>"; };
 		7D12CB0B1C8A4B4F0021519B /* PQPrivateInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQPrivateInfo.m; sourceTree = "<group>"; };
 		7D12CB0E1C8A4EBA0021519B /* PQLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQLoginManager.h; path = "Login Manager/PQLoginManager.h"; sourceTree = "<group>"; };
@@ -198,8 +193,6 @@
 		7DDE78511C93234D00241A80 /* PQFirebaseQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQFirebaseQuery.h; sourceTree = "<group>"; };
 		7DDE78521C93234D00241A80 /* PQFirebaseQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQFirebaseQuery.m; sourceTree = "<group>"; };
 		7DDE78541C9328FC00241A80 /* PQFirebaseQuery+FQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PQFirebaseQuery+FQuery.h"; sourceTree = "<group>"; };
-		7DE38D501C936775000A02F0 /* NSArray+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+Extras.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/NSArray+Extras/NSArray+Extras.h"; sourceTree = "<group>"; };
-		7DE38D511C936775000A02F0 /* NSArray+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Extras.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/NSArray+Extras/NSArray+Extras.m"; sourceTree = "<group>"; };
 		7DE38D531C99BA32000A02F0 /* PQSurveyProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQSurveyProtocols.h; path = Protocols/PQSurveyProtocols.h; sourceTree = "<group>"; };
 		7DE38D541C99BA88000A02F0 /* PQQuestionProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQQuestionProtocols.h; path = Protocols/PQQuestionProtocols.h; sourceTree = "<group>"; };
 		7DE38D551C99BAB3000A02F0 /* PQResponseProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQResponseProtocols.h; path = Protocols/PQResponseProtocols.h; sourceTree = "<group>"; };
@@ -236,8 +229,6 @@
 		7DE38D921C9D924C000A02F0 /* UIAlertController+Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIAlertController+Info.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIAlertController+Info/UIAlertController+Info.h"; sourceTree = "<group>"; };
 		7DE38D931C9D924C000A02F0 /* UIAlertController+Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIAlertController+Info.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIAlertController+Info/UIAlertController+Info.m"; sourceTree = "<group>"; };
 		7DF930B91CC931D100B01FD1 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		7DF930BC1CC9332700B01FD1 /* NSData+Encryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Encryption.h"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/AKGenerics/NSData+Encryption.h"; sourceTree = "<group>"; };
-		7DF930BD1CC9332700B01FD1 /* NSData+Encryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Encryption.m"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/AKGenerics/NSData+Encryption.m"; sourceTree = "<group>"; };
 		7DFEDD0D1CB6F81500166383 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		7DFEDD101CB7447700166383 /* PQTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQTableViewCell.h; path = "PushQuery/View Controllers/PQTableViewCell.h"; sourceTree = SOURCE_ROOT; };
 		7DFEDD111CB7447700166383 /* PQTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PQTableViewCell.m; path = "PushQuery/View Controllers/PQTableViewCell.m"; sourceTree = SOURCE_ROOT; };
@@ -476,8 +467,6 @@
 			children = (
 				7D12CAF91C8A492B0021519B /* AKDebugger */,
 				7D12CAFA1C8A49310021519B /* AKGenerics */,
-				7D12CB051C8A4A340021519B /* NSObject+Basics */,
-				7DE38D4F1C936756000A02F0 /* NSArray+Extras */,
 				7DE38D911C9D9239000A02F0 /* UIAlertController+Info */,
 				7DE38D881C9C5ED5000A02F0 /* UITableView+Extras */,
 				7D09C8551CB3191200962A23 /* UIViewController+Email */,
@@ -501,7 +490,6 @@
 			children = (
 				7D12CAFF1C8A49660021519B /* AKGenerics.h */,
 				7D12CB001C8A49660021519B /* AKGenerics.m */,
-				7DF930BB1CC9330800B01FD1 /* NSData+Encryption */,
 			);
 			name = AKGenerics;
 			sourceTree = "<group>";
@@ -513,15 +501,6 @@
 				7D12CB031C8A49760021519B /* AKDebuggerRules.m */,
 			);
 			name = AKDebuggerRules;
-			sourceTree = "<group>";
-		};
-		7D12CB051C8A4A340021519B /* NSObject+Basics */ = {
-			isa = PBXGroup;
-			children = (
-				7D12CB061C8A4A7D0021519B /* NSObject+Basics.h */,
-				7D12CB071C8A4A7D0021519B /* NSObject+Basics.m */,
-			);
-			name = "NSObject+Basics";
 			sourceTree = "<group>";
 		};
 		7D12CB091C8A4B2E0021519B /* PQPrivateInfo */ = {
@@ -1256,7 +1235,6 @@
 				7D12CAC81C8A30280021519B /* PushQuery.xcdatamodeld in Sources */,
 				7D12CB0C1C8A4B4F0021519B /* PQPrivateInfo.m in Sources */,
 				7D12CB1B1C8A69610021519B /* PQUser.m in Sources */,
-				7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */,
 				7D5A65611CA0719900D7AE8D /* PQLoginViewController.m in Sources */,
 				7D12CAF71C8A48D10021519B /* PQFirebaseController.m in Sources */,
 				7DE38D821C9A0C37000A02F0 /* PQSurveyTableViewCell.m in Sources */,
@@ -1268,13 +1246,11 @@
 				7D7DE7F11C8B6D8100FFA637 /* PQDataManager.m in Sources */,
 				7DE38D6B1C99D6EB000A02F0 /* PQQuestion+CoreDataProperties.m in Sources */,
 				7DE38D671C99D6EB000A02F0 /* PQSurvey+CoreDataProperties.m in Sources */,
-				7DF930BE1CC9332700B01FD1 /* NSData+Encryption.m in Sources */,
 				7D43DDC51CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.m in Sources */,
 				7DBB1F1E1CA9B16200C7C403 /* PQNotificationsManager.m in Sources */,
 				7DE38D6D1C99D6EB000A02F0 /* PQChoice+CoreDataProperties.m in Sources */,
 				7DBB1F2B1CAAF52700C7C403 /* PQResponsesTableViewController.m in Sources */,
 				7DC0A3011CD811F40057886C /* PQNotificationsSyncEngine.m in Sources */,
-				7D12CB081C8A4A7D0021519B /* NSObject+Basics.m in Sources */,
 				7DE38D851C9A0C45000A02F0 /* PQResultsViewController.m in Sources */,
 				7DE38D7F1C9A0C21000A02F0 /* PQSurveyTableViewController.m in Sources */,
 				7D12CABC1C8A30280021519B /* main.m in Sources */,
