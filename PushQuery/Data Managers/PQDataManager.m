@@ -16,8 +16,6 @@
 
 #import "PQLoginManager.h"
 #import "PQCoreDataController.h"
-#import "PQFirebaseController.h" // temp
-#import "PQNotificationsManager.h"
 #import "PQSyncEngine.h"
 
 #pragma mark - // DEFINITIONS (Private) //
@@ -30,15 +28,6 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
 // GENERAL //
 
 + (instancetype)sharedManager;
-
-// OBSERVERS //
-
-- (void)addObserversToLoginManager;
-- (void)removeObserversFromLoginManager;
-
-// RESPONDERS //
-
-- (void)currentUserDidChange:(NSNotification *)notification;
 
 // CONVERTERS //
 
@@ -74,12 +63,6 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
 
 #pragma mark - // INITS AND LOADS //
 
-- (void)dealloc {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:nil];
-    
-    [self teardown];
-}
-
 - (id)init {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:nil];
     
@@ -106,9 +89,8 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
     if (![PQDataManager sharedManager]) {
         [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeWarning methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:[NSString stringWithFormat:@"Could not initialize %@", NSStringFromClass([PQDataManager class])]];
     }
-    [PQFirebaseController setup];
+    
     [PQSyncEngine setup];
-    [PQNotificationsManager setup];
     [PQLoginManager setup];
 }
 
@@ -132,7 +114,6 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
     NSString *name = nil;
     id <PQUser_PRIVATE> author = (id <PQUser_PRIVATE>)[PQLoginManager currentUser];
     id <PQSurvey_Editable> survey = [PQCoreDataController surveyWithName:name authorId:author.userId];
-    survey.time = [NSDate date];
     [PQCoreDataController save];
     return survey;
 }
@@ -144,13 +125,13 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
     return [PQCoreDataController getSurveysWithAuthorId:author.userId];
 }
 
-+ (void)fetchSurveysWithCompletion:(void(^)(BOOL success))completionBlock {
++ (void)fetchSurveysWithCompletion:(void(^)(BOOL fetched))completionBlock {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
     
     [PQDataManager sharedManager].isSyncing = YES;
-    [PQSyncEngine fetchSurveysWithCompletion:^(BOOL success) {
+    [PQSyncEngine fetchSurveysWithCompletion:^(BOOL fetched){
         [PQDataManager sharedManager].isSyncing = NO;
-        completionBlock(success);
+        completionBlock(fetched);
     }];
 }
 
@@ -190,22 +171,11 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
 + (void)addResponse:(NSString *)text forQuestion:(id <PQQuestion>)question {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
     
-    id <PQUser_PRIVATE> currentUser = (id <PQUser_PRIVATE>)[PQLoginManager currentUser];
+    id <PQUser> currentUser = [PQLoginManager currentUser];
     PQResponse *response = [PQCoreDataController responseWithText:text userId:currentUser.userId date:[NSDate date]];
     [(id <PQQuestion_PRIVATE>)question addResponse:response];
     
-    id <PQSurvey_Editable> survey = (id <PQSurvey_Editable>)[PQDataManager surveyForQuestion:question];
-    if (![survey.questions.lastObject isEqual:question]) {
-        id <PQQuestion_PRIVATE> nextQuestion = (id <PQQuestion_PRIVATE>)[survey.questions objectAtIndex:[survey.questions indexOfObject:question]+1];
-        NSMutableArray <UIMutableUserNotificationAction *> *actions = [NSMutableArray arrayWithCapacity:nextQuestion.choices.count];
-        for (id <PQChoice> choice in nextQuestion.choices) {
-            [actions addObject:[PQNotificationsManager notificationActionWithTitle:choice.text textInput:NO destructive:NO authentication:NO]];
-        }
-        [PQNotificationsManager setNotificationWithTitle:survey.name body:nextQuestion.text actions:actions actionString:PQNotificationActionString uuid:nextQuestion.questionId fireDate:nil repeat:NO];
-    }
-    else if (!survey.repeat) {
-        survey.enabled = NO;
-    }
+    [PQSyncEngine didRespondToQuestion:question];
     [PQDataManager save];
 }
 
@@ -213,37 +183,6 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeDeletor tags:@[AKD_DATA] message:nil];
     
     [PQCoreDataController deleteObject:[PQDataManager convertResponse:response]];
-}
-
-#pragma mark - // PUBLIC METHODS (Debugging) //
-
-+ (void)test {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
-    
-    PQFirebaseQuery *query = [PQFirebaseQuery queryWithKey:@"hidden" relation:PQKeyIsEqualTo value:@NO];
-    [PQFirebaseController getObjectsAtPath:@"users" withQueries:@[query] andCompletion:^(id result) {
-        //
-    }];
-}
-
-#pragma mark - // CATEGORY METHODS (Firebase) //
-
-+ (BOOL)isConnectedToFirebase {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeValidator tags:nil message:nil];
-    
-    return [PQFirebaseController isConnected];
-}
-
-+ (void)connectToFirebase {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
-    
-    [PQFirebaseController connect];
-}
-
-+ (void)disconnectFromFirebase {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
-    
-    [PQFirebaseController disconnect];
 }
 
 #pragma mark - // DELEGATED METHODS //
@@ -256,16 +195,6 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
     [super setup];
     
     self.isSyncing = NO;
-    
-    [self addObserversToLoginManager];
-}
-
-- (void)teardown {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_DATA] message:nil];
-    
-    [self removeObserversFromLoginManager];
-    
-    [super teardown];
 }
 
 #pragma mark - // PRIVATE METHODS (General) //
@@ -279,43 +208,6 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
         _sharedManager = [[PQDataManager alloc] init];
     });
     return _sharedManager;
-}
-
-#pragma mark - // PRIVATE METHODS (Observers) //
-
-- (void)addObserversToLoginManager {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChange:) name:PQLoginManagerCurrentUserDidChangeNotification object:nil];
-}
-
-- (void)removeObserversFromLoginManager {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQLoginManagerCurrentUserDidChangeNotification object:nil];
-}
-
-#pragma mark - // PRIVATE METHODS (Responders) //
-
-- (void)currentUserDidChange:(NSNotification *)notification {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_ACCOUNTS] message:nil];
-    
-    id <PQUser_PRIVATE> currentUser = notification.userInfo[NOTIFICATION_OBJECT_KEY];
-    if (!currentUser) {
-        return;
-    }
-    
-    NSSet *surveys = [PQCoreDataController getSurveysWithAuthorId:nil];
-    for (PQSurvey *survey in surveys) {
-        survey.authorId = currentUser.userId;
-    }
-    
-    NSSet *responses = [PQCoreDataController getResponsesWithUserId:nil];
-    for (PQResponse *response in responses) {
-        response.userId = currentUser.userId;
-    }
-    
-    [PQDataManager save];
 }
 
 #pragma mark - // PRIVATE METHODS (Converters) //

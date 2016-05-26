@@ -18,30 +18,15 @@
 
 #pragma mark - // DEFINITIONS (Private) //
 
-NSString * const PQNotificationActionString = @"respond";
-NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
-
 @interface PQNotificationsManager ()
 
 // GENERAL //
 
 + (instancetype)sharedManager;
 
-// OBSERVERS //
-
-- (void)addObserversToQuestion:(id <PQQuestion>)question;
-- (void)removeObserversFromQuestion:(id <PQQuestion>)question;
-
-// RESPONDERS //
-
-- (void)surveyEnabledDidChange:(NSNotification *)notification;
-- (void)questionWillBeDeleted:(NSNotification *)notification;
-
 // OTHER //
 
-- (void)scheduleNotificationForSurvey:(id <PQSurvey>)survey;
-- (void)cancelNotificationForSurvey:(id <PQSurvey>)survey;
-- (void)cancelNotificationForQuestion:(id <PQQuestion_PRIVATE>)question;
++ (UILocalNotification *)getNotificationWithId:(NSString *)uuid;
 
 @end
 
@@ -50,12 +35,6 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
 #pragma mark - // SETTERS AND GETTERS //
 
 #pragma mark - // INITS AND LOADS //
-
-- (void)dealloc {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:nil message:nil];
-    
-    [self teardown];
-}
 
 - (id)init {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:nil message:nil];
@@ -85,8 +64,28 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     }
 }
 
++ (void)scheduleNotificationWithTitle:(NSString *)title body:(NSString *)body badge:(NSNumber *)badge actionString:(NSString *)actionString userInfo:(NSDictionary *)userInfo notificationId:(NSString *)notificationId fireDate:(NSDate *)fireDate interval:(NSCalendarUnit)interval {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
+    
+    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+    localNotification.alertTitle = title;
+    localNotification.alertBody = body;
+    localNotification.alertAction = actionString;
+    localNotification.userInfo = userInfo;
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    if (badge) {
+        localNotification.applicationIconBadgeNumber = badge.integerValue;
+    }
+    localNotification.hasAction = YES;
+    localNotification.category = notificationId;
+    localNotification.fireDate = fireDate; //[(fireDate ?: [NSDate date]) laterDate:[[NSDate date] dateByAddingTimeInterval:PQNotificationMinimumInterval]];
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    localNotification.repeatInterval = interval;
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+}
+
 + (UIMutableUserNotificationAction *)notificationActionWithTitle:(NSString *)title textInput:(BOOL)textInput destructive:(BOOL)destructive authentication:(BOOL)authentication {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
     UIMutableUserNotificationAction *notificationAction = [[UIMutableUserNotificationAction alloc] init];
     [notificationAction setActivationMode:UIUserNotificationActivationModeBackground];
@@ -94,38 +93,47 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     [notificationAction setIdentifier:title];
     [notificationAction setDestructive:destructive];
     [notificationAction setAuthenticationRequired:authentication];
-    [notificationAction setBehavior:(textInput ? UIUserNotificationActionBehaviorTextInput : UIUserNotificationActionBehaviorDefault)];
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0f) {
+        [notificationAction setBehavior:(textInput ? UIUserNotificationActionBehaviorTextInput : UIUserNotificationActionBehaviorDefault)];
+    }
     return notificationAction;
 }
 
-+ (void)setNotificationWithTitle:(NSString *)title body:(NSString *)body actions:(NSArray <UIMutableUserNotificationAction *> *)actions actionString:(NSString *)actionString uuid:(NSString *)uuid fireDate:(NSDate *)fireDate repeat:(BOOL)repeat {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
++ (void)cancelNotificationWithId:(NSString *)notificationId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
+    
+    UILocalNotification *notification = [PQNotificationsManager getNotificationWithId:notificationId];
+    if (!notification) {
+        return;
+    }
+    
+    [[UIApplication sharedApplication] cancelLocalNotification:notification];
+}
+
++ (void)setTitle:(NSString *)title forNotificationWithId:(NSString *)notificationId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_UI] message:nil];
+    
+    UILocalNotification *notification = [PQNotificationsManager getNotificationWithId:notificationId];
+    notification.alertTitle = title;
+}
+
++ (void)setText:(NSString *)text forNotificationWithId:(NSString *)notificationId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_UI] message:nil];
+    
+    UILocalNotification *notification = [PQNotificationsManager getNotificationWithId:notificationId];
+    notification.alertBody = text;
+}
+
++ (void)setActions:(NSArray <UIMutableUserNotificationAction *> *)actions forNotificationWithId:(NSString *)notificationId {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_UI] message:nil];
     
     UIMutableUserNotificationCategory *actionCategory = [[UIMutableUserNotificationCategory alloc] init];
-    [actionCategory setIdentifier:uuid];
+    [actionCategory setIdentifier:notificationId];
     [actionCategory setActions:actions forContext:UIUserNotificationActionContextDefault];
-    NSSet *categories = [NSSet setWithObject:actionCategory];
     
     UIUserNotificationType types = (UIUserNotificationTypeAlert | UIUserNotificationTypeSound); // UIUserNotificationTypeBadge
-    
-    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types categories:categories];
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types categories:[NSSet setWithObject:actionCategory]];
     [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-    
-    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-    localNotification.alertTitle = title;
-    localNotification.alertBody = body;
-    localNotification.userInfo = @{NOTIFICATION_OBJECT_KEY : uuid};
-    localNotification.alertAction = actionString;
-    localNotification.soundName = UILocalNotificationDefaultSoundName;
-//    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber]+1;
-    localNotification.hasAction = YES;
-    localNotification.category = uuid;
-    localNotification.fireDate = [(fireDate ?: [NSDate date]) laterDate:[[NSDate date] dateByAddingTimeInterval:PQNotificationMinimumInterval]];
-    localNotification.timeZone = [NSTimeZone defaultTimeZone];
-    if (repeat) {
-        localNotification.repeatInterval = NSCalendarUnitDay;
-    }
-    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 }
 
 #pragma mark - // CATEGORY METHODS //
@@ -139,14 +147,6 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     
     UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge | UIUserNotificationTypeAlert | UIUserNotificationTypeSound categories:nil];
     [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyEnabledDidChange:) name:PQSurveyEnabledDidChangeNotification object:nil];
-}
-
-- (void)teardown {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQSurveyEnabledDidChangeNotification object:nil];
 }
 
 #pragma mark - // PRIVATE METHODS (General) //
@@ -162,89 +162,19 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     return _sharedManager;
 }
 
-#pragma mark - // PRIVATE METHODS (Observers) //
-
-- (void)addObserversToQuestion:(id <PQQuestion>)question {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionWillBeDeleted:) name:PQQuestionWillBeDeletedNotification object:question];
-}
-
-- (void)removeObserversFromQuestion:(id <PQQuestion>)question {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionWillBeDeletedNotification object:question];
-}
-
-#pragma mark - // PRIVATE METHODS (Responders) //
-
-- (void)surveyEnabledDidChange:(NSNotification *)notification {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
-    
-    id <PQSurvey_Editable> survey = (id <PQSurvey_Editable>)notification.object;
-    NSNumber *enabledValue = notification.userInfo[NOTIFICATION_OBJECT_KEY];
-    
-    if (enabledValue.boolValue) {
-        [self scheduleNotificationForSurvey:survey];
-    }
-    else {
-        [self cancelNotificationForSurvey:survey];
-    }
-}
-
-- (void)questionWillBeDeleted:(NSNotification *)notification {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
-    
-    id <PQQuestion_PRIVATE> question = notification.object;
-    
-    [self removeObserversFromQuestion:question];
-    [self cancelNotificationForQuestion:question];
-}
-
 #pragma mark - // PRIVATE METHODS (Other) //
 
-- (void)scheduleNotificationForSurvey:(id <PQSurvey>)survey {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
++ (UILocalNotification *)getNotificationWithId:(NSString *)uuid {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:nil message:nil];
     
-    id <PQQuestion_PRIVATE> question = (id <PQQuestion_PRIVATE>)survey.questions.firstObject;
-    
-    id <PQChoice> primaryChoice = [question.choices objectAtIndex:0];
-    UIMutableUserNotificationAction *primaryAction = [PQNotificationsManager notificationActionWithTitle:primaryChoice.text textInput:primaryChoice.textInput destructive:NO authentication:question.secure];
-    
-    id <PQChoice> secondaryChoice = [question.choices objectAtIndex:1];
-    UIMutableUserNotificationAction *secondaryAction = [PQNotificationsManager notificationActionWithTitle:secondaryChoice.text textInput:secondaryChoice.textInput destructive:NO authentication:question.secure];
-    
-    [PQNotificationsManager setNotificationWithTitle:survey.name body:question.text actions:@[primaryAction, secondaryAction] actionString:PQNotificationActionString uuid:question.questionId fireDate:survey.time repeat:survey.repeat];
-    
-    [self addObserversToQuestion:question];
-}
-
-- (void)cancelNotificationForSurvey:(id <PQSurvey>)survey {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
-    
-    id <PQQuestion_PRIVATE> question = (id <PQQuestion_PRIVATE>)survey.questions.firstObject;
-    
-    [self removeObserversFromQuestion:question];
-    [self cancelNotificationForQuestion:question];
-}
-
-- (void)cancelNotificationForQuestion:(id <PQQuestion_PRIVATE>)question {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
-    
-    [self removeObserversFromQuestion:question];
-    
-    UIApplication *application = [UIApplication sharedApplication];
-    NSArray <UILocalNotification *> *notifications = [application scheduledLocalNotifications];
-    UILocalNotification *notification;
-    NSString *notificationId;
-    for (int i = 0; i < notifications.count; i++)
-    {
-        notification = notifications[i];
-        notificationId = notification.userInfo[NOTIFICATION_OBJECT_KEY];
-        if ([notificationId isEqualToString:question.questionId]) {
-            [application cancelLocalNotification:notification];
+    NSArray *notifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
+    for (UILocalNotification *notification in notifications) {
+        if ([notification.category isEqualToString:uuid]) {
+            return notification;
         }
     }
+    
+    return nil;
 }
 
 @end

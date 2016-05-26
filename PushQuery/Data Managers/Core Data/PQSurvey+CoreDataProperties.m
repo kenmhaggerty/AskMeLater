@@ -24,15 +24,14 @@
 #pragma mark - // SETTERS AND GETTERS //
 
 @dynamic authorId;
-@dynamic createdAt;
-@dynamic editedAt;
 @dynamic enabledValue;
 @dynamic name;
 @dynamic repeatValue;
 @dynamic surveyId;
 @dynamic time;
-@dynamic questions;
 @dynamic author;
+@dynamic questionIndices;
+@dynamic questionObjects;
 
 #pragma mark - // INITS AND LOADS //
 
@@ -44,81 +43,99 @@
 
 #pragma mark - // OVERWRITTEN METHODS //
 
-- (void)insertObject:(PQQuestion *)value inQuestionsAtIndex:(NSUInteger)idx {
+- (void)insertObject:(PQQuestionIndex *)value inQuestionIndicesAtIndex:(NSUInteger)idx {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
     NSIndexSet* indexes = [NSIndexSet indexSetWithIndex:idx];
-    [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
-    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questions))]];
+    [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
+    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questionIndices))]];
     [tmpOrderedSet insertObject:value atIndex:idx];
-    [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questions))];
-    [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
+    [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questionIndices))];
+    [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
 }
 
-- (void)removeObjectFromQuestionsAtIndex:(NSUInteger)idx {
+- (void)removeObjectFromQuestionIndicesAtIndex:(NSUInteger)idx {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
     NSIndexSet* indexes = [NSIndexSet indexSetWithIndex:idx];
-    [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
-    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questions))]];
+    [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
+    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questionIndices))]];
     [tmpOrderedSet removeObjectAtIndex:idx];
-    [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questions))];
-    [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
+    [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questionIndices))];
+    [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
 }
 
-- (void)insertQuestions:(NSArray *)values atIndexes:(NSIndexSet *)indexes {
-    [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
-    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questions))]];
+- (void)insertQuestionIndices:(NSArray *)values atIndexes:(NSIndexSet *)indexes {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
+    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questionIndices))]];
     [tmpOrderedSet insertObjects:values atIndexes:indexes];
-    [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questions))];
-    [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
+    [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questionIndices))];
+    [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
 }
 
-- (void)removeQuestionsAtIndexes:(NSIndexSet *)indexes {
-    [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
-    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questions))]];
+- (void)removeQuestionIndicesAtIndexes:(NSIndexSet *)indexes {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
+    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questionIndices))]];
     [tmpOrderedSet removeObjectsAtIndexes:indexes];
-    [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questions))];
-    [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
+    [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questionIndices))];
+    [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
 }
 
-- (void)replaceObjectInQuestionsAtIndex:(NSUInteger)idx withObject:(PQQuestion *)value {
+- (void)replaceObjectInQuestionIndicesAtIndex:(NSUInteger)idx withObject:(PQQuestionIndex *)value {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
     NSIndexSet* indexes = [NSIndexSet indexSetWithIndex:idx];
-    [self willChange:NSKeyValueChangeReplacement valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
-    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questions))]];
+    [self willChange:NSKeyValueChangeReplacement valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
+    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questionIndices))]];
     [tmpOrderedSet replaceObjectAtIndex:idx withObject:value];
-    [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questions))];
-    [self didChange:NSKeyValueChangeReplacement valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
+    [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questionIndices))];
+    [self didChange:NSKeyValueChangeReplacement valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
 }
 
-- (void)replaceQuestionsAtIndexes:(NSIndexSet *)indexes withQuestions:(NSArray *)values {
-    [self willChange:NSKeyValueChangeReplacement valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
-    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questions))]];
+- (void)replaceQuestionIndicesAtIndexes:(NSIndexSet *)indexes withQuestionIndices:(NSArray *)values {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    [self willChange:NSKeyValueChangeReplacement valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
+    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questionIndices))]];
     [tmpOrderedSet replaceObjectsAtIndexes:indexes withObjects:values];
-    [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questions))];
-    [self didChange:NSKeyValueChangeReplacement valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
+    [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questionIndices))];
+    [self didChange:NSKeyValueChangeReplacement valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
 }
 
-- (void)addQuestionsObject:(PQQuestion *)value {
-    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questions))]];
+- (void)addQuestionIndicesObject:(PQQuestionIndex *)value {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questionIndices))]];
     NSUInteger idx = [tmpOrderedSet count];
     NSIndexSet* indexes = [NSIndexSet indexSetWithIndex:idx];
-    [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
+    [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
     [tmpOrderedSet addObject:value];
-    [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questions))];
-    [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
+    [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questionIndices))];
+    [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
 }
 
-- (void)removeQuestionsObject:(PQQuestion *)value {
-    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questions))]];
+- (void)removeQuestionIndicesObject:(PQQuestionIndex *)value {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questionIndices))]];
     NSUInteger idx = [tmpOrderedSet indexOfObject:value];
     if (idx != NSNotFound) {
         NSIndexSet* indexes = [NSIndexSet indexSetWithIndex:idx];
-        [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
+        [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
         [tmpOrderedSet removeObject:value];
-        [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questions))];
-        [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
+        [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questionIndices))];
+        [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
     }
 }
 
-- (void)addQuestions:(NSOrderedSet *)values {
-    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questions))]];
+- (void)addQuestionIndices:(NSOrderedSet *)values {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questionIndices))]];
     NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
     NSUInteger valuesCount = [values count];
     NSUInteger objectsCount = [tmpOrderedSet count];
@@ -126,15 +143,17 @@
         [indexes addIndex:(objectsCount + i)];
     }
     if (valuesCount > 0) {
-        [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
+        [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
         [tmpOrderedSet addObjectsFromArray:[values array]];
-        [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questions))];
-        [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
+        [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questionIndices))];
+        [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
     }
 }
 
-- (void)removeQuestions:(NSOrderedSet *)values {
-    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questions))]];
+- (void)removeQuestionIndices:(NSOrderedSet *)values {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self mutableOrderedSetValueForKey:NSStringFromSelector(@selector(questionIndices))]];
     NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
     for (id value in values) {
         NSUInteger idx = [tmpOrderedSet indexOfObject:value];
@@ -143,10 +162,10 @@
         }
     }
     if ([indexes count] > 0) {
-        [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
+        [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
         [tmpOrderedSet removeObjectsAtIndexes:indexes];
-        [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questions))];
-        [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questions))];
+        [self setPrimitiveValue:tmpOrderedSet forKey:NSStringFromSelector(@selector(questionIndices))];
+        [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:NSStringFromSelector(@selector(questionIndices))];
     }
 }
 

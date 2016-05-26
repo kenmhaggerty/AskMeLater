@@ -8,40 +8,40 @@
 
 #pragma mark - // NOTES (Private) //
 
+#warning TO DO – Notify PQUserSurveysWereAddedNotification
+#warning TO DO – Notify PQUserSurveysWereRemovedNotification
+
 #pragma mark - // IMPORTS (Private) //
 
 #import "PQUser.h"
-#import "PQSurvey.h"
-#import "PQResponse.h"
 #import "AKDebugger.h"
 #import "AKGenerics.h"
+
+#import "PQResponse.h"
+#import "PQSurvey.h"
 
 #pragma mark - // DEFINITIONS (Private) //
 
 @interface PQUser ()
+@property (nullable, nonatomic, retain, readwrite) NSData *avatarData;
+@property (nonatomic, readwrite) BOOL willBeDeleted;
+@property (nonatomic, readwrite) BOOL wasDeleted;
+
+@property (nullable, nonatomic, retain, readwrite) NSSet <PQResponse *> *responses;
+@property (nullable, nonatomic, retain, readwrite) NSSet <PQSurvey *> *surveys;
+
 @end
 
 @implementation PQUser
 
 #pragma mark - // SETTERS AND GETTERS //
 
-- (void)setUsername:(NSString *)username {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
-    
-    NSString *primitiveUsername = [self primitiveValueForKey:NSStringFromSelector(@selector(username))];
-    
-    if ([AKGenerics object:username isEqualToObject:primitiveUsername]) {
-        return;
-    }
-    
-    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:username forKey:NOTIFICATION_OBJECT_KEY];
-    
-    [self willChangeValueForKey:NSStringFromSelector(@selector(username))];
-    [self setPrimitiveValue:username forKey:NSStringFromSelector(@selector(username))];
-    [self didChangeValueForKey:NSStringFromSelector(@selector(username))];
-    
-    [AKGenerics postNotificationName:PQUserUsernameDidChangeNotification object:self userInfo:userInfo];
-}
+@dynamic avatarData;
+@dynamic willBeDeleted;
+@dynamic wasDeleted;
+
+@dynamic responses;
+@dynamic surveys;
 
 - (void)setAvatarData:(NSData *)avatarData {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
@@ -79,24 +79,55 @@
     [AKGenerics postNotificationName:PQUserEmailDidChangeNotification object:self userInfo:userInfo];
 }
 
-#pragma mark - // INITS AND LOADS //
-
-- (void)willSave {
-    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
+- (void)setUsername:(NSString *)username {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
     
-    [super willSave];
+    NSString *primitiveUsername = [self primitiveValueForKey:NSStringFromSelector(@selector(username))];
     
-    if (!self.updated) {
+    if ([AKGenerics object:username isEqualToObject:primitiveUsername]) {
         return;
     }
     
-    [AKGenerics postNotificationName:PQUserWillBeSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:username forKey:NOTIFICATION_OBJECT_KEY];
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(username))];
+    [self setPrimitiveValue:username forKey:NSStringFromSelector(@selector(username))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(username))];
+    
+    [AKGenerics postNotificationName:PQUserUsernameDidChangeNotification object:self userInfo:userInfo];
 }
+
+- (void)setSurveys:(NSSet <PQSurvey *> *)surveys {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSSet *primitiveSurveys = [self primitiveValueForKey:NSStringFromSelector(@selector(surveys))];
+    
+    if ([AKGenerics object:surveys isEqualToObject:primitiveSurveys]) {
+        return;
+    }
+    
+    NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:surveys forKey:NOTIFICATION_OBJECT_KEY];
+    
+    [self willChangeValueForKey:NSStringFromSelector(@selector(surveys))];
+    [self setPrimitiveValue:surveys forKey:NSStringFromSelector(@selector(surveys))];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(surveys))];
+    
+    [AKGenerics postNotificationName:PQUserSurveysDidChangeNotification object:self userInfo:userInfo];
+}
+
+#pragma mark - // INITS AND LOADS //
 
 - (void)didSave {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
     
-    if (self.changedKeys) {
+    if (self.willBeDeleted) {
+        self.willBeDeleted = NO;
+        self.wasDeleted = YES;
+    }
+    
+    [AKGenerics postNotificationName:PQUserDidSaveNotification object:self userInfo:[NSDictionary dictionaryWithNullableObject:self.changedKeys forKey:NOTIFICATION_OBJECT_KEY]];
+    
+    if (self.changedKeys && !self.inserted) { // !self.isDeleted &&
         NSDictionary *userInfo;
         if ([self.changedKeys containsObject:NSStringFromSelector(@selector(avatarData))]) {
             userInfo = [NSDictionary dictionaryWithNullableObject:self.avatar forKey:NOTIFICATION_OBJECT_KEY];
@@ -111,7 +142,6 @@
             [AKGenerics postNotificationName:PQUserUsernameDidSaveNotification object:self userInfo:userInfo];
         }
     }
-    [AKGenerics postNotificationName:PQUserWasSavedNotification object:self userInfo:[NSDictionary dictionaryWithNullableObject:self.changedKeys forKey:NOTIFICATION_OBJECT_KEY]];
     
     [super didSave];
 }
@@ -119,23 +149,60 @@
 - (void)prepareForDeletion {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
     
-    [super prepareForDeletion];
-    
     [AKGenerics postNotificationName:PQUserWillBeDeletedNotification object:self userInfo:nil];
+    
+    [super prepareForDeletion];
 }
 
-#pragma mark - // PUBLIC METHODS //
+#pragma mark - // PUBLIC METHODS (Update) //
 
-- (void)setAvatar:(UIImage *)avatar {
+- (void)updateUsername:(NSString *)username {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
     
-    self.avatarData = UIImagePNGRepresentation(avatar);
+    if ([AKGenerics object:username isEqualToObject:self.username]) {
+        return;
+    }
+    
+    self.username = username;
+    self.editedAt = [NSDate date];
 }
+
+- (void)updateEmail:(NSString *)email {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    if ([AKGenerics object:email isEqualToObject:self.email]) {
+        return;
+    }
+    
+    self.email = email;
+    self.editedAt = [NSDate date];
+}
+
+- (void)updateAvatar:(UIImage *)avatar {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    if ([AKGenerics object:avatar isEqualToObject:self.avatar]) {
+        return;
+    }
+    
+    self.avatar = avatar;
+    self.editedAt = [NSDate date];
+}
+
+#pragma mark - // PUBLIC METHODS (Getters) //
 
 - (UIImage *)avatar {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
     
     return [UIImage imageWithData:self.avatarData];
+}
+
+#pragma mark - // PUBLIC METHODS (Setters) //
+
+- (void)setAvatar:(UIImage *)avatar {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    self.avatarData = UIImagePNGRepresentation(avatar);
 }
 
 #pragma mark - // CATEGORY METHODS //

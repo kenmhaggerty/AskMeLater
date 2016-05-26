@@ -12,15 +12,21 @@
 
 #import "PQCoreDataController.h"
 
+#import "PQQuestionIndex.h"
+#import "PQChoiceIndex.h"
+
 #pragma mark - // PROTOCOLS //
 
 #pragma mark - // DEFINITIONS //
 
-@interface PQCoreDataController (PRIVATE)
+@interface PQCoreDataController (PRIVATE) <PQUser_Init_PRIVATE, PQSurvey_Init_PRIVATE, PQQuestion_Init_PRIVATE, PQChoice_Init_PRIVATE, PQResponse_Init_PRIVATE>
 
 + (PQUser *)userWithUserId:(NSString *)userId;
-+ (PQSurvey *)surveyWithSurveyId:(NSString *)surveyId authorId:(NSString *)authorId;
-+ (PQQuestion *)questionWithQuestionId:(NSString *)questionId surveyId:(NSString *)surveyId;
-+ (PQResponse *)responseWithResponseId:(NSString *)responseId questionId:(NSString *)questionId;
++ (PQSurvey *)surveyWithSurveyId:(NSString *)surveyId authorId:(NSString *)authorId createdAt:(NSDate *)createdAt;
++ (PQQuestion *)questionWithQuestionId:(NSString *)questionId;
++ (PQResponse *)responseWithResponseId:(NSString *)responseId;
+
++ (PQQuestionIndex *)questionIndex;
++ (PQChoiceIndex *)choiceIndex;
 
 @end

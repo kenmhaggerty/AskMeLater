@@ -22,6 +22,8 @@
 
 #pragma mark - // DEFINITIONS (Public) //
 
+extern NSString * const PQCoreDataWillSaveNotification;
+
 @interface PQCoreDataController : NSObject <PQUser_Init, PQSurvey_Init, PQQuestion_Init, PQChoice_Init, PQResponse_Init>
 
 // GENERAL //
@@ -35,6 +37,12 @@
 + (PQQuestion *)questionWithText:(NSString *)text choices:(NSOrderedSet <PQChoice *> *)choices;
 + (PQChoice *)choiceWithText:(NSString *)text;
 + (PQResponse *)responseWithText:(NSString *)text userId:(NSString *)userId date:(NSDate *)date;
+
+// EXISTS //
+
++ (BOOL)surveyExistsWithId:(NSString *)surveyId;
++ (BOOL)questionExistsWithId:(NSString *)questionId;
++ (BOOL)responseExistsWithId:(NSString *)responseId;
 
 // GETTERS //
 

@@ -21,7 +21,6 @@
 #pragma mark - // DEFINITIONS (Private) //
 
 @interface PQResponsesTableViewController ()
-@property (nonatomic, strong) NSMutableOrderedSet <id <PQResponse>> *responses;
 @property (nonatomic, strong) NSComparisonResult (^sortComparator)(id <PQResponse> response1, id <PQResponse> response2);
 
 // OBSERVERS //
@@ -33,13 +32,14 @@
 
 - (void)questionTextDidChange:(NSNotification *)notification;
 - (void)questionResponsesDidChange:(NSNotification *)notification;
-- (void)questionResponseWasAdded:(NSNotification *)notification;
-- (void)questionResponseWasRemoved:(NSNotification *)notification;
+- (void)questionResponsesWereAdded:(NSNotification *)notification;
+- (void)questionResponsesWereRemoved:(NSNotification *)notification;
 - (void)questionWillBeRemoved:(NSNotification *)notification;
 
 // OTHER //
 
 + (NSString *)stringForDate:(NSDate *)date;
+- (NSOrderedSet *)responses;
 
 @end
 
@@ -63,9 +63,6 @@
     if (question) {
         [self addObserversToQuestion:question];
     }
-    
-    self.responses = [NSMutableOrderedSet orderedSetWithSet:(question ? question.responses : [NSSet set])];
-    [self.responses sortUsingComparator:self.sortComparator];
     
     [self.tableView reloadData];
 }
@@ -120,9 +117,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
     
-    PQTableViewCell *cell = (PQTableViewCell *)[AKGenerics cellWithReuseIdentifier:@"responseCell" class:[PQTableViewCell class] style:UITableViewCellStyleValue1 tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
-    id <PQResponse> response = [self.responses objectAtIndex:indexPath.row];
-    id <PQUser_PRIVATE> user = (id <PQUser_PRIVATE>)response.user;
+    PQTableViewCell *cell = [PQTableViewCell cellWithReuseIdentifier:@"responseCell" style:UITableViewCellStyleValue1 tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
+    id <PQResponse> response = self.responses[indexPath.row];
+    id <PQUser_Editable> user = (id <PQUser_PRIVATE>)response.user;
     cell.textLabel.text = response.text;
     cell.detailTextLabel.text = [PQResponsesTableViewController stringForDate:response.date];
     cell.subtitleTextLabel.text = [NSString stringWithFormat:@"by %@", user ? (user.username ?: user.email) : @"anonymous"];
@@ -135,7 +132,7 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI] message:nil];
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        id <PQResponse> response = [self.responses objectAtIndex:indexPath.row];
+        id <PQResponse> response = self.responses[indexPath.row];
         [PQDataManager deleteResponse:response];
         [PQDataManager save];
     }
@@ -152,8 +149,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionTextDidChange:) name:PQQuestionTextDidChangeNotification object:question];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionResponsesDidChange:) name:PQQuestionResponsesDidChangeNotification object:question];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionResponseWasAdded:) name:PQQuestionResponseWasAddedNotification object:question];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionResponseWasRemoved:) name:PQQuestionResponseWasRemovedNotification object:question];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionResponsesWereAdded:) name:PQQuestionResponsesWereAddedNotification object:question];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionResponsesWereRemoved:) name:PQQuestionResponsesWereRemovedNotification object:question];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(questionWillBeRemoved:) name:PQQuestionWillBeRemovedNotification object:question];
 }
 
@@ -162,8 +159,8 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionTextDidChangeNotification object:question];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionResponsesDidChangeNotification object:question];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionResponseWasAddedNotification object:question];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionResponseWasRemovedNotification object:question];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionResponsesWereAddedNotification object:question];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionResponsesWereRemovedNotification object:question];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PQQuestionWillBeRemovedNotification object:question];
 }
 
@@ -178,36 +175,37 @@
 - (void)questionResponsesDidChange:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    NSSet *responses = notification.userInfo[NOTIFICATION_OBJECT_KEY];
-    NSMutableOrderedSet *sortedResponses = [NSMutableOrderedSet orderedSetWithSet:responses];
-    [sortedResponses sortUsingComparator:self.sortComparator];
-    self.responses = sortedResponses;
-    
     [self.tableView reloadData];
 }
 
-- (void)questionResponseWasAdded:(NSNotification *)notification {
+- (void)questionResponsesWereAdded:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    id <PQResponse> response = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    NSSet <id <PQResponse>> *responses = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    NSSet <id <PQResponse>> *primitiveResponses = notification.userInfo[NOTIFICATION_OLD_KEY];
     
-    NSUInteger index = [self.responses indexOfObject:response inSortedRange:(NSRange){0, [self.responses count]} options:NSBinarySearchingInsertionIndex usingComparator:self.sortComparator];
+    NSArray *responsesArray = [responses.allObjects sortedArrayUsingComparator:self.sortComparator];
+    NSArray *primitiveResponsesArray = [primitiveResponses.allObjects sortedArrayUsingComparator:self.sortComparator];
     
-    [self.responses insertObject:response atIndex:index];
+    NSArray *indexPaths;
+    [AKGenerics compareArray:primitiveResponsesArray toArray:responsesArray andGenerateIndexPathsToInsert:&indexPaths withSection:0];
     
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
-- (void)questionResponseWasRemoved:(NSNotification *)notification {
+- (void)questionResponsesWereRemoved:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    id <PQResponse> response = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    NSSet <id <PQResponse>> *responses = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    NSSet <id <PQResponse>> *primitiveResponses = notification.userInfo[NOTIFICATION_OLD_KEY];
     
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.responses indexOfObject:response] inSection:0];
+    NSArray *responsesArray = [responses.allObjects sortedArrayUsingComparator:self.sortComparator];
+    NSArray *primitiveResponsesArray = [primitiveResponses.allObjects sortedArrayUsingComparator:self.sortComparator];
     
-    [self.responses removeObject:response];
-    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    NSArray *indexPaths;
+    [AKGenerics compareArray:primitiveResponsesArray toArray:responsesArray andGenerateIndexPathsToDelete:&indexPaths withSection:0];
+    
+    [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (void)questionWillBeRemoved:(NSNotification *)notification {
@@ -224,6 +222,12 @@
     NSString *dateString = [NSDateFormatter localizedStringFromDate:date dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterNoStyle];
     NSString *timeString = [NSDateFormatter localizedStringFromDate:date dateStyle:NSDateFormatterNoStyle timeStyle:NSDateFormatterMediumStyle];
     return [NSString stringWithFormat:@"%@ at %@", dateString, timeString];
+}
+
+- (NSOrderedSet *)responses {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:nil message:nil];
+    
+    return [NSOrderedSet orderedSetWithArray:[self.question.responses.allObjects sortedArrayUsingComparator:self.sortComparator]];
 }
 
 @end

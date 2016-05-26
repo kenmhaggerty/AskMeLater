@@ -29,6 +29,8 @@
 @dynamic surveyId;
 @dynamic text;
 @dynamic textInputValue;
+
+@dynamic choiceIndex;
 @dynamic question;
 
 #pragma mark - // INITS AND LOADS //

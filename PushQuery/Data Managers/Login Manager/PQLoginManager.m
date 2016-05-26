@@ -14,7 +14,7 @@
 #import "AKDebugger.h"
 #import "AKGenerics.h"
 
-#import "PQFirebaseController+Auth.h"
+#import "FirebaseController+Auth.h"
 #import "PQCoreDataController.h"
 
 #pragma mark - // DEFINITIONS (Private) //
@@ -45,7 +45,7 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
 // OTHER //
 
 + (void)setCurrentUserUsingAuthData:(NSDictionary *)authData;
-+ (void)updateUser:(id <PQUser_Editable>)user withDictionary:(NSDictionary *)dictionary;
++ (void)updateUser:(id <PQUser_PRIVATE>)user withDictionary:(NSDictionary *)dictionary;
 
 @end
 
@@ -111,13 +111,13 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
         [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeWarning methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:[NSString stringWithFormat:@"Could not initialize %@", NSStringFromClass([PQLoginManager class])]];
     }
     
-    [PQLoginManager setCurrentUserUsingAuthData:[PQFirebaseController authData]];
+    [PQLoginManager setCurrentUserUsingAuthData:[FirebaseController authData]];
 }
 
-+ (id <PQUser_Editable>)currentUser {
++ (id <PQUser_PRIVATE>)currentUser {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_ACCOUNTS] message:nil];
     
-    NSDictionary *authData = [PQFirebaseController authData];
+    NSDictionary *authData = [FirebaseController authData];
     [PQLoginManager setCurrentUserUsingAuthData:authData];
     return [PQLoginManager sharedManager].currentUser;
 }
@@ -125,7 +125,7 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
 + (void)signUpWithEmail:(NSString *)email password:(NSString *)password success:(void (^)(id <PQUser_Editable>))successBlock failure:(void (^)(NSError *))failureBlock {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_ACCOUNTS] message:nil];
     
-    [PQFirebaseController signUpWithEmail:email password:password success:^(NSDictionary *result) {
+    [FirebaseController signUpWithEmail:email password:password success:^(NSDictionary *result) {
         
         [PQLoginManager loginWithEmail:email password:password success:successBlock failure:failureBlock];
         
@@ -137,7 +137,7 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
 + (void)loginWithEmail:(NSString *)email password:(NSString *)password success:(void (^)(id <PQUser_Editable>))successBlock failure:(void (^)(NSError *))failureBlock {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_ACCOUNTS] message:nil];
     
-    [PQFirebaseController loginUserWithEmail:email password:password success:^(NSDictionary *userInfo) {
+    [FirebaseController loginUserWithEmail:email password:password success:^(NSDictionary *userInfo) {
         [PQLoginManager setCurrentUserUsingAuthData:userInfo];
         id <PQUser_Editable> currentUser = [PQLoginManager sharedManager].currentUser;
         successBlock(currentUser);
@@ -150,7 +150,7 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
 + (void)resetPasswordForEmail:(NSString *)email success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_ACCOUNTS] message:nil];
     
-    [PQFirebaseController resetPasswordForUserWithEmail:email withCompletionBlock:^(NSError *error) {
+    [FirebaseController resetPasswordForUserWithEmail:email withCompletionBlock:^(NSError *error) {
         if (error) {
             failureBlock(error);
         }
@@ -166,7 +166,7 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
     id <PQUser_Editable> currentUser = (id <PQUser_Editable>)[PQLoginManager currentUser];
     NSString *currentEmail = currentUser.email;
     
-    [PQFirebaseController changeEmailForUserWithEmail:currentEmail password:password toNewEmail:email withCompletionBlock:^(NSError *error) {
+    [FirebaseController changeEmailForUserWithEmail:currentEmail password:password toNewEmail:email withCompletionBlock:^(NSError *error) {
         if (error) {
             failureBlock(error);
         }
@@ -182,7 +182,7 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
     id <PQUser_Editable> currentUser = (id <PQUser_Editable>)[PQLoginManager currentUser];
     NSString *email = currentUser.email;
     
-    [PQFirebaseController changePasswordForUserWithEmail:email fromOld:oldPassword toNew:newPassword withCompletionBlock:^(NSError *error) {
+    [FirebaseController changePasswordForUserWithEmail:email fromOld:oldPassword toNew:newPassword withCompletionBlock:^(NSError *error) {
         if (error) {
             failureBlock(error);
         }
@@ -195,7 +195,7 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
 + (void)logout {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_ACCOUNTS] message:nil];
     
-    [PQFirebaseController logout];
+    [FirebaseController logout];
     [PQLoginManager setCurrentUser:nil];
 }
 
@@ -241,13 +241,13 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
 - (void)addObserversToFirebase {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(firebaseEmailDidChange:) name:PQFirebaseEmailDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(firebaseEmailDidChange:) name:FirebaseEmailDidChangeNotification object:nil];
 }
 
 - (void)removeObserversFromFirebase {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQFirebaseEmailDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FirebaseEmailDidChangeNotification object:nil];
 }
 
 - (void)addObserversToUser:(id <PQUser>)user {
@@ -305,7 +305,7 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
     [PQLoginManager setCurrentUser:currentUser];
 }
 
-+ (void)updateUser:(id <PQUser_Editable>)user withDictionary:(NSDictionary *)dictionary {
++ (void)updateUser:(id <PQUser_PRIVATE>)user withDictionary:(NSDictionary *)dictionary {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
     
     NSString *email = dictionary[FirebaseAuthKeyEmail];

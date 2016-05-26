@@ -12,27 +12,34 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "PQManagedObject.h"
+#import "PQSyncedObject.h"
 
-@class PQQuestion;
+@class PQChoiceIndex, PQQuestion;
 
 #pragma mark - // PROTOCOLS //
 
-#import "PQChoiceProtocols.h"
+#import "PQChoiceProtocols+Firebase.h"
 
 #pragma mark - // DEFINITIONS (Public) //
 
-extern NSString * const PQChoiceIndexDidChangeNotification;
-extern NSString * const PQChoiceAuthorIdDidChangeNotification;
-extern NSString * const PQChoiceSurveyIdDidChangeNotification;
-extern NSString * const PQChoiceQuestionIdDidChangeNotification;
-
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PQChoice : PQManagedObject <PQChoice_Editable>
+@interface PQChoice : PQSyncedObject <PQChoice_PRIVATE, PQChoice_Firebase>
 
-- (void)setTextInput:(BOOL)textInput;
+// UPDATE //
+
+- (void)updateText:(NSString *)text;
+- (void)updateTextInput:(BOOL)textInput;
+
+// GETTERS //
+
+- (NSUInteger)index;
 - (BOOL)textInput;
+
+// SETTERS //
+
+- (void)setIndex:(NSUInteger)index;
+- (void)setTextInput:(BOOL)textInput;
 
 @end
 

@@ -12,29 +12,26 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "PQManagedObject.h"
-#import "NSObject+Basics.h"
+#import "PQEditableObject.h"
 
-@class PQUser, PQQuestion;
+@class PQUser, PQQuestionIndex, PQQuestion;
 
 #pragma mark - // PROTOCOLS //
 
-#import "PQSurveyProtocols.h"
+#import "PQSurveyProtocols+Firebase.h"
 
 #pragma mark - // DEFINITIONS (Public) //
 
-extern NSString * const PQSurveyIdDidChangeNotification;
-extern NSString * const PQSurveyAuthorIdDidChangeNotification;
-
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PQSurvey : PQManagedObject <PQSurvey_Editable>
+@interface PQSurvey : PQEditableObject <PQSurvey_PRIVATE, PQSurvey_Firebase>
 
-- (BOOL)canBeEnabled;
-- (BOOL)enabled;
-- (void)setEnabled:(BOOL)enabled;
-- (BOOL)repeat;
-- (void)setRepeat:(BOOL)repeat;
+// UPDATE //
+
+- (void)updateEnabled:(BOOL)enabled;
+- (void)updateName:(NSString *)name;
+- (void)updateRepeat:(BOOL)repeat;
+- (void)updateTime:(NSDate *)time;
 
 - (void)addQuestion:(PQQuestion *)question;
 - (void)insertQuestion:(PQQuestion *)question atIndex:(NSUInteger)index;
@@ -42,6 +39,19 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)moveQuestionAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
 - (void)removeQuestion:(PQQuestion *)question;
 - (void)removeQuestionAtIndex:(NSUInteger)index;
+
+// GETTERS //
+
+- (BOOL)canBeEnabled;
+- (BOOL)enabled;
+- (BOOL)repeat;
+- (NSOrderedSet <PQQuestion *> *)questions;
+
+// SETTERS //
+
+- (void)setEnabled:(BOOL)enabled;
+- (void)setRepeat:(BOOL)repeat;
+- (void)setQuestions:(NSOrderedSet <PQQuestion *> *)questions;
 
 @end
 

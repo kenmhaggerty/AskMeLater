@@ -11,11 +11,9 @@
 #pragma mark - // IMPORTS (Public) //
 
 #import <Foundation/Foundation.h>
-#import "NSObject+Basics.h"
 
 #pragma mark - // PROTOCOLS //
 
-#import "PQFirebaseProtocols.h"
 #import "PQUserProtocols.h"
 #import "PQSurveyProtocols.h"
 
@@ -23,9 +21,9 @@
 
 extern NSString * const PQDataManagerIsSyncingDidChangeNotification;
 
-#import "PQFirebaseNotifications.h"
+#import "FirebaseNotifications.h"
 
-@interface PQDataManager : NSObject <Firebase>
+@interface PQDataManager : NSObject // <Firebase>
 
 // GENERAL //
 
@@ -37,7 +35,7 @@ extern NSString * const PQDataManagerIsSyncingDidChangeNotification;
 
 + (id <PQSurvey_Editable>)survey;
 + (NSSet *)getSurveysAuthoredByUser:(id <PQUser>)user;
-+ (void)fetchSurveysWithCompletion:(void(^)(BOOL success))completionBlock;
++ (void)fetchSurveysWithCompletion:(void(^)(BOOL fetched))completionBlock;
 + (void)deleteSurvey:(id <PQSurvey_Editable>)survey;
 
 // QUESTIONS //
@@ -50,9 +48,5 @@ extern NSString * const PQDataManagerIsSyncingDidChangeNotification;
 
 + (void)addResponse:(NSString *)text forQuestion:(id <PQQuestion>)question;
 + (void)deleteResponse:(id <PQResponse>)response;
-
-// DEBUGGING //
-
-+ (void)test;
 
 @end

@@ -11,7 +11,8 @@
 #pragma mark - // IMPORTS (Public) //
 
 #import <Foundation/Foundation.h>
-#import "NSObject+Basics.h"
+
+#import "PQQuestionProtocols.h"
 
 #pragma mark - // PROTOCOLS //
 
@@ -19,5 +20,6 @@
 
 @interface PQSyncEngine : NSObject
 + (void)setup;
-+ (void)fetchSurveysWithCompletion:(void(^)(BOOL success))completionBlock;
++ (void)fetchSurveysWithCompletion:(void(^)(BOOL fetched))completionBlock;
++ (void)didRespondToQuestion:(id <PQQuestion>)question;
 @end

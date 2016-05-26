@@ -22,14 +22,19 @@
 #define PQUserEmailDidSaveNotification @"kNotificationPQUser_EmailDidSave"
 #define PQUserUsernameDidSaveNotification @"kNotificationPQUser_UsernameDidSave"
 
-#define PQUserWillBeSavedNotification @"kNotificationPQUser_WillBeSaved"
-#define PQUserWasSavedNotification @"kNotificationPQUser_WasSaved"
+#define PQUserSurveysDidChangeNotification @"kNotificationPQUser_SurveysDidChange"
+#define PQUserSurveysWereAddedNotification @"kNotificationPQUser_SurveysWereAdded"
+#define PQUserSurveysWereRemovedNotification @"kNotificationPQUser_SurveysWereRemoved"
+
+//#define PQUserWillSaveNotification @"kNotificationPQUser_WillSave"
+#define PQUserDidSaveNotification @"kNotificationPQUser_DidSave"
 #define PQUserWillBeDeletedNotification @"kNotificationPQUser_WillBeDeleted"
 
 #pragma mark - // PROTOCOL (PQUser) //
 
 @protocol PQUser <NSObject>
 
+- (NSString *)userId;
 - (NSString *)username;
 @optional
 - (UIImage *)avatar;
@@ -48,12 +53,12 @@
 
 - (NSString *)email;
 
-// SETTERS //
+// UPDATE //
 
-- (void)setUsername:(NSString *)username;
-- (void)setEmail:(NSString *)email;
+- (void)updateUsername:(NSString *)username;
+- (void)updateEmail:(NSString *)email;
 @optional
-- (void)setAvatar:(UIImage *)avatar;
+- (void)updateAvatar:(UIImage *)avatar;
 
 @end
 
@@ -61,13 +66,13 @@
 
 @protocol PQUser_PRIVATE <PQUser_Editable>
 
-// GETTERS //
-
-- (NSString *)userId;
-
 // SETTERS //
 
 - (void)setUserId:(NSString *)userId;
+- (void)setUsername:(NSString *)username;
+- (void)setEmail:(NSString *)email;
+@optional
+- (void)setAvatar:(UIImage *)avatar;
 
 @end
 
@@ -75,8 +80,16 @@
 
 @protocol PQUser_Init <NSObject>
 
++ (id <PQUser_Editable>)userWithUserId:(NSString *)userId email:(NSString *)email;
+
+@end
+
+#pragma mark - // PROTOCOL (PQUser_Init_PRIVATE) //
+
+@protocol PQUser_Init_PRIVATE <PQUser_Init>
+
 // INITIALIZERS //
 
-+ (id <PQUser_Editable>)userWithUserId:(NSString *)userId email:(NSString *)email;
++ (id <PQUser_Editable>)userWithUserId:(NSString *)userId;
 
 @end

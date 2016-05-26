@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="deS-Ky-OaM">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -702,20 +703,11 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="299"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <datePicker contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="cqP-co-JRq">
-                                            <rect key="frame" x="140" y="-8" width="320" height="221"/>
-                                            <date key="date" timeIntervalSinceReferenceDate="480874342.81187499">
-                                                <!--2016-03-28 16:12:22 +0000-->
-                                            </date>
-                                            <connections>
-                                                <action selector="datePickerDidChange:" destination="3cP-g0-PGa" eventType="valueChanged" id="trU-HA-gRZ"/>
-                                            </connections>
-                                        </datePicker>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C6M-zQ-yV0">
                                             <rect key="frame" x="140" y="213" width="320" height="86"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ukx-cF-bdB">
-                                                    <rect key="frame" x="8" y="47" width="255" height="28"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ukx-cF-bdB">
+                                                    <rect key="frame" x="8" y="47" width="255" height="31"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -769,13 +761,23 @@
                                                 <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="hDV-54-bi8" secondAttribute="bottom" id="z7w-0k-mXC"/>
                                             </constraints>
                                         </view>
+                                        <datePicker contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="cqP-co-JRq">
+                                            <rect key="frame" x="140" y="-8" width="320" height="216"/>
+                                            <date key="date" timeIntervalSinceReferenceDate="480874342.81187499">
+                                                <!--2016-03-28 16:12:22 +0000-->
+                                            </date>
+                                            <connections>
+                                                <action selector="datePickerDidChange:" destination="3cP-g0-PGa" eventType="valueChanged" id="trU-HA-gRZ"/>
+                                            </connections>
+                                        </datePicker>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="C6M-zQ-yV0" firstAttribute="width" secondItem="cqP-co-JRq" secondAttribute="width" priority="750" id="17a-ES-4b2"/>
+                                        <constraint firstItem="C6M-zQ-yV0" firstAttribute="top" secondItem="cqP-co-JRq" secondAttribute="bottom" priority="250" id="2FX-kC-Us9"/>
                                         <constraint firstItem="cqP-co-JRq" firstAttribute="width" secondItem="3ID-Gd-tns" secondAttribute="width" priority="750" id="M9a-Sf-ulf"/>
                                         <constraint firstItem="cqP-co-JRq" firstAttribute="centerX" secondItem="3ID-Gd-tns" secondAttribute="centerX" id="Rf8-hr-jBW"/>
                                         <constraint firstAttribute="bottom" secondItem="C6M-zQ-yV0" secondAttribute="bottom" id="Viw-3J-0o7"/>
-                                        <constraint firstItem="C6M-zQ-yV0" firstAttribute="top" secondItem="cqP-co-JRq" secondAttribute="bottom" id="auW-W9-PeQ"/>
+                                        <constraint firstItem="C6M-zQ-yV0" firstAttribute="top" relation="greaterThanOrEqual" secondItem="cqP-co-JRq" secondAttribute="bottom" id="auW-W9-PeQ"/>
                                         <constraint firstAttribute="top" secondItem="cqP-co-JRq" secondAttribute="topMargin" id="e7v-OV-nbj"/>
                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" secondItem="C6M-zQ-yV0" secondAttribute="width" id="ft2-cO-r4v"/>
                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" secondItem="cqP-co-JRq" secondAttribute="width" id="iCs-a6-96t"/>

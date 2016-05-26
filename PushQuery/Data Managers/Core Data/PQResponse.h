@@ -12,25 +12,19 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "PQManagedObject.h"
+#import "PQSyncedObject.h"
 
-@class PQUser, PQQuestion;
+@class PQQuestion, PQUser;
 
 #pragma mark - // PROTOCOLS //
 
-#import "PQResponseProtocols.h"
+#import "PQResponseProtocols+Firebase.h"
 
 #pragma mark - // DEFINITIONS (Public) //
 
-extern NSString * const PQResponseIdDidChangeNotification;
-extern NSString * const PQResponseAuthorIdDidChangeNotification;
-extern NSString * const PQResponseSurveyIdDidChangeNotification;
-extern NSString * const PQResponseQuestionIdDidChangeNotification;
-extern NSString * const PQResponseUserIdDidChangeNotification;
-
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PQResponse : PQManagedObject <PQResponse_Editable>
+@interface PQResponse : PQSyncedObject <PQResponse_PRIVATE, PQResponse_Firebase>
 @end
 
 NS_ASSUME_NONNULL_END

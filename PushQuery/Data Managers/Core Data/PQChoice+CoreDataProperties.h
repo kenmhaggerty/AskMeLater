@@ -25,10 +25,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nullable, nonatomic, retain, readonly) NSString *authorId;
 @property (nullable, nonatomic, retain) NSNumber *indexValue;
-@property (nullable, nonatomic, retain) NSString *questionId;
+@property (nullable, nonatomic, retain, readonly) NSString *questionId;
 @property (nullable, nonatomic, retain, readonly) NSString *surveyId;
 @property (nullable, nonatomic, retain) NSString *text;
 @property (nullable, nonatomic, retain) NSNumber *textInputValue;
+
+@property (nullable, nonatomic, retain) PQChoiceIndex *choiceIndex;
 @property (nullable, nonatomic, retain, readonly) PQQuestion *question;
 
 @end

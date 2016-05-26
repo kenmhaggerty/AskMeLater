@@ -12,36 +12,41 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "PQManagedObject.h"
-#import "NSObject+Basics.h"
+#import "PQEditableObject.h"
 
-@class PQResponse, PQChoice, PQSurvey;
+@class PQChoiceIndex, PQChoice, PQQuestionIndex, PQResponse, PQSurvey;
 
 #pragma mark - // PROTOCOLS //
 
-#import "PQQuestionProtocols.h"
+#import "PQQuestionProtocols+Firebase.h"
 
 #pragma mark - // DEFINITIONS (Public) //
 
-extern NSString * const PQQuestionIdDidChangeNotification;
-extern NSString * const PQQuestionAuthorIdDidChangeNotification;
-extern NSString * const PQQuestionSurveyIdDidChangeNotification;
-extern NSString * const PQQuestionSurveyDidChangeNotification;
-
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PQQuestion : PQManagedObject <PQQuestion_PRIVATE>
+@interface PQQuestion : PQEditableObject <PQQuestion_PRIVATE, PQQuestion_Firebase>
 
-- (BOOL)secure;
-- (void)setSecure:(BOOL)secure;
+// UPDATE //
+
+- (void)updateText:(NSString *)text;
+- (void)updateSecure:(BOOL)secure;
 
 - (void)addChoice:(PQChoice *)choice;
 - (void)insertChoice:(PQChoice *)choice atIndex:(NSUInteger)index;
 - (void)moveChoice:(PQChoice *)choice toIndex:(NSUInteger)index;
 - (void)moveChoiceAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
-- (void)replaceChoiceAtIndex:(NSUInteger)index withChoice:(PQChoice *)choice;
 - (void)removeChoice:(PQChoice *)choice;
 - (void)removeChoiceAtIndex:(NSUInteger)index;
+
+// GETTERS //
+
+- (BOOL)secure;
+- (NSOrderedSet <PQChoice *> *)choices;
+
+// SETTERS //
+
+- (void)setSecure:(BOOL)secure;
+- (void)setChoices:(NSOrderedSet <PQChoice *> *)choices;
 
 - (void)addResponse:(PQResponse *)response;
 - (void)removeResponse:(PQResponse *)response;

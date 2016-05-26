@@ -12,9 +12,9 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "PQManagedObject.h"
+#import "PQEditableObject.h"
 
-@class PQSurvey, PQResponse;
+@class PQResponse, PQSurvey;
 
 #pragma mark - // PROTOCOLS //
 
@@ -24,10 +24,21 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PQUser : PQManagedObject <PQUser_PRIVATE>
+@interface PQUser : PQEditableObject <PQUser_PRIVATE>
+
+// UPDATE //
+
+- (void)updateUsername:(NSString *)username;
+- (void)updateEmail:(NSString *)email;
+- (void)updateAvatar:(UIImage *)avatar;
+
+// GETTERS //
+
+- (UIImage *)avatar;
+
+// SETTERS //
 
 - (void)setAvatar:(UIImage *)avatar;
-- (UIImage *)avatar;
 
 @end
 
