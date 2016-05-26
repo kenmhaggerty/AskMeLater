@@ -22,6 +22,8 @@
 
 #pragma mark - // DEFINITIONS (Public) //
 
+extern NSString * const PQCoreDataWillSaveNotification;
+
 @interface PQCoreDataController : NSObject <PQUser_Init, PQSurvey_Init, PQQuestion_Init, PQChoice_Init, PQResponse_Init>
 
 // GENERAL //

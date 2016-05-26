@@ -17,6 +17,8 @@
 
 #pragma mark - // DEFINITIONS (Private) //
 
+NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataControllerWillSave";
+
 @interface PQCoreDataController ()
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
@@ -112,6 +114,9 @@
     
     NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
     if (managedObjectContext != nil) {
+        
+        [AKGenerics postNotificationName:PQCoreDataWillSaveNotification object:nil userInfo:nil];
+        
         NSError *error = nil;
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
             // Replace this implementation with code to handle the error appropriately.
