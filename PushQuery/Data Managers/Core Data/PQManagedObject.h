@@ -17,11 +17,12 @@
 
 #pragma mark - // DEFINITIONS (Public) //
 
-extern NSString * const _Nullable PQManagedObjectWillBeDeallocatedNotification;
-extern NSString * const _Nullable PQManagedObjectWasCreatedNotification;
-extern NSString * const _Nullable PQManagedObjectWasFetchedNotification;
-extern NSString * const _Nullable PQManagedObjectDidSaveNotification;
-extern NSString * const _Nullable PQManagedObjectWillBeDeletedNotification;
+extern NSString * const _Nonnull PQManagedObjectWillBeDeallocatedNotification;
+extern NSString * const _Nonnull PQManagedObjectWasCreatedNotification;
+extern NSString * const _Nonnull PQManagedObjectWasFetchedNotification;
+extern NSString * const _Nonnull PQManagedObjectWillSaveNotification;
+extern NSString * const _Nonnull PQManagedObjectDidSaveNotification;
+extern NSString * const _Nonnull PQManagedObjectWillBeDeletedNotification;
 
 NS_ASSUME_NONNULL_BEGIN
 
