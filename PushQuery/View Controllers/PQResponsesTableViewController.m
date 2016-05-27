@@ -120,7 +120,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
     
-    PQTableViewCell *cell = (PQTableViewCell *)[AKGenerics cellWithReuseIdentifier:@"responseCell" class:[PQTableViewCell class] style:UITableViewCellStyleValue1 tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
+    PQTableViewCell *cell = [PQTableViewCell cellWithReuseIdentifier:@"responseCell" style:UITableViewCellStyleValue1 tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
     id <PQResponse> response = [self.responses objectAtIndex:indexPath.row];
     id <PQUser_PRIVATE> user = (id <PQUser_PRIVATE>)response.user;
     cell.textLabel.text = response.text;

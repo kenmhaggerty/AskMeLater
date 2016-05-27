@@ -13,7 +13,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import "PQManagedObject.h"
-#import "NSObject+Basics.h"
+//#import "NSObject+Basics.h"
 
 @class PQResponse, PQChoice, PQSurvey;
 

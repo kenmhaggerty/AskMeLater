@@ -34,7 +34,6 @@
 		7D12CAFE1C8A49560021519B /* AKDebugger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CAFD1C8A49560021519B /* AKDebugger.m */; };
 		7D12CB011C8A49660021519B /* AKGenerics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB001C8A49660021519B /* AKGenerics.m */; };
 		7D12CB041C8A49760021519B /* AKDebuggerRules.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB031C8A49760021519B /* AKDebuggerRules.m */; };
-		7D12CB081C8A4A7D0021519B /* NSObject+Basics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB071C8A4A7D0021519B /* NSObject+Basics.m */; };
 		7D12CB0C1C8A4B4F0021519B /* PQPrivateInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB0B1C8A4B4F0021519B /* PQPrivateInfo.m */; };
 		7D12CB101C8A4EBA0021519B /* PQLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB0F1C8A4EBA0021519B /* PQLoginManager.m */; };
 		7D12CB1A1C8A69610021519B /* PQUser+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CB171C8A69610021519B /* PQUser+CoreDataProperties.m */; };
@@ -58,7 +57,6 @@
 		7DBB1F2E1CAAF53B00C7C403 /* PQResultsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB1F2D1CAAF53B00C7C403 /* PQResultsTableViewController.m */; };
 		7DBB1F311CAAF55000C7C403 /* PQGraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBB1F301CAAF55000C7C403 /* PQGraphViewController.m */; };
 		7DDE78531C93234D00241A80 /* PQFirebaseQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDE78521C93234D00241A80 /* PQFirebaseQuery.m */; };
-		7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D511C936775000A02F0 /* NSArray+Extras.m */; };
 		7DE38D671C99D6EB000A02F0 /* PQSurvey+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D581C99D6EB000A02F0 /* PQSurvey+CoreDataProperties.m */; };
 		7DE38D691C99D6EB000A02F0 /* PQResponse+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D5C1C99D6EB000A02F0 /* PQResponse+CoreDataProperties.m */; };
 		7DE38D6A1C99D6EB000A02F0 /* PQResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D5E1C99D6EB000A02F0 /* PQResponse.m */; };
@@ -72,7 +70,6 @@
 		7DE38D8B1C9C5EF4000A02F0 /* UITableView+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D8A1C9C5EF4000A02F0 /* UITableView+Extras.m */; };
 		7DE38D941C9D924C000A02F0 /* UIAlertController+Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D931C9D924C000A02F0 /* UIAlertController+Info.m */; };
 		7DF930BA1CC931D100B01FD1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF930B91CC931D100B01FD1 /* Security.framework */; };
-		7DF930BE1CC9332700B01FD1 /* NSData+Encryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF930BD1CC9332700B01FD1 /* NSData+Encryption.m */; };
 		7DFEDD0E1CB6F81500166383 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DFEDD0D1CB6F81500166383 /* SafariServices.framework */; };
 		7DFEDD121CB7447700166383 /* PQTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFEDD111CB7447700166383 /* PQTableViewCell.m */; };
 /* End PBXBuildFile section */
@@ -1184,7 +1181,6 @@
 				7D12CAC81C8A30280021519B /* PushQuery.xcdatamodeld in Sources */,
 				7D12CB0C1C8A4B4F0021519B /* PQPrivateInfo.m in Sources */,
 				7D12CB1B1C8A69610021519B /* PQUser.m in Sources */,
-				7DE38D521C936775000A02F0 /* NSArray+Extras.m in Sources */,
 				7D5A65611CA0719900D7AE8D /* PQLoginViewController.m in Sources */,
 				7D12CAF71C8A48D10021519B /* PQFirebaseController.m in Sources */,
 				7DE38D821C9A0C37000A02F0 /* PQSurveyTableViewCell.m in Sources */,
@@ -1197,12 +1193,10 @@
 				7D7DE7F11C8B6D8100FFA637 /* PQDataManager.m in Sources */,
 				7DE38D6B1C99D6EB000A02F0 /* PQQuestion+CoreDataProperties.m in Sources */,
 				7DE38D671C99D6EB000A02F0 /* PQSurvey+CoreDataProperties.m in Sources */,
-				7DF930BE1CC9332700B01FD1 /* NSData+Encryption.m in Sources */,
 				7D43DDC51CBE911B00FEA394 /* PQManagedObject+CoreDataProperties.m in Sources */,
 				7DBB1F1E1CA9B16200C7C403 /* PQNotificationsManager.m in Sources */,
 				7DE38D6D1C99D6EB000A02F0 /* PQChoice+CoreDataProperties.m in Sources */,
 				7DBB1F2B1CAAF52700C7C403 /* PQResponsesTableViewController.m in Sources */,
-				7D12CB081C8A4A7D0021519B /* NSObject+Basics.m in Sources */,
 				7DE38D851C9A0C45000A02F0 /* PQResultsViewController.m in Sources */,
 				7DE38D7F1C9A0C21000A02F0 /* PQSurveyTableViewController.m in Sources */,
 				7D12CABC1C8A30280021519B /* main.m in Sources */,

@@ -233,7 +233,7 @@ NSUInteger const TimingTableViewSection = 2;
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
     
     if (indexPath.section == QuestionsTableViewSection) {
-        PQSurveyTableViewCell *cell = (PQSurveyTableViewCell *)[AKGenerics cellWithReuseIdentifier:[PQSurveyTableViewCell reuseIdentifier] class:[PQSurveyTableViewCell class] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
+        PQSurveyTableViewCell *cell = [PQSurveyTableViewCell cellWithReuseIdentifier:[PQSurveyTableViewCell reuseIdentifier] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
         id <PQQuestion> question = [self.survey.questions objectAtIndex:indexPath.row];
         cell.textView.text = question.text;
         cell.delegate = self;
@@ -241,13 +241,13 @@ NSUInteger const TimingTableViewSection = 2;
     }
     
     if (indexPath.section == AddTableViewSection) {
-        UITableViewCell *cell = [AKGenerics cellWithReuseIdentifier:AddCellReuseIdentifier class:[UITableViewCell class] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
+        UITableViewCell *cell = [UITableViewCell cellWithReuseIdentifier:AddCellReuseIdentifier style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
         cell.separatorInset = UIEdgeInsetsMake(0.f, cell.bounds.size.width, 0.f, 0.f);
         return cell;
     }
     
     if (indexPath.section == TimingTableViewSection) {
-        PQSurveyTimingCell *cell = (PQSurveyTimingCell *)[AKGenerics cellWithReuseIdentifier:[PQSurveyTimingCell reuseIdentifier] class:[PQSurveyTimingCell class] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
+        PQSurveyTimingCell *cell = [PQSurveyTimingCell cellWithReuseIdentifier:[PQSurveyTimingCell reuseIdentifier] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
         cell.delegate = self;
         if (self.survey.time) {
             cell.timePicker.date = self.survey.time;
