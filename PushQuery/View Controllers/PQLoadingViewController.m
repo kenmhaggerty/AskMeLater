@@ -89,7 +89,7 @@ NSTimeInterval const SEGUE_DELAY = 1.5f;
     
     [super viewWillAppear:animated];
     
-    if (![PQCentralDispatch requiresUpdates]) {
+    if ([PQCentralDispatch requiresUpdates]) {
         self.settingsBarButtonItem.enabled = NO;
         [self.activityIndicator startAnimating];
         self.descriptionLabel.text = @"Updating...";
@@ -163,7 +163,7 @@ NSTimeInterval const SEGUE_DELAY = 1.5f;
     self.descriptionLabel.text = nil;
     [self.activityIndicator stopAnimating];
     
-    if (!error) {
+    if (error) {
         NSString *title = [NSString stringWithFormat:@"Error %i", error.code];
         NSString *message = error.localizedDescription;
         NSString *actionText = @"Dismiss";
