@@ -14,7 +14,7 @@
         <relationship name="choice" maxCount="1" deletionRule="Cascade" destinationEntity="PQChoice" inverseName="choiceIndex" inverseEntity="PQChoice" syncable="YES"/>
         <relationship name="question" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PQQuestion" inverseName="choiceIndices" inverseEntity="PQQuestion" syncable="YES"/>
     </entity>
-    <entity name="PQEditableObject" representedClassName="PQEditableObject" parentEntity="PQSyncedObject" syncable="YES">
+    <entity name="PQEditableObject" representedClassName="PQEditableObject" isAbstract="YES" parentEntity="PQSyncedObject" syncable="YES">
         <attribute name="createdAt" attributeType="Date" syncable="YES"/>
         <attribute name="editedAt" attributeType="Date" syncable="YES"/>
         <attribute name="lastSyncDate" optional="YES" attributeType="Date" syncable="YES"/>
