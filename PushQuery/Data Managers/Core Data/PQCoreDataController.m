@@ -701,7 +701,7 @@ NSString * const PQCoreDataSourceStoreFilename = @"PushQuery.sqlite";
     if (!modelPaths.count) {
         //Throw an error if there are no models
         if (NULL != error) {
-            *error = [NSError errorWithDomain:@"PushQuery" code:8001 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"No %@ found", stringFromVariable(modelPaths)]}];
+            *error = [NSError errorWithDomain:@"PushQuery" code:2 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Could not obtain %@ for Core Data migration.", stringFromVariable(modelPaths)]}];
         }
         return NO;
     }
@@ -721,7 +721,7 @@ NSString * const PQCoreDataSourceStoreFilename = @"PushQuery.sqlite";
     //We have tested every model, if nil here we failed
     if (!mapping) {
         if (NULL != error) {
-            *error = [NSError errorWithDomain:@"PushQuery" code:8001 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"%@ is nil", stringFromVariable(mapping)]}];
+            *error = [NSError errorWithDomain:@"PushQuery" code:2 userInfo:@{NSLocalizedDescriptionKey: @"No mapping model found for Core Data migration."}];
         }
         return NO;
     }
