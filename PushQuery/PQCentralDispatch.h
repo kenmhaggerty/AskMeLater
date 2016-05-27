@@ -18,8 +18,21 @@
 
 #pragma mark - // DEFINITIONS (Public) //
 
+extern NSString * const PQCentralDispatchUpdatesDidBegin;
+extern NSString * const PQCentralDispatchUpdatesProgressDidChange;
+extern NSString * const PQCentralDispatchUpdatesDidFinish;
+
 @interface PQCentralDispatch : NSObject
+
+// SETUP //
+
++ (BOOL)requiresUpdates;
++ (void)startUpdates;
+
+// ACCOUNTS //
+
 + (id <PQUser>)currentUser;
 + (void)requestLoginWithCompletion:(void(^)(id <PQUser> user))completionBlock;
 + (void)requestLogoutWithCompletion:(void(^)(BOOL success))completionBlock;
+
 @end

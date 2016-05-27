@@ -34,19 +34,7 @@
                     <view key="view" contentMode="scaleToFill" id="PUY-qu-yQk">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IRJ-tN-yge">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
-                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="IRJ-tN-yge" firstAttribute="top" secondItem="gip-D5-4Et" secondAttribute="bottom" id="CIJ-08-NzI"/>
-                            <constraint firstItem="IRJ-tN-yge" firstAttribute="leading" secondItem="PUY-qu-yQk" secondAttribute="leading" id="GYG-UB-L0c"/>
-                            <constraint firstAttribute="trailing" secondItem="IRJ-tN-yge" secondAttribute="trailing" id="Lu8-rz-mfn"/>
-                            <constraint firstItem="TK8-dE-hj0" firstAttribute="top" secondItem="IRJ-tN-yge" secondAttribute="bottom" id="VAd-2g-nO8"/>
-                        </constraints>
+                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="3OC-Er-H1d">
                         <barButtonItem key="leftBarButtonItem" title="Settings" id="btg-zO-ajg"/>

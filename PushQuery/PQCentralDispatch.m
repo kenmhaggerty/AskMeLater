@@ -15,14 +15,43 @@
 #import "AKGenerics.h"
 
 #import "PQLoginManager.h"
+#import "PQCoreDataController.h"
 
 #pragma mark - // DEFINITIONS (Private) //
 
+NSString * const PQCentralDispatchUpdatesDidBegin = @"kNotificationPQCentralDispatch_UpdatesDidBegin";
+NSString * const PQCentralDispatchUpdatesProgressDidChange = @"kNotificationPQCentralDispatch_UpdatesProgressDidChange";
+NSString * const PQCentralDispatchUpdatesDidFinish = @"kNotificationPQCentralDispatch_UpdatesDidFinish";
+
 @interface PQCentralDispatch ()
 @property (nonatomic, strong) id <PQLoginDelegate> loginDelegate;
+@property (nonatomic) BOOL isUpdating;
+
+// GENERAL //
+
 + (instancetype)sharedDispatch;
+
+// CONVENIENCE //
+
 + (id <PQLoginDelegate>)loginDelegate;
 + (Class <PQAccountDelegate>)accountDelegate;
+
++ (BOOL)isUpdating;
++ (void)setIsUpdating:(BOOL)isUpdating;
+
+// SETUP //
+
++ (void)migrateCoreDataWithCompletion:(void (^)(BOOL success, NSError *error))completionBlock;
+
+// OBSERVERS //
+
+- (void)addObserversToCoreData;
+- (void)removeObserversFromCoreData;
+
+// RESPONDERS //
+
+- (void)coreDataMigrationProgressDidChange:(NSNotification *)notification;
+
 @end
 
 @implementation PQCentralDispatch
@@ -31,7 +60,59 @@
 
 #pragma mark - // INITS AND LOADS //
 
-#pragma mark - // PUBLIC METHODS //
+- (id)init {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:nil message:nil];
+    
+    self = [super init];
+    if (self) {
+        [self setup];
+    }
+    return self;
+}
+
+- (void)awakeFromNib {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:nil message:nil];
+    
+    [super awakeFromNib];
+    
+    [self setup];
+}
+
+#pragma mark - // PUBLIC METHODS (Setup) //
+
++ (BOOL)requiresUpdates {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:nil message:nil];
+    
+    return [PQCoreDataController needsMigration];
+}
+
++ (void)startUpdates {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:nil message:nil];
+    
+    if ([PQCentralDispatch isUpdating]) {
+        return;
+    }
+    
+    [PQCentralDispatch setIsUpdating:YES];
+    
+    [AKGenerics postNotificationName:PQCentralDispatchUpdatesDidBegin object:nil userInfo:nil];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        
+        [PQCentralDispatch migrateCoreDataWithCompletion:^(BOOL success, NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [PQCentralDispatch setIsUpdating:NO];
+                
+                NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:error forKey:NOTIFICATION_OBJECT_KEY];
+                [AKGenerics postNotificationName:PQCentralDispatchUpdatesDidFinish object:nil userInfo:userInfo];
+                
+            });
+        }];
+    });
+}
+
+#pragma mark - // PUBLIC METHODS (Accounts) //
 
 + (id <PQUser>)currentUser {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_ACCOUNTS] message:nil];
@@ -74,7 +155,15 @@
 
 #pragma mark - // OVERWRITTEN METHODS //
 
-#pragma mark - // PRIVATE METHODS //
+- (void)setup {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:nil message:nil];
+    
+    [super setup];
+    
+    self.isUpdating = NO;
+}
+
+#pragma mark - // PRIVATE METHODS (General) //
 
 + (instancetype)sharedDispatch {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_ACCOUNTS] message:nil];
@@ -87,6 +176,8 @@
     return _sharedDispatch;
 }
 
+#pragma mark - // PRIVATE METHODS (Convenience) //
+
 + (id <PQLoginDelegate>)loginDelegate {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_ACCOUNTS] message:nil];
     
@@ -97,6 +188,57 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_ACCOUNTS] message:nil];
     
     return [PQLoginManager class];
+}
+
++ (BOOL)isUpdating {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:nil message:nil];
+    
+    return [PQCentralDispatch sharedDispatch].isUpdating;
+}
+
++ (void)setIsUpdating:(BOOL)isUpdating {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:nil message:nil];
+    
+    [PQCentralDispatch sharedDispatch].isUpdating = isUpdating;
+}
+
+#pragma mark - // PRIVATE METHODS (Setup) //
+
++ (void)migrateCoreDataWithCompletion:(void (^)(BOOL success, NSError *error))completionBlock {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
+    
+    PQCentralDispatch *sharedDispatch = [PQCentralDispatch sharedDispatch];
+    
+    [sharedDispatch addObserversToCoreData];
+    
+    NSError *error;
+    BOOL success = [PQCoreDataController migrate:&error];
+    
+    [sharedDispatch removeObserversFromCoreData];
+    
+    completionBlock(success, error);
+}
+
+#pragma mark - // PRIVATE METHODS (Observers) //
+
+- (void)addObserversToCoreData {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA, AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(coreDataMigrationProgressDidChange:) name:PQCentralDispatchUpdatesProgressDidChange object:nil];
+}
+
+- (void)removeObserversFromCoreData {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA, AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PQCentralDispatchUpdatesProgressDidChange object:nil];
+}
+
+#pragma mark - // PRIVATE METHODS (Responders) //
+
+- (void)coreDataMigrationProgressDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA, AKD_NOTIFICATION_CENTER] message:nil];
+    
+    [AKGenerics postNotificationName:PQCentralDispatchUpdatesProgressDidChange object:nil userInfo:notification.userInfo];
 }
 
 @end

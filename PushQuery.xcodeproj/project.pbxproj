@@ -68,6 +68,8 @@
 		7DDA73DE1CF775CA00945997 /* PQQuestionToPQQuestionPolicy_A.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDA73DD1CF775CA00945997 /* PQQuestionToPQQuestionPolicy_A.m */; };
 		7DDA73E11CF775DC00945997 /* PQChoiceToPQChoicePolicy_A.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDA73E01CF775DC00945997 /* PQChoiceToPQChoicePolicy_A.m */; };
 		7DDA73E41CF775EA00945997 /* PQResponseToPQResponsePolicy_A.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDA73E31CF775EA00945997 /* PQResponseToPQResponsePolicy_A.m */; };
+		7DDA73E81CF7AF7800945997 /* PQLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDA73E71CF7AF7800945997 /* PQLoadingViewController.m */; };
+		7DDA73EC1CF89D2E00945997 /* PQFadeSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDA73EB1CF89D2E00945997 /* PQFadeSegue.m */; };
 		7DE38D671C99D6EB000A02F0 /* PQSurvey+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D581C99D6EB000A02F0 /* PQSurvey+CoreDataProperties.m */; };
 		7DE38D691C99D6EB000A02F0 /* PQResponse+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D5C1C99D6EB000A02F0 /* PQResponse+CoreDataProperties.m */; };
 		7DE38D6A1C99D6EB000A02F0 /* PQResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE38D5E1C99D6EB000A02F0 /* PQResponse.m */; };
@@ -226,6 +228,10 @@
 		7DDA73E01CF775DC00945997 /* PQChoiceToPQChoicePolicy_A.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQChoiceToPQChoicePolicy_A.m; sourceTree = "<group>"; };
 		7DDA73E21CF775EA00945997 /* PQResponseToPQResponsePolicy_A.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQResponseToPQResponsePolicy_A.h; sourceTree = "<group>"; };
 		7DDA73E31CF775EA00945997 /* PQResponseToPQResponsePolicy_A.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQResponseToPQResponsePolicy_A.m; sourceTree = "<group>"; };
+		7DDA73E61CF7AF7800945997 /* PQLoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQLoadingViewController.h; sourceTree = "<group>"; };
+		7DDA73E71CF7AF7800945997 /* PQLoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQLoadingViewController.m; sourceTree = "<group>"; };
+		7DDA73EA1CF89D2E00945997 /* PQFadeSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQFadeSegue.h; path = Segues/PQFadeSegue.h; sourceTree = "<group>"; };
+		7DDA73EB1CF89D2E00945997 /* PQFadeSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PQFadeSegue.m; path = Segues/PQFadeSegue.m; sourceTree = "<group>"; };
 		7DDE78541C9328FC00241A80 /* FirebaseQuery+FQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FirebaseQuery+FQuery.h"; sourceTree = "<group>"; };
 		7DE38D531C99BA32000A02F0 /* PQSurveyProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQSurveyProtocols.h; path = Protocols/PQSurveyProtocols.h; sourceTree = "<group>"; };
 		7DE38D541C99BA88000A02F0 /* PQQuestionProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PQQuestionProtocols.h; path = Protocols/PQQuestionProtocols.h; sourceTree = "<group>"; };
@@ -428,12 +434,12 @@
 				7D12CAFB1C8A49380021519B /* AKDebuggerRules */,
 				7D12CB091C8A4B2E0021519B /* PQPrivateInfo */,
 				7D50AB441CBEDCE40086DAF1 /* PQCentralDispatch */,
+				7D12CAC91C8A30280021519B /* Assets.xcassets */,
 				7D12CABD1C8A30280021519B /* AppDelegate.h */,
 				7D12CABE1C8A30280021519B /* AppDelegate.m */,
 				7D12CAF11C8A47D60021519B /* Storyboards */,
 				7D12CAF01C8A47CD0021519B /* View Controllers */,
 				7D12CAF21C8A482B0021519B /* Data Managers */,
-				7D12CAC91C8A30280021519B /* Assets.xcassets */,
 				7D12CABA1C8A30280021519B /* Supporting Files */,
 				7D1D63871CB547DC008DDD2E /* UNUSED */,
 			);
@@ -471,6 +477,7 @@
 			isa = PBXGroup;
 			children = (
 				7DE38D861C9B11CE000A02F0 /* Protocols */,
+				7DDA73E51CF7AF6400945997 /* PQLoadingViewController */,
 				7D50AB401CBEDBE00086DAF1 /* PQRootViewController */,
 				7D5A655E1CA0718500D7AE8D /* PQLoginViewController */,
 				7DBB1F101CA4333800C7C403 /* PQSurveysTableViewController */,
@@ -940,6 +947,25 @@
 			name = PQResponseToPQResponsePolicy;
 			sourceTree = "<group>";
 		};
+		7DDA73E51CF7AF6400945997 /* PQLoadingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7DDA73E61CF7AF7800945997 /* PQLoadingViewController.h */,
+				7DDA73E71CF7AF7800945997 /* PQLoadingViewController.m */,
+				7DDA73E91CF89CF600945997 /* Segues */,
+			);
+			name = PQLoadingViewController;
+			sourceTree = "<group>";
+		};
+		7DDA73E91CF89CF600945997 /* Segues */ = {
+			isa = PBXGroup;
+			children = (
+				7DDA73EA1CF89D2E00945997 /* PQFadeSegue.h */,
+				7DDA73EB1CF89D2E00945997 /* PQFadeSegue.m */,
+			);
+			name = Segues;
+			sourceTree = "<group>";
+		};
 		7DDE78571C93290900241A80 /* FirebaseQuery */ = {
 			isa = PBXGroup;
 			children = (
@@ -1389,6 +1415,7 @@
 				7D12CB041C8A49760021519B /* AKDebuggerRules.m in Sources */,
 				7D12CAFE1C8A49560021519B /* AKDebugger.m in Sources */,
 				7DDA73DE1CF775CA00945997 /* PQQuestionToPQQuestionPolicy_A.m in Sources */,
+				7DDA73E81CF7AF7800945997 /* PQLoadingViewController.m in Sources */,
 				7DE38D691C99D6EB000A02F0 /* PQResponse+CoreDataProperties.m in Sources */,
 				7D028D651CF7471500CF02B6 /* Migration_A.xcmappingmodel in Sources */,
 				7DFFC6661CECA681001EBFD2 /* PQChoiceIndex.m in Sources */,
@@ -1400,6 +1427,7 @@
 				7D09C86D1CB4153C00962A23 /* SyncViewController.m in Sources */,
 				7DE38D8B1C9C5EF4000A02F0 /* UITableView+Extras.m in Sources */,
 				7DFFC6651CECA681001EBFD2 /* PQChoiceIndex+CoreDataProperties.m in Sources */,
+				7DDA73EC1CF89D2E00945997 /* PQFadeSegue.m in Sources */,
 				7D028D681CF7484200CF02B6 /* PQUserToPQUserPolicy_A.m in Sources */,
 				7DFFC6641CECA681001EBFD2 /* PQQuestionIndex.m in Sources */,
 				7D20212A1CE13DAD008D9F5D /* PQSyncedObject+CoreDataProperties.m in Sources */,

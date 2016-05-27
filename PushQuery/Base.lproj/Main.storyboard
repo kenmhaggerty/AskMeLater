@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="deS-Ky-OaM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="deS-Ky-OaM">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Login View Controller-->
@@ -336,7 +337,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oVp-rb-ohy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1224" y="1115"/>
+            <point key="canvasLocation" x="2075" y="1115"/>
         </scene>
         <!--Results-->
         <scene sceneID="dDM-Bd-bSo">
@@ -383,7 +384,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dxq-Yl-Yfx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2876" y="1445"/>
+            <point key="canvasLocation" x="3699" y="1897"/>
         </scene>
         <!--Questions-->
         <scene sceneID="Cby-zh-p72">
@@ -471,7 +472,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GBH-o7-RXB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4374" y="1601.5"/>
+            <point key="canvasLocation" x="5323" y="2043.5"/>
         </scene>
         <!--Responses-->
         <scene sceneID="xFG-OS-8Ef">
@@ -558,7 +559,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yEc-UJ-rkf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5103" y="1601.5"/>
+            <point key="canvasLocation" x="6135" y="2043.5"/>
         </scene>
         <!--Graph View Controller-->
         <scene sceneID="G6P-ni-ASc">
@@ -598,7 +599,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BZc-tL-x7L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3631" y="1245"/>
+            <point key="canvasLocation" x="4511" y="1687"/>
         </scene>
         <!--My First Survey-->
         <scene sceneID="sF9-yz-pG6">
@@ -814,7 +815,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GAp-tc-M1Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2876" y="784"/>
+            <point key="canvasLocation" x="3699" y="1115"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="hXo-9P-8FT">
@@ -832,7 +833,91 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZWa-sG-9yu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2056" y="1115"/>
+            <point key="canvasLocation" x="2887" y="1115"/>
+        </scene>
+        <!--Loading View Controller-->
+        <scene sceneID="ZJa-l3-bbR">
+            <objects>
+                <viewController id="ADe-7v-DVk" customClass="PQLoadingViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zM5-Bt-nRx"/>
+                        <viewControllerLayoutGuide type="bottom" id="ZoL-Pv-QWA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dSr-gg-nAc">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C6j-QH-46n">
+                                <rect key="frame" x="142" y="244" width="316" height="112"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="SnC-jB-IZH">
+                                        <rect key="frame" x="140" y="8" width="37" height="37"/>
+                                        <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                    </activityIndicatorView>
+                                    <imageView userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark" translatesAutoresizingMaskIntoConstraints="NO" id="OHo-sU-3PD">
+                                        <rect key="frame" x="118" y="-13" width="80" height="80"/>
+                                    </imageView>
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VCx-TS-0yC">
+                                        <rect key="frame" x="8" y="73" width="300" height="2"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </progressView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Upgrading..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PlB-iQ-Eh5">
+                                        <rect key="frame" x="123" y="89" width="71" height="15"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="PlB-iQ-Eh5" secondAttribute="trailing" id="0WR-jh-2rh"/>
+                                    <constraint firstItem="PlB-iQ-Eh5" firstAttribute="centerX" secondItem="C6j-QH-46n" secondAttribute="centerX" id="16X-cH-eS1"/>
+                                    <constraint firstItem="PlB-iQ-Eh5" firstAttribute="top" relation="greaterThanOrEqual" secondItem="C6j-QH-46n" secondAttribute="topMargin" id="2ec-mg-KKS"/>
+                                    <constraint firstItem="OHo-sU-3PD" firstAttribute="centerX" secondItem="SnC-jB-IZH" secondAttribute="centerX" id="5RQ-lM-MZ4"/>
+                                    <constraint firstItem="SnC-jB-IZH" firstAttribute="centerX" secondItem="C6j-QH-46n" secondAttribute="centerX" id="843-dd-7v6"/>
+                                    <constraint firstItem="VCx-TS-0yC" firstAttribute="leading" secondItem="C6j-QH-46n" secondAttribute="leadingMargin" priority="250" id="BEX-KB-YZH"/>
+                                    <constraint firstItem="PlB-iQ-Eh5" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="C6j-QH-46n" secondAttribute="leadingMargin" id="HJ1-LQ-MKa"/>
+                                    <constraint firstItem="OHo-sU-3PD" firstAttribute="centerY" secondItem="SnC-jB-IZH" secondAttribute="centerY" id="HdO-1q-PwK"/>
+                                    <constraint firstItem="PlB-iQ-Eh5" firstAttribute="top" secondItem="VCx-TS-0yC" secondAttribute="bottom" constant="14" id="JP6-sB-4xj"/>
+                                    <constraint firstItem="VCx-TS-0yC" firstAttribute="top" secondItem="SnC-jB-IZH" secondAttribute="bottom" constant="28" id="KWZ-Vc-9aX"/>
+                                    <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="SnC-jB-IZH" secondAttribute="bottom" id="KZS-Pa-57d"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="VCx-TS-0yC" secondAttribute="trailing" priority="250" id="NKh-sm-5um"/>
+                                    <constraint firstItem="SnC-jB-IZH" firstAttribute="top" secondItem="C6j-QH-46n" secondAttribute="topMargin" id="S2a-Xb-ED9"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="PlB-iQ-Eh5" secondAttribute="bottom" id="VIu-LR-IZg"/>
+                                    <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="SnC-jB-IZH" secondAttribute="trailing" id="eaQ-Cl-pL2"/>
+                                    <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="VCx-TS-0yC" secondAttribute="trailing" id="ezo-fI-Siv"/>
+                                    <constraint firstItem="SnC-jB-IZH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="C6j-QH-46n" secondAttribute="leadingMargin" id="gsg-yY-VRn"/>
+                                    <constraint firstItem="VCx-TS-0yC" firstAttribute="top" relation="greaterThanOrEqual" secondItem="C6j-QH-46n" secondAttribute="topMargin" id="i9y-H0-cXs"/>
+                                    <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="VCx-TS-0yC" secondAttribute="bottom" id="tyV-tc-mLe"/>
+                                    <constraint firstItem="VCx-TS-0yC" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="C6j-QH-46n" secondAttribute="leadingMargin" id="wpd-zg-bjs"/>
+                                    <constraint firstItem="VCx-TS-0yC" firstAttribute="centerX" secondItem="C6j-QH-46n" secondAttribute="centerX" id="yRs-lI-DYM"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="C6j-QH-46n" firstAttribute="width" relation="lessThanOrEqual" secondItem="dSr-gg-nAc" secondAttribute="width" id="7JU-LZ-TN9"/>
+                            <constraint firstItem="VCx-TS-0yC" firstAttribute="width" secondItem="dSr-gg-nAc" secondAttribute="width" multiplier="0.5" priority="750" id="DiQ-Vb-Cxv"/>
+                            <constraint firstItem="C6j-QH-46n" firstAttribute="height" relation="lessThanOrEqual" secondItem="dSr-gg-nAc" secondAttribute="height" id="Tq5-o4-mjm"/>
+                            <constraint firstItem="C6j-QH-46n" firstAttribute="centerX" secondItem="dSr-gg-nAc" secondAttribute="centerX" id="e3f-QA-P9i"/>
+                            <constraint firstItem="C6j-QH-46n" firstAttribute="centerY" secondItem="dSr-gg-nAc" secondAttribute="centerY" id="soK-Dp-3GT"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="ARz-NB-vIV">
+                        <barButtonItem key="leftBarButtonItem" title="Settings" id="Zrc-EO-LlA"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="activityIndicator" destination="SnC-jB-IZH" id="q79-fj-9gy"/>
+                        <outlet property="descriptionLabel" destination="PlB-iQ-Eh5" id="IlR-3n-Pkb"/>
+                        <outlet property="iconView" destination="OHo-sU-3PD" id="rY1-cM-MM2"/>
+                        <outlet property="progressView" destination="VCx-TS-0yC" id="eYN-Po-X7q"/>
+                        <outlet property="settingsBarButtonItem" destination="Zrc-EO-LlA" id="qMh-Jh-7Eo"/>
+                        <segue destination="Cyk-Tn-HoT" kind="show" identifier="segueComplete" customClass="PQFadeSegue" id="aQN-pm-CDq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Uv5-fn-IdN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1263" y="1115"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="NHG-8D-Yje">
@@ -878,12 +963,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="Cyk-Tn-HoT" kind="relationship" relationship="rootViewController" id="tpZ-D0-6pN"/>
+                        <segue destination="ADe-7v-DVk" kind="relationship" relationship="rootViewController" id="AEN-ta-R7c"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q9G-GI-s7p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="404" y="1115"/>
+            <point key="canvasLocation" x="451" y="1115"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="WSw-Pq-AMD">
@@ -901,11 +986,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="153-gI-sna" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3631" y="1601.5"/>
+            <point key="canvasLocation" x="4511" y="2043.5"/>
         </scene>
     </scenes>
     <resources>
         <image name="Icon" width="76" height="76"/>
+        <image name="checkmark" width="80" height="80"/>
         <image name="results" width="25" height="25"/>
         <image name="survey" width="25" height="24"/>
     </resources>
