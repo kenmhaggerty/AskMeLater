@@ -648,11 +648,11 @@ NSString * const PQCoreDataSourceStoreFilename = @"PushQuery.sqlite";
         return YES;
     }
     
-    NSManagedObjectModel *sourceModel = [self sourceModelForSourceMetadata:sourceMetadata];
+    NSManagedObjectModel *sourceModel = [PQCoreDataController sourceModelForSourceMetadata:sourceMetadata];
     NSManagedObjectModel *destinationModel;
     NSMappingModel *mappingModel;
     NSString *modelName;
-    if (![self getDestinationModel:&destinationModel mappingModel:&mappingModel modelName:&modelName forSourceModel:sourceModel error:error]) {
+    if (![PQCoreDataController getDestinationModel:&destinationModel mappingModel:&mappingModel modelName:&modelName forSourceModel:sourceModel error:error]) {
         return NO;
     }
     
@@ -665,7 +665,7 @@ NSString * const PQCoreDataSourceStoreFilename = @"PushQuery.sqlite";
 //    }
     
     // We have a mapping model, time to migrate
-    NSURL *destinationStoreURL = [self destinationStoreURLWithSourceStoreURL:sourceStoreURL modelName:modelName];
+    NSURL *destinationStoreURL = [PQCoreDataController destinationStoreURLWithSourceStoreURL:sourceStoreURL modelName:modelName];
     NSMigrationManager *migrationManager = [[NSMigrationManager alloc] initWithSourceModel:sourceModel destinationModel:destinationModel];
     
     [PQCoreDataController setMigrationManager:migrationManager];
@@ -680,12 +680,12 @@ NSString * const PQCoreDataSourceStoreFilename = @"PushQuery.sqlite";
     }
     
     // Migration was successful, move the files around to preserve the source in case things go bad
-    if (![self backupSourceStoreAtURL:sourceStoreURL movingDestinationStoreAtURL:destinationStoreURL error:error]) {
+    if (![PQCoreDataController backupSourceStoreAtURL:sourceStoreURL movingDestinationStoreAtURL:destinationStoreURL error:error]) {
         return NO;
     }
     
     // We may not be at the "current" model yet, so recurse
-    return [self progressivelyMigrateURL:sourceStoreURL ofType:type toModel:finalModel error:error];
+    return [PQCoreDataController progressivelyMigrateURL:sourceStoreURL ofType:type toModel:finalModel error:error];
 }
 
 + (NSManagedObjectModel *)sourceModelForSourceMetadata:(NSDictionary *)sourceMetadata {
@@ -697,7 +697,7 @@ NSString * const PQCoreDataSourceStoreFilename = @"PushQuery.sqlite";
 + (BOOL)getDestinationModel:(NSManagedObjectModel **)destinationModel mappingModel:(NSMappingModel **)mappingModel modelName:(NSString **)modelName forSourceModel:(NSManagedObjectModel *)sourceModel error:(NSError **)error {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
     
-    NSArray *modelPaths = [self modelPaths];
+    NSArray *modelPaths = [PQCoreDataController modelPaths];
     if (!modelPaths.count) {
         //Throw an error if there are no models
         if (NULL != error) {
