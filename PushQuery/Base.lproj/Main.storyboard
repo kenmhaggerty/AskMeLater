@@ -861,7 +861,7 @@
                                         <rect key="frame" x="8" y="73" width="300" height="2"/>
                                         <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </progressView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Upgrading..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PlB-iQ-Eh5">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Upgrading..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PlB-iQ-Eh5">
                                         <rect key="frame" x="123" y="89" width="71" height="15"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -896,7 +896,7 @@
                         </subviews>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="C6j-QH-46n" firstAttribute="width" relation="lessThanOrEqual" secondItem="dSr-gg-nAc" secondAttribute="width" id="7JU-LZ-TN9"/>
+                            <constraint firstItem="C6j-QH-46n" firstAttribute="width" relation="lessThanOrEqual" secondItem="dSr-gg-nAc" secondAttribute="width" multiplier="0.8" id="7JU-LZ-TN9"/>
                             <constraint firstItem="VCx-TS-0yC" firstAttribute="width" secondItem="dSr-gg-nAc" secondAttribute="width" multiplier="0.5" priority="750" id="DiQ-Vb-Cxv"/>
                             <constraint firstItem="C6j-QH-46n" firstAttribute="height" relation="lessThanOrEqual" secondItem="dSr-gg-nAc" secondAttribute="height" id="Tq5-o4-mjm"/>
                             <constraint firstItem="C6j-QH-46n" firstAttribute="centerX" secondItem="dSr-gg-nAc" secondAttribute="centerX" id="e3f-QA-P9i"/>

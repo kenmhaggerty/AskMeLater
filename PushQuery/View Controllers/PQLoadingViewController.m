@@ -164,20 +164,23 @@ NSTimeInterval const SEGUE_DELAY = 1.5f;
     [self.activityIndicator stopAnimating];
     
     if (error) {
+        [self.navigationItem setLeftBarButtonItems:nil animated:YES];
+    }
+    
+    self.descriptionLabel.text = error ? @"Update Failed\n\nIf you continue to encounter this error, please email us at pushquerysupport@gmail.com." : @"Update Complete";
+    self.iconView.image = error ? [UIImage imageNamed:@"x"] : [UIImage imageNamed:@"checkmark"];
+    self.iconView.hidden = NO;
+    
+    if (error) {
+        
         NSString *title = [NSString stringWithFormat:@"Error %i", error.code];
         NSString *message = error.localizedDescription;
-        NSString *actionText = @"Dismiss";
         
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert actions:@[actionText] preferredAction:actionText dismissalText:nil completion:^(UIAlertAction *action) {
-            [self performSegueWithIdentifier:SEGUE_COMPLETE sender:self];
-        }];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert actions:nil preferredAction:nil dismissalText:nil completion:nil];
         
         [self presentViewController:alert animated:YES completion:nil];
         return;
     }
-    
-    self.iconView.hidden = NO;
-    self.descriptionLabel.text = @"Update Complete";
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(SEGUE_DELAY * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self performSegueWithIdentifier:SEGUE_COMPLETE sender:self];
