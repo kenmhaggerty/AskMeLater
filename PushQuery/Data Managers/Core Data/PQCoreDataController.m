@@ -17,18 +17,25 @@
 
 #pragma mark - // DEFINITIONS (Private) //
 
-NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataControllerWillSave";
+NSString * const PQCoreDataMigrationProgressDidChangeNotification = @"kNotificationPQCoreDataController_MigrationProgressDidChange";
+NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataController_WillSave";
+
+NSString * const PQCoreDataSourceStoreFilename = @"PushQuery.sqlite";
 
 @interface PQCoreDataController ()
-@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
-@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (nonatomic, strong, readonly) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong, readonly) NSManagedObjectModel *managedObjectModel;
+@property (nonatomic, strong, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (nonatomic, strong) NSMigrationManager *migrationManager;
 
 // GENERAL //
 
 + (instancetype)sharedController;
 + (NSManagedObjectContext *)managedObjectContext;
++ (NSManagedObjectModel *)managedObjectModel;
 + (NSURL *)applicationDocumentsDirectory;
++ (NSURL *)sourceStoreURL;
++ (NSString *)sourceStoreType;
 
 + (BOOL)objectExistsWithClass:(Class)class predicate:(NSPredicate *)predicate;
 + (NSManagedObject *)fetchObjectWithClass:(Class)class predicate:(NSPredicate *)predicate sortDescriptors:(NSArray <NSSortDescriptor *> *)sortDescriptors;
@@ -41,6 +48,15 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
 + (NSString *)questionId;
 + (NSString *)responseId;
 
+// MIGRATION //
+
++ (void)setMigrationManager:(NSMigrationManager *)migrationManager;
++ (BOOL)progressivelyMigrateURL:(NSURL *)sourceStoreURL ofType:(NSString *)type toModel:(NSManagedObjectModel *)finalModel error:(NSError **)error;
++ (NSManagedObjectModel *)sourceModelForSourceMetadata:(NSDictionary *)sourceMetadata;
++ (NSArray *)modelPaths;
++ (NSURL *)destinationStoreURLWithSourceStoreURL:(NSURL *)sourceStoreURL modelName:(NSString *)modelName;
++ (BOOL)backupSourceStoreAtURL:(NSURL *)sourceStoreURL movingDestinationStoreAtURL:(NSURL *)destinationStoreURL error:(NSError **)error;
+
 @end
 
 @implementation PQCoreDataController
@@ -50,6 +66,7 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
+@synthesize migrationManager = _migrationManager;
 
 - (NSManagedObjectContext *)managedObjectContext {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
@@ -89,10 +106,10 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
     }
     
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    NSURL *storeURL = [[PQCoreDataController applicationDocumentsDirectory] URLByAppendingPathComponent:@"PushQuery.sqlite"];
+    NSURL *sourceStoreURL = [PQCoreDataController sourceStoreURL];
     NSError *error;
     NSString *failureReason = @"There was an error creating or loading the application's saved data.";
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:sourceStoreURL options:nil error:&error]) {
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         dict[NSLocalizedDescriptionKey] = @"Failed to initialize the application's saved data";
         dict[NSLocalizedFailureReasonErrorKey] = failureReason;
@@ -107,9 +124,54 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
     return _persistentStoreCoordinator;
 }
 
+- (void)setMigrationManager:(NSMigrationManager *)migrationManager {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    PQCoreDataController *sharedController = [PQCoreDataController sharedController];
+    
+    if (_migrationManager) {
+        [migrationManager removeObserver:sharedController forKeyPath:NSStringFromSelector(@selector(migrationProgress))];
+    }
+    
+    _migrationManager = migrationManager;
+    
+    if (migrationManager) {
+        [migrationManager addObserver:sharedController forKeyPath:NSStringFromSelector(@selector(migrationProgress)) options:NSKeyValueObservingOptionNew context:nil];
+    }
+}
+
 #pragma mark - // INITS AND LOADS //
 
 #pragma mark - // PUBLIC METHODS (General) //
+
++ (BOOL)needsMigration {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeValidator tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectModel *managedObjectModel = [PQCoreDataController managedObjectModel];
+    NSDictionary *sourceMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:[PQCoreDataController sourceStoreType] URL:[PQCoreDataController sourceStoreURL] error:nil];
+    
+    return ![managedObjectModel isConfiguration:nil compatibleWithStoreMetadata:sourceMetadata];
+}
+
++ (BOOL)migrate:(NSError **)error {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
+    
+    // Enable migrations to run even while user exits app
+    __block UIBackgroundTaskIdentifier backgroundTask;
+    backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [[UIApplication sharedApplication] endBackgroundTask:backgroundTask];
+        backgroundTask = UIBackgroundTaskInvalid;
+    }];
+    
+    BOOL complete = [PQCoreDataController progressivelyMigrateURL:[PQCoreDataController sourceStoreURL] ofType:[PQCoreDataController sourceStoreType] toModel:[PQCoreDataController managedObjectModel] error:error];
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeInfo methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"Migration %@", complete ? @"complete" : @"incomplete"]];
+    
+    // Mark it as invalid
+    [[UIApplication sharedApplication] endBackgroundTask:backgroundTask];
+    backgroundTask = UIBackgroundTaskInvalid;
+    
+    return complete;
+}
 
 + (void)save {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
@@ -179,7 +241,7 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
         question.questionId = [PQCoreDataController questionId];
         question.text = text;
         question.choices = choices;
-        question.questionIndex = [PQCoreDataController questionIndex];
+        question.questionIndex = [PQCoreDataController questionIndexInManagedObjectContext:nil];
     }];
     
     return question;
@@ -193,7 +255,7 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
     [managedObjectContext performBlockAndWait:^{
         choice = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQChoice class]) inManagedObjectContext:managedObjectContext];
         choice.text = text;
-        choice.choiceIndex = [PQCoreDataController choiceIndex];
+        choice.choiceIndex = [PQCoreDataController choiceIndexInManagedObjectContext:nil];
     }];
     
     return choice;
@@ -308,10 +370,10 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
 
 #pragma mark - // CATEGORY METHODS (PRIVATE) //
 
-+ (PQUser *)userWithUserId:(NSString *)userId {
++ (PQUser *)userWithUserId:(NSString *)userId inManagedObjectContext:(NSManagedObjectContext *)managedObjectContextOrNil {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
-    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
+    NSManagedObjectContext *managedObjectContext = managedObjectContextOrNil ?: [PQCoreDataController managedObjectContext];
     __block PQUser *user;
     [managedObjectContext performBlockAndWait:^{
         user = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQUser class]) inManagedObjectContext:managedObjectContext];
@@ -321,10 +383,10 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
     return user;
 }
 
-+ (PQSurvey *)surveyWithSurveyId:(NSString *)surveyId authorId:(NSString *)authorId createdAt:(NSDate *)createdAt {
++ (PQSurvey *)surveyWithSurveyId:(NSString *)surveyId authorId:(NSString *)authorId createdAt:(NSDate *)createdAt inManagedObjectContext:(NSManagedObjectContext *)managedObjectContextOrNil {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
-    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
+    NSManagedObjectContext *managedObjectContext = managedObjectContextOrNil ?: [PQCoreDataController managedObjectContext];
     __block PQSurvey *survey;
     [managedObjectContext performBlockAndWait:^{
         survey = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQSurvey class]) inManagedObjectContext:managedObjectContext];
@@ -336,24 +398,37 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
     return survey;
 }
 
-+ (PQQuestion *)questionWithQuestionId:(NSString *)questionId {
++ (PQQuestion *)questionWithQuestionId:(NSString *)questionId inManagedObjectContext:(NSManagedObjectContext *)managedObjectContextOrNil {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
-    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
+    NSManagedObjectContext *managedObjectContext = managedObjectContextOrNil ?: [PQCoreDataController managedObjectContext];
     __block PQQuestion *question;
     [managedObjectContext performBlockAndWait:^{
         question = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQQuestion class]) inManagedObjectContext:managedObjectContext];
         question.questionId = questionId;
-        question.questionIndex = [PQCoreDataController questionIndex];
+        question.questionIndex = [PQCoreDataController questionIndexInManagedObjectContext:managedObjectContext];
     }];
     
     return question;
 }
 
-+ (PQResponse *)responseWithResponseId:(NSString *)responseId {
++ (PQChoice *)choiceInManagedObjectContext:(NSManagedObjectContext *)managedObjectContextOrNil {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
-    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
+    NSManagedObjectContext *managedObjectContext = managedObjectContextOrNil ?: [PQCoreDataController managedObjectContext];
+    __block PQChoice *choice;
+    [managedObjectContext performBlockAndWait:^{
+        choice = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQChoice class]) inManagedObjectContext:managedObjectContext];
+        choice.choiceIndex = [PQCoreDataController choiceIndexInManagedObjectContext:managedObjectContext];
+    }];
+    
+    return choice;
+}
+
++ (PQResponse *)responseWithResponseId:(NSString *)responseId inManagedObjectContext:(NSManagedObjectContext *)managedObjectContextOrNil {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSManagedObjectContext *managedObjectContext = managedObjectContextOrNil ?: [PQCoreDataController managedObjectContext];
     __block PQResponse *response;
     [managedObjectContext performBlockAndWait:^{
         response = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQResponse class]) inManagedObjectContext:managedObjectContext];
@@ -363,10 +438,10 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
     return response;
 }
 
-+ (PQQuestionIndex *)questionIndex {
++ (PQQuestionIndex *)questionIndexInManagedObjectContext:(NSManagedObjectContext *)managedObjectContextOrNil {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
-    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
+    NSManagedObjectContext *managedObjectContext = managedObjectContextOrNil ?: [PQCoreDataController managedObjectContext];
     __block PQQuestionIndex *questionIndex;
     [managedObjectContext performBlockAndWait:^{
         questionIndex = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQQuestionIndex class]) inManagedObjectContext:managedObjectContext];
@@ -375,10 +450,10 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
     return questionIndex;
 }
 
-+ (PQChoiceIndex *)choiceIndex {
++ (PQChoiceIndex *)choiceIndexInManagedObjectContext:(NSManagedObjectContext *)managedObjectContextOrNil {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_CORE_DATA] message:nil];
     
-    NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
+    NSManagedObjectContext *managedObjectContext = managedObjectContextOrNil ?: [PQCoreDataController managedObjectContext];
     __block PQChoiceIndex *choiceIndex;
     [managedObjectContext performBlockAndWait:^{
         choiceIndex = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([PQChoiceIndex class]) inManagedObjectContext:managedObjectContext];
@@ -390,6 +465,20 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
 #pragma mark - // DELEGATED METHODS //
 
 #pragma mark - // OVERWRITTEN METHODS //
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
+    
+    if ([AKGenerics object:object isEqualToObject:self.migrationManager]) {
+        if ([keyPath isEqualToString:NSStringFromSelector(@selector(migrationProgress))]) {
+            [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeInfo methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ = %f", NSStringFromSelector(@selector(migrationProgress)), self.migrationManager.migrationProgress]];
+            
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:self.migrationManager.migrationProgress] forKey:NOTIFICATION_OBJECT_KEY];
+            [AKGenerics postNotificationName:PQCoreDataMigrationProgressDidChangeNotification object:nil userInfo:userInfo];
+        }
+    }
+    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+}
 
 #pragma mark - // PRIVATE METHODS (General) //
 
@@ -410,12 +499,30 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
     return [PQCoreDataController sharedController].managedObjectContext;
 }
 
++ (NSManagedObjectModel *)managedObjectModel {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    return [PQCoreDataController sharedController].managedObjectModel;
+}
+
 + (NSURL *)applicationDocumentsDirectory {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
     
     // The directory the application uses to store the Core Data store file. This code uses a directory named "com.flatiron-school.learn.ios.PushQuery" in the application's documents directory.
     
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
++ (NSURL *)sourceStoreURL {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    return [[PQCoreDataController applicationDocumentsDirectory] URLByAppendingPathComponent:PQCoreDataSourceStoreFilename];
+}
+
++ (NSString *)sourceStoreType {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    return NSSQLiteStoreType;
 }
 
 + (BOOL)objectExistsWithClass:(Class)class predicate:(NSPredicate *)predicate {
@@ -514,6 +621,164 @@ NSString * const PQCoreDataWillSaveNotification = @"kNotificationPQCoreDataContr
     return [PQCoreDataController uuidWithValidator:^BOOL(NSString *uuid) {
         return [PQCoreDataController getResponseWithId:uuid] ? NO : YES;
     }];
+}
+
+#pragma mark - // PRIVATE METHODS (Migration) //
+// All migration code via Marcus Zarra and Objc.io //
+
++ (void)setMigrationManager:(NSMigrationManager *)migrationManager {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    [PQCoreDataController sharedController].migrationManager = migrationManager;
+}
+
++ (BOOL)progressivelyMigrateURL:(NSURL *)sourceStoreURL ofType:(NSString *)type toModel:(NSManagedObjectModel *)finalModel error:(NSError **)error {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSDictionary *sourceMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:type URL:sourceStoreURL error:error];
+    
+    if (!sourceMetadata) {
+        return NO;
+    }
+    
+    if ([finalModel isConfiguration:nil compatibleWithStoreMetadata:sourceMetadata]) {
+        if (NULL != error) {
+            *error = nil;
+        }
+        return YES;
+    }
+    
+    NSManagedObjectModel *sourceModel = [self sourceModelForSourceMetadata:sourceMetadata];
+    NSManagedObjectModel *destinationModel;
+    NSMappingModel *mappingModel;
+    NSString *modelName;
+    if (![self getDestinationModel:&destinationModel mappingModel:&mappingModel modelName:&modelName forSourceModel:sourceModel error:error]) {
+        return NO;
+    }
+    
+//    NSArray *mappingModels = @[mappingModel];
+//    if ([self.delegate respondsToSelector:@selector(migrationManager:mappingModelsForSourceModel:)]) {
+//        NSArray *explicitMappingModels = [self.delegate migrationManager:self mappingModelsForSourceModel:sourceModel];
+//        if (0 < explicitMappingModels.count) {
+//            mappingModels = explicitMappingModels;
+//        }
+//    }
+    
+    // We have a mapping model, time to migrate
+    NSURL *destinationStoreURL = [self destinationStoreURLWithSourceStoreURL:sourceStoreURL modelName:modelName];
+    NSMigrationManager *migrationManager = [[NSMigrationManager alloc] initWithSourceModel:sourceModel destinationModel:destinationModel];
+    
+    [PQCoreDataController setMigrationManager:migrationManager];
+    
+    // Migrate
+    BOOL success = [migrationManager migrateStoreFromURL:sourceStoreURL type:type options:nil withMappingModel:mappingModel toDestinationURL:destinationStoreURL destinationType:type destinationOptions:nil error:error];
+    
+    [PQCoreDataController setMigrationManager:nil];
+    
+    if (!success) {
+        return NO;
+    }
+    
+    // Migration was successful, move the files around to preserve the source in case things go bad
+    if (![self backupSourceStoreAtURL:sourceStoreURL movingDestinationStoreAtURL:destinationStoreURL error:error]) {
+        return NO;
+    }
+    
+    // We may not be at the "current" model yet, so recurse
+    return [self progressivelyMigrateURL:sourceStoreURL ofType:type toModel:finalModel error:error];
+}
+
++ (NSManagedObjectModel *)sourceModelForSourceMetadata:(NSDictionary *)sourceMetadata {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    return [NSManagedObjectModel mergedModelFromBundles:@[[NSBundle mainBundle]] forStoreMetadata:sourceMetadata];
+}
+
++ (BOOL)getDestinationModel:(NSManagedObjectModel **)destinationModel mappingModel:(NSMappingModel **)mappingModel modelName:(NSString **)modelName forSourceModel:(NSManagedObjectModel *)sourceModel error:(NSError **)error {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSArray *modelPaths = [self modelPaths];
+    if (!modelPaths.count) {
+        //Throw an error if there are no models
+        if (NULL != error) {
+            *error = [NSError errorWithDomain:@"PushQuery" code:8001 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"No %@ found", stringFromVariable(modelPaths)]}];
+        }
+        return NO;
+    }
+    
+    //See if we can find a matching destination model
+    NSManagedObjectModel *model;
+    NSMappingModel *mapping;
+    NSString *modelPath;
+    for (modelPath in modelPaths) {
+        model = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:modelPath]];
+        mapping = [NSMappingModel mappingModelFromBundles:@[[NSBundle mainBundle]] forSourceModel:sourceModel destinationModel:model];
+        //If we found a mapping model then proceed
+        if (mapping) {
+            break;
+        }
+    }
+    //We have tested every model, if nil here we failed
+    if (!mapping) {
+        if (NULL != error) {
+            *error = [NSError errorWithDomain:@"PushQuery" code:8001 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"%@ is nil", stringFromVariable(mapping)]}];
+        }
+        return NO;
+    }
+    
+    *destinationModel = model;
+    *mappingModel = mapping;
+    *modelName = modelPath.lastPathComponent.stringByDeletingPathExtension;
+    return YES;
+}
+
++ (NSArray *)modelPaths {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    //Find all of the mom and momd files in the Resources directory
+    NSMutableArray *modelPaths = [NSMutableArray array];
+    NSArray *momdArray = [[NSBundle mainBundle] pathsForResourcesOfType:@"momd" inDirectory:nil];
+    for (NSString *momdPath in momdArray) {
+        NSString *resourceSubpath = [momdPath lastPathComponent];
+        NSArray *array = [[NSBundle mainBundle] pathsForResourcesOfType:@"mom" inDirectory:resourceSubpath];
+        [modelPaths addObjectsFromArray:array];
+    }
+    NSArray *otherModels = [[NSBundle mainBundle] pathsForResourcesOfType:@"mom" inDirectory:nil];
+    [modelPaths addObjectsFromArray:otherModels];
+    return modelPaths;
+}
+
++ (NSURL *)destinationStoreURLWithSourceStoreURL:(NSURL *)sourceStoreURL modelName:(NSString *)modelName {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    // We have a mapping model, time to migrate
+    NSString *storeExtension = sourceStoreURL.path.pathExtension;
+    NSString *storePath = sourceStoreURL.path.stringByDeletingPathExtension;
+    // Build a path to write the new store
+    storePath = [NSString stringWithFormat:@"%@.%@.%@", storePath, modelName, storeExtension];
+    return [NSURL fileURLWithPath:storePath];
+}
+
++ (BOOL)backupSourceStoreAtURL:(NSURL *)sourceStoreURL movingDestinationStoreAtURL:(NSURL *)destinationStoreURL error:(NSError **)error {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_CORE_DATA] message:nil];
+    
+    NSString *guid = [[NSProcessInfo processInfo] globallyUniqueString];
+    NSString *backupPath = [NSTemporaryDirectory() stringByAppendingPathComponent:guid];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager moveItemAtPath:sourceStoreURL.path toPath:backupPath error:error]) {
+        //Failed to copy the file
+        return NO;
+    }
+    
+    //Move the destination to the source path
+    if (![fileManager moveItemAtPath:destinationStoreURL.path toPath:sourceStoreURL.path error:error]) {
+        //Try to back out the source move first, no point in checking it for errors
+        [fileManager moveItemAtPath:backupPath toPath:sourceStoreURL.path error:nil];
+        return NO;
+    }
+    
+    return YES;
 }
 
 @end

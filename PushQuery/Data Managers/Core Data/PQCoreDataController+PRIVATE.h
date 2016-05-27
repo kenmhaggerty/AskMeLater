@@ -21,12 +21,13 @@
 
 @interface PQCoreDataController (PRIVATE) <PQUser_Init_PRIVATE, PQSurvey_Init_PRIVATE, PQQuestion_Init_PRIVATE, PQChoice_Init_PRIVATE, PQResponse_Init_PRIVATE>
 
-+ (PQUser *)userWithUserId:(NSString *)userId;
-+ (PQSurvey *)surveyWithSurveyId:(NSString *)surveyId authorId:(NSString *)authorId createdAt:(NSDate *)createdAt;
-+ (PQQuestion *)questionWithQuestionId:(NSString *)questionId;
-+ (PQResponse *)responseWithResponseId:(NSString *)responseId;
++ (PQUser *)userWithUserId:(NSString *)userId inManagedObjectContext:(NSManagedObjectContext *)managedObjectContextOrNil;
++ (PQSurvey *)surveyWithSurveyId:(NSString *)surveyId authorId:(NSString *)authorId createdAt:(NSDate *)createdAt inManagedObjectContext:(NSManagedObjectContext *)managedObjectContextOrNil;
++ (PQQuestion *)questionWithQuestionId:(NSString *)questionId inManagedObjectContext:(NSManagedObjectContext *)managedObjectContextOrNil;
++ (PQChoice *)choiceInManagedObjectContext:(NSManagedObjectContext *)managedObjectContextOrNil;
++ (PQResponse *)responseWithResponseId:(NSString *)responseId inManagedObjectContext:(NSManagedObjectContext *)managedObjectContextOrNil;
 
-+ (PQQuestionIndex *)questionIndex;
-+ (PQChoiceIndex *)choiceIndex;
++ (PQQuestionIndex *)questionIndexInManagedObjectContext:(NSManagedObjectContext *)managedObjectContextOrNil;
++ (PQChoiceIndex *)choiceIndexInManagedObjectContext:(NSManagedObjectContext *)managedObjectContextOrNil;
 
 @end

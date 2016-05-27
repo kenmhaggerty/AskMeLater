@@ -22,12 +22,15 @@
 
 #pragma mark - // DEFINITIONS (Public) //
 
+extern NSString * const PQCoreDataMigrationProgressDidChangeNotification;
 extern NSString * const PQCoreDataWillSaveNotification;
 
 @interface PQCoreDataController : NSObject <PQUser_Init, PQSurvey_Init, PQQuestion_Init, PQChoice_Init, PQResponse_Init>
 
 // GENERAL //
 
++ (BOOL)needsMigration;
++ (BOOL)migrate:(NSError **)error;
 + (void)save;
 
 // INITIALIZERS //
