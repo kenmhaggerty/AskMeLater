@@ -153,7 +153,9 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     }
     else {
         [alertSettings addAction:self.alertActionSignIn];
-        alertSettings.preferredAction = self.alertActionSignIn;
+        if ([alertSettings respondsToSelector:@selector(setPreferredAction:)]) {
+            alertSettings.preferredAction = self.alertActionSignIn;
+        }
     }
     [alertSettings addAction:[UIAlertAction actionWithTitle:@"Contact Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSString *suffix = @"";
