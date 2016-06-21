@@ -85,7 +85,7 @@ NSString * const FirebaseObserverChildRemoved = @"ChildRemoved";
         [self persistOfflineValues];
     }
     
-    [AKGenerics postNotificationName:PQFirebaseIsConnectedDidChangeNotification object:nil userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQFirebaseIsConnectedDidChangeNotification object:nil userInfo:userInfo];
 }
 
 #pragma mark - // INITS AND LOADS //
@@ -395,7 +395,7 @@ NSString * const FirebaseObserverChildRemoved = @"ChildRemoved";
             NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
             userInfo[NOTIFICATION_OBJECT_KEY] = newEmail;
             
-            [AKGenerics postNotificationName:PQFirebaseEmailDidChangeNotification object:nil userInfo:userInfo];
+            [NSNotificationCenter postNotificationToMainThread:PQFirebaseEmailDidChangeNotification object:nil userInfo:userInfo];
         }
         completionBlock(error);
     }];

@@ -40,7 +40,7 @@
     [self setPrimitiveValue:username forKey:NSStringFromSelector(@selector(username))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(username))];
     
-    [AKGenerics postNotificationName:PQUserUsernameDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQUserUsernameDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setAvatarData:(NSData *)avatarData {
@@ -58,7 +58,7 @@
     [self setPrimitiveValue:avatarData forKey:NSStringFromSelector(@selector(avatarData))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(avatarData))];
     
-    [AKGenerics postNotificationName:PQUserAvatarDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQUserAvatarDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setEmail:(NSString *)email {
@@ -76,7 +76,7 @@
     [self setPrimitiveValue:email forKey:NSStringFromSelector(@selector(email))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(email))];
     
-    [AKGenerics postNotificationName:PQUserEmailDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQUserEmailDidChangeNotification object:self userInfo:userInfo];
 }
 
 #pragma mark - // INITS AND LOADS //
@@ -90,7 +90,7 @@
         return;
     }
     
-    [AKGenerics postNotificationName:PQUserWillBeSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
+    [NSNotificationCenter postNotificationToMainThread:PQUserWillBeSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
 }
 
 - (void)didSave {
@@ -100,18 +100,18 @@
         NSDictionary *userInfo;
         if ([self.changedKeys containsObject:NSStringFromSelector(@selector(avatarData))]) {
             userInfo = [NSDictionary dictionaryWithNullableObject:self.avatar forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQUserAvatarDidSaveNotification object:self userInfo:userInfo];
+            [NSNotificationCenter postNotificationToMainThread:PQUserAvatarDidSaveNotification object:self userInfo:userInfo];
         }
         if ([self.changedKeys containsObject:NSStringFromSelector(@selector(email))]) {
             userInfo = [NSDictionary dictionaryWithNullableObject:self.email forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQUserEmailDidSaveNotification object:self userInfo:userInfo];
+            [NSNotificationCenter postNotificationToMainThread:PQUserEmailDidSaveNotification object:self userInfo:userInfo];
         }
         if ([self.changedKeys containsObject:NSStringFromSelector(@selector(username))]) {
             userInfo = [NSDictionary dictionaryWithObject:self.username forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQUserUsernameDidSaveNotification object:self userInfo:userInfo];
+            [NSNotificationCenter postNotificationToMainThread:PQUserUsernameDidSaveNotification object:self userInfo:userInfo];
         }
     }
-    [AKGenerics postNotificationName:PQUserWasSavedNotification object:self userInfo:[NSDictionary dictionaryWithNullableObject:self.changedKeys forKey:NOTIFICATION_OBJECT_KEY]];
+    [NSNotificationCenter postNotificationToMainThread:PQUserWasSavedNotification object:self userInfo:[NSDictionary dictionaryWithNullableObject:self.changedKeys forKey:NOTIFICATION_OBJECT_KEY]];
     
     [super didSave];
 }
@@ -121,7 +121,7 @@
     
     [super prepareForDeletion];
     
-    [AKGenerics postNotificationName:PQUserWillBeDeletedNotification object:self userInfo:nil];
+    [NSNotificationCenter postNotificationToMainThread:PQUserWillBeDeletedNotification object:self userInfo:nil];
 }
 
 #pragma mark - // PUBLIC METHODS //

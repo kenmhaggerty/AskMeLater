@@ -73,7 +73,7 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
         [self addObserversToUser:currentUser];
     }
     
-    [AKGenerics postNotificationName:PQLoginManagerCurrentUserDidChangeNotification object:nil userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQLoginManagerCurrentUserDidChangeNotification object:nil userInfo:userInfo];
 }
 
 #pragma mark - // INITS AND LOADS //
@@ -275,7 +275,7 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
 - (void)currentUserEmailDidChange:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    [AKGenerics postNotificationName:PQLoginManagerEmailDidChangeNotification object:nil userInfo:notification.userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQLoginManagerEmailDidChangeNotification object:nil userInfo:notification.userInfo];
 }
 
 #pragma mark - // PRIVATE METHODS (Other) //

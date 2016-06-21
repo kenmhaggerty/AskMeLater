@@ -37,7 +37,7 @@ NSString * const PQManagedObjectWillBeDeletedNotification = @"kNotificationPQMan
 - (void)dealloc {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
     
-    [AKGenerics postNotificationName:PQManagedObjectWillBeDeallocatedNotification object:self userInfo:nil];
+    [NSNotificationCenter postNotificationToMainThread:PQManagedObjectWillBeDeallocatedNotification object:self userInfo:nil];
 }
 
 - (void)awakeFromInsert {
@@ -45,7 +45,7 @@ NSString * const PQManagedObjectWillBeDeletedNotification = @"kNotificationPQMan
     
     [super awakeFromInsert];
     
-    [AKGenerics postNotificationName:PQManagedObjectWasCreatedNotification object:self userInfo:nil];
+    [NSNotificationCenter postNotificationToMainThread:PQManagedObjectWasCreatedNotification object:self userInfo:nil];
 }
 
 - (void)awakeFromFetch {
@@ -53,7 +53,7 @@ NSString * const PQManagedObjectWillBeDeletedNotification = @"kNotificationPQMan
     
     [super awakeFromFetch];
     
-    [AKGenerics postNotificationName:PQManagedObjectWasFetchedNotification object:self userInfo:nil];
+    [NSNotificationCenter postNotificationToMainThread:PQManagedObjectWasFetchedNotification object:self userInfo:nil];
 }
 
 - (void)willSave {
@@ -69,7 +69,7 @@ NSString * const PQManagedObjectWillBeDeletedNotification = @"kNotificationPQMan
         self.changedKeys = [NSMutableSet setWithArray:self.changedValues.allKeys];
     }
     
-    [AKGenerics postNotificationName:PQManagedObjectWillBeSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
+    [NSNotificationCenter postNotificationToMainThread:PQManagedObjectWillBeSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
 }
 
 - (void)didSave {
@@ -78,7 +78,7 @@ NSString * const PQManagedObjectWillBeDeletedNotification = @"kNotificationPQMan
     [super didSave];
     
     if (self.changedKeys) {
-        [AKGenerics postNotificationName:PQManagedObjectWasSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
+        [NSNotificationCenter postNotificationToMainThread:PQManagedObjectWasSavedNotification object:self userInfo:@{NOTIFICATION_OBJECT_KEY : self.changedKeys}];
         self.changedKeys = nil;
     }
 }
@@ -86,7 +86,7 @@ NSString * const PQManagedObjectWillBeDeletedNotification = @"kNotificationPQMan
 - (void)prepareForDeletion {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
-    [AKGenerics postNotificationName:PQManagedObjectWillBeDeletedNotification object:self userInfo:nil];
+    [NSNotificationCenter postNotificationToMainThread:PQManagedObjectWillBeDeletedNotification object:self userInfo:nil];
     
     [super prepareForDeletion];
 }
