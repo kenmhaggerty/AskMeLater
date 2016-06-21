@@ -95,7 +95,7 @@ NSString * const PQCentralDispatchUpdatesDidFinish = @"kNotificationPQCentralDis
     
     [PQCentralDispatch setIsUpdating:YES];
     
-    [AKGenerics postNotificationName:PQCentralDispatchUpdatesDidBegin object:nil userInfo:nil];
+    [NSNotificationCenter postNotificationToMainThread:PQCentralDispatchUpdatesDidBegin object:nil userInfo:nil];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
@@ -105,7 +105,7 @@ NSString * const PQCentralDispatchUpdatesDidFinish = @"kNotificationPQCentralDis
                 [PQCentralDispatch setIsUpdating:NO];
                 
                 NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:error forKey:NOTIFICATION_OBJECT_KEY];
-                [AKGenerics postNotificationName:PQCentralDispatchUpdatesDidFinish object:nil userInfo:userInfo];
+                [NSNotificationCenter postNotificationToMainThread:PQCentralDispatchUpdatesDidFinish object:nil userInfo:userInfo];
                 
             });
         }];
@@ -238,7 +238,7 @@ NSString * const PQCentralDispatchUpdatesDidFinish = @"kNotificationPQCentralDis
 - (void)coreDataMigrationProgressDidChange:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA, AKD_NOTIFICATION_CENTER] message:nil];
     
-    [AKGenerics postNotificationName:PQCentralDispatchUpdatesProgressDidChange object:nil userInfo:notification.userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQCentralDispatchUpdatesProgressDidChange object:nil userInfo:notification.userInfo];
 }
 
 @end

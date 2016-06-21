@@ -75,13 +75,13 @@
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:authorId forKey:NOTIFICATION_OBJECT_KEY];
     
-    [AKGenerics postNotificationName:PQSurveyAuthorIdWillChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyAuthorIdWillChangeNotification object:self userInfo:userInfo];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(authorId))];
     [self setPrimitiveValue:authorId forKey:NSStringFromSelector(@selector(authorId))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(authorId))];
     
-    [AKGenerics postNotificationName:PQSurveyAuthorIdDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyAuthorIdDidChangeNotification object:self userInfo:userInfo];
     
     self.author = authorId ? [PQCoreDataController getUserWithId:self.authorId] : nil;
 }
@@ -105,7 +105,7 @@
     [self setPrimitiveValue:editedAt forKey:NSStringFromSelector(@selector(editedAt))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(editedAt))];
     
-    [AKGenerics postNotificationName:PQSurveyEditedAtDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyEditedAtDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setEnabledValue:(NSNumber *)enabledValue {
@@ -123,7 +123,7 @@
     [self setPrimitiveValue:enabledValue forKey:NSStringFromSelector(@selector(enabledValue))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(enabledValue))];
     
-    [AKGenerics postNotificationName:PQSurveyEnabledDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyEnabledDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setName:(NSString *)name {
@@ -141,7 +141,7 @@
     [self setPrimitiveValue:name forKey:NSStringFromSelector(@selector(name))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(name))];
     
-    [AKGenerics postNotificationName:PQSurveyNameDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyNameDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setRepeatValue:(NSNumber *)repeatValue {
@@ -159,7 +159,7 @@
     [self setPrimitiveValue:repeatValue forKey:NSStringFromSelector(@selector(repeatValue))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(repeatValue))];
     
-    [AKGenerics postNotificationName:PQSurveyRepeatDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyRepeatDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setSurveyId:(NSString *)surveyId {
@@ -173,13 +173,13 @@
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:surveyId forKey:NOTIFICATION_OBJECT_KEY];
     
-    [AKGenerics postNotificationName:PQSurveyIdWillChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyIdWillChangeNotification object:self userInfo:userInfo];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(surveyId))];
     [self setPrimitiveValue:surveyId forKey:NSStringFromSelector(@selector(surveyId))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(surveyId))];
     
-    [AKGenerics postNotificationName:PQSurveyIdDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyIdDidChangeNotification object:self userInfo:userInfo];
     
     self.canBeEnabledValue = [NSNumber numberWithBool:self.canBeEnabled];
 }
@@ -201,7 +201,7 @@
     [self setPrimitiveValue:roundedTime forKey:NSStringFromSelector(@selector(time))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(time))];
     
-    [AKGenerics postNotificationName:PQSurveyTimeDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyTimeDidChangeNotification object:self userInfo:userInfo];
     
     self.canBeEnabledValue = [NSNumber numberWithBool:self.canBeEnabled];
 }
@@ -227,7 +227,7 @@
         self.authorId = author ? author.userId : nil;
     }
     
-    [AKGenerics postNotificationName:PQSurveyAuthorDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyAuthorDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setQuestionIndices:(NSOrderedSet <PQQuestionIndex *> *)questionIndices {
@@ -254,7 +254,7 @@
     }
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:@[self.questions, primitiveQuestions] forKeys:@[NOTIFICATION_OBJECT_KEY, NOTIFICATION_OLD_KEY]];
-    [AKGenerics postNotificationName:PQSurveyQuestionsWereReorderedNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyQuestionsWereReorderedNotification object:self userInfo:userInfo];
 }
 
 - (void)setQuestionObjects:(NSSet <PQQuestion *> *)questionObjects {
@@ -279,12 +279,12 @@
     }
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:self.questions forKey:NOTIFICATION_OBJECT_KEY];
-    [AKGenerics postNotificationName:PQSurveyQuestionsDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyQuestionsDidChangeNotification object:self userInfo:userInfo];
     
     if (questionObjects.count != primitiveQuestionObjects.count) {
         NSNumber *countValue = [NSNumber numberWithInteger:questionObjects.count];
         userInfo = [NSDictionary dictionaryWithObject:countValue forKey:NOTIFICATION_OBJECT_KEY];
-        [AKGenerics postNotificationName:PQSurveyQuestionsCountDidChangeNotification object:self userInfo:userInfo];
+        [NSNotificationCenter postNotificationToMainThread:PQSurveyQuestionsCountDidChangeNotification object:self userInfo:userInfo];
     }
     
     self.canBeEnabledValue = [NSNumber numberWithBool:self.canBeEnabled];
@@ -305,7 +305,7 @@
         self.enabledValue = @NO;
     }
     
-    [AKGenerics postNotificationName:PQSurveyCanBeEnabledDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyCanBeEnabledDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (NSNumber *)canBeEnabledValue {
@@ -349,42 +349,42 @@
     }
     
     if (!self.changedKeys || self.isDeleted) {
-        [AKGenerics postNotificationName:PQSurveyDidSaveNotification object:self userInfo:[NSDictionary dictionaryWithNullableObject:self.changedKeys forKey:NOTIFICATION_OBJECT_KEY]];
+        [NSNotificationCenter postNotificationToMainThread:PQSurveyDidSaveNotification object:self userInfo:[NSDictionary dictionaryWithNullableObject:self.changedKeys forKey:NOTIFICATION_OBJECT_KEY]];
     }
     
     if (self.changedKeys && !self.inserted) {
         NSDictionary *userInfo;
         if ([self.changedKeys containsObject:NSStringFromSelector(@selector(editedAt))]) {
             userInfo = [NSDictionary dictionaryWithObject:self.editedAt forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQSurveyEditedAtDidSaveNotification object:self userInfo:userInfo];
+            [NSNotificationCenter postNotificationToMainThread:PQSurveyEditedAtDidSaveNotification object:self userInfo:userInfo];
         }
         if ([self.changedKeys containsObject:NSStringFromSelector(@selector(enabledValue))]) {
             userInfo = [NSDictionary dictionaryWithObject:self.enabledValue forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQSurveyEnabledDidSaveNotification object:self userInfo:userInfo];
+            [NSNotificationCenter postNotificationToMainThread:PQSurveyEnabledDidSaveNotification object:self userInfo:userInfo];
         }
         if ([self.changedKeys containsObject:NSStringFromSelector(@selector(name))]) {
             userInfo = [NSDictionary dictionaryWithNullableObject:self.name forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQSurveyNameDidSaveNotification object:self userInfo:userInfo];
+            [NSNotificationCenter postNotificationToMainThread:PQSurveyNameDidSaveNotification object:self userInfo:userInfo];
         }
         if ([self.changedKeys containsObject:NSStringFromSelector(@selector(repeatValue))]) {
             userInfo = [NSDictionary dictionaryWithObject:self.repeatValue forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQSurveyRepeatDidSaveNotification object:self userInfo:userInfo];
+            [NSNotificationCenter postNotificationToMainThread:PQSurveyRepeatDidSaveNotification object:self userInfo:userInfo];
         }
         if ([self.changedKeys containsObject:NSStringFromSelector(@selector(time))]) {
             userInfo = [NSDictionary dictionaryWithNullableObject:self.time forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQSurveyTimeDidSaveNotification object:self userInfo:userInfo];
+            [NSNotificationCenter postNotificationToMainThread:PQSurveyTimeDidSaveNotification object:self userInfo:userInfo];
         }
         if ([self.changedKeys containsObject:NSStringFromSelector(@selector(author))]) {
             userInfo = [NSDictionary dictionaryWithNullableObject:self.author forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQSurveyAuthorDidSaveNotification object:self userInfo:userInfo];
+            [NSNotificationCenter postNotificationToMainThread:PQSurveyAuthorDidSaveNotification object:self userInfo:userInfo];
         }
         if ([self.changedKeys containsObject:NSStringFromSelector(@selector(questionIndices))]) {
             userInfo = [NSDictionary dictionaryWithObject:self.questions forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQSurveyQuestionsOrderDidSaveNotification object:self userInfo:userInfo];
+            [NSNotificationCenter postNotificationToMainThread:PQSurveyQuestionsOrderDidSaveNotification object:self userInfo:userInfo];
         }
         if ([self.changedKeys containsObject:NSStringFromSelector(@selector(questionObjects))]) {
             userInfo = [NSDictionary dictionaryWithObject:self.questions forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQSurveyQuestionsDidSaveNotification object:self userInfo:userInfo];
+            [NSNotificationCenter postNotificationToMainThread:PQSurveyQuestionsDidSaveNotification object:self userInfo:userInfo];
         }
     }
     
@@ -398,7 +398,7 @@
         question.parentIsDeleted = YES;
     }
     
-    [AKGenerics postNotificationName:PQSurveyWillBeDeletedNotification object:self userInfo:nil];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyWillBeDeletedNotification object:self userInfo:nil];
     
     [super prepareForDeletion];
 }
@@ -470,11 +470,11 @@
     self.editedAt = [NSDate date];
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:@[self.questions, primitiveQuestions] forKeys:@[NOTIFICATION_OBJECT_KEY, NOTIFICATION_OLD_KEY]];
-    [AKGenerics postNotificationName:PQSurveyQuestionsWereAddedNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyQuestionsWereAddedNotification object:self userInfo:userInfo];
     
     NSNumber *count = [NSNumber numberWithInteger:self.questionObjects.count];
     userInfo = [NSDictionary dictionaryWithObject:count forKey:NOTIFICATION_OBJECT_KEY];
-    [AKGenerics postNotificationName:PQSurveyQuestionsCountDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyQuestionsCountDidChangeNotification object:self userInfo:userInfo];
     
     self.canBeEnabledValue = [NSNumber numberWithBool:self.canBeEnabled];
 }
@@ -505,7 +505,7 @@
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:nil];
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:question forKey:NOTIFICATION_OBJECT_KEY];
-    [AKGenerics postNotificationName:PQQuestionWillBeRemovedNotification object:question userInfo:nil];
+    [NSNotificationCenter postNotificationToMainThread:PQQuestionWillBeRemovedNotification object:question userInfo:nil];
     
     NSOrderedSet *primitiveQuestions = [NSOrderedSet orderedSetWithOrderedSet:self.questions];
     
@@ -519,11 +519,11 @@
     self.editedAt = [NSDate date];
     
     userInfo = [NSDictionary dictionaryWithObjects:@[self.questions, primitiveQuestions] forKeys:@[NOTIFICATION_OBJECT_KEY, NOTIFICATION_OLD_KEY]];
-    [AKGenerics postNotificationName:PQSurveyQuestionsWereRemovedNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyQuestionsWereRemovedNotification object:self userInfo:userInfo];
     
     NSNumber *countValue = [NSNumber numberWithInteger:self.questionObjects.count];
     userInfo = [NSDictionary dictionaryWithObject:countValue forKey:NOTIFICATION_OBJECT_KEY];
-    [AKGenerics postNotificationName:PQSurveyQuestionsCountDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyQuestionsCountDidChangeNotification object:self userInfo:userInfo];
     
     self.canBeEnabledValue = [NSNumber numberWithBool:self.canBeEnabled];
 }

@@ -66,13 +66,13 @@
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:authorId forKey:NOTIFICATION_OBJECT_KEY];
     
-    [AKGenerics postNotificationName:PQChoiceAuthorIdWillChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQChoiceAuthorIdWillChangeNotification object:self userInfo:userInfo];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(authorId))];
     [self setPrimitiveValue:authorId forKey:NSStringFromSelector(@selector(authorId))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(authorId))];
     
-    [AKGenerics postNotificationName:PQChoiceAuthorIdDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQChoiceAuthorIdDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setIndexValue:(NSNumber *)indexValue {
@@ -86,13 +86,13 @@
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:indexValue forKey:NOTIFICATION_OBJECT_KEY];
     
-    [AKGenerics postNotificationName:PQChoiceIndexWillChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQChoiceIndexWillChangeNotification object:self userInfo:userInfo];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(indexValue))];
     [self setPrimitiveValue:indexValue forKey:NSStringFromSelector(@selector(indexValue))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(indexValue))];
     
-    [AKGenerics postNotificationName:PQChoiceIndexDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQChoiceIndexDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setQuestionId:(NSString *)questionId {
@@ -106,13 +106,13 @@
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:questionId forKey:NOTIFICATION_OBJECT_KEY];
     
-    [AKGenerics postNotificationName:PQChoiceQuestionIdWillChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQChoiceQuestionIdWillChangeNotification object:self userInfo:userInfo];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(questionId))];
     [self setPrimitiveValue:questionId forKey:NSStringFromSelector(@selector(questionId))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(questionId))];
     
-    [AKGenerics postNotificationName:PQChoiceQuestionIdDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQChoiceQuestionIdDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setSurveyId:(NSString *)surveyId {
@@ -126,13 +126,13 @@
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithNullableObject:surveyId forKey:NOTIFICATION_OBJECT_KEY];
     
-    [AKGenerics postNotificationName:PQChoiceSurveyIdWillChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQChoiceSurveyIdWillChangeNotification object:self userInfo:userInfo];
     
     [self willChangeValueForKey:NSStringFromSelector(@selector(surveyId))];
     [self setPrimitiveValue:surveyId forKey:NSStringFromSelector(@selector(surveyId))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(surveyId))];
     
-    [AKGenerics postNotificationName:PQChoiceSurveyIdDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQChoiceSurveyIdDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setText:(NSString *)text {
@@ -150,7 +150,7 @@
     [self setPrimitiveValue:text forKey:NSStringFromSelector(@selector(text))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(text))];
     
-    [AKGenerics postNotificationName:PQChoiceTextDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQChoiceTextDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setTextInputValue:(NSNumber *)textInputValue {
@@ -168,7 +168,7 @@
     [self setPrimitiveValue:textInputValue forKey:NSStringFromSelector(@selector(textInputValue))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(textInputValue))];
     
-    [AKGenerics postNotificationName:PQChoiceTextInputDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQChoiceTextInputDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setQuestion:(PQQuestion *)question {
@@ -212,18 +212,18 @@
     }
     
     if (!self.changedKeys || self.isDeleted) {
-        [AKGenerics postNotificationName:PQChoiceDidSaveNotification object:self userInfo:[NSDictionary dictionaryWithNullableObject:self.changedKeys forKey:NOTIFICATION_OBJECT_KEY]];
+        [NSNotificationCenter postNotificationToMainThread:PQChoiceDidSaveNotification object:self userInfo:[NSDictionary dictionaryWithNullableObject:self.changedKeys forKey:NOTIFICATION_OBJECT_KEY]];
     }
     
     if (self.changedKeys && !self.inserted) {
         NSDictionary *userInfo;
         if ([self.changedKeys containsObject:NSStringFromSelector(@selector(text))]) {
             userInfo = [NSDictionary dictionaryWithNullableObject:self.text forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQChoiceTextDidSaveNotification object:self userInfo:userInfo];
+            [NSNotificationCenter postNotificationToMainThread:PQChoiceTextDidSaveNotification object:self userInfo:userInfo];
         }
         if ([self.changedKeys containsObject:NSStringFromSelector(@selector(textInputValue))]) {
             userInfo = [NSDictionary dictionaryWithObject:self.textInputValue forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQChoiceTextInputDidSaveNotification object:self userInfo:userInfo];
+            [NSNotificationCenter postNotificationToMainThread:PQChoiceTextInputDidSaveNotification object:self userInfo:userInfo];
         }
     }
     
@@ -233,7 +233,7 @@
 - (void)prepareForDeletion {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
     
-    [AKGenerics postNotificationName:PQChoiceWillBeDeletedNotification object:self userInfo:nil];
+    [NSNotificationCenter postNotificationToMainThread:PQChoiceWillBeDeletedNotification object:self userInfo:nil];
     
     [super prepareForDeletion];
 }

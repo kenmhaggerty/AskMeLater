@@ -173,7 +173,7 @@ NSTimeInterval const SEGUE_DELAY = 1.5f;
     
     if (error) {
         
-        NSString *title = [NSString stringWithFormat:@"Error %i", error.code];
+        NSString *title = [NSString stringWithFormat:@"Error %li", (long)error.code];
         NSString *message = error.localizedDescription;
         
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert actions:nil preferredAction:nil dismissalText:nil completion:nil];

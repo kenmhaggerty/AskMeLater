@@ -251,7 +251,7 @@
         return;
     }
     
-    question = [PQCoreDataController questionWithQuestionId:questionId];
+    question = (PQQuestion *)[PQCoreDataController questionWithQuestionId:questionId];
     question.isDownloaded = YES;
     [PQSyncEngine overwriteQuestion:question withDictionary:questionDictionary];
     
@@ -311,7 +311,7 @@
         }
     }
     else {
-        question = [PQCoreDataController questionWithQuestionId:questionId];
+        question = (PQQuestion *)[PQCoreDataController questionWithQuestionId:questionId];
         question.isDownloaded = YES;
         [PQSyncEngine overwriteQuestion:question withDictionary:dictionary];
     }
@@ -699,7 +699,7 @@
     else {
         NSString *authorId = dictionary[NSStringFromSelector(@selector(authorId))];
         NSDate *createdAt= dictionary[NSStringFromSelector(@selector(createdAt))];
-        survey = [PQCoreDataController surveyWithSurveyId:surveyId authorId:authorId createdAt:createdAt];
+        survey = (PQSurvey *)[PQCoreDataController surveyWithSurveyId:surveyId authorId:authorId createdAt:createdAt];
         survey.isDownloaded = YES;
         [PQSyncEngine overwriteSurvey:survey withDictionary:dictionary];
     }
@@ -745,7 +745,7 @@
         
         PQQuestion *question = [PQCoreDataController getQuestionWithId:questionId];
         if (!question) {
-            question = [PQCoreDataController questionWithQuestionId:questionId];
+            question = (PQQuestion *)[PQCoreDataController questionWithQuestionId:questionId];
         }
         
         [PQSyncEngine overwriteQuestion:question withDictionary:questionDictionary];
@@ -855,7 +855,7 @@
     
     PQResponse *response = [PQCoreDataController getResponseWithId:responseId];
     if (!response) {
-        response = [PQCoreDataController responseWithResponseId:responseId];
+        response = (PQResponse *)[PQCoreDataController responseWithResponseId:responseId];
     }
     [PQSyncEngine overwriteResponse:response withDictionary:responseDictionary];
     [question addResponsesObject:response];

@@ -160,7 +160,7 @@
     if ([segue.destinationViewController conformsToProtocol:@protocol(PQQuestionUI)]) {
         id <PQQuestion> question = [self.survey.questions objectAtIndex:[self.tableView indexPathForCell:sender].row];
         ((id <PQQuestionUI>)segue.destinationViewController).question = question;
-        [AKGenerics postNotificationName:PQSurveyUIDidSelectQuestion object:self userInfo:@{NOTIFICATION_OBJECT_KEY : question}];
+        [NSNotificationCenter postNotificationToMainThread:PQSurveyUIDidSelectQuestion object:self userInfo:@{NOTIFICATION_OBJECT_KEY : question}];
     }
 }
 

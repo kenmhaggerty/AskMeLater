@@ -38,7 +38,7 @@
     
     _name = name;
     
-    [AKGenerics postNotificationName:PQSurveyNameDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyNameDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setEditedAt:(NSDate *)editedAt {
@@ -53,7 +53,7 @@
     
     _editedAt = editedAt;
     
-    [AKGenerics postNotificationName:PQSurveyEditedAtDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQSurveyEditedAtDidChangeNotification object:self userInfo:userInfo];
 }
 
 #pragma mark - // INITS AND LOADS //

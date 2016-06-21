@@ -58,7 +58,7 @@ NSString * const PQDataManagerIsSyncingDidChangeNotification = @"kNotificationPQ
     
     _isSyncing = isSyncing;
     
-    [AKGenerics postNotificationName:PQDataManagerIsSyncingDidChangeNotification object:nil userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQDataManagerIsSyncingDidChangeNotification object:nil userInfo:userInfo];
 }
 
 #pragma mark - // INITS AND LOADS //

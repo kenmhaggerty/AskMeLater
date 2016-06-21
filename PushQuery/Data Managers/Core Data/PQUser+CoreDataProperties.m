@@ -55,7 +55,7 @@
     [primitiveSurveys addObject:value];
     [self didChangeValueForKey:NSStringFromSelector(@selector(surveys)) withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
     
-    [AKGenerics postNotificationName:PQUserSurveysWereAddedNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQUserSurveysWereAddedNotification object:self userInfo:userInfo];
 }
 
 - (void)removeSurveysObject:(PQSurvey *)value {
@@ -73,7 +73,7 @@
     [primitiveSurveys removeObject:value];
     [self didChangeValueForKey:NSStringFromSelector(@selector(surveys)) withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
     
-    [AKGenerics postNotificationName:PQUserSurveysWereRemovedNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQUserSurveysWereRemovedNotification object:self userInfo:userInfo];
 }
 
 - (void)addSurveys:(NSSet <PQSurvey *> *)values {
@@ -96,7 +96,7 @@
     [primitiveSurveys unionSet:values];
     [self didChangeValueForKey:NSStringFromSelector(@selector(surveys)) withSetMutation:NSKeyValueUnionSetMutation usingObjects:values];
     
-    [AKGenerics postNotificationName:PQUserSurveysWereAddedNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQUserSurveysWereAddedNotification object:self userInfo:userInfo];
 }
 
 - (void)removeSurveys:(NSSet <PQSurvey *> *)values {
@@ -119,7 +119,7 @@
     [[self primitiveValueForKey:NSStringFromSelector(@selector(surveys))] minusSet:values];
     [self didChangeValueForKey:NSStringFromSelector(@selector(surveys)) withSetMutation:NSKeyValueMinusSetMutation usingObjects:values];
     
-    [AKGenerics postNotificationName:PQUserSurveysWereRemovedNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQUserSurveysWereRemovedNotification object:self userInfo:userInfo];
 }
 
 

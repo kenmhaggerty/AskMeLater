@@ -179,7 +179,7 @@ NSString * const PQCoreDataSourceStoreFilename = @"PushQuery.sqlite";
     NSManagedObjectContext *managedObjectContext = [PQCoreDataController managedObjectContext];
     if (managedObjectContext != nil) {
         
-        [AKGenerics postNotificationName:PQCoreDataWillSaveNotification object:nil userInfo:nil];
+        [NSNotificationCenter postNotificationToMainThread:PQCoreDataWillSaveNotification object:nil userInfo:nil];
         
         NSError *error = nil;
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
@@ -474,7 +474,7 @@ NSString * const PQCoreDataSourceStoreFilename = @"PushQuery.sqlite";
             [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeInfo methodType:AKMethodTypeUnspecified tags:@[AKD_CORE_DATA] message:[NSString stringWithFormat:@"%@ = %f", NSStringFromSelector(@selector(migrationProgress)), self.migrationManager.migrationProgress]];
             
             NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:self.migrationManager.migrationProgress] forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQCoreDataMigrationProgressDidChangeNotification object:nil userInfo:userInfo];
+            [NSNotificationCenter postNotificationToMainThread:PQCoreDataMigrationProgressDidChangeNotification object:nil userInfo:userInfo];
         }
     }
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];

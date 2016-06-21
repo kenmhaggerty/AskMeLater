@@ -58,7 +58,7 @@
     [self setPrimitiveValue:avatarData forKey:NSStringFromSelector(@selector(avatarData))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(avatarData))];
     
-    [AKGenerics postNotificationName:PQUserAvatarDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQUserAvatarDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setEmail:(NSString *)email {
@@ -76,7 +76,7 @@
     [self setPrimitiveValue:email forKey:NSStringFromSelector(@selector(email))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(email))];
     
-    [AKGenerics postNotificationName:PQUserEmailDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQUserEmailDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setUsername:(NSString *)username {
@@ -94,7 +94,7 @@
     [self setPrimitiveValue:username forKey:NSStringFromSelector(@selector(username))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(username))];
     
-    [AKGenerics postNotificationName:PQUserUsernameDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQUserUsernameDidChangeNotification object:self userInfo:userInfo];
 }
 
 - (void)setSurveys:(NSSet <PQSurvey *> *)surveys {
@@ -112,7 +112,7 @@
     [self setPrimitiveValue:surveys forKey:NSStringFromSelector(@selector(surveys))];
     [self didChangeValueForKey:NSStringFromSelector(@selector(surveys))];
     
-    [AKGenerics postNotificationName:PQUserSurveysDidChangeNotification object:self userInfo:userInfo];
+    [NSNotificationCenter postNotificationToMainThread:PQUserSurveysDidChangeNotification object:self userInfo:userInfo];
 }
 
 #pragma mark - // INITS AND LOADS //
@@ -125,21 +125,21 @@
         self.wasDeleted = YES;
     }
     
-    [AKGenerics postNotificationName:PQUserDidSaveNotification object:self userInfo:[NSDictionary dictionaryWithNullableObject:self.changedKeys forKey:NOTIFICATION_OBJECT_KEY]];
+    [NSNotificationCenter postNotificationToMainThread:PQUserDidSaveNotification object:self userInfo:[NSDictionary dictionaryWithNullableObject:self.changedKeys forKey:NOTIFICATION_OBJECT_KEY]];
     
     if (self.changedKeys && !self.inserted) { // !self.isDeleted &&
         NSDictionary *userInfo;
         if ([self.changedKeys containsObject:NSStringFromSelector(@selector(avatarData))]) {
             userInfo = [NSDictionary dictionaryWithNullableObject:self.avatar forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQUserAvatarDidSaveNotification object:self userInfo:userInfo];
+            [NSNotificationCenter postNotificationToMainThread:PQUserAvatarDidSaveNotification object:self userInfo:userInfo];
         }
         if ([self.changedKeys containsObject:NSStringFromSelector(@selector(email))]) {
             userInfo = [NSDictionary dictionaryWithNullableObject:self.email forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQUserEmailDidSaveNotification object:self userInfo:userInfo];
+            [NSNotificationCenter postNotificationToMainThread:PQUserEmailDidSaveNotification object:self userInfo:userInfo];
         }
         if ([self.changedKeys containsObject:NSStringFromSelector(@selector(username))]) {
             userInfo = [NSDictionary dictionaryWithObject:self.username forKey:NOTIFICATION_OBJECT_KEY];
-            [AKGenerics postNotificationName:PQUserUsernameDidSaveNotification object:self userInfo:userInfo];
+            [NSNotificationCenter postNotificationToMainThread:PQUserUsernameDidSaveNotification object:self userInfo:userInfo];
         }
     }
     
@@ -149,7 +149,7 @@
 - (void)prepareForDeletion {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_CORE_DATA] message:nil];
     
-    [AKGenerics postNotificationName:PQUserWillBeDeletedNotification object:self userInfo:nil];
+    [NSNotificationCenter postNotificationToMainThread:PQUserWillBeDeletedNotification object:self userInfo:nil];
     
     [super prepareForDeletion];
 }

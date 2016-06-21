@@ -343,7 +343,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     NSString *surveyId = choice.surveyId;
     NSString *questionId = choice.questionId;
     NSNumber *indexValue = choice.indexValue;
-    NSString *index = [NSString stringWithFormat:@"%i", indexValue.integerValue];
+    NSString *index = [NSString stringWithFormat:@"%li", (long)indexValue.integerValue];
     NSString *key = userId;
     
     // $userId/surveys/$surveyId/questions/$questionId/choices/$index
@@ -1699,7 +1699,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     NSString *surveyId = choice.surveyId;
     NSString *questionId = choice.questionId;
     NSNumber *indexValue = choice.indexValue;
-    NSString *index = [NSString stringWithFormat:@"%i", indexValue.integerValue];
+    NSString *index = [NSString stringWithFormat:@"%li", (long)indexValue.integerValue];
     
     // $userId/surveys/$surveyId/questions/$questionId/choices/$index
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathQuestions, questionId, PQFirebasePathChoices, index]];

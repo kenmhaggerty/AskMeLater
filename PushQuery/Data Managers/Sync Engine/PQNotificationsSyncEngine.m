@@ -18,7 +18,7 @@
 #import "PQSurveyProtocols.h"
 #import "PQChoiceProtocols.h"
 
-#import "PQNotificationsManager.h"
+#import "AKNotificationsManager.h"
 
 #pragma mark - // DEFINITIONS (Private) //
 
@@ -108,7 +108,7 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
 + (void)setup {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:nil message:nil];
     
-    [PQNotificationsManager setup];
+    [AKNotificationsManager setup];
     
     if (![PQNotificationsSyncEngine sharedEngine]) {
         [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeWarning methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:[NSString stringWithFormat:@"Could not instantiate %@", NSStringFromSelector(@selector(sharedEngine))]];
@@ -264,7 +264,7 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     
     id <PQSurvey> survey = notification.object;
     
-    [PQNotificationsManager setTitle:survey.name forNotificationWithId:survey.surveyId];
+    [AKNotificationsManager setTitle:survey.name forNotificationsWithId:survey.surveyId];
 }
 
 - (void)surveyQuestionsDidChange:(NSNotification *)notification {
@@ -303,7 +303,7 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     NSSet *surveyIds = [PQNotificationsSyncEngine surveyIdsForQuestion:question];
     
     for (NSString *surveyId in surveyIds) {
-        [PQNotificationsManager setText:question.text forNotificationWithId:surveyId];
+        [AKNotificationsManager setText:question.text forNotificationsWithId:surveyId];
     }
 }
 
@@ -353,10 +353,10 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
 + (void)scheduleNotificationForQuestion:(id <PQQuestion>)question withTitle:(NSString *)title time:(NSDate *)time surveyId:(NSString *)surveyId repeat:(BOOL)repeat {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
     
-    [PQNotificationsManager cancelNotificationWithId:surveyId];
+    [AKNotificationsManager cancelNotificationsWithId:surveyId];
     
     [PQNotificationsSyncEngine setNotificationActionsForQuestion:question forSurveyWithId:surveyId];
-    [PQNotificationsManager scheduleNotificationWithTitle:title body:question.text badge:nil actionString:PQNotificationActionString userInfo:@{NOTIFICATION_OBJECT_KEY : question.questionId} notificationId:surveyId fireDate:time interval:(repeat ? NSCalendarUnitDay : 0)];
+    [AKNotificationsManager scheduleNotificationWithTitle:title body:question.text badge:nil actionString:PQNotificationActionString userInfo:@{NOTIFICATION_OBJECT_KEY : question.questionId} notificationId:surveyId fireDate:time interval:(repeat ? NSCalendarUnitDay : 0)];
     
     PQNotificationsSyncEngine *sharedEngine = [PQNotificationsSyncEngine sharedEngine];
     
@@ -374,12 +374,12 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
     
     id <PQChoice> primaryChoice = [question.choices objectAtIndex:0];
-    UIMutableUserNotificationAction *primaryAction = [PQNotificationsManager notificationActionWithTitle:primaryChoice.text textInput:primaryChoice.textInput destructive:NO authentication:question.secure];
+    UIMutableUserNotificationAction *primaryAction = [AKNotificationsManager notificationActionWithTitle:primaryChoice.text textInput:primaryChoice.textInput destructive:NO authentication:question.secure];
     
     id <PQChoice> secondaryChoice = [question.choices objectAtIndex:1];
-    UIMutableUserNotificationAction *secondaryAction = [PQNotificationsManager notificationActionWithTitle:secondaryChoice.text textInput:secondaryChoice.textInput destructive:NO authentication:question.secure];
+    UIMutableUserNotificationAction *secondaryAction = [AKNotificationsManager notificationActionWithTitle:secondaryChoice.text textInput:secondaryChoice.textInput destructive:NO authentication:question.secure];
     
-    [PQNotificationsManager setActions:@[primaryAction, secondaryAction] forNotificationWithId:surveyId];
+    [AKNotificationsManager setActions:@[primaryAction, secondaryAction] forNotificationsWithId:surveyId];
 }
 
 + (void)cancelNotificationForSurvey:(id <PQSurvey>)survey {
@@ -399,7 +399,7 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
         [sharedEngine removeObserversFromQuestion:question];
     }
     
-    [PQNotificationsManager cancelNotificationWithId:survey.surveyId];
+    [AKNotificationsManager cancelNotificationsWithId:survey.surveyId];
 }
 
 + (NSSet *)surveyIdsForQuestion:(id <PQQuestion>)question {
