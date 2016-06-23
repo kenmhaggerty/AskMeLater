@@ -24,10 +24,10 @@ extern NSString * const PQLoginManagerEmailDidChangeNotification;
 @interface PQLoginManager : NSObject
 + (void)setup;
 + (id <PQUser_PRIVATE>)currentUser;
-+ (void)signUpWithEmail:(NSString *)email password:(NSString *)password success:(void (^)(id <PQUser_Editable>))successBlock failure:(void (^)(NSError *))failureBlock;
-+ (void)loginWithEmail:(NSString *)email password:(NSString *)password success:(void (^)(id <PQUser_Editable>))successBlock failure:(void (^)(NSError *))failureBlock;
++ (void)signUpAndLogInWithEmail:(NSString *)email password:(NSString *)password failure:(void (^)(NSError *))failureBlock;
++ (void)loginWithEmail:(NSString *)email password:(NSString *)password failure:(void (^)(NSError *))failureBlock;
 + (void)resetPasswordForEmail:(NSString *)email success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock;
-+ (void)updateEmail:(NSString *)email password:(NSString *)password withSuccess:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock;
-+ (void)updatePassword:(NSString *)oldPassword toPassword:(NSString *)newPassword withSuccess:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock;
-+ (void)logout;
++ (void)updateEmailForCurrentUser:(NSString *)email withSuccess:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock;
++ (void)updatePasswordForCurrentUser:(NSString *)password withSuccess:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock;
++ (void)logoutWithCompletion:(void (^)(NSError *error))completionBlock;
 @end

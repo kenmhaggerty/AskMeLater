@@ -21,6 +21,7 @@
 		7D09C87E1CB4185F00962A23 /* syncview_question@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D09C8761CB4185F00962A23 /* syncview_question@2x.png */; };
 		7D09C87F1CB4185F00962A23 /* syncview_x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D09C8771CB4185F00962A23 /* syncview_x.png */; };
 		7D09C8801CB4185F00962A23 /* syncview_x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D09C8781CB4185F00962A23 /* syncview_x@2x.png */; };
+		7D0EBBF71D19E29C0024DB97 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D0EBBF61D19E29C0024DB97 /* GoogleService-Info.plist */; };
 		7D12CABC1C8A30280021519B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CABB1C8A30280021519B /* main.m */; };
 		7D12CABF1C8A30280021519B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D12CABE1C8A30280021519B /* AppDelegate.m */; };
 		7D12CAC51C8A30280021519B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D12CAC31C8A30280021519B /* Main.storyboard */; };
@@ -133,6 +134,7 @@
 		7D09C8761CB4185F00962A23 /* syncview_question@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "syncview_question@2x.png"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/Icons/syncview_question@2x.png"; sourceTree = "<group>"; };
 		7D09C8771CB4185F00962A23 /* syncview_x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = syncview_x.png; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/Icons/syncview_x.png"; sourceTree = "<group>"; };
 		7D09C8781CB4185F00962A23 /* syncview_x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "syncview_x@2x.png"; path = "../../../../Documents/PROGRAMMING/iOS/1_PROJECTS/UIViewController+Syncing/Icons/syncview_x@2x.png"; sourceTree = "<group>"; };
+		7D0EBBF61D19E29C0024DB97 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7D0EDFA81CC8250900ACFE53 /* PQCoreDataController+PRIVATE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PQCoreDataController+PRIVATE.h"; sourceTree = "<group>"; };
 		7D12CAB71C8A30280021519B /* PushQuery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PushQuery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D12CABB1C8A30280021519B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -463,6 +465,7 @@
 			isa = PBXGroup;
 			children = (
 				7D12CACE1C8A30280021519B /* Info.plist */,
+				7D0EBBF61D19E29C0024DB97 /* GoogleService-Info.plist */,
 				7D12CABB1C8A30280021519B /* main.m */,
 			);
 			name = "Supporting Files";
@@ -1134,7 +1137,6 @@
 				7D12CAB31C8A30280021519B /* Sources */,
 				7D12CAB41C8A30280021519B /* Frameworks */,
 				7D12CAB51C8A30280021519B /* Resources */,
-				7D21B1DC1CB823AF007914BF /* ShellScript */,
 				7B4B9A5079E906C7F555748D /* [CP] Embed Pods Frameworks */,
 				D330F232C5F92DD4B2FAED41 /* [CP] Copy Pods Resources */,
 			);
@@ -1236,6 +1238,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D0EBBF71D19E29C0024DB97 /* GoogleService-Info.plist in Resources */,
 				7D09C87B1CB4185F00962A23 /* syncview_exclamation.png in Resources */,
 				7D12CACD1C8A30280021519B /* LaunchScreen.storyboard in Resources */,
 				7D09C87A1CB4185F00962A23 /* syncview_check@2x.png in Resources */,
@@ -1357,19 +1360,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PushQuery/Pods-PushQuery-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		7D21B1DC1CB823AF007914BF /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" 9c9b4d6b5a99062bc2e065d01ee6f863a321298f d3d9b3c09d0ede34c63cd65f3137fbb1dca9b94ffab1be6bcfe163131fef7b86";
 		};
 		D330F232C5F92DD4B2FAED41 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;

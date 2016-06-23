@@ -15,6 +15,7 @@
 #import "AKGenerics.h"
 
 #import "PQDataManager.h"
+#import "FirebaseController.h"
 
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
@@ -73,6 +74,8 @@
     [PQDataManager setup];
     
     [Fabric with:@[[Crashlytics class]]];
+    
+    [FirebaseController setup];
     
     return YES;
 }

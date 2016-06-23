@@ -39,13 +39,14 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
 
 // RESPONDERS //
 
+- (void)firebaseUserDidChange:(NSNotification *)notification;
 - (void)firebaseEmailDidChange:(NSNotification *)notification;
 - (void)currentUserEmailDidChange:(NSNotification *)notification;
 
 // OTHER //
 
-+ (void)setCurrentUserUsingAuthData:(NSDictionary *)authData;
-+ (void)updateUser:(id <PQUser_PRIVATE>)user withDictionary:(NSDictionary *)dictionary;
++ (void)setCurrentUserUsingInfo:(id <FIRUserInfo>)userInfo;
++ (void)updateUser:(id <PQUser_PRIVATE>)user withInfo:(id <FIRUserInfo>)userInfo;
 
 @end
 
@@ -111,40 +112,27 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
         [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeWarning methodType:AKMethodTypeSetup tags:@[AKD_DATA] message:[NSString stringWithFormat:@"Could not initialize %@", NSStringFromClass([PQLoginManager class])]];
     }
     
-    [PQLoginManager setCurrentUserUsingAuthData:[FirebaseController authData]];
+    [PQLoginManager setCurrentUserUsingInfo:[FirebaseController userInfo]];
 }
 
 + (id <PQUser_PRIVATE>)currentUser {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_ACCOUNTS] message:nil];
     
-    NSDictionary *authData = [FirebaseController authData];
-    [PQLoginManager setCurrentUserUsingAuthData:authData];
+    id <FIRUserInfo> userInfo = [FirebaseController userInfo];
+    [PQLoginManager setCurrentUserUsingInfo:userInfo];
     return [PQLoginManager sharedManager].currentUser;
 }
 
-+ (void)signUpWithEmail:(NSString *)email password:(NSString *)password success:(void (^)(id <PQUser_Editable>))successBlock failure:(void (^)(NSError *))failureBlock {
++ (void)signUpAndLogInWithEmail:(NSString *)email password:(NSString *)password failure:(void (^)(NSError *))failureBlock {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeCreator tags:@[AKD_ACCOUNTS] message:nil];
     
-    [FirebaseController signUpWithEmail:email password:password success:^(NSDictionary *result) {
-        
-        [PQLoginManager loginWithEmail:email password:password success:successBlock failure:failureBlock];
-        
-    } failure:^(NSError *error) {
-        failureBlock(error);
-    }];
+    [FirebaseController signUpAndLogInWithEmail:email password:password failure:failureBlock];
 }
 
-+ (void)loginWithEmail:(NSString *)email password:(NSString *)password success:(void (^)(id <PQUser_Editable>))successBlock failure:(void (^)(NSError *))failureBlock {
++ (void)loginWithEmail:(NSString *)email password:(NSString *)password failure:(void (^)(NSError *))failureBlock {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_ACCOUNTS] message:nil];
     
-    [FirebaseController loginUserWithEmail:email password:password success:^(NSDictionary *userInfo) {
-        [PQLoginManager setCurrentUserUsingAuthData:userInfo];
-        id <PQUser_Editable> currentUser = [PQLoginManager sharedManager].currentUser;
-        successBlock(currentUser);
-        
-    } failure:^(NSError *error) {
-        failureBlock(error);
-    }];
+    [FirebaseController signInWithEmail:email password:password failure:failureBlock];
 }
 
 + (void)resetPasswordForEmail:(NSString *)email success:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
@@ -153,50 +141,43 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
     [FirebaseController resetPasswordForUserWithEmail:email withCompletionBlock:^(NSError *error) {
         if (error) {
             failureBlock(error);
+            return;
         }
-        else {
-            successBlock();
-        }
+        
+        successBlock();
     }];
 }
 
-+ (void)updateEmail:(NSString *)email password:(NSString *)password withSuccess:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
++ (void)updateEmailForCurrentUser:(NSString *)email withSuccess:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_ACCOUNTS] message:nil];
     
-    id <PQUser_Editable> currentUser = (id <PQUser_Editable>)[PQLoginManager currentUser];
-    NSString *currentEmail = currentUser.email;
-    
-    [FirebaseController changeEmailForUserWithEmail:currentEmail password:password toNewEmail:email withCompletionBlock:^(NSError *error) {
+    [FirebaseController updateEmailForCurrentUser:email withCompletionBlock:^(NSError *error) {
         if (error) {
             failureBlock(error);
+            return;
         }
-        else {
-            successBlock();
-        }
+        
+        successBlock();
     }];
 }
 
-+ (void)updatePassword:(NSString *)oldPassword toPassword:(NSString *)newPassword withSuccess:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
++ (void)updatePasswordForCurrentUser:(NSString *)password withSuccess:(void(^)(void))successBlock failure:(void(^)(NSError *))failureBlock {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_ACCOUNTS] message:nil];
     
-    id <PQUser_Editable> currentUser = (id <PQUser_Editable>)[PQLoginManager currentUser];
-    NSString *email = currentUser.email;
-    
-    [FirebaseController changePasswordForUserWithEmail:email fromOld:oldPassword toNew:newPassword withCompletionBlock:^(NSError *error) {
+    [FirebaseController updatePasswordForCurrentUser:password withCompletionBlock:^(NSError *error) {
         if (error) {
             failureBlock(error);
+            return;
         }
-        else {
-            successBlock();
-        }
+        
+        successBlock();
     }];
 }
 
-+ (void)logout {
++ (void)logoutWithCompletion:(void (^)(NSError *error))completionBlock {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_ACCOUNTS] message:nil];
     
-    [FirebaseController logout];
-    [PQLoginManager setCurrentUser:nil];
+    [FirebaseController signOutWithCompletion:completionBlock];
 }
 
 #pragma mark - // CATEGORY METHODS //
@@ -241,13 +222,15 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
 - (void)addObserversToFirebase {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(firebaseEmailDidChange:) name:FirebaseEmailDidChangeNotification object:nil];
+    [NSNotificationCenter addObserver:self selector:@selector(firebaseUserDidChange:) name:FirebaseUserDidChangeNotification object:nil];
+    [NSNotificationCenter addObserver:self selector:@selector(firebaseEmailDidChange:) name:FirebaseEmailDidChangeNotification object:nil];
 }
 
 - (void)removeObserversFromFirebase {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeSetup tags:@[AKD_NOTIFICATION_CENTER] message:nil];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:FirebaseEmailDidChangeNotification object:nil];
+    [NSNotificationCenter removeObserver:self name:FirebaseUserDidChangeNotification object:nil];
+    [NSNotificationCenter removeObserver:self name:FirebaseEmailDidChangeNotification object:nil];
 }
 
 - (void)addObserversToUser:(id <PQUser>)user {
@@ -263,6 +246,14 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
 }
 
 #pragma mark - // PRIVATE METHODS (Responders) //
+
+- (void)firebaseUserDidChange:(NSNotification *)notification {
+    [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_ACCOUNTS] message:nil];
+    
+    id <FIRUserInfo> userInfo = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    
+    [PQLoginManager setCurrentUserUsingInfo:userInfo];
+}
 
 - (void)firebaseEmailDidChange:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_ACCOUNTS] message:nil];
@@ -280,15 +271,15 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
 
 #pragma mark - // PRIVATE METHODS (Other) //
 
-+ (void)setCurrentUserUsingAuthData:(NSDictionary *)authData {
++ (void)setCurrentUserUsingInfo:(id <FIRUserInfo>)userInfo {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
     
-    if (!authData) {
+    if (!userInfo) {
         [PQLoginManager setCurrentUser:nil];
         return;
     }
     
-    NSString *userId = authData[FirebaseAuthKeyUID];
+    NSString *userId = userInfo.uid;
     
     id <PQUser_PRIVATE> currentUser = [PQLoginManager sharedManager].currentUser;
     if (currentUser && [currentUser.userId isEqualToString:userId]) {
@@ -297,18 +288,18 @@ NSString * const PQLoginManagerEmailDidChangeNotification = @"kNotificationPQLog
     
     currentUser = [PQCoreDataController getUserWithId:userId];
     if (!currentUser) {
-        NSString *email = authData[FirebaseAuthKeyEmail];
+        NSString *email = userInfo.email;
         currentUser = [PQCoreDataController userWithUserId:userId email:email];
     }
-    [PQLoginManager updateUser:currentUser withDictionary:authData];
+    [PQLoginManager updateUser:currentUser withInfo:userInfo];
     [PQCoreDataController save];
     [PQLoginManager setCurrentUser:currentUser];
 }
 
-+ (void)updateUser:(id <PQUser_PRIVATE>)user withDictionary:(NSDictionary *)dictionary {
++ (void)updateUser:(id <PQUser_PRIVATE>)user withInfo:(id<FIRUserInfo>)userInfo {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
     
-    NSString *email = dictionary[FirebaseAuthKeyEmail];
+    NSString *email = userInfo.email;
 //    NSString *username;
 //    NSString *profileImageURL = dictionary[FirebaseAuthKeyProfileImageURL];
     

@@ -201,7 +201,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
 + (void)setupWithDelegate:(Class <FirebaseSyncDelegate>)delegate {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:nil message:nil];
     
-    [FirebaseController setup:FirebaseProjectName];
+    [FirebaseController setup];
     
     PQFirebaseSyncEngine *sharedEngine = [PQFirebaseSyncEngine sharedEngine];
     if (!sharedEngine) {

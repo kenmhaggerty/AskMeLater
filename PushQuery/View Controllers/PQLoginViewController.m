@@ -315,7 +315,16 @@ NSTimeInterval const AnimationSpeed = 0.18f;
 - (void)currentUserDidChange:(NSNotification *)notification {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_NOTIFICATION_CENTER, AKD_ACCOUNTS] message:nil];
     
-    if (notification.userInfo[NOTIFICATION_OBJECT_KEY]) {
+    id <PQUser> currentUser = notification.userInfo[NOTIFICATION_OBJECT_KEY];
+    
+    if (currentUser) {
+        if (self.isSyncing) {
+            [self cancelSyncViewWithPrimaryText:@"Welcome!" secondaryText:nil animated:YES completionType:SyncViewComplete alertController:nil delay:1.0f completionBlock:^{
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }];
+            return;
+        }
+        
         [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
@@ -326,11 +335,8 @@ NSTimeInterval const AnimationSpeed = 0.18f;
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_UI, AKD_ACCOUNTS] message:nil];
     
     [self startSyncViewWithPrimaryText:@"Signing in..." secondaryText:nil progressView:NO cancelButton:NO animated:YES];
-    [PQLoginManager loginWithEmail:self.textFieldEmail.text password:self.textFieldPassword.text success:^(id <PQUser_Editable> user) {
-        [self cancelSyncViewWithPrimaryText:@"Welcome!" secondaryText:nil animated:YES completionType:SyncViewComplete alertController:nil delay:1.0f completionBlock:^{
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }];
-    } failure:^(NSError *error) {
+    
+    [PQLoginManager loginWithEmail:self.textFieldEmail.text password:self.textFieldPassword.text failure:^(NSError *error) {
         [self cancelSyncViewWithPrimaryText:nil secondaryText:nil animated:YES completionType:SyncViewBlank alertController:nil delay:0.0f completionBlock:^{
             self.alertError.message = error.localizedDescription;
             [self presentViewController:self.alertError animated:YES completion:nil];
@@ -348,11 +354,8 @@ NSTimeInterval const AnimationSpeed = 0.18f;
     }
     
     [self startSyncViewWithPrimaryText:@"Creating account..." secondaryText:nil progressView:NO cancelButton:NO animated:YES];
-    [PQLoginManager signUpWithEmail:self.textFieldEmail.text password:self.textFieldPassword.text success:^(id <PQUser_Editable> user) {
-        [self cancelSyncViewWithPrimaryText:@"Welcome!" secondaryText:nil animated:YES completionType:SyncViewComplete alertController:nil delay:1.0f completionBlock:^{
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }];
-    } failure:^(NSError *error) {
+    
+    [PQLoginManager signUpAndLogInWithEmail:self.textFieldEmail.text password:self.textFieldPassword.text failure:^(NSError *error) {
         [self cancelSyncViewWithPrimaryText:nil secondaryText:nil animated:YES completionType:SyncViewBlank alertController:nil delay:0.0f completionBlock:^{
             self.alertError.message = error.localizedDescription;
             [self presentViewController:self.alertError animated:YES completion:nil];

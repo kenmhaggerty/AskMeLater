@@ -1,7 +1,10 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
 target "PushQuery" do
-  pod 'Firebase', '>= 2.5.0'
+  pod 'Firebase/Messaging'
+  pod 'Firebase/Database'
+  pod 'Firebase/Crash'
+  pod 'Firebase/Auth'
   pod 'PNChart'
   pod 'Fabric'
   pod 'Crashlytics'

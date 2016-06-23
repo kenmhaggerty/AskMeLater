@@ -221,12 +221,13 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
             if (success) {
                 id <PQUser> currentUser = [PQLoginManager currentUser];
                 NSSet *surveys = [PQDataManager getSurveysAuthoredByUser:currentUser];
-                [PQLoginManager logout];
-                for (id <PQSurvey_PRIVATE> survey in surveys) {
-                    survey.enabled = NO;
-                }
-                [PQDataManager save];
-                [PQCentralDispatch requestLoginWithCompletion:nil];
+                [PQLoginManager logoutWithCompletion:^(NSError *error) {
+                    for (id <PQSurvey_PRIVATE> survey in surveys) {
+                        survey.enabled = NO;
+                    }
+                    [PQDataManager save];
+                    [PQCentralDispatch requestLoginWithCompletion:nil];
+                }];
             }
         }];
     }];
@@ -240,16 +241,15 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
         return _alertUpdateEmail;
     }
     
-    _alertUpdateEmail = [UIAlertController alertControllerWithTitle:@"Update Email" message:@"Please enter a valid email and your current password. Your new email will also be used for signing in to your account." preferredStyle:UIAlertControllerStyleAlert actions:@[@"Update"] preferredAction:@"Update" dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
+    _alertUpdateEmail = [UIAlertController alertControllerWithTitle:@"Update Email" message:@"Please enter a valid email. Your new email will also be used for signing in to your account." preferredStyle:UIAlertControllerStyleAlert actions:@[@"Update"] preferredAction:@"Update" dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
         
         NSString *email = _alertUpdateEmail.textFields[0].text;
-        NSString *password = _alertUpdateEmail.textFields[1].text;
+//        NSString *password = _alertUpdateEmail.textFields[1].text;
         
-        [PQLoginManager updateEmail:email password:password withSuccess:^{
+        [PQLoginManager updateEmailForCurrentUser:email withSuccess:^{
             [self presentViewController:self.alertEmailUpdated animated:YES completion:^{
                 [_alertUpdateEmail clearTextFields];
             }];
-            
         } failure:^(NSError *error) {
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Couldn't Update Email" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert actions:nil preferredAction:nil dismissalText:@"Cancel" completion:nil];
             [self presentViewController:alertController animated:YES completion:^{
@@ -260,10 +260,10 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     [_alertUpdateEmail addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.placeholder = @"new email";
     }];
-    [_alertUpdateEmail addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"password";
-        textField.secureTextEntry = YES;
-    }];
+//    [_alertUpdateEmail addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+//        textField.placeholder = @"password";
+//        textField.secureTextEntry = YES;
+//    }];
     return _alertUpdateEmail;
 }
 
@@ -287,29 +287,28 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     
     _alertUpdatePassword = [UIAlertController alertControllerWithTitle:@"Update Password" message:[PQPrivateInfo passwordRequirements] preferredStyle:UIAlertControllerStyleAlert actions:@[@"Update"] preferredAction:@"Update" dismissalText:@"Cancel" completion:^(UIAlertAction *action) {
         
-        NSString *oldPassword = _alertUpdatePassword.textFields[0].text;
-        NSString *newPassword = _alertUpdatePassword.textFields[1].text;
-        NSString *newPasswordConfirm = _alertUpdatePassword.textFields[2].text;
+//        NSString *oldPassword = _alertUpdatePassword.textFields[0].text;
+        NSString *password = _alertUpdatePassword.textFields[1].text;
+        NSString *passwordConfirm = _alertUpdatePassword.textFields[2].text;
         
-        if (![AKGenerics object:newPassword isEqualToObject:newPasswordConfirm]) {
+        if (![AKGenerics object:password isEqualToObject:passwordConfirm]) {
             [self presentViewController:self.alertMismatchedPasswords animated:YES completion:^{
                 [_alertUpdatePassword clearTextFields];
             }];
             return;
         }
         
-        if (![PQPrivateInfo validPassword:newPassword]) {
+        if (![PQPrivateInfo validPassword:password]) {
             [self presentViewController:self.alertInvalidPassword animated:YES completion:^{
                 [_alertUpdatePassword clearTextFields];
             }];
             return;
         }
         
-        [PQLoginManager updatePassword:oldPassword toPassword:newPassword withSuccess:^{
+        [PQLoginManager updatePasswordForCurrentUser:password withSuccess:^{
             [self presentViewController:self.alertPasswordUpdated animated:YES completion:^{
                 [_alertUpdatePassword clearTextFields];
             }];
-            
         } failure:^(NSError *error) {
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Couldn't Update Password" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert actions:nil preferredAction:nil dismissalText:@"Dismiss" completion:nil];
             [self presentViewController:alertController animated:YES completion:^{
@@ -317,10 +316,10 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
             }];
         }];
     }];
-    [_alertUpdatePassword addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"enter current password";
-        textField.secureTextEntry = YES;
-    }];
+//    [_alertUpdatePassword addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+//        textField.placeholder = @"enter current password";
+//        textField.secureTextEntry = YES;
+//    }];
     [_alertUpdatePassword addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.placeholder = @"enter new password";
         textField.secureTextEntry = YES;
