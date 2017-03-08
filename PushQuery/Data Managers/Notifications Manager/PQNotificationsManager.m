@@ -94,7 +94,9 @@ NSTimeInterval const PQNotificationMinimumInterval = 0.5f;
     [notificationAction setIdentifier:title];
     [notificationAction setDestructive:destructive];
     [notificationAction setAuthenticationRequired:authentication];
-    [notificationAction setBehavior:(textInput ? UIUserNotificationActionBehaviorTextInput : UIUserNotificationActionBehaviorDefault)];
+    if ([notificationAction respondsToSelector:@selector(setBehavior:)]) {
+        [notificationAction setBehavior:(textInput ? UIUserNotificationActionBehaviorTextInput : UIUserNotificationActionBehaviorDefault)];
+    }
     return notificationAction;
 }
 

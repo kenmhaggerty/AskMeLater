@@ -380,7 +380,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
 //    url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathSurveyName]];
 //    [PQFirebaseController observeValueChangedAtPath:url.relativeString withBlock:^(id value) {
 //        NSString *name = (NSString *)value;
-//        name = [name decryptUsingKey:userId];
+//        name = [name decryptedStringUsingKey:userId];
 //        survey.name = name;
 //        [PQCoreDataController save];
 //    }];
@@ -520,7 +520,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
 //    url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathQuestions, questionId, PQFirebasePathQuestionText]];
 //    [PQFirebaseController observeValueChangedAtPath:url.relativeString withBlock:^(id value) {
 //        NSString *text = (NSString *)value;
-//        text = [text decryptUsingKey:userId];
+//        text = [text decryptedStringUsingKey:userId];
 //        question.text = text;
 //        [PQCoreDataController save];
 //    }];
@@ -611,7 +611,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
 //    NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathQuestions, questionId, PQFirebasePathChoices, indexString, PQFirebasePathChoiceText]];
 //    [PQFirebaseController observeValueChangedAtPath:url.relativeString withBlock:^(id value) {
 //        NSString *text = (NSString *)value;
-//        text = [text decryptUsingKey:userId];
+//        text = [text decryptedStringUsingKey:userId];
 //        choice.text = text;
 //        [PQCoreDataController save];
 //    }];
@@ -673,7 +673,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
 //    url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathQuestions, questionId, PQFirebasePathResponses, responseId, PQFirebasePathResponseText]];
 //    [PQFirebaseController observeValueChangedAtPath:url.relativeString withBlock:^(id value) {
 //        NSString *text = (NSString *)value;
-//        text = [text decryptUsingKey:userId];
+//        text = [text decryptedStringUsingKey:userId];
 //        response.text = text;
 //        [PQCoreDataController save];
 //    }];
@@ -883,7 +883,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     NSString *surveyId = survey.surveyId;
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathSurveyName]];
     NSString *name = notification.userInfo[NOTIFICATION_OBJECT_KEY];
-    name = [name encryptWithKey:userId];
+    name = [name encryptedStringUsingKey:userId];
     [PQFirebaseController saveObject:name toPath:url.relativeString withCompletion:^(BOOL success, NSError *error) {
         if (error) {
             [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeDeletor tags:@[AKD_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
@@ -1032,7 +1032,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     NSString *questionId = question.questionId;
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathQuestions, questionId, PQFirebasePathQuestionText]];
     NSString *text = notification.userInfo[NOTIFICATION_OBJECT_KEY];
-    text = [text encryptWithKey:userId];
+    text = [text encryptedStringUsingKey:userId];
     [PQFirebaseController saveObject:text toPath:url.relativeString withCompletion:^(BOOL success, NSError *error) {
         if (error) {
             [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeDeletor tags:@[AKD_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
@@ -1125,7 +1125,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     NSString *indexString = [PQSyncEngine convertInteger:index];
     NSURL *url = [NSURL fileURLWithPathComponents:@[userId, PQFirebasePathSurveys, surveyId, PQFirebasePathQuestions, questionId, PQFirebasePathChoices, indexString, PQFirebasePathChoiceText]];
     NSString *text = notification.userInfo[NOTIFICATION_OBJECT_KEY];
-    text = [text encryptWithKey:userId];
+    text = [text encryptedStringUsingKey:userId];
     [PQFirebaseController saveObject:text toPath:url.relativeString withCompletion:^(BOOL success, NSError *error) {
         if (error) {
             [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeError methodType:AKMethodTypeDeletor tags:@[AKD_DATA] message:[NSString stringWithFormat:@"%@, %@", error, error.userInfo]];
@@ -1209,7 +1209,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     dictionary[PQFirebasePathSurveyCreatedAt] = [PQSyncEngine convertDate:survey.createdAt];
     dictionary[PQFirebasePathSurveyEditedAt] = [PQSyncEngine convertDate:survey.editedAt];
     dictionary[PQFirebasePathSurveyEnabled] = survey.enabledValue;
-    dictionary[PQFirebasePathSurveyName] = [survey.name encryptWithKey:survey.author.userId];
+    dictionary[PQFirebasePathSurveyName] = [survey.name encryptedStringUsingKey:survey.author.userId];
     dictionary[PQFirebasePathSurveyRepeat] = survey.repeatValue;
     dictionary[PQFirebasePathSurveyTime] = [PQSyncEngine convertDate:survey.time];
     
@@ -1233,7 +1233,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     dictionary[PQFirebasePathQuestionCreatedAt] = [PQSyncEngine convertDate:question.createdAt];
     dictionary[PQFirebasePathQuestionSecure] = question.secureValue;
-    dictionary[PQFirebasePathQuestionText] = [question.text encryptWithKey:question.survey.author.userId];
+    dictionary[PQFirebasePathQuestionText] = [question.text encryptedStringUsingKey:question.survey.author.userId];
     
     NSMutableDictionary *convertedChoices = [NSMutableDictionary dictionary];
     NSUInteger index;
@@ -1258,7 +1258,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
     
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    dictionary[PQFirebasePathChoiceText] = [choice.text encryptWithKey:choice.question.survey.author.userId];
+    dictionary[PQFirebasePathChoiceText] = [choice.text encryptedStringUsingKey:choice.question.survey.author.userId];
     dictionary[PQFirebasePathChoiceTextInput] = choice.textInputValue;
     return dictionary;
 }
@@ -1268,7 +1268,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     dictionary[PQFirebasePathResponseDate] = [PQSyncEngine convertDate:response.date];
-    dictionary[PQFirebasePathResponseText] = [response.text encryptWithKey:response.question.survey.author.userId];
+    dictionary[PQFirebasePathResponseText] = [response.text encryptedStringUsingKey:response.question.survey.author.userId];
     dictionary[PQFirebasePathResponseUser] = response.userId;
     return dictionary;
 }
@@ -1345,7 +1345,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     
     survey.createdAt = [PQSyncEngine convertDateString:dictionary[PQFirebasePathSurveyCreatedAt]];
     survey.enabledValue = (NSNumber *)dictionary[PQFirebasePathSurveyEnabled];
-    survey.name = [dictionary[PQFirebasePathSurveyName] decryptUsingKey:survey.author.userId];
+    survey.name = [dictionary[PQFirebasePathSurveyName] decryptedStringUsingKey:survey.author.userId];
     survey.repeatValue = (NSNumber *)dictionary[PQFirebasePathSurveyRepeat];
     survey.time = [PQSyncEngine convertDateString:dictionary[PQFirebasePathSurveyTime]];
     
@@ -1380,7 +1380,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     
     question.createdAt = [PQSyncEngine convertDateString:dictionary[PQFirebasePathQuestionCreatedAt]];
     question.secureValue = (NSNumber *)dictionary[PQFirebasePathQuestionSecure];
-    question.text = [dictionary[PQFirebasePathQuestionText] decryptUsingKey:question.survey.author.userId];
+    question.text = [dictionary[PQFirebasePathQuestionText] decryptedStringUsingKey:question.survey.author.userId];
     
     NSArray *choiceDictionaries = dictionary[PQFirebasePathChoices];
     [PQSyncEngine overwriteChoicesForQuestion:question withDictionaries:choiceDictionaries];
@@ -1405,7 +1405,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
     PQChoice *choice;
     for (int i = 0; i < choiceDictionaries.count; i++) {
         choiceDictionary = choiceDictionaries[i];
-        NSString *text = [choiceDictionary[PQFirebasePathChoiceText] decryptUsingKey:question.survey.author.userId];
+        NSString *text = [choiceDictionary[PQFirebasePathChoiceText] decryptedStringUsingKey:question.survey.author.userId];
         
         if (i < question.choices.count) {
             choice = question.choices[i];
@@ -1429,7 +1429,7 @@ NSString * const PQFirebasePathResponseUser = @"user";
 + (void)saveResponseToLocalWithId:(NSString *)responseId question:(PQQuestion *)question dictionary:(NSDictionary *)dictionary {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeUnspecified tags:@[AKD_DATA] message:nil];
     
-    NSString *text = [dictionary[PQFirebasePathResponseText] decryptUsingKey:question.survey.author.userId];
+    NSString *text = [dictionary[PQFirebasePathResponseText] decryptedStringUsingKey:question.survey.author.userId];
     NSString *userId = dictionary[PQFirebasePathResponseUser];
     NSDate *responseDate = [PQSyncEngine convertDateString:dictionary[PQFirebasePathResponseDate]];
     PQResponse *response = [PQCoreDataController responseWithText:text userId:userId date:responseDate];

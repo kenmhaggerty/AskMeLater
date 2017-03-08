@@ -153,7 +153,9 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     }
     else {
         [alertSettings addAction:self.alertActionSignIn];
-        alertSettings.preferredAction = self.alertActionSignIn;
+        if ([alertSettings respondsToSelector:@selector(setPreferredAction:)]) {
+            alertSettings.preferredAction = self.alertActionSignIn;
+        }
     }
     [alertSettings addAction:[UIAlertAction actionWithTitle:@"Contact Us" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSString *suffix = @"";
@@ -239,11 +241,15 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
         NSString *password = _alertUpdateEmail.textFields[1].text;
         
         [PQLoginManager updateEmail:email password:password withSuccess:^{
-            [self presentViewController:self.alertEmailUpdated animated:YES completion:[AKGenerics clearTextFields:_alertUpdateEmail]];
+            [self presentViewController:self.alertEmailUpdated animated:YES completion:^{
+                [_alertUpdateEmail clearTextFields];
+            }];
             
         } failure:^(NSError *error) {
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Couldn't Update Email" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert actions:nil preferredAction:nil dismissalText:@"Cancel" completion:nil];
-            [self presentViewController:alertController animated:YES completion:[AKGenerics clearTextFields:_alertUpdateEmail]];
+            [self presentViewController:alertController animated:YES completion:^{
+                [_alertUpdateEmail clearTextFields];
+            }];
         }];
     }];
     [_alertUpdateEmail addTextFieldWithConfigurationHandler:^(UITextField *textField) {
@@ -281,21 +287,29 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
         NSString *newPasswordConfirm = _alertUpdatePassword.textFields[2].text;
         
         if (![AKGenerics object:newPassword isEqualToObject:newPasswordConfirm]) {
-            [self presentViewController:self.alertMismatchedPasswords animated:YES completion:[AKGenerics clearTextFields:_alertUpdatePassword]];
+            [self presentViewController:self.alertMismatchedPasswords animated:YES completion:^{
+                [_alertUpdatePassword clearTextFields];
+            }];
             return;
         }
         
         if (![PQPrivateInfo validPassword:newPassword]) {
-            [self presentViewController:self.alertInvalidPassword animated:YES completion:[AKGenerics clearTextFields:_alertUpdatePassword]];
+            [self presentViewController:self.alertInvalidPassword animated:YES completion:^{
+                [_alertUpdatePassword clearTextFields];
+            }];
             return;
         }
         
         [PQLoginManager updatePassword:oldPassword toPassword:newPassword withSuccess:^{
-            [self presentViewController:self.alertPasswordUpdated animated:YES completion:[AKGenerics clearTextFields:_alertUpdatePassword]];
+            [self presentViewController:self.alertPasswordUpdated animated:YES completion:^{
+                [_alertUpdatePassword clearTextFields];
+            }];
             
         } failure:^(NSError *error) {
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Couldn't Update Password" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert actions:nil preferredAction:nil dismissalText:@"Dismiss" completion:nil];
-            [self presentViewController:alertController animated:YES completion:[AKGenerics clearTextFields:_alertUpdatePassword]];
+            [self presentViewController:alertController animated:YES completion:^{
+                [_alertUpdatePassword clearTextFields];
+            }];
         }];
     }];
     [_alertUpdatePassword addTextFieldWithConfigurationHandler:^(UITextField *textField) {
@@ -415,7 +429,7 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
     
     if (indexPath.section == 0) {
-        UITableViewCell *cell = [AKGenerics cellWithReuseIdentifier:SURVEY_CELL_REUSE_IDENTIFIER class:[UITableViewCell class] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
+        UITableViewCell *cell = [UITableViewCell cellWithReuseIdentifier:SURVEY_CELL_REUSE_IDENTIFIER style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
         id <PQSurvey> survey = self.surveys[indexPath.row];
         cell.textLabel.text = survey.name ?: @"unnamed survey";
         cell.textLabel.textColor = (survey.name ? [UIColor blackColor] : [UIColor lightGrayColor]);
@@ -423,7 +437,7 @@ NSTimeInterval const StatusBarNotificationDisplayTime = 2.0f;
         return cell;
     }
     else if (indexPath.section == 1) {
-        UITableViewCell *cell = [AKGenerics cellWithReuseIdentifier:ADD_CELL_REUSE_IDENTIFIER class:[UITableViewCell class] style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
+        UITableViewCell *cell = [UITableViewCell cellWithReuseIdentifier:ADD_CELL_REUSE_IDENTIFIER style:UITableViewCellStyleDefault tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
         cell.separatorInset = UIEdgeInsetsMake(0.f, cell.bounds.size.width, 0.f, 0.f);
         return cell;
     }

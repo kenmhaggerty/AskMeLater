@@ -127,7 +127,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     [AKDebugger logMethod:METHOD_NAME logType:AKLogTypeMethodName methodType:AKMethodTypeGetter tags:@[AKD_UI] message:nil];
     
-    UITableViewCell *cell = [AKGenerics cellWithReuseIdentifier:@"questionCell" class:[UITableViewCell class] style:UITableViewCellStyleValue1 tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
+    UITableViewCell *cell = [UITableViewCell cellWithReuseIdentifier:@"questionCell" style:UITableViewCellStyleValue1 tableView:tableView atIndexPath:indexPath fromStoryboard:YES];
     id <PQQuestion> question = [self.survey.questions objectAtIndex:indexPath.row];
     cell.textLabel.text = question.text ?: @"(blank)";
     cell.textLabel.textColor = question.text ? [UIColor blackColor] : [UIColor lightGrayColor];
@@ -157,7 +157,7 @@
     if ([segue.destinationViewController conformsToProtocol:@protocol(PQQuestionUI)]) {
         id <PQQuestion> question = [self.survey.questions objectAtIndex:[self.tableView indexPathForCell:sender].row];
         ((id <PQQuestionUI>)segue.destinationViewController).question = question;
-        [AKGenerics postNotificationName:PQSurveyUIDidSelectQuestion object:self userInfo:@{NOTIFICATION_OBJECT_KEY : question}];
+        [NSNotificationCenter postNotificationToMainThread:PQSurveyUIDidSelectQuestion object:self userInfo:@{NOTIFICATION_OBJECT_KEY : question}];
     }
 }
 
